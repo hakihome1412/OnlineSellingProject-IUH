@@ -1,0 +1,29 @@
+-----VOUCHER
+loaiGiamGia:
+	0: theo so tien
+	1: theo phan tram
+
+
+
+-----PROPDUCTCLASSIFY
+nhomPhanLoai:
+	0:màu sắc
+	1:size
+
+-----PRODUCTS
+loaiBaoHanh :
+	0:bảo hành chính hãng
+	1:bảo hành bởi shop thông qua TiemDo
+donViBaoHanh:
+	0:tháng
+	1:năm
+
+
+-----ORDER_DETAILS
+trangThai:
+	0: chờ duyệt từ shop
+	1: đã tiếp nhận
+	2: đang vận chuyển
+	3: khách đã nhận
+	4: hoàn thành
+	5: hủy

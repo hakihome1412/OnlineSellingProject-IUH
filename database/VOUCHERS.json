@@ -1,0 +1,32 @@
+[{
+  "_id": {
+    "$oid": "5ea3b10e8ee5c9963c5ea859"
+  },
+  "idShow": "VOUCH-KJHUIO",
+  "ten": "Mừng shop được 1 tuổi",
+  "loaiGiamGia": 0,
+  "giaTriGiam": 10000,
+  "ngayBatDau": {
+    "$date": "2020-04-24T17:00:00Z"
+  },
+  "ngayKetThuc": {
+    "$date": "2020-04-29T17:00:00Z"
+  },
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ea5ed9ca71e06540806cb93"
+  },
+  "idShow": "VOUCH-MNBCGH",
+  "ten": "Mừng ngày khai trương Phong Vũ",
+  "loaiGiamGia": 1,
+  "giaTriGiam": 30,
+  "ngayBatDau": {
+    "$date": "2020-04-24T17:00:00Z"
+  },
+  "ngayKetThuc": {
+    "$date": "2020-05-09T17:00:00Z"
+  },
+  "isLock": false
+}]

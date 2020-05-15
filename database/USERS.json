@@ -1,0 +1,130 @@
+[{
+  "_id": {
+    "$oid": "5e9ab673699ae60b147a2821"
+  },
+  "ten": "Huỳnh Phúc Huy",
+  "email": "huynhphuchuy1412@gmail.com",
+  "sdt": "0932774940",
+  "cmnd": "025749157",
+  "ngaySinh": {
+    "$date": "1998-05-09T17:00:00Z"
+  },
+  "gioiTinh": 1,
+  "taiKhoan": {
+    "tenTaiKhoan": "huynhphuchuy1412@gmail.com",
+    "matKhau": "$2b$10$b2yhno5Uv7UAIfgwqtCCBOqvMvQhuCM4AqDcGfl74gM31JsWVww7C"
+  },
+  "thongTinShop": {
+    "ten": "",
+    "diaChi": "",
+    "idShop": "",
+    "logoShop": "",
+    "ngayTao": "",
+    "moTa": "",
+    "img": {
+      "carousel": [],
+      "banner1": "",
+      "banner2": ""
+    }
+  },
+  "vaiTro": 0,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e9ab836699ae60b147a2822"
+  },
+  "ten": "Văn Thanh Tâm",
+  "email": "vanthanhtam@gmail.com",
+  "sdt": "0769755434",
+  "cmnd": "087388387",
+  "ngaySinh": {
+    "$date": "1997-02-09T17:00:00Z"
+  },
+  "gioiTinh": 0,
+  "taiKhoan": {
+    "tenTaiKhoan": "vanthanhtam@gmail.com",
+    "matKhau": "$2b$10$b2yhno5Uv7UAIfgwqtCCBOqvMvQhuCM4AqDcGfl74gM31JsWVww7C"
+  },
+  "thongTinShop": {
+    "ten": "Thanh lý kidosince",
+    "diaChi": "444 Âu Cơ phường 10, Tân Bình, TP.Hồ Chí Minh",
+    "idShop": "SHOP-ADDFFS",
+    "logoShop": "https://s3-ap-southeast-1.amazonaws.com/misskicklibrary/wp-content/uploads/2017/10/09141546/shop-quan-ao-thiet-ke-kido.jpg",
+    "ngayTao": {
+      "$date": "2020-04-19T17:00:00Z"
+    },
+    "moTa": "Chuyên buôn bán, trao đổi các sản phẩm từ KIDO",
+    "img": {
+      "carousel": [],
+      "banner1": "",
+      "banner2": ""
+    }
+  },
+  "vaiTro": 1,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e9ab944699ae60b147a2823"
+  },
+  "ten": "Huỳnh Hoàng",
+  "email": "huynhhoang@gmail.com",
+  "sdt": "0903774245",
+  "cmnd": "023444878",
+  "gioiTinh": 1,
+  "taiKhoan": {
+    "tenTaiKhoan": "huynhhoang@gmail.com",
+    "matKhau": "$2b$10$b2yhno5Uv7UAIfgwqtCCBOqvMvQhuCM4AqDcGfl74gM31JsWVww7C"
+  },
+  "thongTinShop": {
+    "ten": "",
+    "diaChi": "",
+    "idShop": "",
+    "logoShop": "",
+    "ngayTao": "",
+    "moTa": "",
+    "img": {
+      "carousel": [],
+      "banner1": "",
+      "banner2": ""
+    }
+  },
+  "vaiTro": 2,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ebcf703cacdde1d8caeb469"
+  },
+  "ten": "Huỳnh Nguyễn Thảo Nhi",
+  "email": "thaonhi@gmail.com",
+  "sdt": "0938883773",
+  "cmnd": "984777463",
+  "ngaySinh": {
+    "$date": "2008-01-21T17:00:00Z"
+  },
+  "gioiTinh": 0,
+  "taiKhoan": {
+    "tenTaiKhoan": "thaonhi@gmail.com",
+    "matKhau": "$2b$10$jeTLm89rFELIBaL1jO//eOH9sEsDxWB7awZ9Fyhv6k9H2ewqb65UW"
+  },
+  "thongTinShop": {
+    "idShop": "SHOP-D156AB",
+    "ten": "BOBUI",
+    "diaChi": "34 Hai Bà Trưng p.10 quận 3 TP.HCM",
+    "logoShop": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fbobui.PNG?alt=media&token=702df1a7-c1a9-435f-b959-9d633294cfa0",
+    "ngayTao": {
+      "$date": "2020-05-14T11:24:08.753Z"
+    },
+    "moTa": "Local brand Việt Nam",
+    "img": {
+      "carousel": [],
+      "banner1": "",
+      "banner2": ""
+    }
+  },
+  "vaiTro": 2,
+  "isLock": false,
+  "isDelete": false
+}]

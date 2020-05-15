@@ -1,0 +1,253 @@
+[{
+  "_id": {
+    "$oid": "5e986d4f23f9944a9c8a5dc5"
+  },
+  "idShow": "BANNER-KJHNBV",
+  "ten": "Yêu Da Đúng Cách",
+  "img": "https://cf.shopee.vn/file/866133ca1ce342eccacb8fe87b765e3a",
+  "ngayTao": {
+    "$date": "2020-04-15T17:00:00Z"
+  },
+  "positionShow": {
+    "center": true,
+    "right": false,
+    "bottom": false
+  },
+  "isShow": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e986eaa23f9944a9c8a5dc6"
+  },
+  "idShow": "BANNER-MNBYTR",
+  "ten": "Vườn sale mùa hạ",
+  "img": "https://cf.shopee.vn/file/9980f7ee506f7b7a2ebefde7b99cfbf2_xxhdpi",
+  "ngayTao": {
+    "$date": "2020-04-15T17:00:00Z"
+  },
+  "positionShow": {
+    "center": true,
+    "right": false,
+    "bottom": false
+  },
+  "isShow": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e98705923f9944a9c8a5dc7"
+  },
+  "idShow": "BANNER-LKJGHP",
+  "ten": "Điện Tử Tại Gia Giá Rẻ Bất Ngờ",
+  "img": "https://cf.shopee.vn/file/30c82f205ab1739c943ef79fad4e6f99_xxhdpi",
+  "ngayTao": {
+    "$date": "2020-04-15T17:00:00Z"
+  },
+  "positionShow": {
+    "center": false,
+    "right": true,
+    "bottom": false
+  },
+  "isShow": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e9870b923f9944a9c8a5dc8"
+  },
+  "idShow": "BANNER-DHJPEO",
+  "ten": "Hàng Nặng Giá Rẻ Bất Ngờ",
+  "img": "https://cf.shopee.vn/file/aee9b86a784ff93618156040c3d3620f_xxhdpi",
+  "ngayTao": {
+    "$date": "2020-04-15T17:00:00Z"
+  },
+  "positionShow": {
+    "center": false,
+    "right": true,
+    "bottom": false
+  },
+  "isShow": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e9871cc23f9944a9c8a5dca"
+  },
+  "idShow": "BANNER-LKJIUY",
+  "ten": "Mẹ Ở Nhà Săn Deal Chính Hãng",
+  "img": "https://cf.shopee.vn/file/030e0ef68420380af210d9a9bf50112a_xxhdpi",
+  "ngayTao": {
+    "$date": "2020-04-15T17:00:00Z"
+  },
+  "positionShow": {
+    "center": false,
+    "right": true,
+    "bottom": false
+  },
+  "isShow": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e98727f23f9944a9c8a5dcb"
+  },
+  "idShow": "BANNER-DSAMNB",
+  "ten": "Điện Tử Siêu Bùng Nổ",
+  "img": "https://cf.shopee.vn/file/2d811fd39f72dd3ce9321a897f2d7ac6_xxhdpi",
+  "ngayTao": {
+    "$date": "2020-04-15T17:00:00Z"
+  },
+  "positionShow": {
+    "center": false,
+    "right": true,
+    "bottom": false
+  },
+  "isShow": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e98740d23f9944a9c8a5dcd"
+  },
+  "idShow": "BANNER-KJHYHD",
+  "ten": "Săn Deal Chính Hãng - Làm Việc Tại Nhà",
+  "img": "http://media3.scdn.vn/img4/2020/04_10/X2hfYur0mgXfJuKUb8e4.jpg",
+  "ngayTao": {
+    "$date": "2020-04-15T17:00:00Z"
+  },
+  "positionShow": {
+    "center": false,
+    "right": false,
+    "bottom": true
+  },
+  "isShow": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e98747423f9944a9c8a5dce"
+  },
+  "idShow": "BANNER-OIUNQT",
+  "ten": "Giải Trí Tại Nhà",
+  "img": "http://media3.scdn.vn/img4/2020/04_09/7cOOikvPHDCdwZhG1fgs.jpg",
+  "ngayTao": {
+    "$date": "2020-04-15T17:00:00Z"
+  },
+  "positionShow": {
+    "center": false,
+    "right": false,
+    "bottom": true
+  },
+  "isShow": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e9874e923f9944a9c8a5dcf"
+  },
+  "idShow": "BANNER-BDHJJI",
+  "ten": "Mẹ Yên Tâm Ở Nhà - Bé Vẫn Có Deal Hay",
+  "img": "http://media3.scdn.vn/img4/2020/04_10/2K1RPzNFQZ4prdA7XVgl.png",
+  "ngayTao": {
+    "$date": "2020-04-15T17:00:00Z"
+  },
+  "positionShow": {
+    "center": false,
+    "right": false,
+    "bottom": true
+  },
+  "isShow": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e98754f23f9944a9c8a5dd0"
+  },
+  "idShow": "BANNER-RETWJJ",
+  "ten": "Bảo Vệ Bản Thân - Tăng Cường Miễn Dịch",
+  "img": "http://media3.scdn.vn/img4/2020/04_03/zkn1UEFmoA0fq0SmTtFI.png",
+  "ngayTao": {
+    "$date": "2020-04-15T17:00:00Z"
+  },
+  "positionShow": {
+    "center": false,
+    "right": false,
+    "bottom": true
+  },
+  "isShow": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e9f09a8fe12842bb0b1e59d"
+  },
+  "idShow": "BANNER-8BBC31",
+  "ten": "Đời anh thanh niên 222",
+  "img": "http://media3.scdn.vn/img4/2020/04_02/x0pq7zefIkRmAh2go3BI.png",
+  "ngayTao": {
+    "$date": "2020-04-20T17:00:00Z"
+  },
+  "positionShow": {
+    "center": true,
+    "right": false,
+    "bottom": false
+  },
+  "isShow": false,
+  "isLock": false,
+  "isDelete": true
+},{
+  "_id": {
+    "$oid": "5e9f0af3fe12842bb0b1e59e"
+  },
+  "idShow": "BANNER-C868D3",
+  "ten": "Yêu em nhiều lắm",
+  "img": "https://kenh14cdn.com/zoom/460_289/2020/4/21/landscape-avatar-copy-7-1587447757017463785107-crop-15874477935321704341721.png",
+  "ngayTao": {
+    "$date": "2020-04-21T15:01:38.140Z"
+  },
+  "positionShow": {
+    "center": false,
+    "right": true,
+    "bottom": false
+  },
+  "isShow": false,
+  "isLock": false,
+  "isDelete": true
+},{
+  "_id": {
+    "$oid": "5e9f0b6ffe12842bb0b1e59f"
+  },
+  "idShow": "BANNER-385FCA",
+  "ten": "Yêu em nhiều lắm 2",
+  "img": "https://salt.tikicdn.com/ts/banner/20/70/de/4cb10b80561292aee541a1b802d13f79.jpg",
+  "ngayTao": {
+    "$date": "2020-04-21T15:03:54.784Z"
+  },
+  "positionShow": {
+    "center": true,
+    "right": false,
+    "bottom": false
+  },
+  "isShow": false,
+  "isLock": false,
+  "isDelete": true
+},{
+  "_id": {
+    "$oid": "5e9f23cd2bc3572b705d4351"
+  },
+  "idShow": "BANNER-D27D28",
+  "ten": "Lâu lắm rồi mình không nắm tay 2 2 2",
+  "img": "http://media3.scdn.vn/img4/2020/04_02/x0pq7zefIkRmAh2go3BI.png",
+  "ngayTao": {
+    "$date": "2020-04-21T16:46:55.811Z"
+  },
+  "positionShow": {
+    "center": false,
+    "right": true,
+    "bottom": false
+  },
+  "isShow": false,
+  "isLock": false,
+  "isDelete": false
+}]

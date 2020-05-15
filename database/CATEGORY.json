@@ -1,0 +1,105 @@
+[{
+  "_id": {
+    "$oid": "5e981fe023f9944a9c8a5dbc"
+  },
+  "idShow": "CATEP-HDJKDL",
+  "ten": "Thời Trang - Phụ Kiện",
+  "icon": "fa fa-male",
+  "img": "https://salt.tikicdn.com/ts/category/dd/51/92/e6bc22b5ec0d6d965a93f056b7776493.png",
+  "ngayTao": {
+    "$date": "2020-04-22T17:00:00Z"
+  },
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e9823e723f9944a9c8a5dbd"
+  },
+  "idShow": "CATEP-LKHHDH",
+  "ten": "Điện Thoại - Máy Tính Bảng",
+  "icon": "fa fa-mobile fa-2x",
+  "img": "https://salt.tikicdn.com/ts/category/93/27/e3/192b0ebe1d4658c51f9931bda62489b2.png",
+  "ngayTao": {
+    "$date": "2020-04-22T17:00:00Z"
+  },
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e9854d923f9944a9c8a5dbe"
+  },
+  "idShow": "CATEP-KJHMNB",
+  "ten": "Điện Gia Dụng",
+  "icon": "fa fa-microchip",
+  "img": "https://salt.tikicdn.com/ts/category/b3/2b/72/8e7b4b703653050ffc79efc8ee017bd0.png",
+  "ngayTao": {
+    "$date": "2020-04-22T17:00:00Z"
+  },
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e98553923f9944a9c8a5dbf"
+  },
+  "idShow": "CATEP-JHGCVB",
+  "ten": "Laptop - Thiết Bị IT",
+  "icon": "fa fa-headphones",
+  "img": "https://salt.tikicdn.com/ts/category/94/6a/42/3b262c87f2fd104b7cb50f38aef43e18.png",
+  "ngayTao": {
+    "$date": "2020-04-22T17:00:00Z"
+  },
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5e98558923f9944a9c8a5dc0"
+  },
+  "idShow": "CATEP-YUISFD",
+  "ten": "Máy Ảnh - Quay Phim",
+  "icon": "fa fa-video-camera",
+  "img": "https://salt.tikicdn.com/ts/category/c3/a4/87/4584c6298920124cb7da51de157ddac9.png",
+  "ngayTao": {
+    "$date": "2020-04-22T17:00:00Z"
+  },
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ea14e19a77f3c29c4124647"
+  },
+  "idShow": "CATE-9811E5",
+  "ten": "Áo",
+  "icon": "fa fa-male",
+  "img": "https://salt.tikicdn.com/cache/200x200/ts/product/88/f1/35/25030e3b59116fbb4ff16e30b878098f.jpg",
+  "ngayTao": {
+    "$date": "2020-04-23T08:13:13.614Z"
+  },
+  "isLock": false,
+  "isDelete": true
+},{
+  "_id": {
+    "$oid": "5ea14e9ca77f3c29c4124648"
+  },
+  "idShow": "CATE-F50482",
+  "ten": "Quần nữ",
+  "icon": "fa fa-female",
+  "img": "https://salt.tikicdn.com/cache/200x200/ts/product/ee/8f/1a/86b4501b871fbd624d1294c4ccf63c80.jpg",
+  "ngayTao": {
+    "$date": "2020-04-23T08:15:24.247Z"
+  },
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ea3c3b2732b94643482550d"
+  },
+  "idShow": "CATE-1AB5EA",
+  "ten": "Giày",
+  "icon": "fa fa-male",
+  "img": "https://salt.tikicdn.com/ts/category/90/78/11/b8a67fe010361551e515fdcca7709f69.png",
+  "ngayTao": {
+    "$date": "2020-04-25T04:59:30.783Z"
+  },
+  "isLock": false,
+  "isDelete": false
+}]
