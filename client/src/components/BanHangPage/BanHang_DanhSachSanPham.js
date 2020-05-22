@@ -5,14 +5,16 @@ import { useHistory } from 'react-router-dom';
 import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { ModalChiTietProduct_ChuShop } from '../Modals/index';
+import { useCookies } from 'react-cookie';
 
-export default function BanHang_DanhSachSanPham(props) {
+export default function BanHang_DanhSachSanPham() {
+    const [cookies, setCookie] = useCookies();
+    const [shopID, setShopID] = useState(cookies.shopID);
     const { TabPane } = Tabs;
     const { Option } = Select;
     const setSpinnerReducer = useSelector(state => state.setSpinner);
     const reloadDatabaseReducer = useSelector(state => state.reloadDatabase);
     const dispatch = useDispatch();
-    const dataUser = props.dataUser;
     const [dataProduct, setDataProduct] = useState([]);
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [dataSearch, setDataSearch] = useState('');
@@ -67,29 +69,57 @@ export default function BanHang_DanhSachSanPham(props) {
         }
     }
 
+    async function LayDataProductTheoIDShop_ChuaKhoa_TheoTrang(page, idShop) {
+        dispatch({ type: 'SPINNER_DATABASE' });
+        let resData = await axios.get('hethong/products-shop-chuakhoa/' + page + '?idShop=' + idShop);
+        if (resData.data.status === 'success') {
+            setDataProduct(resData.data.data);
+            setTongSoTrang(resData.data.soTrang);
+            dispatch({ type: 'NO_SPINNER_DATABASE' });
+        } else {
+            alert("Lấy data thất bại");
+        }
+    }
+
+    async function LayDataProductSearch(dataSearch, page, shopID) {
+        dispatch({ type: 'SPINNER_DATABASE' });
+        let resData = await axios.get('hethong/products-search/' + page + '?search=' + dataSearch + '&shopID=' + shopID);
+        if (resData.data.status === 'success') {
+            setDataProduct(resData.data.data);
+            setTongSoTrang(resData.data.soTrang);
+            dispatch({ type: 'NO_SPINNER_DATABASE' });
+        } else {
+            alert("Lấy data thất bại");
+        }
+    }
+
     useEffect(() => {
-        LayDataProductTheoIDShop_TheoTrang(0, dataUser.thongTinShop.idShop);
-    }, [dataUser])
+        LayDataProductTheoIDShop_TheoTrang(0, shopID);
+    }, [shopID])
 
     useEffect(() => {
         if (reloadDatabaseReducer) {
-            LayDataProductTheoIDShop_TheoTrang(0, dataUser.thongTinShop.idShop);
+            LayDataProductTheoIDShop_TheoTrang(0, shopID);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
+            setTrangThaiOption(0);
         }
     }, [reloadDatabaseReducer]);
 
     useEffect(() => {
         if (trangThaiOption === 0) {
-            LayDataProductTheoIDShop_TheoTrang(0, dataUser.thongTinShop.idShop);
+            LayDataProductTheoIDShop_TheoTrang(0, shopID);
         }
         if (trangThaiOption === 1) {
-            LayDataProductTheoIDShop_DaDuyet_TheoTrang(0, dataUser.thongTinShop.idShop);
+            LayDataProductTheoIDShop_DaDuyet_TheoTrang(0, shopID);
         }
         if (trangThaiOption === 2) {
-            LayDataProductTheoIDShop_ChuaDuyet_TheoTrang(0, dataUser.thongTinShop.idShop);
+            LayDataProductTheoIDShop_ChuaDuyet_TheoTrang(0, shopID);
         }
         if (trangThaiOption === 3) {
-            LayDataProductTheoIDShop_DaKhoa_TheoTrang(0, dataUser.thongTinShop.idShop);
+            LayDataProductTheoIDShop_DaKhoa_TheoTrang(0, shopID);
+        }
+        if (trangThaiOption === 4) {
+            LayDataProductTheoIDShop_ChuaKhoa_TheoTrang(0, shopID);
         }
     }, [trangThaiOption])
 
@@ -108,8 +138,8 @@ export default function BanHang_DanhSachSanPham(props) {
                                         }}></Input>
                                     </Col>
                                     <Col>
-                                        <Button variant="primary" style={{ width: 200 }} onClick={()=>{
-                                            
+                                        <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                            LayDataProductSearch(dataSearch, 0, shopID);
                                         }}>
                                             <i className="fa fa-search"></i> &nbsp; Tìm kiếm
                                         </Button>
@@ -122,15 +152,15 @@ export default function BanHang_DanhSachSanPham(props) {
                                             <Option value={1}>Đã duyệt</Option>
                                             <Option value={2}>Chưa duyệt</Option>
                                             <Option value={3}>Đã khóa</Option>
+                                            <Option value={4}>Chưa khóa</Option>
                                         </Select>
                                     </Col>
                                     <Col>
                                         <Button variant="primary" style={{ width: 200 }} onClick={() => {
-                                            // history.push('/banhang/san-pham/tao-moi-san-pham');
-                                            dispatch({ type: 'MENU_TAOMOISANPHAM' });
+                                            history.push('/banhang/tao-moi-san-pham');
                                         }}>
                                             Tạo mới +
-                                            </Button>
+                                        </Button>
                                     </Col>
                                 </Row>
                             </Form>
@@ -174,7 +204,21 @@ export default function BanHang_DanhSachSanPham(props) {
                             }
                             <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
                                 dispatch({ type: 'SPINNER_DATABASE' });
-                                LayDataProductTheoIDShop_TheoTrang(page - 1, dataUser.thongTinShop.idShop);
+                                if (trangThaiOption === 0) {
+                                    LayDataProductTheoIDShop_TheoTrang(page - 1, shopID);
+                                }
+                                if (trangThaiOption === 1) {
+                                    LayDataProductTheoIDShop_DaDuyet_TheoTrang(page - 1, shopID);
+                                }
+                                if (trangThaiOption === 2) {
+                                    LayDataProductTheoIDShop_ChuaDuyet_TheoTrang(page - 1, shopID);
+                                }
+                                if (trangThaiOption === 3) {
+                                    LayDataProductTheoIDShop_DaKhoa_TheoTrang(page - 1, shopID);
+                                }
+                                if (trangThaiOption === 4) {
+                                    LayDataProductTheoIDShop_ChuaKhoa_TheoTrang(page - 1, shopID);
+                                }
                             }}>
                             </Pagination>
                         </div>

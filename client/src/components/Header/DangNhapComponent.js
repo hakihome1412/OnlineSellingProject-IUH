@@ -91,7 +91,7 @@ export default function DangNhapComponent() {
                             <Col sm={9}>
                                 <Button variant="danger" type="submit" block onClick={(e) => {
                                     e.preventDefault();
-                                    if (duLieuOK == true) {
+                                    if (duLieuOK === true) {
                                         XuLyDangNhap();
                                     } else {
                                         alert("Dữ liệu nhập không hợp lệ");
@@ -100,7 +100,7 @@ export default function DangNhapComponent() {
                                     onMouseOver={() => {
                                         checkOK(taiKhoan.tenTaikhoan);
                                     }}>
-                                    {loading == false ? "Đăng Nhập" : (<Spinner animation="border" role="status">
+                                    {loading === false ? "Đăng Nhập" : (<Spinner animation="border" role="status">
                                         <span className="sr-only">Loading...</span>
                                     </Spinner>)}
                                 </Button>

@@ -23,28 +23,38 @@ import QLCarouselComponent from '../components/Admin/QLCarouselComponent';
 import QLBannerComponent from '../components/Admin/QLBannerComponent';
 import QLCategoryComponent from '../components/Admin/QLCategoryComponent';
 import QLBrandComponent from '../components/Admin/QLBrandComponent';
+import QLDonHangComponent from '../components/Admin/QLDonHangComponent';
+import QLGianHangComponent from '../components/Admin/QLGianHangComponent';
+import QLNguoiDungComponent from '../components/Admin/QLNguoiDungComponent';
 import ChuongTrinh from '../components/ChuongTrinhPage/ChuongTrinh';
 import QLProductComponent from '../components/Admin/QLProductComponent';
 import CheckoutCart from '../components/CheckoutCartPage/CheckoutCartt';
 import CheckoutShipping from '../components/CheckoutShippingPage/CheckoutShipping';
 import CheckoutPayment from '../components/CheckoutPaymentPage/CheckoutPayment';
 import BanHang from '../components/BanHangPage/BanHang';
+import BanHang_DangKy from '../components/BanHangPage/BanHang_DangKy';
 import BanHang_TrangChuComponent from '../components/BanHangPage/BanHang_TrangChu';
 import BanHang_DanhSachSanPhamComponent from '../components/BanHangPage/BanHang_DanhSachSanPham';
 import BanHang_TaoMoiSanPhamComponent from '../components/BanHangPage/BanHang_TaoMoiSanPham';
+import BanHang_DonHangComponent from '../components/BanHangPage/BanHang_DonHang';
 import ResultSuccessPage from '../components/CheckoutPaymentPage/ResultSuccessPage';
 import DealPage from '../components/DealPage/Deal';
 import DanhRiengChoBanPage from '../components/DanhRiengChoBanPage/DanhRiengChoBan';
 import ShopPage from '../components/ShopPage/ShopPage';
+import ErrorPhanQuyen from '../components/ErrorPage/ErrorPhanQuyen';
+import DonHang from '../components/DonHangPage/DonHang';
 
 export{
     TrangChu,
     Header,
     Footer,
     DealComponent,
+    QLGianHangComponent,
+    QLNguoiDungComponent,
     MarkettingComponent,
     HotIndustryComponent,
     ForCustomerComponent,
+    ErrorPhanQuyen,
     ItemComponent,
     CategorySanPham,
     DanhMucSideBarComponent,
@@ -69,11 +79,15 @@ export{
     CheckoutShipping,
     CheckoutPayment,
     BanHang,
+    BanHang_DangKy,
     BanHang_TrangChuComponent,
     BanHang_DanhSachSanPhamComponent,
     BanHang_TaoMoiSanPhamComponent,
     ResultSuccessPage,
     DealPage,
     DanhRiengChoBanPage,
-    ShopPage
+    ShopPage,
+    QLDonHangComponent,
+    BanHang_DonHangComponent,
+    DonHang
 };

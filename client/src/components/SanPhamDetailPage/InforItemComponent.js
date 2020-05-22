@@ -249,7 +249,10 @@ export default function InforItemComponent(props) {
                                         <span style={{ fontSize: 10 }}>Chứng nhận bởi TiemDo</span>
                                     </div>
                                 </div>
-                                <Button style={{ width: '100%', height: 30, marginTop: 10 }}>Xem shop</Button>
+
+                                <Link to={'/shop/' + dataShop.idShop + '/' + to_slug(dataShop.tenShop)}>
+                                    <Button style={{ width: '100%', height: 30, marginTop: 10 }}>Xem shop</Button>
+                                </Link>
                             </div>
                         </div>
                     </div>

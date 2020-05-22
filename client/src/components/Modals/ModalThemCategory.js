@@ -1,24 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Image, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Input, Button} from 'antd';
+import { Form, Input, Button } from 'antd';
 import { axios } from '../../config/constant';
+import { storage } from '../../firebase/firebase';
 
 export default function ModalThemCategory() {
+    const [firstTime, setFirstTime] = useState(true);
+    const [imageAsFile, setImageAsFile] = useState([]);
+    const [countAnhDaUploadThanhCong, setCountAnhDaUploadThanhCong] = useState(0);
     const showModalThemCategoryReducer = useSelector(state => state.showModalThemCategory);
     const [spinnerThemCategory, setSpinnerThemCategory] = useState(-1);
     const dispatch = useDispatch();
     const [dataThem, setDataThem] = useState({
         ten: '',
-        icon:'',
+        icon: '',
         img: ''
     });
+
+    const handleChange = (e) => {
+        var soLuongFile = e.target.files.length;
+        var listFile = [];
+        var listUrl = [];
+        for (let index = 0; index < soLuongFile; index++) {
+            listFile.push(e.target.files[index]);
+        }
+
+        setImageAsFile(listFile);
+
+        if (listFile.length === 0) {
+            console.log('Không có file nào được upload');
+        } else {
+            for (let index = 0; index < soLuongFile; index++) {
+                console.log('start of upload');
+                // async magic goes here...
+                if (listFile[index] === '') {
+                    console.error(`not an image, the image file is a ${typeof (listFile[index])}`);
+                }
+                const uploadTask = storage.ref(`/images/${listFile[index].name}`).put(listFile[index]);
+                uploadTask.on('state_changed',
+                    (snapShot) => {
+                        //takes a snap shot of the process as it is happening
+                        console.log(snapShot);
+                    }, (err) => {
+                        //catches the errors
+                        console.log(err)
+                    }, () => {
+                        // gets the functions from storage refences the image storage in firebase by the children
+                        // gets the download url then sets the image from firebase as the value for the imgUrl key:
+                        storage.ref('images').child(listFile[index].name).getDownloadURL()
+                            .then(fireBaseUrl => {
+                                // setImageAsUrl(prevObject => ({ ...prevObject, imageAsUrl: fireBaseUrl }))
+                                setDataThem({
+                                    ...dataThem,
+                                    img: fireBaseUrl
+                                })
+                                listUrl.push(fireBaseUrl);
+                                setCountAnhDaUploadThanhCong(countPrev => countPrev + 1);
+                            })
+                    })
+            }
+        }
+    }
+
+    function KiemTraDuLieuNhap(data) {
+        if (data.ten === '' || data.img === '' || data.icon === '') {
+            alert('Vui lòng nhập đủ dữ liệu cần thiết');
+        } else {
+            ThemCategory()
+        }
+    }
 
     async function ThemCategory() {
         setSpinnerThemCategory(1);
         let res = await axios.post('hethong/categorys-them', {
             ten: dataThem.ten,
-            icon:dataThem.icon,
+            icon: dataThem.icon,
             img: dataThem.img,
         });
 
@@ -32,10 +89,33 @@ export default function ModalThemCategory() {
             setSpinnerThemCategory(0);
         }
     }
+
+    useEffect(() => {
+        if (firstTime === false) {
+            if (imageAsFile.length === 0) {
+                alert('Vui lòng chọn ảnh cho Category')
+            } else {
+                if (countAnhDaUploadThanhCong === imageAsFile.length) {
+                    alert('Upload ảnh category thành công');
+                }
+            }
+        }
+    }, [countAnhDaUploadThanhCong])
+
     return (
         <Modal show={showModalThemCategoryReducer} size="lg" animation={false} onHide={() => {
             dispatch({ type: 'CLOSE_THEM_CATEGORY' });
-        }}>
+        }}
+            onShow={() => {
+                setImageAsFile([]);
+                setFirstTime(true);
+                setCountAnhDaUploadThanhCong(0);
+                setDataThem({
+                    ten: '',
+                    icon: '',
+                    img: ''
+                })
+            }}>
             <Form
                 name="basic"
                 layout='vertical'
@@ -68,22 +148,25 @@ export default function ModalThemCategory() {
                 <Form.Item
                     label="Ảnh đại diện"
                     name="username"
-                    rules={[{ required: true, message: 'Vui lòng nhập đường link ảnh' }]}>
-                    <Input onChange={(e) => {
-                        setDataThem({
-                            ...dataThem,
-                            img: e.target.value
-                        })
-                    }} />
+                    rules={[{ required: true, message: 'Vui lòng chọn ảnh ảnh' }]}>
+                    <input type='file'
+                        onChange={(e) => {
+                            handleChange(e);
+                            setCountAnhDaUploadThanhCong(0);
+                            setFirstTime(false);
+                        }}>
+                    </input>
                 </Form.Item>
 
                 <Form.Item>
-                    <Image alt="ảnh show" src={dataThem.img} style={{ width: 300, height: 200 }}></Image>
+                    {
+                        dataThem.img === '' ? <Image alt="ảnh show" src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" style={{ width: 300, height: 200 }}></Image> : <Image alt="ảnh show" src={dataThem.img} style={{ width: 300, height: 200 }}></Image>
+                    }
                 </Form.Item>
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
-                        ThemCategory();
+                        KiemTraDuLieuNhap(dataThem)
                     }}>
                         {
                             spinnerThemCategory === 1 ?

@@ -6,8 +6,9 @@ import ModalThemCategory from '../Modals/ModalThemCategory';
 import ModalChiTietCategory from '../Modals/ModalChiTietCategory';
 import ModalThemBrand from '../Modals/ModalThemBrand';
 import ModalChiTietBrand from '../Modals/ModalChiTietBrand';
-import ModalChiTietProduct from '../Modals/ModalChiTietProduct';
+import ModalChiTietProduct_Admin from '../Modals/ModalChiTietProduct_Admin';
 import ModalChiTietProduct_ChuShop from '../Modals/ModalChiTietProduct_ChuShop';
+import ModalChiTietDonHang_ChuShop from '../Modals/ModalChiTietDonHang_ChuShop';
 export  {
     ModalThemCarousel,
     ModalChiTietCarousel,
@@ -17,6 +18,7 @@ export  {
     ModalChiTietCategory,
     ModalThemBrand,
     ModalChiTietBrand,
-    ModalChiTietProduct,
-    ModalChiTietProduct_ChuShop
+    ModalChiTietProduct_Admin,
+    ModalChiTietProduct_ChuShop,
+    ModalChiTietDonHang_ChuShop
 }

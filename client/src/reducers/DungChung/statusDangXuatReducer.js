@@ -2,9 +2,9 @@ const initState = false;
 
 const noidung = (state = initState, action) => {
     switch (action.type) {
-        case 'SHOW_CHITIET_PRODUCT_ADMIN':
+        case 'DANG_XUAT':
             return true;
-        case 'CLOSE_CHITIET_PRODUCT_ADMIN':
+        case 'KHONG_DANG_XUAT':
             return false;
         default:
             return state;

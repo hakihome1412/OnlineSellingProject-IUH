@@ -11,7 +11,7 @@ export default function DangKyComponent() {
     const dataNam = [];
     const [cookies,setCookies] = useCookies();
     const dispatch = useDispatch()
-    let minOffset = 0, maxOffset = 120;
+    let  maxOffset = 120;
     let thisYear = (new Date()).getFullYear();
     for (let x = 0; x <= maxOffset; x++) {
         dataNam.push(thisYear - x)

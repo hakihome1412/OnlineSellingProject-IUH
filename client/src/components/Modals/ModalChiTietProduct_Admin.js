@@ -5,14 +5,15 @@ import { Form, Input, Select } from 'antd';
 import { axios } from '../../config/constant';
 import { storage } from "../../firebase/firebase";
 
-export default function ModalChiTietProduct_ChuShop() {
+export default function ModalChiTietProduct() {
     const { Option } = Select;
     const dispatch = useDispatch();
-    const showChiTietProduct_ChuShop = useSelector(state => state.showChiTietProduct_ChuShop);
+    const showChiTietProductAdmin = useSelector(state => state.showChiTietProductAdmin);
     const [spinnerChiTietProduct, setSpinnerChiTietProduct] = useState(false);
     const objectIDDuocChonReducer = useSelector(state => state.objectIDDuocChon);
     const [disableOptions, setDisableOptions] = useState(false);
     const [statusSua, setStatusSua] = useState(0);
+    const [showButtonHuy, setShowButtonHuy] = useState(false);
     const [dataCategory, setDataCategory] = useState([]);
     const [dataCountries, setDataCountries] = useState([]);
     const [dataBrand, setDataBrand] = useState([]);
@@ -42,20 +43,20 @@ export default function ModalChiTietProduct_ChuShop() {
         noiSanXuat: '',
         moTa: [],
         moTaNganGon: [],
-        soSao: '',
-        giaTriGiamGia: '',
+        soSao: 0,
+        giaTriGiamGia: 0,
         soLuong: '',
-        ngayTao: '',
+        ngayTao: new Date(),
         thongTinBaoHanh: {
-            baoHanh: '',
+            baoHanh: true,
             loaiBaoHanh: '',
             thoiGianBaoHanh: '',
             donViBaoHanh: ''
         },
         idBrand: '',
         idCategory: '',
-        isLock: '',
-        isAccept: ''
+        isLock: false,
+        isAccept: false
     });
     const [productSua, setProductSua] = useState({
         ten: '',
@@ -72,7 +73,7 @@ export default function ModalChiTietProduct_ChuShop() {
         giaTriGiamGia: 0,
         soLuong: '',
         thongTinBaoHanh: {
-            baoHanh: '',
+            baoHanh: true,
             loaiBaoHanh: '',
             thoiGianBaoHanh: '',
             donViBaoHanh: ''
@@ -80,6 +81,7 @@ export default function ModalChiTietProduct_ChuShop() {
         idBrand: '',
         idCategory: '',
         isLock: '',
+        isAccept: ''
     });
 
     const handleChangeIMG_MotaChiTiet = (e) => {
@@ -234,7 +236,7 @@ export default function ModalChiTietProduct_ChuShop() {
         setSpinnerSuaProduct(1);
         setDisableOptions(false);
         if (statusSua === 1) {
-            let resData = await axios.put('hethong/products-sua-chushop', {
+            let resData = await axios.put('hethong/products-sua-admin', {
                 _id: productID,
                 ten: productSua.ten,
                 img: {
@@ -258,6 +260,7 @@ export default function ModalChiTietProduct_ChuShop() {
                 idBrand: productSua.idBrand,
                 idCategory: productSua.idCategory,
                 isLock: productSua.isLock,
+                isAccept: productSua.isAccept
             });
 
             if (resData.data.status === 'success') {
@@ -268,7 +271,7 @@ export default function ModalChiTietProduct_ChuShop() {
                 setDisableOptions(false);
             }
             else {
-                setSpinnerSuaProduct(0);
+                setSpinnerSuaProduct(-1);
                 setStatusSua(0);
                 setDisableOptions(true);
                 dispatch({ type: 'NO_RELOAD_DATABASE' });
@@ -409,13 +412,21 @@ export default function ModalChiTietProduct_ChuShop() {
         }
     }, [countAnhDaUploadThanhCong_Phu])
 
+    useEffect(() => {
+        if (statusSua === 1) {
+            setShowButtonHuy(true)
+        } else {
+            setShowButtonHuy(false)
+        }
+    }, [statusSua])
 
     return (
-        <Modal show={showChiTietProduct_ChuShop} size="lg" animation={false} onHide={() => {
-            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_CHUSHOP' });
+        <Modal show={showChiTietProductAdmin} size="lg" animation={false} onHide={() => {
+            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
         }}
             onShow={() => {
                 LayProductTheoID(objectIDDuocChonReducer);
+                setStatusSua(0);
                 setDisableOptions(false);
             }}>
 
@@ -717,29 +728,8 @@ export default function ModalChiTietProduct_ChuShop() {
                             label="Bảo hành"
                             name="baohanh">
                             <Select style={{ width: '100%' }}
-                                disabled={!disableOptions}
-                                defaultValue={productNow.thongTinBaoHanh.baoHanh === true ? 0 : 1} onChange={(value) => {
-                                    if (value === 1) {
-                                        setProductSua({
-                                            ...productSua,
-                                            thongTinBaoHanh: {
-                                                baoHanh: false,
-                                                thoiGianBaoHanh: '',
-                                                donViBaoHanh: '',
-                                                loaiBaoHanh: ''
-                                            }
-                                        })
-                                    } else {
-                                        setProductSua({
-                                            ...productSua,
-                                            thongTinBaoHanh: {
-                                                ...productSua.thongTinBaoHanh,
-                                                baoHanh: true
-                                            }
-                                        })
-                                    }
-
-                                }}>
+                                disabled={true}
+                                defaultValue={productNow.thongTinBaoHanh.baoHanh === true ? 0 : 1}>
                                 <Option value={0}>Có</Option>
                                 <Option value={1}>Không</Option>
                             </Select>
@@ -811,70 +801,6 @@ export default function ModalChiTietProduct_ChuShop() {
                             )
                         }
 
-                        {
-                            productSua.thongTinBaoHanh.baoHanh === true && (
-                                <Fragment>
-                                    <Form.Item
-                                        label="Thời gian bảo hành"
-                                        name="thoigianbaohanh"
-                                        rules={[{ required: true, message: 'Vui lòng nhập thời gian bảo hành' }]}>
-                                        <Input
-                                            disabled={!disableOptions}
-                                            onChange={(e) => {
-                                                setProductSua({
-                                                    ...productSua,
-                                                    thongTinBaoHanh: {
-                                                        ...productSua.thongTinBaoHanh,
-                                                        thoiGianBaoHanh: parseInt(e.target.value)
-                                                    }
-                                                })
-                                            }}></Input>
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        label="Đơn vị thời gian bảo hành"
-                                        name="donvibaohanh"
-                                        rules={[{ required: true, message: 'Vui lòng nhập đơn vị thời gian bảo hành' }]}>
-                                        <Select style={{ width: '100%' }}
-                                            disabled={!disableOptions}
-                                            onChange={(value) => {
-                                                setProductSua({
-                                                    ...productSua,
-                                                    thongTinBaoHanh: {
-                                                        ...productSua.thongTinBaoHanh,
-                                                        donViBaoHanh: value
-                                                    }
-                                                })
-                                            }}>
-                                            <Option value={0}>Tháng</Option>
-                                            <Option value={1}>Năm</Option>
-                                        </Select>
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        label="Loại bảo hành"
-                                        name="loaibaohanh"
-                                        rules={[{ required: true, message: 'Vui lòng chọn loại bảo hành' }]}>
-                                        <Select style={{ width: '100%' }}
-                                            disabled={!disableOptions}
-                                            onChange={(value) => {
-                                                setProductSua({
-                                                    ...productSua,
-                                                    thongTinBaoHanh: {
-                                                        ...productSua.thongTinBaoHanh,
-                                                        loaiBaoHanh: value
-                                                    }
-                                                })
-                                            }}>
-                                            <Option value={0}>Bảo hành chính hãng</Option>
-                                            <Option value={1}>Bảo hành bởi shop thông qua TiemDo</Option>
-                                        </Select>
-                                    </Form.Item>
-                                </Fragment>
-                            )
-                        }
-
-
                         <Form.Item
                             label="Ngày tạo"
                             name="ngaytao">
@@ -896,7 +822,12 @@ export default function ModalChiTietProduct_ChuShop() {
 
                         <Form.Item
                             label="Trạng thái duyệt">
-                            <Select disabled={true} defaultValue={productNow.isAccept === false ? "accept" : "noaccept"}>
+                            <Select disabled={!disableOptions} defaultValue={productNow.isAccept === true ? "accept" : "noaccept"} onChange={(value) => {
+                                setProductSua({
+                                    ...productSua,
+                                    isAccept: value === "accept" ? true : false
+                                });
+                            }}>
                                 <Option key="accept">Đã duyệt</Option>
                                 <Option key="noaccept">Chưa duyệt</Option>
                             </Select>
@@ -946,7 +877,8 @@ export default function ModalChiTietProduct_ChuShop() {
                                     },
                                     idBrand: productNow.idBrand,
                                     idCategory: productNow.idCategory,
-                                    isLock: productNow.isLock
+                                    isLock: productNow.isLock,
+                                    isAccept: productNow.isAccept
                                 });
 
                                 console.log(productSua);
@@ -963,14 +895,20 @@ export default function ModalChiTietProduct_ChuShop() {
                                 }
                             </Button>
                         </Form.Item>
+
+                        {
+                            showButtonHuy === true && (
+                                <Form.Item>
+                                    <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
+                                        setDisableOptions(false);
+                                        setStatusSua(0);
+                                    }}>Hủy</Button>
+                                </Form.Item>
+                            )
+                        }
                     </Form>
                 )
             }
-            <Button onClick={() => {
-                console.log(productNow);
-            }}>
-                test
-            </Button>
         </Modal>
     )
 }

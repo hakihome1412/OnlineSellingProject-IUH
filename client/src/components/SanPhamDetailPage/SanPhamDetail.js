@@ -110,7 +110,7 @@ export default function SanPhamDetail(props) {
 
     useEffect(() => {
         LayDataProductTheoID(productID);
-        dispatch({ type: 'SHOW_HEADER' });
+        dispatch({type:'SHOW_HEADER'});
     }, [])
 
     useEffect(() => {

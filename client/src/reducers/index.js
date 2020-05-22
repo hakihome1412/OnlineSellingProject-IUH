@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import taiKhoanDaDangNhap from '../reducers/DungChung/taiKhoanDaDangNhapReducer';
 import trangThaiDangNhap from '../reducers/DungChung/trangThaiDaDangNhapThanhCong';
 import showMainComponent from '../reducers/DungChung/showMainComponentAdminReducer';
@@ -20,8 +20,7 @@ import setSpinnerChiTietCategory from '../reducers/DungChung/setSpinnerChiTietCa
 import showModalThemBrand from '../reducers/DungChung/showModalThemBrandReducer';
 import showChiTietBrand from '../reducers/DungChung/showChiTietBrandReducer';
 import setSpinnerChiTietBrand from '../reducers/DungChung/setSpinnerChiTietBrandReducer';
-import showModalThemProduct from '../reducers/DungChung/showModalThemProductReducer';
-import showChiTietProduct from '../reducers/DungChung/showChiTietProductReducer';
+import showChiTietProductAdmin from '../reducers/DungChung/showChiTietProductReducer';
 import tongSoSanPham from '../reducers/DungChung/tongSoSanPhamTrongGioHangReducer';
 import statusThayDoiGioHang from '../reducers/DungChung/statusThayDoiGioHangReducer';
 import showModalDangNhapDangKy from '../reducers/DungChung/showModalDangNhapDangKyReducer';
@@ -31,6 +30,9 @@ import thongTinVoucher from '../reducers/DungChung/thongTinVoucherReducer';
 import setKeyMenuBanHang from '../reducers/DungChung/setKeyMenu_BanHangReducer';
 import reloadAnh from '../reducers/DungChung/reloadAnhReducer';
 import showChiTietProduct_ChuShop from '../reducers/DungChung/showChiTietProduct_ChuShopReducer';
+import statusDangXuat from '../reducers/DungChung/statusDangXuatReducer';
+import showChiTietDonHang_ChuShop from '../reducers/DungChung/showChiTietDonHang_ChuShopReducer';
+import showChiTietNguoiDung from '../reducers/DungChung/showChiTietNguoiDungReducer';
 
 const allReducers = combineReducers({
     taiKhoanDaDangNhap,
@@ -54,8 +56,7 @@ const allReducers = combineReducers({
     showModalThemBrand,
     showChiTietBrand,
     setSpinnerChiTietBrand,
-    showModalThemProduct,
-    showChiTietProduct,
+    showChiTietProductAdmin,
     tongSoSanPham,
     statusThayDoiGioHang,
     showModalDangNhapDangKy,
@@ -64,7 +65,10 @@ const allReducers = combineReducers({
     thongTinVoucher,
     setKeyMenuBanHang,
     reloadAnh,
-    showChiTietProduct_ChuShop
+    showChiTietProduct_ChuShop,
+    statusDangXuat,
+    showChiTietDonHang_ChuShop,
+    showChiTietNguoiDung
 })
 
 export default allReducers;

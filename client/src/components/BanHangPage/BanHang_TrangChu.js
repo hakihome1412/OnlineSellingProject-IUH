@@ -3,10 +3,28 @@ import { Tabs } from 'antd';
 import { Carousel, Button } from 'react-bootstrap';
 import { storage } from '../../firebase/firebase';
 import { axios } from '../../config/constant';
+import { useCookies } from 'react-cookie';
 
 export default function BanHang_TrangChu(props) {
     const { TabPane } = Tabs;
-    const dataUser = props.dataUser;
+    const [cookies,setCookie] = useCookies();
+    const userID = cookies.userID;
+    const [dataUser, setDataUser] = useState({
+        _id: '',
+        email: '',
+        thongTinShop: {
+            idShop: '',
+            ten: '',
+            moTa: '',
+            diaChi: '',
+            logoShop: '',
+            img: {
+                carousel: [],
+                banner1: '',
+                banner2: ''
+            }
+        }
+    });
     const [countAnhDaUploadThanhCong_Carousel, setCountAnhDaUploadThanhCong_Carousel] = useState(0);
     const [countAnhDaUploadThanhCong_Banner1, setCountAnhDaUploadThanhCong_Banner1] = useState(0);
     const [countAnhDaUploadThanhCong_Banner2, setCountAnhDaUploadThanhCong_Banner2] = useState(0);
@@ -167,6 +185,33 @@ export default function BanHang_TrangChu(props) {
         }
     }
 
+    async function LayDataUserTheoIDUser(userID) {
+        let resData = await axios.get('hethong/users-item?idUser=' + userID);
+        //alert(JSON.stringify(resData.data));
+        //setDataCarousel(resData.data.status);
+        if (resData.data.status === 'success') {
+            //alert(JSON.stringify(resData.data.data));
+            setDataUser({
+                _id: resData.data.data._id,
+                email: resData.data.data.email,
+                thongTinShop: {
+                    idShop: resData.data.data.thongTinShop.idShop,
+                    ten: resData.data.data.thongTinShop.ten,
+                    moTa: resData.data.data.thongTinShop.moTa,
+                    diaChi: resData.data.data.thongTinShop.diaChi,
+                    logoShop: resData.data.data.thongTinShop.logoShop,
+                    img: {
+                        carousel: resData.data.data.thongTinShop.img.carousel,
+                        banner1: resData.data.data.thongTinShop.img.banner1,
+                        banner2: resData.data.data.thongTinShop.img.banner2
+                    }
+                }
+            });
+        } else {
+            alert("Lấy data thất bại");
+        }
+    }
+
     useEffect(() => {
         if (firstTime1 === false) {
             if (imageAsFile_Carousel.length === 0) {
@@ -203,13 +248,17 @@ export default function BanHang_TrangChu(props) {
         }
     }, [countAnhDaUploadThanhCong_Banner2])
 
-    useEffect(()=>{
+    useEffect(() => {
         setDataThayDoiThietKe({
-            carousel:dataUser.thongTinShop.img.carousel,
-            banner1:dataUser.thongTinShop.img.banner1,
-            banner2:dataUser.thongTinShop.img.banner2
+            carousel: dataUser.thongTinShop.img.carousel,
+            banner1: dataUser.thongTinShop.img.banner1,
+            banner2: dataUser.thongTinShop.img.banner2
         })
-    },[dataUser])
+    }, [dataUser])
+
+    useEffect(() => {
+        LayDataUserTheoIDUser(userID);
+    }, [])
 
     return (
         <Fragment>
@@ -401,7 +450,7 @@ export default function BanHang_TrangChu(props) {
                             <br></br>
                             <h6>Mã gian hàng: {dataUser.thongTinShop.idShop}</h6>
                             <br></br>
-                            <span><h6>Tên gian hàng: <input type='text' defaultValue={dataUser.thongTinShop.ten} style={{width:200}}></input></h6></span>
+                            <span><h6>Tên gian hàng: <input type='text' defaultValue={dataUser.thongTinShop.ten} style={{ width: 200 }}></input></h6></span>
                             <br></br>
                             <span><h6>Địa chỉ: </h6><textarea rows="4" cols="50" defaultValue={dataUser.thongTinShop.diaChi} ></textarea></span>
                             <br></br>

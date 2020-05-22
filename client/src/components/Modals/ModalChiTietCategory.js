@@ -3,6 +3,7 @@ import { Modal, Image, Spinner, Button } from 'react-bootstrap';
 import { Form, Input, Select, Popconfirm } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
+import { storage } from '../../firebase/firebase';
 
 export default function ModalChiTietCategory() {
     const { Option } = Select;
@@ -10,20 +11,78 @@ export default function ModalChiTietCategory() {
     const showChiTietCategoryReducer = useSelector(state => state.showChiTietCategory);
     const setSpinnerChiTietCategory = useSelector(state => state.setSpinnerChiTietCategory);
     const objectIDDuocChonReducer = useSelector(state => state.objectIDDuocChon);
+    const [imageAsUrl, setImageAsUrl] = useState([]);
+    const [imageAsFile, setImageAsFile] = useState([]);
+    const [showButtonHuy, setShowButtonHuy] = useState(false);
+    const [countAnhDaUploadThanhCong, setCountAnhDaUploadThanhCong] = useState(0);
+    const [firstTime, setFirstTime] = useState(true);
     const [disableOptions, setDisableOptions] = useState(false);
     const [statusSua, setStatusSua] = useState(0);
     const [spinnerXoaCategory, setSpinnerXoaCategory] = useState(-1);
     const [spinnerSuaCategory, setSpinnerSuaCategory] = useState(-1);
-    const [cateogryNow, setCategoryNow] = useState();
+    const [cateogryNow, setCategoryNow] = useState({
+        _id: '',
+        ten: '',
+        icon: '',
+        img: '',
+        ngayTao: '',
+        isLock: ''
+    });
     const [categorySua, setCategorySua] = useState({
         ten: '',
-        icon:'',
+        icon: '',
         img: '',
-        isLock:''
+        isLock: ''
     });
 
+    const handleChangeIMG = (e) => {
+        var soLuongFile = e.target.files.length;
+        var listFile = [];
+        var listUrl = [];
+        for (let index = 0; index < soLuongFile; index++) {
+            listFile.push(e.target.files[index]);
+        }
+
+        setImageAsFile(listFile);
+
+        if (listFile.length === 0) {
+            console.log('Không có file nào được upload');
+        } else {
+            for (let index = 0; index < soLuongFile; index++) {
+                console.log('start of upload');
+                // async magic goes here...
+                if (listFile[index] === '') {
+                    console.error(`not an image, the image file is a ${typeof (listFile[index])}`);
+                }
+                const uploadTask = storage.ref(`/images/${listFile[index].name}`).put(listFile[index]);
+                uploadTask.on('state_changed',
+                    (snapShot) => {
+                        //takes a snap shot of the process as it is happening
+                        console.log(snapShot);
+                    }, (err) => {
+                        //catches the errors
+                        console.log(err)
+                    }, () => {
+                        // gets the functions from storage refences the image storage in firebase by the children
+                        // gets the download url then sets the image from firebase as the value for the imgUrl key:
+                        storage.ref('images').child(listFile[index].name).getDownloadURL()
+                            .then(fireBaseUrl => {
+                                // setImageAsUrl(prevObject => ({ ...prevObject, imageAsUrl: fireBaseUrl }))
+                                setCategorySua({
+                                    ...categorySua,
+                                    img: fireBaseUrl
+                                });
+                                listUrl.push(fireBaseUrl);
+                                setCountAnhDaUploadThanhCong(countPrev => countPrev + 1);
+                            })
+                    })
+            }
+        }
+        setImageAsUrl(listUrl);
+    }
+
     async function SuaCategory(categoryID) {
-        //dispatch({ type: 'SPINNER_SUACAROUSEL' });
+        dispatch({ type: 'SPINNER_CHITIETCATEGORY' });
         setSpinnerSuaCategory(1);
         setDisableOptions(false);
         if (statusSua === 1) {
@@ -36,12 +95,13 @@ export default function ModalChiTietCategory() {
             });
 
             if (resData.data.status === 'success') {
-                //dispatch({ type: 'NO_SPINNER_SUACAROUSEL' });
+                dispatch({ type: 'NO_SPINNER_CHITIETCATEGORY' });
                 dispatch({ type: 'RELOAD_DATABASE' });
                 setStatusSua(0);
                 setSpinnerSuaCategory(-1);
                 alert("Sửa thành công");
                 setDisableOptions(false);
+                dispatch({ type: 'CLOSE_CHITIET_CATEGORY' });
             }
             else {
                 //dispatch({ type: 'NO_SPINNER_SUACAROUSEL' });
@@ -83,7 +143,14 @@ export default function ModalChiTietCategory() {
         dispatch({ type: 'SPINNER_CHITIETCATEGORY' });
         let resData = await axios.get('hethong/categorys-item/?id=' + categoryID);
         if (resData.data.status === 'success') {
-            setCategoryNow(resData.data.data);
+            setCategoryNow({
+                _id: resData.data.data._id,
+                ten: resData.data.data.ten,
+                icon: resData.data.data.icon,
+                img: resData.data.data.img,
+                ngayTao: resData.data.data.ngayTao,
+                isLock: resData.data.data.isLock
+            });
             dispatch({ type: 'NO_SPINNER_CHITIETCATEGORY' });
         } else {
             alert("Lấy data thất bại");
@@ -91,11 +158,34 @@ export default function ModalChiTietCategory() {
         }
     }
 
+    useEffect(() => {
+        if (firstTime === false) {
+            if (imageAsFile.length === 0) {
+                alert('Vui lòng chọn ảnh cho Category')
+            } else {
+                if (countAnhDaUploadThanhCong === imageAsFile.length) {
+                    alert('Upload ảnh category thành công');
+                }
+            }
+        }
+    }, [countAnhDaUploadThanhCong])
+
+    useEffect(() => {
+        if (statusSua === 1) {
+            setShowButtonHuy(true)
+        } else {
+            setShowButtonHuy(false)
+        }
+    }, [statusSua])
+
+
     return (
         <Modal show={showChiTietCategoryReducer} size="lg" animation={false} onHide={() => {
             dispatch({ type: 'CLOSE_CHITIET_CATEGORY' });
         }}
             onShow={() => {
+                setDisableOptions(false);
+                setStatusSua(0);
                 LayCategoryTheoID(objectIDDuocChonReducer);
             }}>
             {
@@ -128,7 +218,7 @@ export default function ModalChiTietCategory() {
                             label="Icon"
                             name="icon"
                             rrules={[{ required: true, message: 'Vui lòng nhập đường link class của i cho icon ' }]}>
-                            <Input disabled={!disableOptions} defaultValue={cateogryNow.img} onChange={(e) => {
+                            <Input disabled={!disableOptions} defaultValue={cateogryNow.icon} onChange={(e) => {
                                 setCategorySua({
                                     ...categorySua,
                                     img: e.target.value
@@ -138,18 +228,33 @@ export default function ModalChiTietCategory() {
 
                         <Form.Item
                             label="Ảnh đại diện"
-                            name="username"
-                            rules={[{ required: true, message: 'Vui lòng nhập đường link ảnh' }]}>
-                            <Input disabled={!disableOptions} defaultValue={cateogryNow.img} onChange={(e) => {
-                                setCategorySua({
-                                    ...categorySua,
-                                    img: e.target.value
-                                });
-                            }} />
+                            name="anhchinh"
+                            rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
+                            <input type='file'
+                                disabled={!disableOptions}
+                                onChange={(e) => {
+                                    handleChangeIMG(e);
+                                    setCountAnhDaUploadThanhCong(0);
+                                    setFirstTime(false);
+                                }}>
+                            </input>
                         </Form.Item>
 
-                        <Form.Item>
-                            <Image alt="ảnh show" src={cateogryNow.img} style={{ width: 300, height: 200 }}></Image>
+                        <Form.Item
+                            name='showanhchinh'
+                            label="Show ảnh đại diện">
+                            {
+                                statusSua === 0 && (
+                                    <img style={{ marginLeft: 20 }} src={cateogryNow.img} alt={'ảnh'} width='200' height='150'></img>
+                                )
+                            }
+                            {
+                                statusSua === 1 && (
+                                    imageAsUrl.map((src, i) => {
+                                        return <img key={i} style={{ marginLeft: 20 }} src={src} alt={'ảnh ' + i} width='200' height='150'></img>
+                                    })
+                                )
+                            }
                         </Form.Item>
 
                         <Form.Item
@@ -211,6 +316,17 @@ export default function ModalChiTietCategory() {
                                 }
                             </Button>
                         </Form.Item>
+
+                        {
+                            showButtonHuy === true && (
+                                <Form.Item>
+                                    <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
+                                        setDisableOptions(false);
+                                        setStatusSua(0);
+                                    }}>Hủy</Button>
+                                </Form.Item>
+                            )
+                        }
                     </Form>
                 )
             }

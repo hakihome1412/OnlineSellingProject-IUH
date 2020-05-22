@@ -4,11 +4,12 @@ import { axios } from '../../config/constant';
 import { Link } from 'react-router-dom';
 import { Modal, Button, Spinner } from 'react-bootstrap';
 import { storage } from "../../firebase/firebase";
-import { useDispatch } from 'react-redux';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { useCookies } from 'react-cookie';
 
 export default function BanHang_TaoMoiSanPham(props) {
-    const dataUser = props.dataUser;
+    const [cookies,setCookie] = useCookies();
+    const [shopID,setShopID] = useState(cookies.shopID);
     const { TabPane } = Tabs;
     const { Option } = Select;
     const [countAnhDaUploadThanhCong, setCountAnhDaUploadThanhCong] = useState(0);
@@ -67,7 +68,6 @@ export default function BanHang_TaoMoiSanPham(props) {
         isLock: false,
         isDelete: false
     });
-
     const [imageAsFile, setImageAsFile] = useState([]);
     const [imageAsFile_MoTaChiTiet, setImageAsFile_MoTaChiTiet] = useState([]);
     const [imageAsFile_Chinh, setImageAsFile_Chinh] = useState([]);
@@ -83,7 +83,6 @@ export default function BanHang_TaoMoiSanPham(props) {
     });
     const [showModalTaoMoiBrand, setShowModalTaoMoiBrand] = useState(false);
     const [showModalTaoPhanLoai, setShowModalTaoPhanLoai] = useState(false);
-
     const layout = {
         labelCol: { span: 3 },
         wrapperCol: { span: 16 },
@@ -374,9 +373,9 @@ export default function BanHang_TaoMoiSanPham(props) {
     useEffect(() => {
         setDataTaoMoiSanPham({
             ...dataTaoMoiSanPham,
-            idShop: dataUser.thongTinShop.idShop
+            idShop: shopID
         })
-    }, [dataUser]);
+    }, [shopID]);
 
     useEffect(() => {
         if (spinnerBrand === true) {

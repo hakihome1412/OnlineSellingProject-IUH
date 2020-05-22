@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { MarkettingComponent, DealComponent, HotIndustryComponent, ForCustomerComponent } from '../allJS';
 import { axios } from '../../config/constant';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useCookies } from 'react-cookie';
 
 function TrangChu() {
     const [dataCarousel, setDataCarousel] = useState([]);
@@ -10,6 +11,8 @@ function TrangChu() {
     const [dataProductSale, setDataProductSale] = useState([]);
     const [dataProduct, setDataProduct] = useState([]);
     const dispatch = useDispatch();
+    const[cookies,setCookie,removeCookie] = useCookies();
+    const statusDangXuat = useSelector(state => state.statusDangXuat);
     
     async function getDataCarousel() {
         let resData = await axios.get('hethong/carousels');
@@ -22,7 +25,7 @@ function TrangChu() {
     }
 
     async function getDataCategory() {
-        let resData = await axios.get('hethong/categorys');
+        let resData = await axios.get('hethong/categorys-show');
         if (resData.data.status === 'success') {
             setDataCategory(resData.data.data);
         } else {
@@ -63,7 +66,8 @@ function TrangChu() {
         getDataBanner();
         getDataProductDangGiamGiaTheoTrang();
         getDataProductTheoTrang();
-        dispatch({ type: 'SHOW_HEADER' });
+        removeCookie('shopID');
+        dispatch({type:'SHOW_HEADER'});
     }, []);
 
     return (

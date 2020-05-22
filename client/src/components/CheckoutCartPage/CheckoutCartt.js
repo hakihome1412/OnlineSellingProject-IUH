@@ -67,8 +67,8 @@ export default function CheckoutCartt() {
     }, [statusThayDoiGioHang])
 
     useEffect(() => {
-        dispatch({ type: 'SHOW_HEADER' });
         localStorage.setItem('idVoucher','');
+        dispatch({type:'SHOW_HEADER'});
     }, []);
 
     useEffect(() => {
@@ -196,13 +196,12 @@ export default function CheckoutCartt() {
                         </div>
                     </div>
                     <Link to='shipping' onClick={(e) => {
-                        // alert(JSON.stringify(dataGioHang));
-                        // if (cookie.token === undefined) {
-                        //     e.preventDefault();
-                        //     dispatch({ type: 'SHOW_MODAL_DANGNHAP_DANGKY' });
-                        // }
+                        if(dataGioHang.length === 0){
+                            e.preventDefault();
+                            alert('Chưa có sản phẩm nào trong giỏ hàng');
+                        }
                     }}>
-                        <Button style={{ width: '100%', height: 50, marginTop: 20 }} >Tiến hành đặt hàng</Button>
+                        <Button style={{ width: '100%', height: 50, marginTop: 20 }}>Tiến hành đặt hàng</Button>
                     </Link>
                     <div className='col' style={{ marginTop: 20 }}>
                         <span style={{ fontSize: 16, fontWeight: 'bold' }}>Mã giảm giá / Quà tặng</span>

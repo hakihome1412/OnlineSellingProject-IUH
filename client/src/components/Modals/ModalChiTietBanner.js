@@ -3,6 +3,7 @@ import { Modal, Image, Spinner, Button } from 'react-bootstrap';
 import { Form, Input, Select, Popconfirm } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
+import { storage } from '../../firebase/firebase';
 
 export default function ModalChiTietBanner() {
     const { Option } = Select;
@@ -10,11 +11,27 @@ export default function ModalChiTietBanner() {
     const showChiTietBannerReducer = useSelector(state => state.showChiTietBanner);
     const setSpinnerChiTietBanner = useSelector(state => state.setSpinnerChiTietBanner);
     const objectIDDuocChonReducer = useSelector(state => state.objectIDDuocChon);
+    const [firstTime, setFirstTime] = useState(true);
+    const [imageAsUrl, setImageAsUrl] = useState([]);
+    const [imageAsFile, setImageAsFile] = useState([]);
+    const [showButtonHuy, setShowButtonHuy] = useState(false);
+    const [countAnhDaUploadThanhCong, setCountAnhDaUploadThanhCong] = useState(0);
     const [disableOptions, setDisableOptions] = useState(false);
     const [statusSua, setStatusSua] = useState(0);
     const [spinnerXoaBanner, setSpinnerXoaBanner] = useState(-1);
     const [spinnerSuaBanner, setSpinnerSuaBanner] = useState(-1);
-    const [bannerNow, setBannerNow] = useState();
+    const [bannerNow, setBannerNow] = useState({
+        _id: '',
+        ten: '',
+        img: '',
+        positionShow: {
+            center: '',
+            right: '',
+            bottom: ''
+        },
+        ngayTao: '',
+        isLock: ''
+    });
     const [bannerSua, setBannerSua] = useState({
         ten: '',
         img: '',
@@ -26,11 +43,68 @@ export default function ModalChiTietBanner() {
         isLock: ''
     });
 
+    const handleChangeIMG = (e) => {
+        var soLuongFile = e.target.files.length;
+        var listFile = [];
+        var listUrl = [];
+        for (let index = 0; index < soLuongFile; index++) {
+            listFile.push(e.target.files[index]);
+        }
+
+        setImageAsFile(listFile);
+
+        if (listFile.length === 0) {
+            console.log('Không có file nào được upload');
+        } else {
+            for (let index = 0; index < soLuongFile; index++) {
+                console.log('start of upload');
+                // async magic goes here...
+                if (listFile[index] === '') {
+                    console.error(`not an image, the image file is a ${typeof (listFile[index])}`);
+                }
+                const uploadTask = storage.ref(`/images/${listFile[index].name}`).put(listFile[index]);
+                uploadTask.on('state_changed',
+                    (snapShot) => {
+                        //takes a snap shot of the process as it is happening
+                        console.log(snapShot);
+                    }, (err) => {
+                        //catches the errors
+                        console.log(err)
+                    }, () => {
+                        // gets the functions from storage refences the image storage in firebase by the children
+                        // gets the download url then sets the image from firebase as the value for the imgUrl key:
+                        storage.ref('images').child(listFile[index].name).getDownloadURL()
+                            .then(fireBaseUrl => {
+                                // setImageAsUrl(prevObject => ({ ...prevObject, imageAsUrl: fireBaseUrl }))
+                                setBannerSua({
+                                    ...bannerSua,
+                                    img: fireBaseUrl
+                                });
+                                listUrl.push(fireBaseUrl);
+                                setCountAnhDaUploadThanhCong(countPrev => countPrev + 1);
+                            })
+                    })
+            }
+        }
+        setImageAsUrl(listUrl);
+    }
+
     async function LayBannerTheoID(bannerID) {
         dispatch({ type: 'SPINNER_CHITIETBANNER' });
         let resData = await axios.get('hethong/banners-item/?id=' + bannerID);
         if (resData.data.status === 'success') {
-            setBannerNow(resData.data.data);
+            setBannerNow({
+                _id: resData.data.data._id,
+                ten: resData.data.data.ten,
+                img: resData.data.data.img,
+                positionShow: {
+                    center: resData.data.data.positionShow.center,
+                    right: resData.data.data.positionShow.right,
+                    bottom: resData.data.data.positionShow.bottom
+                },
+                ngayTao: resData.data.data.ngayTao,
+                isLock: resData.data.data.isLock
+            });
             dispatch({ type: 'NO_SPINNER_CHITIETBANNER' });
         } else {
             alert("Lấy data thất bại");
@@ -84,6 +158,7 @@ export default function ModalChiTietBanner() {
                 setSpinnerSuaBanner(-1);
                 alert("Sửa thành công");
                 setDisableOptions(false);
+                dispatch({ type: 'CLOSE_CHITIET_BANNER' });
             }
             else {
                 //dispatch({ type: 'NO_SPINNER_SUACAROUSEL' });
@@ -99,12 +174,34 @@ export default function ModalChiTietBanner() {
         }
     }
 
+    useEffect(() => {
+        if (firstTime === false) {
+            if (imageAsFile.length === 0) {
+                alert('Vui lòng chọn ảnh cho Banner')
+            } else {
+                if (countAnhDaUploadThanhCong === imageAsFile.length) {
+                    alert('Upload ảnh banner thành công');
+                }
+            }
+        }
+    }, [countAnhDaUploadThanhCong])
+
+    useEffect(() => {
+        if (statusSua === 1) {
+            setShowButtonHuy(true)
+        } else {
+            setShowButtonHuy(false)
+        }
+    }, [statusSua])
+
     return (
         <Modal show={showChiTietBannerReducer} size="lg" animation={false} onHide={() => {
             dispatch({ type: 'CLOSE_CHITIET_BANNER' });
         }}
             onShow={() => {
                 LayBannerTheoID(objectIDDuocChonReducer);
+                setDisableOptions(false);
+                setStatusSua(0);
             }}>
             {
                 setSpinnerChiTietBanner === 8 && (
@@ -134,18 +231,33 @@ export default function ModalChiTietBanner() {
 
                         <Form.Item
                             label="Ảnh đại diện"
-                            name="username"
-                            rules={[{ required: true, message: 'Vui lòng nhập đường link ảnh' }]}>
-                            <Input disabled={!disableOptions} defaultValue={bannerNow.img} onChange={(e) => {
-                                setBannerSua({
-                                    ...bannerSua,
-                                    img: e.target.value
-                                });
-                            }} />
+                            name="anhchinh"
+                            rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
+                            <input type='file'
+                                disabled={!disableOptions}
+                                onChange={(e) => {
+                                    handleChangeIMG(e);
+                                    setCountAnhDaUploadThanhCong(0);
+                                    setFirstTime(false);
+                                }}>
+                            </input>
                         </Form.Item>
 
-                        <Form.Item>
-                            <Image alt="ảnh show" src={bannerNow.img} style={{ width: 300, height: 200 }}></Image>
+                        <Form.Item
+                            name='showanhchinh'
+                            label="Show ảnh đại diện">
+                            {
+                                statusSua === 0 && (
+                                    <img style={{ marginLeft: 20 }} src={bannerNow.img} alt={'ảnh'} width='200' height='150'></img>
+                                )
+                            }
+                            {
+                                statusSua === 1 && (
+                                    imageAsUrl.map((src, i) => {
+                                        return <img key={i} style={{ marginLeft: 20 }} src={src} alt={'ảnh ' + i} width='200' height='150'></img>
+                                    })
+                                )
+                            }
                         </Form.Item>
 
                         <Form.Item
@@ -261,6 +373,17 @@ export default function ModalChiTietBanner() {
                                 }
                             </Button>
                         </Form.Item>
+
+                        {
+                            showButtonHuy === true && (
+                                <Form.Item>
+                                    <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
+                                        setDisableOptions(false);
+                                        setStatusSua(0);
+                                    }}>Hủy</Button>
+                                </Form.Item>
+                            )
+                        }
                     </Form>
                 )
             }

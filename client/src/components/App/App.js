@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.css";
-import { Header, Footer, DealPage, TrangChu, DanhRiengChoBanPage, ShopPage, CategorySanPham, SanPhamDetail, ChuongTrinh, CheckoutCart, CheckoutShipping, CheckoutPayment, BanHang, ResultSuccessPage } from '../allJS';
+import { Header, Footer, DealPage, TrangChu, BanHang_DangKy, DonHang, ErrorPhanQuyen, DanhRiengChoBanPage, ShopPage, CategorySanPham, SanPhamDetail, ChuongTrinh, CheckoutCart, CheckoutShipping, CheckoutPayment, BanHang, ResultSuccessPage } from '../allJS';
 import MainAdmin from '../Admin/MainAdmin';
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
 function App() {
@@ -18,6 +18,9 @@ function App() {
       <Switch>
         <Route exact path="/" component={TrangChu}></Route>
         <Route path="/banhang" component={BanHang}></Route>
+        <Route path="/donhang" component={DonHang}></Route>
+        <Route path="/error/403" component={ErrorPhanQuyen}></Route>
+        <Route path="/dang-ky-gian-hang" component={BanHang_DangKy}></Route>
         <Route path="/shop/:id/:slug" component={ShopPage}></Route>
         <Route path="/deal" component={DealPage}></Route>
         <Route path="/product" component={DanhRiengChoBanPage}></Route>

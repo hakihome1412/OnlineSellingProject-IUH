@@ -2,7 +2,8 @@ import React, { useEffect, Fragment, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
 import { Link } from 'react-router-dom';
-import { Image, Pagination } from 'react-bootstrap';
+import { Image} from 'react-bootstrap';
+import { Pagination } from 'antd';
 
 export default function DanhRiengChoBan() {
     const dispatch = useDispatch();

@@ -5,14 +5,15 @@ import { Steps, Radio } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import ids from 'short-id';
+import { useCookies } from 'react-cookie';
 
 export default function CheckoutPayment() {
     const dispatch = useDispatch();
+    const [cookies,setCookie,removeCookie] = useCookies();
     const { Step } = Steps;
     const [valueRadioGiaoHang, setValueRadioGiaoHang] = useState(0);
     const [valueRadioThanhToan, setValueRadioThanhToan] = useState(0);
     const thongTinDatHang = useSelector(state => state.thongTinDatHang);
-    const history = useHistory();
     const [dataVoucher, setDataVoucher] = useState({
         idShow: '',
         loaiGiamGia: '',
@@ -40,8 +41,7 @@ export default function CheckoutPayment() {
         },
         tongTien: '',
         soLuongSanPham: '',
-        ngayTao: '',
-        isDelete: ''
+        ngayTao: ''
     })
 
     const radioStyle = {
@@ -118,12 +118,13 @@ export default function CheckoutPayment() {
             tongTien: thongTinDonHang.tongTien,
             soLuongSanPham: thongTinDonHang.soLuongSanPham,
             ngayTao: thongTinDonHang.ngayTao,
-            isDelete: thongTinDonHang.isDelete,
+            idUser: cookies.userID,
             dataGioHang: dataGioHang
         });
 
         if (res.data.status === 'success') {
             alert('Đã tạo đơn hàng thành công');
+            localStorage.setItem('dataGioHang','[]');
         } else {
             alert('Đã tạo đơn hàng thất bại');
             e.preventDefault();
@@ -146,8 +147,7 @@ export default function CheckoutPayment() {
             },
             tongTien: tinhThanhTien(tienTamTinh(dataGioHang), dataVoucher, 0),
             soLuongSanPham: tinhTongSanPhamTrongGioHang(dataGioHang),
-            ngayTao: new Date(),
-            isDelete: false
+            ngayTao: new Date()
         })
     }, [dataGioHang])
 
@@ -242,7 +242,6 @@ export default function CheckoutPayment() {
                         <div className='col' style={{ marginTop: 20 }}>
                             <Link to={'payment/success/'+thongTinDonHang.idShow} onClick={(e) => {
                                 TaoDonHang(e, dataGioHang);
-                                console.log(thongTinDonHang);
                             }}>
                                 <Button style={{ width: 300 }} variant="danger" size='lg'>ĐẶT MUA</Button>
                             </Link>

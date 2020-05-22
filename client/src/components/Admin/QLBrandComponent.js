@@ -1,16 +1,19 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Button, Form, Row, Col, Table, Image, Spinner} from 'react-bootstrap';
-import { Pagination } from 'antd';
+import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
+import { Pagination, Select, Input } from 'antd';
 import { ModalThemBrand, ModalChiTietBrand } from '../Modals/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
 
 export default function QLBrandComponent() {
     const dispatch = useDispatch();
+    const { Option } = Select;
     const setSpinnerReducer = useSelector(state => state.setSpinner);
     const reloadDatabaseReducer = useSelector(state => state.reloadDatabase);
     const [dataBrand, setDataBrand] = useState([]);
     const [tongSoTrang, setTongSoTrang] = useState(0);
+    const [dataSearch, setDataSearch] = useState('');
+    const [trangThaiOption, setTrangThaiOption] = useState(0);
 
     async function LayDataBrandTheoTrang(page) {
         dispatch({ type: 'SPINNER_DATABASE' });
@@ -27,6 +30,48 @@ export default function QLBrandComponent() {
         }
     }
 
+    async function LayDataBrand_ChuaKhoa_TheoTrang(page) {
+        dispatch({ type: 'SPINNER_DATABASE' });
+        let resData = await axios.get('hethong/brands-chuakhoa/' + page);
+        //alert(JSON.stringify(resData.data));
+        //setDataCarousel(resData.data.status);
+        if (resData.data.status === 'success') {
+            //alert(JSON.stringify(resData.data.data));
+            setDataBrand(resData.data.data);
+            setTongSoTrang(resData.data.soTrang);
+            dispatch({ type: 'NO_SPINNER_DATABASE' });
+        } else {
+            alert("Lấy data thất bại");
+        }
+    }
+
+    async function LayDataBrand_DaKhoa_TheoTrang(page) {
+        dispatch({ type: 'SPINNER_DATABASE' });
+        let resData = await axios.get('hethong/brands-dakhoa/' + page);
+        //alert(JSON.stringify(resData.data));
+        //setDataCarousel(resData.data.status);
+        if (resData.data.status === 'success') {
+            //alert(JSON.stringify(resData.data.data));
+            setDataBrand(resData.data.data);
+            setTongSoTrang(resData.data.soTrang);
+            dispatch({ type: 'NO_SPINNER_DATABASE' });
+        } else {
+            alert("Lấy data thất bại");
+        }
+    }
+
+    async function LayDanhSachBrandSearch(page) {
+        dispatch({ type: 'SPINNER_DATABASE' });
+        let resData = await axios.get('hethong/brands-search/' + page + '?search=' + dataSearch);
+        if (resData.data.status === 'success') {
+            setDataBrand(resData.data.data);
+            setTongSoTrang(resData.data.soTrang);
+            dispatch({ type: 'NO_SPINNER_DATABASE' });
+        } else {
+            alert("Lấy data thất bại");
+        }
+    }
+
     useEffect(() => {
         LayDataBrandTheoTrang(0);
     }, []);
@@ -35,8 +80,21 @@ export default function QLBrandComponent() {
         if (reloadDatabaseReducer) {
             LayDataBrandTheoTrang(0);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
+            setTrangThaiOption(0);
         }
     }, [reloadDatabaseReducer]);
+
+    useEffect(() => {
+        if (trangThaiOption === 0) {
+            LayDataBrandTheoTrang(0);
+        }
+        if (trangThaiOption === 1) {
+            LayDataBrand_ChuaKhoa_TheoTrang(0);
+        }
+        if (trangThaiOption === 2) {
+            LayDataBrand_DaKhoa_TheoTrang(0);
+        }
+    }, [trangThaiOption])
 
     return (
         <Fragment>
@@ -47,28 +105,31 @@ export default function QLBrandComponent() {
                     <Form>
                         <Row>
                             <Col>
-                                <Form.Control placeholder="ID, tên Brand" />
+                                <Input size='large' placeholder='Tìm theo ID hoặc Tên thương hiệu' onChange={(e) => {
+                                    setDataSearch(e.target.value);
+                                }}></Input>
                             </Col>
                             <Col>
-                                <Form.Control as="select">
-                                    <option>Trạng thái</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </Form.Control>
-                            </Col>
-                            <Col>
-                                <Button variant="primary" type="submit" style={{ width: 200 }}>
+                                <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                    LayDanhSachBrandSearch(0);
+                                }}>
                                     <i className="fa fa-search"></i> &nbsp; Tìm kiếm
                                         </Button>
+                            </Col>
+                            <Col>
+                                <Select style={{ width: 300 }} size='large' value={trangThaiOption} onChange={(value) => {
+                                    setTrangThaiOption(value);
+                                }}>
+                                    <Option value={0}>Tất cả</Option>
+                                    <Option value={1}>Chưa khóa</Option>
+                                    <Option value={2}>Đã khóa</Option>
+                                </Select>
                             </Col>
                             <Col>
                                 <Button variant="primary" style={{ width: 200 }} onClick={() => {
                                     dispatch({ type: 'SHOW_THEM_BRAND' });
                                 }}>
-                                    Thêm mới
+                                    Thêm mới +
                                 </Button>
                             </Col>
                         </Row>
@@ -111,7 +172,15 @@ export default function QLBrandComponent() {
                     }
                     <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
                         dispatch({ type: 'SPINNER_DATABASE' });
-                        LayDataBrandTheoTrang(page - 1);
+                        if (trangThaiOption === 0) {
+                            LayDataBrandTheoTrang(page - 1);
+                        }
+                        if (trangThaiOption === 1) {
+                            LayDataBrand_ChuaKhoa_TheoTrang(page - 1);
+                        }
+                        if (trangThaiOption === 2) {
+                            LayDataBrand_DaKhoa_TheoTrang(page - 1);
+                        }
                     }}>
                     </Pagination>
                 </div>

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { axios } from '../../config/constant';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Carousel, Pagination, Image } from 'react-bootstrap';
+import { Carousel, Image } from 'react-bootstrap';
+import { Pagination } from 'antd';
 
 export default function ShopPage(props) {
     const shopID = props.match.params.id;
@@ -105,7 +106,7 @@ export default function ShopPage(props) {
     useEffect(() => {
         LayShopTheoID(shopID);
         LayTatCaSanPhamTheoIDShop(shopID,0);
-        dispatch({ type: 'SHOW_HEADER' })
+        dispatch({type:'SHOW_HEADER'});
     }, [])
 
     return (
@@ -134,15 +135,18 @@ export default function ShopPage(props) {
                             dataShop.img.banner1 !== '' && dataShop.img.banner2 !== '' && (
                                 <div className='row'>
                                     <div className='col-sm-6'>
-                                        <img className="d-block w-100" src={dataShop.img.banner1} height='250' />
+                                        <img className="d-block w-100" src={dataShop.img.banner1} height='180' />
                                     </div>
                                     <div className='col-sm-6'>
-                                        <img className="d-block w-100" src={dataShop.img.banner2} height='250' />
+                                        <img className="d-block w-100" src={dataShop.img.banner2} height='180' />
                                     </div>
                                 </div>
                             )
                         }
+                        <br></br>
+                        <br></br>  
                         <div className="row maincontent">
+                            <br></br>
                             <h3>DANH SÁCH SẢN PHẨM</h3>
                             <div className="row showitems-maincontent">
                                 {
