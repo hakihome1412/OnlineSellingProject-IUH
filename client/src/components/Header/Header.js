@@ -31,18 +31,15 @@ function Header() {
 
     async function LayDataUserTheoIDUser(userID) {
         let resData = await axios.get('hethong/users-item?idUser=' + userID);
-        //alert(JSON.stringify(resData.data));
-        //setDataCarousel(resData.data.status);
         if (resData.data.status === 'success') {
             if (resData.data.data.vaiTro === 2) {
                 history.push('/dang-ky-gian-hang');
-                // window.location.pathname = '/banhang/dangky';
                 console.log(resData.data.data.thongTinShop.idShop)
             } else {
                 if (resData.data.data.vaiTro === 1) {
                     if (resData.data.data.thongTinShop.isLock === false) {
                         history.push('/banhang');
-                    }else{
+                    } else {
                         history.push('/error/403');
                     }
                 }
@@ -103,7 +100,7 @@ function Header() {
                         {
                             isAdminReducer === false && (
                                 <Nav.Link href="/checkout/cart">
-                                    <Badge count={tinhTongSanPhamTrongGioHang(dataGioHang)} style={{ width: 4, height: 16, paddingRight: 20, paddingTop: 3, alignSelf: 'center' }}>
+                                    <Badge count={cookies.token === undefined ? 0 : tinhTongSanPhamTrongGioHang(dataGioHang)} style={{ width: 4, height: 16, paddingRight: 20, paddingTop: 3, alignSelf: 'center' }}>
                                         <i className="fa fa-shopping-cart" style={{ fontSize: 25 }}></i>
                                     </Badge>
                                 </Nav.Link>

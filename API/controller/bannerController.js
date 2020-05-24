@@ -1,8 +1,9 @@
-const { DbUrl, DbName,soItemMoiPageAdmin } = require('../config/constant');
+const { DbUrl, DbName, soItemMoiPageAdmin } = require('../config/constant');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const assert = require('assert');
 const ids = require('short-id');
+const { BoDau } = require('../functionHoTro/index');
 
 module.exports = {
     LayDanhSachBannerAll: async function (req, res) {
@@ -39,6 +40,106 @@ module.exports = {
         });
     },
 
+    LayDanhSachBanner_ChuaKhoa_TheoTrang: async function (req, res) {
+        var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        const page = req.params.page;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colBanner = db.collection('BANNERS');
+        let allBanner = await colBanner.find({ isDelete: false, isLock: false }).toArray();
+        let soTrang = Math.ceil(parseInt(allBanner.length) / SoItemMoiPageAdmin);
+        let arrBanner = await colBanner.find({ isDelete: false, isLock: false }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            data: arrBanner,
+            soTrang: soTrang
+        });
+    },
+
+    LayDanhSachBanner_DaKhoa_TheoTrang: async function (req, res) {
+        var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        const page = req.params.page;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colBanner = db.collection('BANNERS');
+        let allBanner = await colBanner.find({ isDelete: false, isLock: true }).toArray();
+        let soTrang = Math.ceil(parseInt(allBanner.length) / SoItemMoiPageAdmin);
+        let arrBanner = await colBanner.find({ isDelete: false, isLock: true }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            data: arrBanner,
+            soTrang: soTrang
+        });
+    },
+
+    LayDanhSachBanner_ViTriTrungTam_TheoTrang: async function (req, res) {
+        var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        const page = req.params.page;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colBanner = db.collection('BANNERS');
+        let allBanner = await colBanner.find({ isDelete: false, 'positionShow.center': true }).toArray();
+        let soTrang = Math.ceil(parseInt(allBanner.length) / SoItemMoiPageAdmin);
+        let arrBanner = await colBanner.find({ isDelete: false, 'positionShow.center': true }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            data: arrBanner,
+            soTrang: soTrang
+        });
+    },
+
+    LayDanhSachBanner_ViTriBenPhai_TheoTrang: async function (req, res) {
+        var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        const page = req.params.page;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colBanner = db.collection('BANNERS');
+        let allBanner = await colBanner.find({ isDelete: false, 'positionShow.right': true }).toArray();
+        let soTrang = Math.ceil(parseInt(allBanner.length) / SoItemMoiPageAdmin);
+        let arrBanner = await colBanner.find({ isDelete: false, 'positionShow.right': true }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            data: arrBanner,
+            soTrang: soTrang
+        });
+    },
+
+    LayDanhSachBanner_ViTriBenDuoi_TheoTrang: async function (req, res) {
+        var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        const page = req.params.page;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colBanner = db.collection('BANNERS');
+        let allBanner = await colBanner.find({ isDelete: false, 'positionShow.bottom': true }).toArray();
+        let soTrang = Math.ceil(parseInt(allBanner.length) / SoItemMoiPageAdmin);
+        let arrBanner = await colBanner.find({ isDelete: false, 'positionShow.bottom': true }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            data: arrBanner,
+            soTrang: soTrang
+        });
+    },
+
     LayBannerTheoID: async function (req, res) {
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
         let bannerID = req.query.id;
@@ -62,11 +163,64 @@ module.exports = {
         }
     },
 
+    LayDanhSachBanner_Search_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const search = BoDau(req.query.search);
+
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colBanner = db.collection('BANNERS');
+        let allBanner = await colBanner.find({
+            isDelete: false, $or: [
+                {
+                    idShow: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                },
+                {
+                    lowerTen: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                }
+            ]
+        }).toArray();
+
+        let arrBanner = await colBanner.find({
+            isDelete: false, $or: [
+                {
+                    idShow: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                },
+                {
+                    lowerTen: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                }
+            ]
+        }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
+        let soTrang = Math.ceil(parseInt(allBanner.length) / soItemMoiPageAdmin);
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrBanner,
+            soTrang: soTrang
+        });
+    },
+
     ThemBanner: async function (req, res) {
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
         let bannerThem = {
             idShow: 'BANNER-' + ids.generate().toUpperCase(),
             ten: req.body.ten,
+            lowerTen: BoDau(req.body.ten),
             img: req.body.img,
             ngayTao: new Date(req.body.ngayTao),
             positionShow: {
@@ -74,7 +228,7 @@ module.exports = {
                 right: req.body.positionShow.right,
                 bottom: req.body.positionShow.bottom
             },
-            isLock: req.body.isLock,
+            isLock: true,
             isDelete: req.body.isDelete
         }
 

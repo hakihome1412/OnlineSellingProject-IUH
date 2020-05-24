@@ -35,6 +35,12 @@ export default function CheckoutCartt() {
         return parseInt(tien);
     }
 
+    function tienGiamVoucherTheoPhanTram(giaTriGiam, tongTien) {
+        var tien = 0;
+        tien = tongTien * giaTriGiam / 100;
+        return parseInt(tien);
+    }
+
     function tinhThanhTien(tienTamTinh, dataVoucher) {
         var tienGiam = 0;
         if (dataVoucher === '') {
@@ -55,9 +61,9 @@ export default function CheckoutCartt() {
 
         if (res.data.status === 'success') {
             setDataVoucher(res.data.data);
-            alert('Đã kích hoạt Voucher');
+            alert(res.data.message);
         } else {
-            alert('Voucher này không đúng cú pháp hoặc không tồn tại , vui lòng kiểm tra lại');
+            alert(res.data.message);
             setDataVoucher('');
         }
     }
@@ -67,8 +73,11 @@ export default function CheckoutCartt() {
     }, [statusThayDoiGioHang])
 
     useEffect(() => {
-        localStorage.setItem('idVoucher','');
-        dispatch({type:'SHOW_HEADER'});
+        localStorage.setItem('idVoucher', '');
+        dispatch({ type: 'SHOW_HEADER' });
+        if (cookie.token === undefined) {
+            setDataGioHang([]);
+        }
     }, []);
 
     useEffect(() => {
@@ -83,7 +92,7 @@ export default function CheckoutCartt() {
 
     return (
         <div className="container" style={{ marginTop: '100px', backgroundColor: '#F8F9FA', height: 'auto', padding: 20 }}>
-            <h4>GIỎ HÀNG ({tinhTongSanPhamTrongGioHang(dataGioHang)} sản phẩm)</h4>
+            <h4>GIỎ HÀNG ({cookie.token === undefined ? 0 : tinhTongSanPhamTrongGioHang(dataGioHang)} sản phẩm)</h4>
             <div className='row' style={{ marginLeft: 5 }}>
                 <div className='col-sm-8'>
                     {
@@ -166,9 +175,11 @@ export default function CheckoutCartt() {
                                     </div>
                                     <div className='col-sm-6'>
                                         <br></br>
-                                        <span style={{ float: 'right', fontSize: 16, fontWeight: 'bold' }}>{
-                                            dataVoucher.loaiGiamGia === 0 ? '-' + format_curency(dataVoucher.giaTriGiam.toString()) + 'đ' : '-' + dataVoucher.giaTriGiam + '%'
-                                        }</span>
+                                        <span style={{ float: 'right', fontSize: 16, fontWeight: 'bold' }}>
+                                            {
+                                                dataVoucher.loaiGiamGia === 0 ? '-' + format_curency(dataVoucher.giaTriGiam.toString()) + 'đ' : '-' + dataVoucher.giaTriGiam + '% (' + format_curency(tienGiamVoucherTheoPhanTram(dataVoucher.giaTriGiam, tienTamTinh(dataGioHang)).toString()) + 'đ)'
+                                            }
+                                        </span>
                                     </div>
                                 </div>
                             )
@@ -196,9 +207,14 @@ export default function CheckoutCartt() {
                         </div>
                     </div>
                     <Link to='shipping' onClick={(e) => {
-                        if(dataGioHang.length === 0){
+                        if (dataGioHang.length === 0) {
                             e.preventDefault();
                             alert('Chưa có sản phẩm nào trong giỏ hàng');
+                        } else {
+                            if (cookie.token === undefined) {
+                                e.preventDefault();
+                                dispatch({ type: 'SHOW_MODAL_DANGNHAP_DANGKY' })
+                            }
                         }
                     }}>
                         <Button style={{ width: '100%', height: 50, marginTop: 20 }}>Tiến hành đặt hàng</Button>

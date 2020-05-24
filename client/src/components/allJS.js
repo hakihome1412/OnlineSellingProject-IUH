@@ -43,6 +43,7 @@ import DanhRiengChoBanPage from '../components/DanhRiengChoBanPage/DanhRiengChoB
 import ShopPage from '../components/ShopPage/ShopPage';
 import ErrorPhanQuyen from '../components/ErrorPage/ErrorPhanQuyen';
 import DonHang from '../components/DonHangPage/DonHang';
+import DonHangDetail from '../components/DonHangDetailPage/DonHangDetail';
 
 export{
     TrangChu,
@@ -89,5 +90,6 @@ export{
     ShopPage,
     QLDonHangComponent,
     BanHang_DonHangComponent,
-    DonHang
+    DonHang,
+    DonHangDetail
 };

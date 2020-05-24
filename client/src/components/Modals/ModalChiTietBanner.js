@@ -263,7 +263,7 @@ export default function ModalChiTietBanner() {
                         <Form.Item
                             label="Ngày tạo"
                             name="ngaytao">
-                            <Input disabled={true} defaultValue={bannerNow.ngayTao.toString()} />
+                            <Input disabled={true} defaultValue={new Date(bannerNow.ngayTao).toString()} />
                         </Form.Item>
 
                         <Form.Item

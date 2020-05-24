@@ -259,7 +259,7 @@ export default function ModalChiTietBrand() {
                         <Form.Item
                             label="Ngày tạo"
                             name="ngaytao">
-                            <Input disabled={true} defaultValue={brandNow.ngayTao.toString()} />
+                            <Input disabled={true} defaultValue={new Date(brandNow.ngayTao).toString()} />
                         </Form.Item>
 
                         <Form.Item

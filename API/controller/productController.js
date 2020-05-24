@@ -27,6 +27,58 @@ module.exports = {
         });
     },
 
+    LayDanhSachProduct_Search_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const search = BoDau(req.query.search);
+
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let allProduct = await colProduct.find({
+            isDelete: false, $or: [
+                {
+                    idShow: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                },
+                {
+                    lowerTen: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                }
+            ]
+        }).toArray();
+
+        let arrProduct = await colProduct.find({
+            isDelete: false, $or: [
+                {
+                    idShow: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                },
+                {
+                    lowerTen: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                }
+            ]
+        }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
+        let soTrang = Math.ceil(parseInt(allProduct.length) / soItemMoiPageAdmin);
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrProduct,
+            soTrang: soTrang
+        });
+    },
+
     LayDanhSachProductTheoTrang_ShowPage: async function (req, res) {
         var SoItemMoiPage = parseInt(soItemMoiPage);
         const page = req.params.page;
@@ -43,6 +95,7 @@ module.exports = {
 
         res.status(200).json({
             status: 'success',
+            status2: 'success2',
             data: shuffle(arrProduct),
             soTrang: soTrang
         });
@@ -179,8 +232,6 @@ module.exports = {
         let arrProduct = await colProduct.find({ isDelete: false, idShop: shopID }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
         let soTrang = Math.ceil(parseInt(allProduct.length) / soItemMoiPageAdmin);
         client.close();
-        console.log(arrProduct + '-' + soTrang);
-
         res.status(200).json({
             status: 'success',
             data: arrProduct,
@@ -211,17 +262,35 @@ module.exports = {
 
     LayTatCaSanPhamTheoIDShop_Search_ChuShop_TheoTrang: async function (req, res) {
         const page = req.params.page;
-        const shopID = req.query.idShop;
+        const shopID = req.query.shopID;
         const search = BoDau(req.query.search);
 
         console.log(search);
+        console.log(page);
+        console.log(shopID);
 
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
         await client.connect();
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colProduct = db.collection('PRODUCTS');
-        let allProduct = await colProduct.find({ isDelete: false, idShop: shopID }).toArray();
+        let allProduct = await colProduct.find({
+            isDelete: false, idShop: shopID, $or: [
+                {
+                    idShow: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                },
+                {
+                    lowerTen: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                }
+            ]
+        }).toArray();
+
         let arrProduct = await colProduct.find({
             isDelete: false, idShop: shopID, $or: [
                 {
@@ -231,16 +300,17 @@ module.exports = {
                     }
                 },
                 {
-                    ten: {
+                    lowerTen: {
                         '$regex': search,
                         '$options': '$i'
                     }
-                },
+                }
             ]
         }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
         let soTrang = Math.ceil(parseInt(allProduct.length) / soItemMoiPageAdmin);
         client.close();
-        console.log(arrProduct + '-' + soTrang);
+
+        console.log(arrProduct);
 
         res.status(200).json({
             status: 'success',
@@ -257,11 +327,10 @@ module.exports = {
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colProduct = db.collection('PRODUCTS');
-        let allProduct = await colProduct.find({ isDelete: false, idShop: shopID }).toArray();
+        let allProduct = await colProduct.find({ isDelete: false, idShop: shopID, isAccept: false }).toArray();
         let arrProduct = await colProduct.find({ isDelete: false, idShop: shopID, isAccept: false }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
         let soTrang = Math.ceil(parseInt(allProduct.length) / soItemMoiPageAdmin);
         client.close();
-        console.log(arrProduct + '-' + soTrang);
 
         res.status(200).json({
             status: 'success',
@@ -278,7 +347,7 @@ module.exports = {
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colProduct = db.collection('PRODUCTS');
-        let allProduct = await colProduct.find({ isDelete: false, idShop: shopID }).toArray();
+        let allProduct = await colProduct.find({ isDelete: false, idShop: shopID, isAccept: true }).toArray();
         let arrProduct = await colProduct.find({ isDelete: false, idShop: shopID, isAccept: true }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
         let soTrang = Math.ceil(parseInt(allProduct.length) / soItemMoiPageAdmin);
         client.close();
@@ -299,8 +368,109 @@ module.exports = {
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colProduct = db.collection('PRODUCTS');
-        let allProduct = await colProduct.find({ isDelete: false, idShop: shopID }).toArray();
+        let allProduct = await colProduct.find({ isDelete: false, idShop: shopID, isLock: true }).toArray();
         let arrProduct = await colProduct.find({ isDelete: false, idShop: shopID, isLock: true }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
+        let soTrang = Math.ceil(parseInt(allProduct.length) / soItemMoiPageAdmin);
+        client.close();
+        console.log(arrProduct + '-' + soTrang);
+
+        res.status(200).json({
+            status: 'success',
+            data: arrProduct,
+            soTrang: soTrang
+        });
+    },
+
+    LayTatCaSanPhamTheoIDShop_ChuaKhoa_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const shopID = req.query.idShop;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let allProduct = await colProduct.find({ isDelete: false, idShop: shopID, isLock: false }).toArray();
+        let arrProduct = await colProduct.find({ isDelete: false, idShop: shopID, isLock: false }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
+        let soTrang = Math.ceil(parseInt(allProduct.length) / soItemMoiPageAdmin);
+        client.close();
+        console.log(arrProduct + '-' + soTrang);
+
+        res.status(200).json({
+            status: 'success',
+            data: arrProduct,
+            soTrang: soTrang
+        });
+    },
+
+    LayTatCaSanPham_ChuaDuyet_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let allProduct = await colProduct.find({ isDelete: false, isAccept: false }).toArray();
+        let arrProduct = await colProduct.find({ isDelete: false, isAccept: false }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
+        let soTrang = Math.ceil(parseInt(allProduct.length) / soItemMoiPageAdmin);
+        client.close();
+        console.log(arrProduct + '-' + soTrang);
+
+        res.status(200).json({
+            status: 'success',
+            data: arrProduct,
+            soTrang: soTrang
+        });
+    },
+
+    LayTatCaSanPham_DaDuyet_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let allProduct = await colProduct.find({ isDelete: false, isAccept: true }).toArray();
+        let arrProduct = await colProduct.find({ isDelete: false, isAccept: true }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
+        let soTrang = Math.ceil(parseInt(allProduct.length) / soItemMoiPageAdmin);
+        client.close();
+        console.log(arrProduct + '-' + soTrang);
+
+        res.status(200).json({
+            status: 'success',
+            data: arrProduct,
+            soTrang: soTrang
+        });
+    },
+
+    LayTatCaSanPham_DaKhoa_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let allProduct = await colProduct.find({ isDelete: false, isLock: true }).toArray();
+        let arrProduct = await colProduct.find({ isDelete: false, isLock: true }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
+        let soTrang = Math.ceil(parseInt(allProduct.length) / soItemMoiPageAdmin);
+        client.close();
+        console.log(arrProduct + '-' + soTrang);
+
+        res.status(200).json({
+            status: 'success',
+            data: arrProduct,
+            soTrang: soTrang
+        });
+    },
+
+    LayTatCaSanPham_ChuaKhoa_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let allProduct = await colProduct.find({ isDelete: false, isLock: false }).toArray();
+        let arrProduct = await colProduct.find({ isDelete: false, isLock: false }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
         let soTrang = Math.ceil(parseInt(allProduct.length) / soItemMoiPageAdmin);
         client.close();
         console.log(arrProduct + '-' + soTrang);
@@ -317,6 +487,7 @@ module.exports = {
         let productThem = {
             idShow: 'PRODU-' + ids.generate().toUpperCase(),
             ten: req.body.ten,
+            lowerTen: BoDau(req.body.ten),
             img: {
                 chinh: req.body.img.chinh,
                 phu: req.body.img.phu,
@@ -380,13 +551,13 @@ module.exports = {
         var countSize2 = 0;
 
         for (let index = 0; index < dataPhanLoaiMauSac.length; index++) {
-            if (dataPhanLoaiMauSac[index] !== '') {
+            if (dataPhanLoaiMauSac[index].length > 0) {
                 countMauSac2 += 1;
             }
         }
 
         for (let index = 0; index < dataPhanLoaiSize.length; index++) {
-            if (dataPhanLoaiMauSac[index] !== '') {
+            if (dataPhanLoaiSize[index].length > 0) {
                 countSize2 += 1;
             }
         }
@@ -400,7 +571,7 @@ module.exports = {
         if (result1.insertedCount > 0) {
             console.log('Thêm sản phẩm thành công');
             for (let index = 0; index < dataPhanLoaiMauSac.length; index++) {
-                if (dataPhanLoaiMauSac[index] !== '') {
+                if (dataPhanLoaiMauSac[index].length > 0) {
                     await colProductClassify.insertOne({
                         'nhomPhanLoai': 0, 'tenPhanLoai': dataPhanLoaiMauSac[index], 'idProduct': productThem.idShow
                     })
@@ -409,7 +580,7 @@ module.exports = {
             }
 
             for (let index = 0; index < dataPhanLoaiSize.length; index++) {
-                if (dataPhanLoaiMauSac[index] !== '') {
+                if (dataPhanLoaiSize[index].length > 0) {
                     await colProductClassify.insertOne({
                         'nhomPhanLoai': 1, 'tenPhanLoai': dataPhanLoaiSize[index], 'idProduct': productThem.idShow
                     })
@@ -441,12 +612,30 @@ module.exports = {
         await client.connect();
         console.log("Connected correctly to server");
         const db = client.db(DbName);
-        const colBrand = db.collection('PRODUCTS');
-        let result = await colBrand.updateOne({ _id: ObjectId(productID) }, { $set: { isDelete: true } });
+        const colProduct = db.collection('PRODUCTS');
+        let result = await colProduct.updateOne({ _id: ObjectId(productID) }, { $set: { isDelete: true } });
         client.close();
         res.status(200).json({
             status: 'success',
             message: 'Xóa thành công !'
+        });
+
+    },
+
+    DuyetSanPham: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        let productID = req.body.id;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colBrand = db.collection('PRODUCTS');
+        let result = await colBrand.updateOne({ _id: ObjectId(productID) }, { $set: { isAccept: true } });
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            message: 'Duyệt sản phẩm thành công !'
         });
 
     },
@@ -509,6 +698,77 @@ module.exports = {
                     idBrand: productSua.idBrand,
                     idCategory: productSua.idCategory,
                     isLock: productSua.isLock
+                }
+            });
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Sửa thành công'
+        });
+
+    },
+
+    SuaProduct_Admin: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        let productSua = {
+            _id: ObjectId(req.body._id),
+            ten: req.body.ten,
+            img: {
+                chinh: req.body.img.chinh,
+                phu: req.body.img.phu,
+                moTaChiTiet: req.body.img.moTaChiTiet
+            },
+            gia: req.body.gia,
+            noiSanXuat: req.body.noiSanXuat,
+            moTa: req.body.moTa,
+            moTaNganGon: req.body.moTaNganGon,
+            soSao: req.body.soSao,
+            giaTriGiamGia: req.body.giaTriGiamGia,
+            soLuong: req.body.soLuong,
+            thongTinBaoHanh: {
+                baoHanh: req.body.thongTinBaoHanh.baoHanh,
+                loaiBaoHanh: req.body.thongTinBaoHanh.loaiBaoHanh,
+                thoiGianBaoHanh: req.body.thongTinBaoHanh.thoiGianBaoHanh,
+                donViBaoHanh: req.body.thongTinBaoHanh.donViBaoHanh
+            },
+            idBrand: req.body.idBrand,
+            idCategory: req.body.idCategory,
+            isLock: req.body.isLock,
+            isAccept: req.body.isAccept
+        }
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colBrand = db.collection('PRODUCTS');
+        let result = await colBrand.updateOne({ _id: ObjectId(productSua._id) },
+            {
+                $set:
+                {
+                    ten: productSua.ten,
+                    img: {
+                        chinh: productSua.img.chinh,
+                        phu: productSua.img.phu,
+                        moTaChiTiet: productSua.img.moTaChiTiet
+                    },
+                    gia: productSua.gia,
+                    noiSanXuat: productSua.noiSanXuat,
+                    moTa: productSua.moTa,
+                    moTaNganGon: productSua.moTaNganGon,
+                    soSao: productSua.soSao,
+                    giaTriGiamGia: productSua.giaTriGiamGia,
+                    soLuong: productSua.soLuong,
+                    thongTinBaoHanh: {
+                        baoHanh: productSua.thongTinBaoHanh.baoHanh,
+                        loaiBaoHanh: productSua.thongTinBaoHanh.loaiBaoHanh,
+                        thoiGianBaoHanh: productSua.thongTinBaoHanh.thoiGianBaoHanh,
+                        donViBaoHanh: productSua.thongTinBaoHanh.donViBaoHanh
+                    },
+                    idBrand: productSua.idBrand,
+                    idCategory: productSua.idCategory,
+                    isLock: productSua.isLock,
+                    isAccept: productSua.isAccept
                 }
             });
         client.close();

@@ -100,29 +100,22 @@ export default function BanHang() {
                     <Menu mode="inline" theme="dark" style={{ width: 310, height: 600 }}>
                         <Menu.Item key="0" onClick={() => {
                             history.push(`${match.url}/trang-chu`);
-                            dispatch({ type: 'MENU_TRANGCHU' });
                         }}>Trang chủ</Menu.Item>
                         <Menu.Item key="1" onClick={() => {
                             history.push(`${match.url}/don-hang`);
-                            dispatch({ type: 'MENU_DONHANG' });
                         }}>Đơn hàng</Menu.Item>
                         <SubMenu key="sub1" title="Sản phẩm">
                             <Menu.Item key="2" onClick={() => {
                                 history.push(`${match.url}/danh-sach-san-pham`);
-                                dispatch({ type: 'MENU_DANHSACHSANPHAM' });
                             }}>Danh sách sản phẩm</Menu.Item>
                             <Menu.Item key="3" onClick={() => {
                                 history.push(`${match.url}/tao-moi-san-pham`);
-                                dispatch({ type: 'MENU_TAOMOISANPHAM' });
                             }}>Tạo mới/ Đăng mới sản phẩm</Menu.Item>
                             <Menu.Item key="4" onClick={() => {
-                                dispatch({ type: 'MENU_BAOCAOTONKHO' });
                             }}>Báo cáo tồn kho</Menu.Item>
                         </SubMenu>
                         <SubMenu key="sub2" title="Quảng cáo">
                             <Menu.Item key="5">Danh sách giảm giá</Menu.Item>
-                            <Menu.Item key="6">Danh sách coupon</Menu.Item>
-                            <Menu.Item key="7">Chương trình khuyến mãi</Menu.Item>
                         </SubMenu>
                     </Menu>
                 </div>

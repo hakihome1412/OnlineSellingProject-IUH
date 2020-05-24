@@ -141,7 +141,6 @@ export default function QLCategoryComponent() {
                             <tr>
                                 <th>ID</th>
                                 <th>Tên</th>
-                                <th>Hình ảnh</th>
                                 <th>Icon</th>
                                 <th>Trạng thái khóa</th>
                             </tr>
@@ -155,8 +154,7 @@ export default function QLCategoryComponent() {
                                             dispatch({ type: 'OBJECT_ID_NOW', id: item._id });
                                         }}>
                                             <td>{item.idShow}</td>
-                                            <td>{item.ten}</td>
-                                            <td><Image src={item.img} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>
+                                            <td>{item.ten}</td>                                   
                                             <td><i className={item.icon}></i></td>
                                             <td>{item.isLock === false ? "Không" : "Có"}</td>
                                         </tr>

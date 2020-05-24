@@ -74,7 +74,6 @@ function TrangChu() {
         <div className="container" style={{ marginTop: '100px' }}>
             <MarkettingComponent dataBanner={dataBanner} dataCategory={dataCategory} dataCarousel={dataCarousel}></MarkettingComponent>
             <DealComponent dataProductSale={dataProductSale}></DealComponent>
-            <HotIndustryComponent dataCategory={dataCategory}></HotIndustryComponent>
             <ForCustomerComponent dataProduct={dataProduct}></ForCustomerComponent>
         </div>
     );

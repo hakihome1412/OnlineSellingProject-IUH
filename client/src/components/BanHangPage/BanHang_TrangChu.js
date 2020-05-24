@@ -7,7 +7,7 @@ import { useCookies } from 'react-cookie';
 
 export default function BanHang_TrangChu(props) {
     const { TabPane } = Tabs;
-    const [cookies,setCookie] = useCookies();
+    const [cookies, setCookie] = useCookies();
     const userID = cookies.userID;
     const [dataUser, setDataUser] = useState({
         _id: '',
@@ -32,6 +32,12 @@ export default function BanHang_TrangChu(props) {
         carousel: [],
         banner1: '',
         banner2: ''
+    });
+
+    const [dataThayDoiThongTin, setDataThayDoiThongTin] = useState({
+        ten: '',
+        diaChi: '',
+        moTa: ''
     });
     const [firstTime1, setFirstTime1] = useState(true);
     const [firstTime2, setFirstTime2] = useState(true);
@@ -207,8 +213,30 @@ export default function BanHang_TrangChu(props) {
                     }
                 }
             });
+
+            setDataThayDoiThongTin({
+                ten: resData.data.data.thongTinShop.ten,
+                moTa: resData.data.data.thongTinShop.moTa,
+                diaChi: resData.data.data.thongTinShop.diaChi
+            })
         } else {
             alert("Lấy data thất bại");
+        }
+    }
+
+    async function CapNhatThongTinGianHang() {
+        let res = await axios.put('hethong/users-sua-thongtinshop', {
+            _id: dataUser._id,
+            ten: dataThayDoiThongTin.ten,
+            moTa: dataThayDoiThongTin.moTa,
+            diaChi: dataThayDoiThongTin.diaChi
+        });
+
+        if (res.data.status === 'success') {
+            alert('Cập nhật thông tin gian hàng thành công');
+            window.location.reload();
+        } else {
+            alert('Cập nhật thông tin gian hàng thất bại');
         }
     }
 
@@ -450,15 +478,34 @@ export default function BanHang_TrangChu(props) {
                             <br></br>
                             <h6>Mã gian hàng: {dataUser.thongTinShop.idShop}</h6>
                             <br></br>
-                            <span><h6>Tên gian hàng: <input type='text' defaultValue={dataUser.thongTinShop.ten} style={{ width: 200 }}></input></h6></span>
+                            <span><h6>Tên gian hàng: <input type='text' defaultValue={dataUser.thongTinShop.ten} style={{ width: 200 }} onChange={(e) => {
+                                setDataThayDoiThongTin({
+                                    ...dataThayDoiThongTin,
+                                    ten: e.target.value
+                                })
+                            }}></input></h6></span>
                             <br></br>
-                            <span><h6>Địa chỉ: </h6><textarea rows="4" cols="50" defaultValue={dataUser.thongTinShop.diaChi} ></textarea></span>
+                            <span><h6>Địa chỉ: </h6><textarea rows="4" cols="50" defaultValue={dataUser.thongTinShop.diaChi} onChange={(e) => {
+                                setDataThayDoiThongTin({
+                                    ...dataThayDoiThongTin,
+                                    diaChi: e.target.value
+                                })
+                            }}></textarea></span>
                             <br></br>
-                            <span><h6>Mô tả: </h6><textarea rows="4" cols="50" defaultValue={dataUser.thongTinShop.moTa}></textarea></span>
+                            <span><h6>Mô tả: </h6><textarea rows="4" cols="50" defaultValue={dataUser.thongTinShop.moTa} onChange={(e) => {
+                                setDataThayDoiThongTin({
+                                    ...dataThayDoiThongTin,
+                                    moTa: e.target.value
+                                })
+                            }}></textarea></span>
                             <br></br>
                             <br></br>
                             <h6>URL:</h6>
                             <p>dasdasdasdas</p>
+                            <br></br>
+                            <Button style={{width:150}} onClick={() => {
+                                CapNhatThongTinGianHang();
+                            }}>Lưu</Button>
                         </div>
 
                         <div className='col-sm-4'>

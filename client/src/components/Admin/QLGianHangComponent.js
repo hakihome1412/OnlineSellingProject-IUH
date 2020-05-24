@@ -174,7 +174,7 @@ export default function QLGianHangComponent() {
                                             <td><Image src={item.thongTinShop.logoShop} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>
                                             <td>{item.thongTinShop.diaChi}</td>
                                             <td>{item.thongTinShop.moTa}</td>
-                                            <td>{item.thongTinShop.ngayTao}</td>
+                                            <td>{new Date(item.thongTinShop.ngayTao).toString()}</td>
                                             <td>{item.thongTinShop.isLock === false ?
                                                 (
                                                     <Fragment>

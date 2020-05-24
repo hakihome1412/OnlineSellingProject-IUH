@@ -11,6 +11,7 @@ export default function BanHang_DonHang() {
     const [cookies, setCookie] = useCookies();
     const [shopID, setShopID] = useState(cookies.shopID);
     const [controlModalShow, setControlModalShow] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
     const dispatch = useDispatch();
     const { TabPane } = Tabs;
     const { Option } = Select;
@@ -148,10 +149,23 @@ export default function BanHang_DonHang() {
         });
 
         if (result.data.status === 'success') {
-            alert('Sửa trạng thái thành công');
-            dispatch({ type: 'RELOAD_DATABASE' });
+            CapNhatLichSu(id, 1);
         } else {
             alert('Sửa trạng thái thất bại')
+        }
+    }
+
+    async function CapNhatLichSu(idOrderDetail, trangThai) {
+        let result = await axios.put('hethong/lichsu-capnhat', {
+            idOrderDetail: idOrderDetail,
+            trangThai: trangThai
+        });
+
+        if (result.data.status === 'success') {
+            alert('Đã cập nhật trạng thái thành công');
+            dispatch({ type: 'RELOAD_DATABASE' });
+        } else {
+            alert('Cập nhật trạng thái thất bại')
         }
     }
 
@@ -190,7 +204,27 @@ export default function BanHang_DonHang() {
 
     useEffect(() => {
         if (reloadDatabaseReducer) {
-            LayDataChiTietDonHang_TheoIDShop_TheoTrang(0, shopID);
+            if (trangThaiOption === 0) {
+                LayDataChiTietDonHang_TheoIDShop_TheoTrang(currentPage - 1, shopID);
+            }
+            if (trangThaiOption === 1) {
+                LayDataChiTietDonHang_TheoIDShop_ChoDuyet_TheoTrang(currentPage - 1, shopID);
+            }
+            if (trangThaiOption === 2) {
+                LayDataChiTietDonHang_TheoIDShop_DaDuyet_TheoTrang(currentPage - 1, shopID);
+            }
+            if (trangThaiOption === 3) {
+                LayDataChiTietDonHang_TheoIDShop_DangVanChuyen_TheoTrang(currentPage - 1, shopID);
+            }
+            if (trangThaiOption === 4) {
+                LayDataChiTietDonHang_TheoIDShop_KhachNhanHang_TheoTrang(currentPage - 1, shopID);
+            }
+            if (trangThaiOption === 5) {
+                LayDataChiTietDonHang_TheoIDShop_HoanThanh_TheoTrang(currentPage - 1, shopID);
+            }
+            if (trangThaiOption === 6) {
+                LayDataChiTietDonHang_TheoIDShop_Huy_TheoTrang(currentPage - 1, shopID);
+            }
             dispatch({ type: 'NO_RELOAD_DATABASE' });
             setTrangThaiOption(0);
         }
@@ -342,7 +376,8 @@ export default function BanHang_DonHang() {
                                     </Spinner>
                                 )
                             }
-                            <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
+                            <Pagination defaultPageSize={1} current={currentPage} total={tongSoTrang} onChange={(page) => {
+                                setCurrentPage(page);
                                 dispatch({ type: 'SPINNER_DATABASE' });
                                 if (trangThaiOption === 0) {
                                     LayDataChiTietDonHang_TheoIDShop_TheoTrang(page - 1, shopID);

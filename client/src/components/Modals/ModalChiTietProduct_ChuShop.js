@@ -9,6 +9,7 @@ export default function ModalChiTietProduct_ChuShop() {
     const { Option } = Select;
     const dispatch = useDispatch();
     const showChiTietProduct_ChuShop = useSelector(state => state.showChiTietProduct_ChuShop);
+    const [showButtonHuy, setShowButtonHuy] = useState(false);
     const [spinnerChiTietProduct, setSpinnerChiTietProduct] = useState(false);
     const objectIDDuocChonReducer = useSelector(state => state.objectIDDuocChon);
     const [disableOptions, setDisableOptions] = useState(false);
@@ -266,6 +267,7 @@ export default function ModalChiTietProduct_ChuShop() {
                 setSpinnerSuaProduct(-1);
                 alert("Sửa thành công");
                 setDisableOptions(false);
+                dispatch({ type: 'CLOSE_CHITIET_PRODUCT_CHUSHOP' });
             }
             else {
                 setSpinnerSuaProduct(0);
@@ -409,6 +411,14 @@ export default function ModalChiTietProduct_ChuShop() {
         }
     }, [countAnhDaUploadThanhCong_Phu])
 
+    useEffect(() => {
+        if (statusSua === 1) {
+            setShowButtonHuy(true)
+        } else {
+            setShowButtonHuy(false)
+        }
+    }, [statusSua])
+
 
     return (
         <Modal show={showChiTietProduct_ChuShop} size="lg" animation={false} onHide={() => {
@@ -417,6 +427,7 @@ export default function ModalChiTietProduct_ChuShop() {
             onShow={() => {
                 LayProductTheoID(objectIDDuocChonReducer);
                 setDisableOptions(false);
+                setStatusSua(0);
             }}>
 
             {
@@ -811,74 +822,10 @@ export default function ModalChiTietProduct_ChuShop() {
                             )
                         }
 
-                        {
-                            productSua.thongTinBaoHanh.baoHanh === true && (
-                                <Fragment>
-                                    <Form.Item
-                                        label="Thời gian bảo hành"
-                                        name="thoigianbaohanh"
-                                        rules={[{ required: true, message: 'Vui lòng nhập thời gian bảo hành' }]}>
-                                        <Input
-                                            disabled={!disableOptions}
-                                            onChange={(e) => {
-                                                setProductSua({
-                                                    ...productSua,
-                                                    thongTinBaoHanh: {
-                                                        ...productSua.thongTinBaoHanh,
-                                                        thoiGianBaoHanh: parseInt(e.target.value)
-                                                    }
-                                                })
-                                            }}></Input>
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        label="Đơn vị thời gian bảo hành"
-                                        name="donvibaohanh"
-                                        rules={[{ required: true, message: 'Vui lòng nhập đơn vị thời gian bảo hành' }]}>
-                                        <Select style={{ width: '100%' }}
-                                            disabled={!disableOptions}
-                                            onChange={(value) => {
-                                                setProductSua({
-                                                    ...productSua,
-                                                    thongTinBaoHanh: {
-                                                        ...productSua.thongTinBaoHanh,
-                                                        donViBaoHanh: value
-                                                    }
-                                                })
-                                            }}>
-                                            <Option value={0}>Tháng</Option>
-                                            <Option value={1}>Năm</Option>
-                                        </Select>
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        label="Loại bảo hành"
-                                        name="loaibaohanh"
-                                        rules={[{ required: true, message: 'Vui lòng chọn loại bảo hành' }]}>
-                                        <Select style={{ width: '100%' }}
-                                            disabled={!disableOptions}
-                                            onChange={(value) => {
-                                                setProductSua({
-                                                    ...productSua,
-                                                    thongTinBaoHanh: {
-                                                        ...productSua.thongTinBaoHanh,
-                                                        loaiBaoHanh: value
-                                                    }
-                                                })
-                                            }}>
-                                            <Option value={0}>Bảo hành chính hãng</Option>
-                                            <Option value={1}>Bảo hành bởi shop thông qua TiemDo</Option>
-                                        </Select>
-                                    </Form.Item>
-                                </Fragment>
-                            )
-                        }
-
-
                         <Form.Item
                             label="Ngày tạo"
                             name="ngaytao">
-                            <Input disabled={true} defaultValue={productNow.ngayTao.toString()} />
+                            <Input disabled={true} defaultValue={new Date(productNow.ngayTao).toString()} />
                         </Form.Item>
 
                         <Form.Item
@@ -896,7 +843,7 @@ export default function ModalChiTietProduct_ChuShop() {
 
                         <Form.Item
                             label="Trạng thái duyệt">
-                            <Select disabled={true} defaultValue={productNow.isAccept === false ? "accept" : "noaccept"}>
+                            <Select disabled={true} defaultValue={productNow.isAccept === false ? "noaccept" : "accept"}>
                                 <Option key="accept">Đã duyệt</Option>
                                 <Option key="noaccept">Chưa duyệt</Option>
                             </Select>
@@ -963,6 +910,16 @@ export default function ModalChiTietProduct_ChuShop() {
                                 }
                             </Button>
                         </Form.Item>
+                        {
+                            showButtonHuy === true && (
+                                <Form.Item>
+                                    <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
+                                        setDisableOptions(false);
+                                        setStatusSua(0);
+                                    }}>Hủy</Button>
+                                </Form.Item>
+                            )
+                        }
                     </Form>
                 )
             }

@@ -41,7 +41,8 @@ export default function CheckoutPayment() {
         },
         tongTien: '',
         soLuongSanPham: '',
-        ngayTao: ''
+        ngayTao: '',
+        idVoucher:''
     })
 
     const radioStyle = {
@@ -119,12 +120,14 @@ export default function CheckoutPayment() {
             soLuongSanPham: thongTinDonHang.soLuongSanPham,
             ngayTao: thongTinDonHang.ngayTao,
             idUser: cookies.userID,
+            idVoucher:thongTinDonHang.idVoucher,
             dataGioHang: dataGioHang
         });
 
         if (res.data.status === 'success') {
             alert('Đã tạo đơn hàng thành công');
             localStorage.setItem('dataGioHang','[]');
+            localStorage.setItem('idVoucher',undefined);
         } else {
             alert('Đã tạo đơn hàng thất bại');
             e.preventDefault();
@@ -242,6 +245,14 @@ export default function CheckoutPayment() {
                         <div className='col' style={{ marginTop: 20 }}>
                             <Link to={'payment/success/'+thongTinDonHang.idShow} onClick={(e) => {
                                 TaoDonHang(e, dataGioHang);
+                            }}
+                            onMouseOver={()=>{
+                                if(idVoucher.length > 0){
+                                    setThongTinDonHang({
+                                        ...thongTinDonHang,
+                                        idVoucher:idVoucher
+                                    })
+                                }
                             }}>
                                 <Button style={{ width: 300 }} variant="danger" size='lg'>ĐẶT MUA</Button>
                             </Link>

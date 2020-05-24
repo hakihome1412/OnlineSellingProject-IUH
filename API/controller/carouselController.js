@@ -3,6 +3,7 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const assert = require('assert');
 const ids = require('short-id');
+const { BoDau } = require('../functionHoTro/index');
 
 module.exports = {
     LayDanhSachCarouselAll: async function (req, res) {
@@ -19,6 +20,58 @@ module.exports = {
         });
     },
 
+    LayDanhSachCarousel_Search_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const search = BoDau(req.query.search);
+
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colCarousel = db.collection('CAROUSELS');
+        let allCarousel = await colCarousel.find({
+            isDelete: false, $or: [
+                {
+                    idShow: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                },
+                {
+                    lowerTieuDe: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                }
+            ]
+        }).toArray();
+
+        let arrCarousel = await colCarousel.find({
+            isDelete: false, $or: [
+                {
+                    idShow: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                },
+                {
+                    lowerTieuDe: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                }
+            ]
+        }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
+        let soTrang = Math.ceil(parseInt(allCarousel.length) / soItemMoiPageAdmin);
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrCarousel,
+            soTrang: soTrang
+        });
+    },
+
     LayDanhSachCarouselTheoTrang: async function (req, res) {
         var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -31,6 +84,46 @@ module.exports = {
         let allCarousel = await colCarousel.find({ isDelete: false }).toArray();
         let soTrang = Math.ceil(parseInt(allCarousel.length) / SoItemMoiPageAdmin);
         let arrCarousel = await colCarousel.find({ isDelete: false }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            data: arrCarousel,
+            soTrang: soTrang
+        });
+    },
+
+    LayDanhSachCarousel_ChuaKhoa_TheoTrang: async function (req, res) {
+        var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        const page = req.params.page;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colCarousel = db.collection('CAROUSELS');
+        let allCarousel = await colCarousel.find({ isDelete: false, isLock: false }).toArray();
+        let soTrang = Math.ceil(parseInt(allCarousel.length) / SoItemMoiPageAdmin);
+        let arrCarousel = await colCarousel.find({ isDelete: false, isLock: false }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            data: arrCarousel,
+            soTrang: soTrang
+        });
+    },
+
+    LayDanhSachCarousel_DaKhoa_TheoTrang: async function (req, res) {
+        var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        const page = req.params.page;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colCarousel = db.collection('CAROUSELS');
+        let allCarousel = await colCarousel.find({ isDelete: false, isLock: true }).toArray();
+        let soTrang = Math.ceil(parseInt(allCarousel.length) / SoItemMoiPageAdmin);
+        let arrCarousel = await colCarousel.find({ isDelete: false, isLock: true }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
         client.close();
         res.status(200).json({
             status: 'success',
@@ -67,10 +160,11 @@ module.exports = {
         let carouselThem = {
             idShow: 'CAROU-' + ids.generate().toUpperCase(),
             tieuDe: req.body.tieuDe,
+            lowerTieuDe: BoDau(req.body.tieuDe),
             moTa: req.body.moTa,
             img: req.body.img,
             ngayTao: new Date(req.body.ngayTao),
-            isLock: req.body.isLock,
+            isLock: true,
             isDelete: req.body.isDelete
         }
 
@@ -138,7 +232,7 @@ module.exports = {
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colCarousel = db.collection('CAROUSELS');
-        let result = await colCarousel.updateOne({ _id: ObjectId(carouselID) }, { $set: { isLock:false } });
+        let result = await colCarousel.updateOne({ _id: ObjectId(carouselID) }, { $set: { isLock: false } });
         client.close();
         res.status(200).json({
             status: 'success',

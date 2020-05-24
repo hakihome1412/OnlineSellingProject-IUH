@@ -3,6 +3,7 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const assert = require('assert');
 const ids = require('short-id');
+const { BoDau } = require('../functionHoTro/index');
 
 module.exports = {
     LayDanhSachCategoryTheoTrang: async function (req, res) {
@@ -26,9 +27,51 @@ module.exports = {
         });
     },
 
-    LayDanhSachCategoryAll:async function (req, res) {
+    LayDanhSachCategory_ChuaKhoa_TheoTrang: async function (req, res) {
+        var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
+        const page = req.params.page;
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-        
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colCategory = db.collection('CATEGORY');
+        let allCategory = await colCategory.find({ isDelete: false, isLock: false }).toArray();
+        let soTrang = Math.ceil(parseInt(allCategory.length) / SoItemMoiPageAdmin);
+        let arrCategory = await colCategory.find({ isDelete: false, isLock: false }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrCategory,
+            soTrang: soTrang
+        });
+    },
+
+    LayDanhSachCategory_DaKhoa_TheoTrang: async function (req, res) {
+        var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
+        const page = req.params.page;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colCategory = db.collection('CATEGORY');
+        let allCategory = await colCategory.find({ isDelete: false, isLock: true }).toArray();
+        let soTrang = Math.ceil(parseInt(allCategory.length) / SoItemMoiPageAdmin);
+        let arrCategory = await colCategory.find({ isDelete: false, isLock: true }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrCategory,
+            soTrang: soTrang
+        });
+    },
+
+    LayDanhSachCategoryAll: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
         await client.connect();
         console.log("Connected correctly to server");
         const db = client.db(DbName);
@@ -41,7 +84,23 @@ module.exports = {
             data: allCategory
         });
     },
-    
+
+    LayDanhSachCategoryChuaKhoa: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colCategory = db.collection('CATEGORY');
+        let allCategory = await colCategory.find({ isDelete: false, isLock: false }).toArray();
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: allCategory
+        });
+    },
+
     LayCategoryTheoID: async function (req, res) {
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
         let categoryID = req.query.id;
@@ -65,15 +124,67 @@ module.exports = {
         }
     },
 
+    LayDanhSachCategory_Search_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const search = BoDau(req.query.search);
+
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colCategory = db.collection('CATEGORY');
+        let allCategory = await colCategory.find({
+            isDelete: false, $or: [
+                {
+                    idShow: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                },
+                {
+                    lowerTen: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                }
+            ]
+        }).toArray();
+
+        let arrCategory = await colCategory.find({
+            isDelete: false, $or: [
+                {
+                    idShow: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                },
+                {
+                    lowerTen: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                }
+            ]
+        }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
+        let soTrang = Math.ceil(parseInt(allCategory.length) / soItemMoiPageAdmin);
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrCategory,
+            soTrang: soTrang
+        });
+    },
+
     ThemCategory: async function (req, res) {
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
         let categoryThem = {
             idShow: 'CATE-' + ids.generate().toUpperCase(),
             ten: req.body.ten,
-            icon:req.body.icon,
-            img: req.body.img,
+            lowerTen: BoDau(req.body.ten),
+            icon: req.body.icon,
             ngayTao: new Date(),
-            isLock: false,
+            isLock: true,
             isDelete: false
         }
 
@@ -155,8 +266,7 @@ module.exports = {
         let categorySua = {
             _id: ObjectId(req.body._id),
             ten: req.body.ten,
-            icon:req.body.icon,
-            img: req.body.img,
+            icon: req.body.icon,
             isLock: req.body.isLock
         }
 
@@ -169,8 +279,7 @@ module.exports = {
                 $set:
                 {
                     ten: categorySua.ten,
-                    icon:categorySua.icon,
-                    img: categorySua.img,
+                    icon: categorySua.icon,
                     isLock: categorySua.isLock
                 }
             });

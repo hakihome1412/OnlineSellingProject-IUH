@@ -165,7 +165,7 @@ export default function QuanLyNguoiDungComponent() {
                                             <td>{item.sdt}</td>
                                             <td>{item.cmnd}</td>
                                             <td>{item.gioiTinh === 0 ? 'Nữ' : 'Nam'}</td>
-                                            <td>{item.ngaySinh}</td>
+                                            <td>{new Date(item.ngaySinh).toString()}</td>
                                             <td>{item.isLock === false ?
                                                 (
                                                     <Fragment>

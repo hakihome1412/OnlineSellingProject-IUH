@@ -122,7 +122,7 @@ export default function QLDonHangComponent() {
                                                 <td>{item.idUser}</td>
                                                 <td>{item.soLuongSanPham}</td>
                                                 <td>{format_curency(item.tongTien.toString())}</td>
-                                                <td>{item.ngayTao}</td>
+                                                <td>{new Date(item.ngayTao).toString()}</td>
                                                 <td>
                                                     <center>
                                                         <a style={{ color: trangThaiShow[i] === true ? 'white' : 'blue' }} href='/' onClick={(e) => {

@@ -3,6 +3,7 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const assert = require('assert');
 const ids = require('short-id');
+const { BoDau } = require('../functionHoTro/index');
 
 module.exports = {
     LayDanhSachBrandTheoTrang: async function (req, res) {
@@ -26,9 +27,103 @@ module.exports = {
         });
     },
 
-    LayDanhSachBrandAll:async function (req, res) {
+    LayDanhSachBrand_Search_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const search = BoDau(req.query.search);
+
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-        
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colBrand = db.collection('BRANDS');
+        let allBrand = await colBrand.find({
+            isDelete: false, $or: [
+                {
+                    idShow: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                },
+                {
+                    lowerTen: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                }
+            ]
+        }).toArray();
+
+        let arrBrand = await colBrand.find({
+            isDelete: false, $or: [
+                {
+                    idShow: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                },
+                {
+                    lowerTen: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                }
+            ]
+        }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
+        let soTrang = Math.ceil(parseInt(allBrand.length) / soItemMoiPageAdmin);
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrBrand,
+            soTrang: soTrang
+        });
+    },
+
+    LayDanhSachBrand_ChuaKhoa_TheoTrang: async function (req, res) {
+        var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
+        const page = req.params.page;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colBrand = db.collection('BRANDS');
+        let allBrand = await colBrand.find({ isDelete: false, isLock: false }).toArray();
+        let soTrang = Math.ceil(parseInt(allBrand.length) / SoItemMoiPageAdmin);
+        let arrBrand = await colBrand.find({ isDelete: false, isLock: false }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrBrand,
+            soTrang: soTrang
+        });
+    },
+
+    LayDanhSachBrand_DaKhoa_TheoTrang: async function (req, res) {
+        var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
+        const page = req.params.page;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colBrand = db.collection('BRANDS');
+        let allBrand = await colBrand.find({ isDelete: false, isLock: true }).toArray();
+        let soTrang = Math.ceil(parseInt(allBrand.length) / SoItemMoiPageAdmin);
+        let arrBrand = await colBrand.find({ isDelete: false, isLock: true }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrBrand,
+            soTrang: soTrang
+        });
+    },
+
+    LayDanhSachBrandAll: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
         await client.connect();
         console.log("Connected correctly to server");
         const db = client.db(DbName);
@@ -41,7 +136,7 @@ module.exports = {
             data: allBrand
         });
     },
-    
+
     LayBrandTheoID: async function (req, res) {
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
         let brandID = req.query.id;
@@ -70,7 +165,9 @@ module.exports = {
         let brandThem = {
             idShow: 'BRAND-' + ids.generate().toUpperCase(),
             ten: req.body.ten,
+            lowerTen: BoDau(req.body.ten),
             img: req.body.img,
+            xuatXu: req.body.xuatXu,
             ngayTao: new Date(),
             isLock: false,
             isDelete: false

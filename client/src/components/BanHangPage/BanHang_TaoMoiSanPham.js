@@ -8,8 +8,8 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { useCookies } from 'react-cookie';
 
 export default function BanHang_TaoMoiSanPham(props) {
-    const [cookies,setCookie] = useCookies();
-    const [shopID,setShopID] = useState(cookies.shopID);
+    const [cookies, setCookie] = useCookies();
+    const [shopID, setShopID] = useState(cookies.shopID);
     const { TabPane } = Tabs;
     const { Option } = Select;
     const [countAnhDaUploadThanhCong, setCountAnhDaUploadThanhCong] = useState(0);
@@ -134,6 +134,7 @@ export default function BanHang_TaoMoiSanPham(props) {
                             .then(fireBaseUrl => {
                                 // setImageAsUrl(prevObject => ({ ...prevObject, imageAsUrl: fireBaseUrl }))
                                 listUrl.push(fireBaseUrl);
+
                                 setCountAnhDaUploadThanhCong(countPrev => countPrev + 1);
                             })
                     })
@@ -260,6 +261,10 @@ export default function BanHang_TaoMoiSanPham(props) {
                             .then(fireBaseUrl => {
                                 // setImageAsUrl(prevObject => ({ ...prevObject, imageAsUrl: fireBaseUrl }))
                                 listUrl.push(fireBaseUrl);
+                                setDataThem({
+                                    ...dataThem,
+                                    img:fireBaseUrl
+                                });
                                 setCountAnhDaUploadThanhCong_Phu(countPrev => countPrev + 1);
                             })
                     })
@@ -359,6 +364,7 @@ export default function BanHang_TaoMoiSanPham(props) {
 
         if (res.data.status === 'success') {
             alert("Thêm thành công");
+            window.location.reload();
         } else {
             alert("Thêm thất bại");
         }
@@ -465,6 +471,10 @@ export default function BanHang_TaoMoiSanPham(props) {
                         <Select
                             style={{ width: '100%' }}
                             placeholder="Chọn xuất xứ"
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
                             onChange={(value) => {
                                 setDataThem({
                                     ...dataThem,
@@ -726,6 +736,10 @@ export default function BanHang_TaoMoiSanPham(props) {
                                 rules={[{ required: true, message: 'Vui lòng chọn nơi sản xuất' }]}
                             >
                                 <Select
+                                    optionFilterProp="children"
+                                    filterOption={(input, option) =>
+                                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
                                     style={{ width: '100%' }}
                                     placeholder="Chọn nơi sản xuất"
                                     onChange={(value) => {
@@ -986,7 +1000,7 @@ export default function BanHang_TaoMoiSanPham(props) {
                                     onChange={(e) => {
                                         setDataTaoMoiSanPham({
                                             ...dataTaoMoiSanPham,
-                                            giaTriGiam: parseInt(e.target.value)
+                                            giaTriGiamGia: parseInt(e.target.value)
                                         })
                                     }}></Input>(Nếu giá trị nhập nhỏ hơn 100 thì hệ thống sẽ tự động giảm theo %)
                             </Form.Item>
@@ -1137,10 +1151,11 @@ export default function BanHang_TaoMoiSanPham(props) {
                         </Form.Item>
 
                         <Form.Item {...tailLayout}
-                            name='buttontest'>>
+                            name='buttontest'>
                             <Button
                                 onClick={() => {
                                     console.log(dataTaoMoiSanPham)
+                                    console.log(dataPhanLoai);
                                     // alert(JSON.stringify(imageAsUrl_MoTaChiTiet));
                                 }}
                                 onMouseOver={() => {

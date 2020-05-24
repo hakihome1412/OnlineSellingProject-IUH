@@ -64,7 +64,7 @@ export default function ModalThemCategory() {
     }
 
     function KiemTraDuLieuNhap(data) {
-        if (data.ten === '' || data.img === '' || data.icon === '') {
+        if (data.ten === '') {
             alert('Vui lòng nhập đủ dữ liệu cần thiết');
         } else {
             ThemCategory()
@@ -135,8 +135,7 @@ export default function ModalThemCategory() {
 
                 <Form.Item
                     label="Icon"
-                    name="icon"
-                    rules={[{ required: true, message: 'Vui lòng nhập đường link class của i cho icon ' }]}>
+                    name="icon">
                     <Input onChange={(e) => {
                         setDataThem({
                             ...dataThem,
@@ -147,8 +146,7 @@ export default function ModalThemCategory() {
 
                 <Form.Item
                     label="Ảnh đại diện"
-                    name="username"
-                    rules={[{ required: true, message: 'Vui lòng chọn ảnh ảnh' }]}>
+                    name="username">
                     <input type='file'
                         onChange={(e) => {
                             handleChange(e);

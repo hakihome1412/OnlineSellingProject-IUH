@@ -36,10 +36,27 @@ export default function ModalChiTietDonHang_ChuShop(props) {
         return a;
     }
 
+    async function CapNhatLichSu(idOrderDetail, trangThai) {
+        let result = await axios.put('hethong/lichsu-capnhat', {
+            idOrderDetail: idOrderDetail,
+            trangThai: trangThai
+        });
+
+        if (result.data.status === 'success') {
+            dispatch({ type: 'RELOAD_DATABASE' });
+            setStatusSua(0);
+            setSpinnerSuaChiTietDonHang(-1);
+            alert("Sửa thành công");
+            setDisableOptions(false);
+        } else {
+            alert('Cập nhật trạng thái thất bại')
+        }
+    }
+
     async function SuaChiTietDonHang(idOrderDetail) {
         setSpinnerSuaChiTietDonHang(1);
         setDisableOptions(false);
-        if (statusSua === 1) {
+        if (statusSua === 1) { //làm thêm cập nhật lịch sử
             let resData = await axios.put('hethong/order-details-sua', {
                 id: idOrderDetail,
                 trangThai: chiTietSua.trangThai,
@@ -47,12 +64,7 @@ export default function ModalChiTietDonHang_ChuShop(props) {
             });
 
             if (resData.data.status === 'success') {
-                dispatch({ type: 'RELOAD_DATABASE' });
-                setStatusSua(0);
-                setSpinnerSuaChiTietDonHang(-1);
-                alert("Sửa thành công");
-                setDisableOptions(false);
-
+                CapNhatLichSu(idOrderDetail, chiTietSua.trangThai);
             }
             else {
                 setStatusSua(0);
@@ -163,7 +175,7 @@ export default function ModalChiTietDonHang_ChuShop(props) {
                             <Form.Item
                                 label="Ghi chú"
                                 name="ghichu">
-                                <textarea style={{width:'100%'}} rows={3} cols={50} disabled={!disableOptions} defaultValue={chiTietNow.ghiChu} onChange={(e) => {
+                                <textarea style={{ width: '100%' }} rows={3} cols={50} disabled={!disableOptions} defaultValue={chiTietNow.ghiChu} onChange={(e) => {
                                     setChiTietSua({
                                         ...chiTietSua,
                                         ghiChu: e.target.value

@@ -3,57 +3,223 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const assert = require('assert');
 const ids = require('short-id');
+const { BoDau } = require('../functionHoTro/index');
 
 
 module.exports = {
+    LayDonHangTheoTrang: async function (req, res) {
+        var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
+        const page = req.params.page;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colOrder = db.collection('ORDERS');
+        let allOrder = await colOrder.find({}).toArray();
+        let soTrang = Math.ceil(parseInt(allOrder.length) / SoItemMoiPageAdmin);
+        let arrOrder = await colOrder.find({}).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrOrder,
+            soTrang: soTrang
+        });
+    },
+
+    LayDonHangTheoIDUser: async function (req, res) {
+        const idUser = req.query.id;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colOrder = db.collection('ORDERS');
+        let allOrder = await colOrder.find({ idUser: idUser }).sort({ _id: -1 }).toArray();
+        client.close();
+
+        console.log(allOrder)
+
+        res.status(200).json({
+            status: 'success',
+            data: allOrder
+        });
+    },
+
+    LayDanhSachOrder_Search_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const search = BoDau(req.query.search);
+
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colOrder = db.collection('ORDERS');
+        let allOrder = await colOrder.find({
+            $or: [
+                {
+                    idShow: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                },
+                {
+                    'thongTinNguoiMua.lowerTen': {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                }
+            ]
+        }).toArray();
+
+        let arrOrder = await colOrder.find({
+            $or: [
+                {
+                    idShow: {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                },
+                {
+                    'thongTinNguoiMua.lowerTen': {
+                        '$regex': search,
+                        '$options': '$i'
+                    }
+                }
+            ]
+        }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
+        let soTrang = Math.ceil(parseInt(allOrder.length) / soItemMoiPageAdmin);
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrOrder,
+            soTrang: soTrang
+        });
+    },
+
+
+    LayDonHangTheoID: async function (req, res) {
+        const orderID = req.query.idOrder;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colOrder = db.collection('ORDERS');
+        let result = await colOrder.find({ idShow: orderID }).next();
+        client.close();
+        if (result === null) {
+            res.status(200).json({
+                status: 'fail',
+                message: 'Không có dữ liệu',
+            })
+        } else {
+            res.status(200).json({
+                status: 'success',
+                message: 'Lấy dữ liệu thành công',
+                data: result
+            });
+        }
+    },
+
     ThemDonHang: async function (req, res) {
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
         let donHangThem = {
             idShow: req.body.idShow,
             thongTinNguoiMua: {
                 ten: req.body.thongTinNguoiMua.hoTen,
+                lowerTen: BoDau(req.body.thongTinNguoiMua.hoTen),
                 sdt: req.body.thongTinNguoiMua.sdt,
                 diaChi: req.body.thongTinNguoiMua.diaChi
             },
             tongTien: req.body.tongTien,
             soLuongSanPham: req.body.soLuongSanPham,
-            ngayTao: req.body.ngayTao,
-            isDelete: req.body.isDelete
+            ngayTao: new Date(req.body.ngayTao),
+            idUser: req.body.idUser,
+            idVoucher: req.body.idVoucher
         }
 
         let dataGioHang = req.body.dataGioHang;
         var countGioHang = dataGioHang.length;
         var countResultThemChiTiet = 0;
 
-        console.log(dataGioHang);
-        console.log(donHangThem);
-
         await client.connect();
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colOrder = db.collection('ORDERS');
         const colOrderDetail = db.collection('ORDER_DETAILS');
+        const colVoucher = db.collection('VOUCHERS');
+        const colLichSu = db.collection('LICHSU_CTDONHANG');
         let result = await colOrder.insertOne(donHangThem);
-        console.log('Thêm đơn hàng thành công');
+        let resultVoucher = await colVoucher.find({ idShow: donHangThem.idVoucher }).next();
 
         if (result.insertedCount > 0) {
             for (let index = 0; index < dataGioHang.length; index++) {
+                var giamGiaResult = 0;
+                if (resultVoucher !== null) {
+                    if (resultVoucher.loaiGiamGia === 0) {
+                        giamGiaResult = resultVoucher.giaTriGiam
+                    } else {
+                        giamGiaResult = dataGioHang[index].giaCuoiCung * dataGioHang[index].soLuong * resultVoucher.giaTriGiam / 100
+                    }
+                }
+
                 var chitiet = {
-                    idShow: 'ORDDE-'+ids.generate().toUpperCase(),
+                    idShow: 'ORDDE-' + ids.generate().toUpperCase(),
                     ten: dataGioHang[index].ten,
-                    tongTien: dataGioHang[index].giaCuoiCung,
+                    giaCuoiCung: dataGioHang[index].giaCuoiCung,
+                    giamGia: giamGiaResult,
+                    thanhTien: dataGioHang[index].giaCuoiCung * dataGioHang[index].soLuong - giamGiaResult,
                     soLuong: dataGioHang[index].soLuong,
                     mauSac: dataGioHang[index].mauSac,
                     size: dataGioHang[index].size,
                     img: dataGioHang[index].img,
                     idShop: dataGioHang[index].idShop,
                     idUser: dataGioHang[index].idUser,
+                    idOrder: donHangThem.idShow,
                     trangThai: 0,
-                    ghiChu: '',
-                    ghiChuHuy: '',
-                    isDelete: false
+                    ghiChu: ''
                 }
 
+                var lichSu0Default = {
+                    idOrderDetail: chitiet.idShow,
+                    trangThai: 0,
+                    ngayThucHien: new Date()
+                }
+
+                var lichSu1Default = {
+                    idOrderDetail: chitiet.idShow,
+                    trangThai: 1,
+                    ngayThucHien: ''
+                }
+
+                var lichSu2Default = {
+                    idOrderDetail: chitiet.idShow,
+                    trangThai: 2,
+                    ngayThucHien: ''
+                }
+
+                var lichSu3Default = {
+                    idOrderDetail: chitiet.idShow,
+                    trangThai: 3,
+                    ngayThucHien: ''
+                }
+
+                var lichSu4Default = {
+                    idOrderDetail: chitiet.idShow,
+                    trangThai: 4,
+                    ngayThucHien: ''
+                }
+
+                var lichSu5Default = {
+                    idOrderDetail: chitiet.idShow,
+                    trangThai: 5,
+                    ngayThucHien: ''
+                }
+
+                await colLichSu.insertMany([lichSu0Default,lichSu1Default,lichSu2Default,lichSu3Default,lichSu4Default,lichSu5Default]);
                 await colOrderDetail.insertOne(chitiet);
                 countResultThemChiTiet += 1;
             }

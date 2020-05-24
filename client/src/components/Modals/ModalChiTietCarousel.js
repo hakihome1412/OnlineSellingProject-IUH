@@ -272,7 +272,7 @@ export default function ModalChiTietCarousel() {
                         <Form.Item
                             label="Ngày tạo"
                             name="ngaytao">
-                            <Input disabled={true} defaultValue={carouselNow.ngayTao.toString()} />
+                            <Input disabled={true} defaultValue={new Date(carouselNow.ngayTao).toString()} />
                         </Form.Item>
 
                         <Form.Item
