@@ -61,14 +61,11 @@ function Footer() {
                     <hr className="clearfix w-100 d-md-none" />
                     <div className="col-md-2 col-lg-2 text-center mx-auto my-4">
                         <h5 className="font-weight-bold text-uppercase mb-4">Follow Us</h5>
-                        <a type="button" className="btn-floating btn-fb">
-                            <i className="fa fa-facebook fa-2x mr-3" />
+                        <a href='https://www.facebook.com/phuchuy.huynh.716' type="button" className="btn-floating btn-fb">
+                            <i className="fab fa-facebook-square fa-2x mr-3" />
                         </a>
-                        <a type="button" className="btn-floating btn-tw">
-                            <i className="fa fa-twitter fa-2x mr-3" />
-                        </a>
-                        <a type="button" className="btn-floating btn-gplus">
-                            <i className="fa fa-google-plus fa-2x" />
+                        <a href='https://www.instagram.com/tiemdo2020/' type="button" className="btn-floating btn-tw">
+                            <i className="fab fa-instagram fa-2x mr-3" />
                         </a>
                     </div>
                 </div>

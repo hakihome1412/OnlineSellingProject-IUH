@@ -110,7 +110,7 @@ export default function ShopPage(props) {
     }, [])
 
     return (
-        <div className="container" style={{ marginTop: '100px' }}>
+        <div className="container" style={{ marginTop: '50px' }}>
             <div className='row'>
                 <div className='col-sm-3' style={{ padding: 10, margin: 0 }}>
                     <img src={dataShop.logoShop} width='200' height='200'></img><br></br><br></br>

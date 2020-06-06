@@ -4,8 +4,8 @@
   },
   "idShow": "CATEP-HDJKDL",
   "ten": "Thời Trang - Phụ Kiện",
+  "lowerTen": "thoi trang - phu kien",
   "icon": "fa fa-male",
-  "img": "https://salt.tikicdn.com/ts/category/dd/51/92/e6bc22b5ec0d6d965a93f056b7776493.png",
   "ngayTao": {
     "$date": "2020-04-22T17:00:00Z"
   },
@@ -17,8 +17,8 @@
   },
   "idShow": "CATEP-LKHHDH",
   "ten": "Điện Thoại - Máy Tính Bảng",
-  "icon": "fa fa-mobile fa-2x",
-  "img": "https://salt.tikicdn.com/ts/category/93/27/e3/192b0ebe1d4658c51f9931bda62489b2.png",
+  "lowerTen": "dien thoai - may tinh bang",
+  "icon": "fa fa-mobile",
   "ngayTao": {
     "$date": "2020-04-22T17:00:00Z"
   },
@@ -30,8 +30,8 @@
   },
   "idShow": "CATEP-KJHMNB",
   "ten": "Điện Gia Dụng",
+  "lowerTen": "dien gia dung",
   "icon": "fa fa-microchip",
-  "img": "https://salt.tikicdn.com/ts/category/b3/2b/72/8e7b4b703653050ffc79efc8ee017bd0.png",
   "ngayTao": {
     "$date": "2020-04-22T17:00:00Z"
   },
@@ -43,8 +43,8 @@
   },
   "idShow": "CATEP-JHGCVB",
   "ten": "Laptop - Thiết Bị IT",
+  "lowerTen": "laptop - thiet bi it",
   "icon": "fa fa-headphones",
-  "img": "https://salt.tikicdn.com/ts/category/94/6a/42/3b262c87f2fd104b7cb50f38aef43e18.png",
   "ngayTao": {
     "$date": "2020-04-22T17:00:00Z"
   },
@@ -56,8 +56,8 @@
   },
   "idShow": "CATEP-YUISFD",
   "ten": "Máy Ảnh - Quay Phim",
-  "icon": "fa fa-video-camera",
-  "img": "https://salt.tikicdn.com/ts/category/c3/a4/87/4584c6298920124cb7da51de157ddac9.png",
+  "lowerTen": "may anh - quay phim",
+  "icon": "fas fa-camera",
   "ngayTao": {
     "$date": "2020-04-22T17:00:00Z"
   },
@@ -69,8 +69,8 @@
   },
   "idShow": "CATE-9811E5",
   "ten": "Áo",
+  "lowerTen": "ao",
   "icon": "fa fa-male",
-  "img": "https://salt.tikicdn.com/cache/200x200/ts/product/88/f1/35/25030e3b59116fbb4ff16e30b878098f.jpg",
   "ngayTao": {
     "$date": "2020-04-23T08:13:13.614Z"
   },
@@ -82,12 +82,12 @@
   },
   "idShow": "CATE-F50482",
   "ten": "Quần nữ",
-  "icon": "fa fa-female",
-  "img": "https://salt.tikicdn.com/cache/200x200/ts/product/ee/8f/1a/86b4501b871fbd624d1294c4ccf63c80.jpg",
+  "lowerTen": "quan nu",
+  "icon": "",
   "ngayTao": {
     "$date": "2020-04-23T08:15:24.247Z"
   },
-  "isLock": false,
+  "isLock": true,
   "isDelete": false
 },{
   "_id": {
@@ -95,11 +95,219 @@
   },
   "idShow": "CATE-1AB5EA",
   "ten": "Giày",
+  "lowerTen": "giay",
   "icon": "fa fa-male",
-  "img": "https://salt.tikicdn.com/ts/category/90/78/11/b8a67fe010361551e515fdcca7709f69.png",
   "ngayTao": {
     "$date": "2020-04-25T04:59:30.783Z"
   },
-  "isLock": false,
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8d97a3d8f9e78b0a868f7"
+  },
+  "idShow": "CATE-9CB302",
+  "ten": "Thiết Bị Âm Thanh",
+  "lowerTen": "thiet bi am thanh",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-05-23T08:06:18.237Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8d98c3d8f9e78b0a868f8"
+  },
+  "idShow": "CATE-0219CA",
+  "ten": "Tai Nghe",
+  "lowerTen": "tai nghe",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-05-23T08:06:36.941Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8d9ac3d8f9e78b0a868f9"
+  },
+  "idShow": "CATE-2F26B6",
+  "ten": "Loa Bluetooth",
+  "lowerTen": "loa bluetooth",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-05-23T08:07:08.091Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8da233d8f9e78b0a868fa"
+  },
+  "idShow": "CATE-03AC0B",
+  "ten": "Chuột Có Dây",
+  "lowerTen": "chuot co day",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-05-23T08:09:07.172Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8da2a3d8f9e78b0a868fb"
+  },
+  "idShow": "CATE-417825",
+  "ten": "Chuột Không Dây",
+  "lowerTen": "chuot khong day",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-05-23T08:09:14.122Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8da4a3d8f9e78b0a868fc"
+  },
+  "idShow": "CATE-8C488E",
+  "ten": "Đồng Hồ Thông Minh",
+  "lowerTen": "dong ho thong minh",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-05-23T08:09:46.216Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8da853d8f9e78b0a868fd"
+  },
+  "idShow": "CATE-E5FB5E",
+  "ten": "Thiết Bị Chơi Game",
+  "lowerTen": "thiet bi choi game",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-05-23T08:10:45.121Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8da8b3d8f9e78b0a868fe"
+  },
+  "idShow": "CATE-D75995",
+  "ten": "Tay Bấm Game",
+  "lowerTen": "tay bam game",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-05-23T08:10:51.854Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8daa53d8f9e78b0a868ff"
+  },
+  "idShow": "CATE-DC8B74",
+  "ten": "Đĩa Game",
+  "lowerTen": "dia game",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-05-23T08:11:17.109Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8dac43d8f9e78b0a86900"
+  },
+  "idShow": "CATE-DB0CBD",
+  "ten": "Dây Sạc - Dây Cáp",
+  "lowerTen": "day sac - day cap",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-05-23T08:11:48.258Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8db113d8f9e78b0a86901"
+  },
+  "idShow": "CATE-377A88",
+  "ten": "Bàn Phím",
+  "lowerTen": "ban phim",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-05-23T08:13:05.852Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ed7eb5769beb1888c0bb3c9"
+  },
+  "idShow": "CATE-5ADCA1",
+  "ten": "Điện thoại Iphone",
+  "lowerTen": "dien thoai iphone",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-06-03T18:26:31.988Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ed7eb6169beb1888c0bb3ca"
+  },
+  "idShow": "CATE-55FD77",
+  "ten": "Điện thoại SamSung",
+  "lowerTen": "dien thoai samsung",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-06-03T18:26:41.003Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ed7eb6e69beb1888c0bb3cb"
+  },
+  "idShow": "CATE-5380B8",
+  "ten": "Điện thoại thông minh",
+  "lowerTen": "dien thoai thong minh",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-06-03T18:26:54.830Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ed7eb7b69beb1888c0bb3cc"
+  },
+  "idShow": "CATE-3B3C9D",
+  "ten": "Điện thoại ASUS",
+  "lowerTen": "dien thoai asus",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-06-03T18:27:07.888Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ed7eb8769beb1888c0bb3cd"
+  },
+  "idShow": "CATE-E87428",
+  "ten": "Điện thoại Xiaomi",
+  "lowerTen": "dien thoai xiaomi",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-06-03T18:27:19.233Z"
+  },
+  "isLock": true,
   "isDelete": false
 }]

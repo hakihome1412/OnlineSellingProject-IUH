@@ -9,6 +9,7 @@ import { useCookies } from 'react-cookie';
 export default function CheckoutCartt() {
     const { Search } = Input;
     const [dataGioHang, setDataGioHang] = useState(JSON.parse(localStorage.getItem('dataGioHang')));
+    const [dataGioHangNew, setDataGioHangNew] = useState([]);
     const [dataVoucher, setDataVoucher] = useState('');
     const [cookie, setCookie] = useCookies();
     const dispatch = useDispatch();
@@ -56,6 +57,34 @@ export default function CheckoutCartt() {
         }
     }
 
+    function getGioHangTheoIDUser() {
+        var arrayGioHangNew = [];
+
+        for (let index = 0; index < dataGioHang.length; index++) {
+            if (dataGioHang[index].idUser === cookie.userID) {
+                arrayGioHangNew.push({
+                    giaCuoiCung: dataGioHang[index].giaCuoiCung,
+                    giaGoc: dataGioHang[index].giaGoc,
+                    idShop: dataGioHang[index].idShop,
+                    idUser: dataGioHang[index].idUser,
+                    img: dataGioHang[index].img,
+                    khuyenMai: dataGioHang[index].khuyenMai,
+                    mauSac: dataGioHang[index].mauSac,
+                    size: dataGioHang[index].size,
+                    soLuong: dataGioHang[index].soLuong,
+                    ten: dataGioHang[index].ten,
+                    tenShop: dataGioHang[index].tenShop,
+                    index: index
+                });
+            }
+        }
+
+        setDataGioHangNew(arrayGioHangNew);
+    }
+
+    console.log(dataGioHangNew);
+
+
     async function KiemTraVoucher(voucherID) {
         let res = await axios.get('hethong/vouchers-item-show?idShow=' + voucherID);
 
@@ -69,7 +98,10 @@ export default function CheckoutCartt() {
     }
 
     useEffect(() => {
-        setDataGioHang(JSON.parse(localStorage.getItem('dataGioHang')));
+        if (statusThayDoiGioHang === true) {
+            setDataGioHang(JSON.parse(localStorage.getItem('dataGioHang')));
+            dispatch({ type: 'KHONG_THAY_DOI_GIO_HANG' });
+        }
     }, [statusThayDoiGioHang])
 
     useEffect(() => {
@@ -78,11 +110,16 @@ export default function CheckoutCartt() {
         if (cookie.token === undefined) {
             setDataGioHang([]);
         }
+        getGioHangTheoIDUser();
     }, []);
 
     useEffect(() => {
         localStorage.setItem('idVoucher', dataVoucher.idShow);
     }, [dataVoucher]);
+
+    useEffect(() => {
+        getGioHangTheoIDUser();
+    }, [dataGioHang])
 
 
 
@@ -91,12 +128,12 @@ export default function CheckoutCartt() {
     // }, [dataVoucher])
 
     return (
-        <div className="container" style={{ marginTop: '100px', backgroundColor: '#F8F9FA', height: 'auto', padding: 20 }}>
-            <h4>GIỎ HÀNG ({cookie.token === undefined ? 0 : tinhTongSanPhamTrongGioHang(dataGioHang)} sản phẩm)</h4>
+        <div className="container" style={{ marginTop: '50px', backgroundColor: '#F8F9FA', height: 'auto', padding: 20 }}>
+            <h4>GIỎ HÀNG ({cookie.token === undefined ? 0 : tinhTongSanPhamTrongGioHang(dataGioHangNew)} sản phẩm)</h4>
             <div className='row' style={{ marginLeft: 5 }}>
                 <div className='col-sm-8'>
                     {
-                        dataGioHang.map((item, i) => {
+                        dataGioHangNew.map((item, i) => {
                             return <div className='row' style={{ backgroundColor: 'white', height: 160, paddingTop: 10, borderRadius: 10, marginTop: 10 }}>
                                 <Image src={item.img} style={{ width: 120, height: 140, marginLeft: 20 }}></Image>
                                 <div className='col-sm-6' style={{ marginLeft: 20 }}>
@@ -124,7 +161,7 @@ export default function CheckoutCartt() {
                                     </strong><br></br>
                                     Cung cấp bởi: <Link>{item.tenShop}</Link> <br></br><br></br>
                                     <Link onClick={() => {
-                                        dataGioHang.splice(i, 1);
+                                        dataGioHang.splice(item.index, 1);
                                         setDataGioHang([
                                             ...dataGioHang
                                         ]);
@@ -140,7 +177,7 @@ export default function CheckoutCartt() {
                                     </div>
                                     <div className='col' style={{ float: 'right', marginTop: 30 }}>
                                         <InputNumber min={1} defaultValue={item.soLuong} onChange={(value) => {
-                                            dataGioHang[i].soLuong = value;
+                                            dataGioHang[item.index].soLuong = value;
                                             setDataGioHang([
                                                 ...dataGioHang
                                             ]);
@@ -162,7 +199,7 @@ export default function CheckoutCartt() {
                                 <span style={{ float: 'left', fontSize: 16 }}>Tạm tính</span>
                             </div>
                             <div className='col-sm-6'>
-                                <span style={{ float: 'right', fontSize: 16, fontWeight: 'bold' }}>{format_curency(tienTamTinh(dataGioHang).toString())}đ</span>
+                                <span style={{ float: 'right', fontSize: 16, fontWeight: 'bold' }}>{format_curency(tienTamTinh(dataGioHangNew).toString())}đ</span>
                             </div>
                         </div>
 
@@ -177,7 +214,7 @@ export default function CheckoutCartt() {
                                         <br></br>
                                         <span style={{ float: 'right', fontSize: 16, fontWeight: 'bold' }}>
                                             {
-                                                dataVoucher.loaiGiamGia === 0 ? '-' + format_curency(dataVoucher.giaTriGiam.toString()) + 'đ' : '-' + dataVoucher.giaTriGiam + '% (' + format_curency(tienGiamVoucherTheoPhanTram(dataVoucher.giaTriGiam, tienTamTinh(dataGioHang)).toString()) + 'đ)'
+                                                dataVoucher.loaiGiamGia === 0 ? '-' + format_curency(dataVoucher.giaTriGiam.toString()) + 'đ' : '-' + dataVoucher.giaTriGiam + '% (' + format_curency(tienGiamVoucherTheoPhanTram(dataVoucher.giaTriGiam, tienTamTinh(dataGioHangNew)).toString()) + 'đ)'
                                             }
                                         </span>
                                     </div>
@@ -202,7 +239,7 @@ export default function CheckoutCartt() {
                                 <span style={{ float: 'left', fontSize: 16 }}>Thành tiền</span>
                             </div>
                             <div className='col-sm-6'>
-                                <span style={{ float: 'right', fontSize: 24, fontWeight: 'bold', color: 'red' }}>{format_curency(tinhThanhTien(tienTamTinh(dataGioHang), dataVoucher).toString())}đ</span>
+                                <span style={{ float: 'right', fontSize: 24, fontWeight: 'bold', color: 'red' }}>{format_curency(tinhThanhTien(tienTamTinh(dataGioHangNew), dataVoucher).toString())}đ</span>
                             </div>
                         </div>
                     </div>

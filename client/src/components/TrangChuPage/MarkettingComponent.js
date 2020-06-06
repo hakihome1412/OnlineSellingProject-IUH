@@ -75,7 +75,7 @@ export default function MarkettingComponent(props) {
                         if (item.isLock === false && item.positionShow.right === true) {
                             return <div key={item._id} className="col" style={{ marginTop: 10 }}>
                                 <Link to={'event/' + item._id + '/' + to_slug(item.ten)}>
-                                    <Image id="itemQuangCao" style={{ width: '100%', height: 110 }} src={item.img} rounded />
+                                    <Image id="itemQuangCao" style={{ width: '100%', height: 108 }} src={item.img} rounded />
                                 </Link>
                             </div>
                         }

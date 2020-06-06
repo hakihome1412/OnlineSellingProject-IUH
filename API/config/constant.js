@@ -1,4 +1,4 @@
-// const DbUrl = 'mongodb+srv://huymotcham:hakihome1412@cluster0-70kfe.mongodb.net/test?retryWrites=true&w=majority';
+//const DbUrl = 'mongodb+srv://huymotcham:hakihome1412@cluster0-70kfe.mongodb.net/test?retryWrites=true&w=majority';
 
 const DbUrl = 'mongodb://localhost:27017';
 const DbName = 'OnlineSelling';
@@ -7,7 +7,12 @@ const soItemMoiPageCategory = 16;
 const soItemMoiPageAdmin = 4;
 
 
-module.exports = {DbUrl,DbName,soItemMoiPage,soItemMoiPageAdmin,soItemMoiPageCategory};
+const vnp_TmnCode = '45PMXZ0H';
+const vnp_HashSecret = 'CFZOAITQKICYDBRGNLGWJGNZAAGAPWLR';
+const vnp_Url = 'http://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
+const vnp_ReturnUrl = 'http://sandbox.vnpayment.vn/merchant_webapi/merchant.html';
+
+module.exports = {DbUrl,DbName,soItemMoiPage,soItemMoiPageAdmin,soItemMoiPageCategory,vnp_TmnCode,vnp_HashSecret,vnp_Url,vnp_ReturnUrl};
 
 // Get first two documents that match the query
 // .limit(2)

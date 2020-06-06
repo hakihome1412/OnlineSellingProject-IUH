@@ -25,6 +25,7 @@ export default function BanHang_DangKy() {
     const [dataEmail, setDataEmail] = useState('');
 
     let history = useHistory();
+
     const layout = {
         labelCol: {
             span: 6,
@@ -42,6 +43,7 @@ export default function BanHang_DangKy() {
             span: 16,
         },
     };
+    
     const menu = (
         <Menu>
             <Menu.Item >

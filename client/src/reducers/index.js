@@ -33,6 +33,10 @@ import showChiTietProduct_ChuShop from '../reducers/DungChung/showChiTietProduct
 import statusDangXuat from '../reducers/DungChung/statusDangXuatReducer';
 import showChiTietDonHang_ChuShop from '../reducers/DungChung/showChiTietDonHang_ChuShopReducer';
 import showChiTietNguoiDung from '../reducers/DungChung/showChiTietNguoiDungReducer';
+import showModalCapNhatKho from '../reducers/DungChung/showModalCapNhatKhoReducer';
+import showModalCapNhatGiaTriGiam from '../reducers/DungChung/showModalCapNhatGiaTriGiamReducer';
+import showModalThemBaiViet from '../reducers/DungChung/showModalThemBaiVietReducer';
+import valueSearch from '../reducers/DungChung/valueSearchReducer';
 
 const allReducers = combineReducers({
     taiKhoanDaDangNhap,
@@ -68,7 +72,11 @@ const allReducers = combineReducers({
     showChiTietProduct_ChuShop,
     statusDangXuat,
     showChiTietDonHang_ChuShop,
-    showChiTietNguoiDung
+    showChiTietNguoiDung,
+    showModalCapNhatKho,
+    showModalCapNhatGiaTriGiam,
+    showModalThemBaiViet,
+    valueSearch
 })
 
 export default allReducers;

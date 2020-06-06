@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.css";
-import { Header, Footer, DealPage, TrangChu, BanHang_DangKy, DonHangDetail, DonHang, ErrorPhanQuyen, DanhRiengChoBanPage, ShopPage, CategorySanPham, SanPhamDetail, ChuongTrinh, CheckoutCart, CheckoutShipping, CheckoutPayment, BanHang, ResultSuccessPage } from '../allJS';
+import 'react-quill/dist/quill.snow.css';
+import { Header, Footer, DealPage, TrangChu, TimKiem, Customer, BanHang_DangKy, ErrorPhanQuyen, DanhRiengChoBanPage, ShopPage, CategorySanPham, SanPhamDetail, BaiViet, CheckoutCart, CheckoutShipping, CheckoutPayment, BanHang, ResultSuccessPage } from '../allJS';
 import MainAdmin from '../Admin/MainAdmin';
 import { Switch, Route } from "react-router-dom";
 import { useSelector } from 'react-redux';
@@ -18,8 +19,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={TrangChu}></Route>
         <Route path="/banhang" component={BanHang}></Route>
-        <Route path="/donhang" component={DonHang}></Route>
-        <Route path="/order/:id" component={DonHangDetail}></Route>
+        <Route path="/customer" component={Customer}></Route>
         <Route path="/error/403" component={ErrorPhanQuyen}></Route>
         <Route path="/dang-ky-gian-hang" component={BanHang_DangKy}></Route>
         <Route path="/shop/:id/:slug" component={ShopPage}></Route>
@@ -29,10 +29,11 @@ function App() {
         <Route path="/category/:id/:slug" component={CategorySanPham}></Route>
         <Route path="/admin" component={MainAdmin}></Route>
         <Route path="/detail/:id/:slug" component={SanPhamDetail}></Route>
-        <Route path="/event/:id/:slug" component={ChuongTrinh}></Route>
+        <Route path="/baiviet/:id" component={BaiViet}></Route>
         <Route path="/checkout/cart" component={CheckoutCart}></Route>
         <Route path="/checkout/shipping" component={CheckoutShipping}></Route>
         <Route path="/checkout/payment" component={CheckoutPayment}></Route>
+        <Route path="/timkiem" component={TimKiem}></Route>
         <Route component={TrangChu}></Route>
       </Switch>
       <Footer></Footer>

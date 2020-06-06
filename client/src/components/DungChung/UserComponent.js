@@ -15,6 +15,8 @@ export default function UserComponent() {
         let res = await axios.get('hethong/users-item?idUser=' + userID);
         if (res.data.status === 'success') {
             setDataUser(res.data.data);
+        } else {
+            alert('Lấy data User thất bại');
         }
     }
 
@@ -25,13 +27,13 @@ export default function UserComponent() {
     return (
         <Fragment>
             <NavDropdown title={dataUser.email} id="basic-nav-dropdown">
-                <NavDropdown.Item onClick={()=>{
-                    history.push('/donhang');
+                <NavDropdown.Item onClick={() => {
+                    history.push('/customer/account');
+                }}>Tài khoản của tôi</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => {
+                    history.push('/customer/order');
                 }}>Đơn hàng của tôi</NavDropdown.Item>
                 <NavDropdown.Item>Thông báo của tôi</NavDropdown.Item>
-                <NavDropdown.Item onClick={() => {
-                    alert(isAdmin);
-                }}>Tài khoản của tôi</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => {
                     removeCookie('token');
                     removeCookie('userID');

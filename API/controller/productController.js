@@ -3,7 +3,7 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const assert = require('assert');
 const ids = require('short-id');
-const { BoDau, shuffle } = require('../functionHoTro/index');
+const { BoDau, shuffle, sapXepTuLonDenBe } = require('../functionHoTro/index');
 
 module.exports = {
     LayDanhSachProductTheoTrang: async function (req, res) {
@@ -70,6 +70,168 @@ module.exports = {
             ]
         }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
         let soTrang = Math.ceil(parseInt(allProduct.length) / soItemMoiPageAdmin);
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrProduct,
+            soTrang: soTrang
+        });
+    },
+
+    LayTatCaSanPham_Search_NguoiDung_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const search = BoDau(req.query.search);
+        const order = req.query.order;
+        const rating = req.query.rating;
+        const price = req.query.price;
+
+        console.log(search);
+        console.log(order);
+        console.log(rating);
+        console.log(price);
+
+        var prices = price.split(',');
+
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let allProduct;
+        let arrProduct;
+        let soTrang;
+
+        if (order === 'newest' || order === 'top_seller' || order === 'price_asc' || order === 'price_desc') {
+            allProduct = await colProduct.find({
+                isDelete: false, isLock: false, isAccept: true, lowerTen: { '$regex': search, '$options': '$i' }
+            }).toArray();
+
+            if (order === 'newest') {
+                arrProduct = await colProduct.find({
+                    isDelete: false, isLock: false, isAccept: true, lowerTen: { '$regex': search, '$options': '$i' }
+                }).sort({ _id: -1 }).limit(16).skip(16 * page).toArray();
+            }
+
+            if (order === 'top_seller') {
+                arrProduct = await colProduct.find({
+                    isDelete: false, isLock: false, isAccept: true, lowerTen: { '$regex': search, '$options': '$i' }
+                }).sort({ soLuongDaBan: -1 }).limit(16).skip(16 * page).toArray();
+            }
+
+            if (order === 'price_asc') {
+                arrProduct = await colProduct.find({
+                    isDelete: false, isLock: false, isAccept: true, lowerTen: { '$regex': search, '$options': '$i' }
+                }).limit(16).skip(16 * page).toArray();
+                arrProduct.sort(sapXepTheoGiaCuoiCungThapDenCao);
+
+            }
+
+            if (order === 'price_desc') {
+                arrProduct = await colProduct.find({
+                    isDelete: false, isLock: false, isAccept: true, lowerTen: { '$regex': search, '$options': '$i' }
+                }).limit(16).skip(16 * page).toArray();
+                arrProduct.sort(sapXepTheoGiaCuoiCungCaoDenThap);
+            }
+        }
+
+        if (order === 'discount') {
+            allProduct = await colProduct.find({
+                isDelete: false, isLock: false, isAccept: true, giaTriGiamGia: { $ne: 0 }, lowerTen: { '$regex': search, '$options': '$i' }
+            }).toArray();
+
+            arrProduct = await colProduct.find({
+                isDelete: false, isLock: false, isAccept: true, giaTriGiamGia: { $ne: 0 }, lowerTen: { '$regex': search, '$options': '$i' }
+            }).sort({ _id: -1 }).limit(16).skip(16 * page).toArray();
+        }
+
+        if (rating !== 'undefined' && price === 'undefined') {
+            let allProduct2 = allProduct.filter(data => data.soSao > rating - 0.5 && data.soSao <= rating);
+            let arrProduct2 = arrProduct.filter(data => data.soSao > rating - 0.5 && data.soSao <= rating);
+
+            allProduct = allProduct2;
+            arrProduct = arrProduct2;
+        } else {
+            if (rating === 'undefined' && price !== 'undefined') {
+                let allProduct2 = allProduct.filter(data => data.giaCuoiCung >= parseInt(prices[0]) && data.giaCuoiCung <= parseInt(prices[1]));
+                let arrProduct2 = arrProduct.filter(data => data.giaCuoiCung >= parseInt(prices[0]) && data.giaCuoiCung <= parseInt(prices[1]));
+
+                allProduct = allProduct2;
+                arrProduct = arrProduct2;
+            } else {
+                if (rating !== 'undefined' && price !== 'undefined') {
+                    let allProduct2 = allProduct.filter(data => data.soSao > rating - 0.5 && data.soSao <= rating && data.giaCuoiCung >= parseInt(prices[0]) && data.giaCuoiCung <= parseInt(prices[1]));
+                    let arrProduct2 = arrProduct.filter(data => data.soSao > rating - 0.5 && data.soSao <= rating && data.giaCuoiCung >= parseInt(prices[0]) && data.giaCuoiCung <= parseInt(prices[1]));
+                    allProduct = allProduct2;
+                    arrProduct = arrProduct2;
+                }
+            }
+        }
+
+
+
+        soTrang = Math.ceil(parseInt(allProduct.length) / 16);
+
+        // console.log(arrProduct);
+
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrProduct,
+            soTrang: soTrang
+        });
+    },
+
+    LayTatCaSanPhamTheoCategory_NguoiDung_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const id = req.query.id;
+        const rating = req.query.rating;
+        const price = req.query.price;
+
+        console.log(id);
+        console.log(rating);
+        console.log(price);
+
+        var prices = price.split(',');
+
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let allProduct = await colProduct.find({ idCategory: id, isDelete: false, isLock: false, isAccept: true }).toArray();;
+        let arrProduct = await colProduct.find({ idCategory: id, isDelete: false, isLock: false, isAccept: true }).sort({ _id: -1 }).limit(16).skip(16 * page).toArray();
+        let soTrang;
+
+
+        if (rating !== 'undefined' && price === 'undefined') {
+            let allProduct2 = allProduct.filter(data => data.soSao > rating - 0.5 && data.soSao <= rating);
+            let arrProduct2 = arrProduct.filter(data => data.soSao > rating - 0.5 && data.soSao <= rating);
+
+            allProduct = allProduct2;
+            arrProduct = arrProduct2;
+        } else {
+            if (rating === 'undefined' && price !== 'undefined') {
+                let allProduct2 = allProduct.filter(data => data.giaCuoiCung >= parseInt(prices[0]) && data.giaCuoiCung <= parseInt(prices[1]));
+                let arrProduct2 = arrProduct.filter(data => data.giaCuoiCung >= parseInt(prices[0]) && data.giaCuoiCung <= parseInt(prices[1]));
+
+                allProduct = allProduct2;
+                arrProduct = arrProduct2;
+            } else {
+                if (rating !== 'undefined' && price !== 'undefined') {
+                    let allProduct2 = allProduct.filter(data => data.soSao > rating - 0.5 && data.soSao <= rating && data.giaCuoiCung >= parseInt(prices[0]) && data.giaCuoiCung <= parseInt(prices[1]));
+                    let arrProduct2 = arrProduct.filter(data => data.soSao > rating - 0.5 && data.soSao <= rating && data.giaCuoiCung >= parseInt(prices[0]) && data.giaCuoiCung <= parseInt(prices[1]));
+                    allProduct = allProduct2;
+                    arrProduct = arrProduct2;
+                }
+            }
+        }
+
+        soTrang = Math.ceil(parseInt(allProduct.length) / 16);
+
+        // console.log(arrProduct);
+
         client.close();
 
         res.status(200).json({
@@ -180,6 +342,50 @@ module.exports = {
         });
     },
 
+    LayDanhSachProductGiamGia_TheoShop: async function (req, res) {
+        var SoItemMoiPage = parseInt(soItemMoiPageAdmin);
+        const page = req.params.page;
+        const shopID = req.query.shopID;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let allProduct = await colProduct.find({ isDelete: false, idShop: shopID, giaTriGiamGia: { $ne: 0 } }).toArray();
+        let arrProduct = await colProduct.find({ isDelete: false, idShop: shopID, giaTriGiamGia: { $ne: 0 } }).sort({ _id: -1 }).limit(SoItemMoiPage).skip(SoItemMoiPage * page).toArray();
+        let soTrang = Math.ceil(parseInt(allProduct.length) / SoItemMoiPage);
+        client.close();
+        console.log(soTrang)
+        res.status(200).json({
+            status: 'success',
+            data: arrProduct,
+            soTrang: soTrang
+        });
+    },
+
+    LayDanhSachProductKhongGiamGia_TheoShop: async function (req, res) {
+        var SoItemMoiPage = parseInt(soItemMoiPageAdmin);
+        const page = req.params.page;
+        const shopID = req.query.shopID;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let allProduct = await colProduct.find({ isDelete: false, idShop: shopID, giaTriGiamGia: 0 }).toArray();
+        let arrProduct = await colProduct.find({ isDelete: false, idShop: shopID, giaTriGiamGia: 0 }).sort({ _id: -1 }).limit(SoItemMoiPage).skip(SoItemMoiPage * page).toArray();
+        let soTrang = Math.ceil(parseInt(allProduct.length) / SoItemMoiPage);
+        client.close();
+        console.log(soTrang)
+        res.status(200).json({
+            status: 'success',
+            data: arrProduct,
+            soTrang: soTrang
+        });
+    },
+
     LayDanhSachProductDangGiamGia_ShowAll_TheoTrang: async function (req, res) {
         var SoItemMoiPage = parseInt(soItemMoiPageCategory);
         const page = req.params.page;
@@ -265,10 +471,6 @@ module.exports = {
         const shopID = req.query.shopID;
         const search = BoDau(req.query.search);
 
-        console.log(search);
-        console.log(page);
-        console.log(shopID);
-
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
         await client.connect();
         console.log("Connected correctly to server");
@@ -309,8 +511,6 @@ module.exports = {
         }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
         let soTrang = Math.ceil(parseInt(allProduct.length) / soItemMoiPageAdmin);
         client.close();
-
-        console.log(arrProduct);
 
         res.status(200).json({
             status: 'success',
@@ -379,6 +579,41 @@ module.exports = {
             data: arrProduct,
             soTrang: soTrang
         });
+    },
+
+    LayTatCaSanPhamTheoIDShop_TheoOptionKho_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const shopID = req.query.idShop;
+        const option = parseInt(req.query.option);
+
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let allProduct = await colProduct.find({ isDelete: false, idShop: shopID, isLock: false }).toArray();
+        let allProductConTrongKho = [];
+        let allProductDaHetHang = [];
+        for (let index = 0; index < allProduct.length; index++) {
+            if (allProduct[index].soLuongDaBan < allProduct[index].soLuong) {
+                allProductConTrongKho.push(allProduct[index]);
+            } else {
+                allProductDaHetHang.push(allProduct[index]);
+            }
+        }
+        client.close();
+
+        if (option === 1) {
+            res.status(200).json({
+                status: 'success',
+                data: allProductConTrongKho
+            });
+        } else {
+            res.status(200).json({
+                status: 'success',
+                data: allProductDaHetHang
+            });
+        }
     },
 
     LayTatCaSanPhamTheoIDShop_ChuaKhoa_TheoTrang: async function (req, res) {
@@ -484,6 +719,12 @@ module.exports = {
 
     ThemProduct_ChuShop: async function (req, res) {
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        var giaCuoiCung = 0;
+        if (req.body.giaTriGiamGia > 100) {
+            giaCuoiCung = req.body.gia - req.body.giaTriGiamGia;
+        } else {
+            giaCuoiCung = req.body.gia * (100 - req.body.giaTriGiamGia) / 100;
+        }
         let productThem = {
             idShow: 'PRODU-' + ids.generate().toUpperCase(),
             ten: req.body.ten,
@@ -499,7 +740,9 @@ module.exports = {
             moTaNganGon: req.body.moTaNganGon,
             soSao: req.body.soSao,
             giaTriGiamGia: req.body.giaTriGiamGia,
+            giaCuoiCung: giaCuoiCung,
             soLuong: req.body.soLuong,
+            soLuongDaBan: 0,
             thongTinBaoHanh: {
                 baoHanh: req.body.thongTinBaoHanh.baoHanh,
                 loaiBaoHanh: req.body.thongTinBaoHanh.loaiBaoHanh,
@@ -618,6 +861,53 @@ module.exports = {
         res.status(200).json({
             status: 'success',
             message: 'Xóa thành công !'
+        });
+
+    },
+
+    CapNhatSoLuong: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        let productID = req.body.id;
+        let soLuongThem = req.body.soLuongThem;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let result = await colProduct.findOneAndUpdate({ _id: ObjectId(productID) }, { $inc: { "soLuong": soLuongThem } });
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            message: 'Cập nhật thành công !'
+        });
+
+    },
+
+    CapNhatGiaTriGiamGia: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        const productID = req.body.id;
+        const giaTriGiamGia = req.body.giaTriGiamGia;
+        const gia = req.body.gia;
+
+        var giaCuoiCung = 0;
+
+        if (giaTriGiamGia > 100) {
+            giaCuoiCung = gia - giaTriGiamGia;
+        } else {
+            giaCuoiCung = gia * (100 - giaTriGiamGia) / 100;
+        }
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let result = await colProduct.updateOne({ _id: ObjectId(productID) }, { $set: { giaTriGiamGia: giaTriGiamGia, giaCuoiCung: giaCuoiCung } });
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            message: 'Cập nhật thành công !'
         });
 
     },
@@ -741,8 +1031,8 @@ module.exports = {
         await client.connect();
         console.log("Connected correctly to server");
         const db = client.db(DbName);
-        const colBrand = db.collection('PRODUCTS');
-        let result = await colBrand.updateOne({ _id: ObjectId(productSua._id) },
+        const colProduct = db.collection('PRODUCTS');
+        let result = await colProduct.updateOne({ _id: ObjectId(productSua._id) },
             {
                 $set:
                 {
@@ -777,6 +1067,241 @@ module.exports = {
             status: 'success',
             message: 'Sửa thành công'
         });
+    },
 
+    KiemTraKho: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        const id = req.query.id;
+        console.log(id);
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let result = await colProduct.findOne({ idShow: id });
+        client.close()
+        if (result.soLuongDaBan < result.soLuong) {
+            console.log('ok');
+            res.status(200).json({
+                status: 'success',
+                message: 'Còn hàng'
+            });
+        } else {
+            console.log('no');
+            res.status(200).json({
+                status: 'fail',
+                message: 'Hết hàng'
+            });
+        }
+    },
+
+    Top10SanPhamBanChayNhatTheoDoanhThu: async function (req, res) {
+        const shopID = req.query.idShop;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        const colOrderDetail = db.collection('ORDER_DETAILS');
+        let result = await colProduct.find({ idShop: shopID }).toArray();
+        let result2 = await colOrderDetail.find({ idShop: shopID, trangThai: 4 }).toArray();
+
+        let arrThongTin = [];
+
+        for (let index1 = 0; index1 < result.length; index1++) {
+            var thongTin = {
+                tenSanPham: result[index1].ten,
+                img: result[index1].img.chinh,
+                tongTienBanDuoc: 0,
+                soLuongDaBan: result[index1].soLuongDaBan,
+                soDonHang: 0
+            }
+            for (let index2 = 0; index2 < result2.length; index2++) {
+                if (result2[index2].ten === result[index1].ten) {
+                    thongTin.tongTienBanDuoc += result2[index2].thanhTien;
+                    thongTin.soDonHang += 1;
+                }
+            }
+            arrThongTin.push(thongTin);
+        }
+
+        arrThongTin.sort(sapXepTheoDoanhThu);
+
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            data: arrThongTin,
+            message: 'Đã lấy được data top 10 sản phẩm bán chạy nhất theo doanh thu thành công'
+        });
+    },
+
+    Top10SanPhamBanChayNhatTheoSanLuong: async function (req, res) {
+        const shopID = req.query.idShop;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        const colOrderDetail = db.collection('ORDER_DETAILS');
+        let result = await colProduct.find({ idShop: shopID }).toArray();
+        let result2 = await colOrderDetail.find({ idShop: shopID, trangThai: 4 }).toArray();
+
+        let arrThongTin = [];
+
+        for (let index1 = 0; index1 < result.length; index1++) {
+            var thongTin = {
+                tenSanPham: result[index1].ten,
+                img: result[index1].img.chinh,
+                tongTienBanDuoc: 0,
+                soLuongDaBan: result[index1].soLuongDaBan,
+                soDonHang: 0
+            }
+            for (let index2 = 0; index2 < result2.length; index2++) {
+                if (result2[index2].ten === result[index1].ten) {
+                    thongTin.tongTienBanDuoc += result2[index2].thanhTien;
+                    thongTin.soDonHang += 1;
+                }
+            }
+            arrThongTin.push(thongTin);
+        }
+        arrThongTin.sort(sapXepTheoSanLuong);
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            data: arrThongTin,
+            message: 'Đã lấy được data top 10 sản phẩm bán chạy nhất theo sản lượng thành công'
+        });
+    },
+
+    Top10SanPhamBanChayNhatTheoSoLuongDonHang: async function (req, res) {
+        const shopID = req.query.idShop;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        const colOrderDetail = db.collection('ORDER_DETAILS');
+        let result = await colProduct.find({ idShop: shopID }).toArray();
+        let result2 = await colOrderDetail.find({ idShop: shopID, trangThai: 4 }).toArray();
+
+        let arrThongTin = [];
+
+        for (let index1 = 0; index1 < result.length; index1++) {
+            var thongTin = {
+                tenSanPham: result[index1].ten,
+                img: result[index1].img.chinh,
+                tongTienBanDuoc: 0,
+                soLuongDaBan: result[index1].soLuongDaBan,
+                soDonHang: 0
+            }
+            for (let index2 = 0; index2 < result2.length; index2++) {
+                if (result2[index2].ten === result[index1].ten) {
+                    thongTin.tongTienBanDuoc += result2[index2].thanhTien;
+                    thongTin.soDonHang += 1;
+                }
+            }
+            arrThongTin.push(thongTin);
+        }
+        arrThongTin.sort(sapXepTheoSoLuongDonHang);
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            data: arrThongTin,
+            message: 'Đã lấy được data top 10 sản phẩm bán chạy nhất theo số lượng đơn hàng thành công'
+        });
+    },
+}
+
+function sapXepTheoDoanhThu(a, b) {
+
+    const doanhThuA = a.tongTienBanDuoc;
+    const doanhThuB = b.tongTienBanDuoc;
+
+    let comparison = 0;
+    if (doanhThuA > doanhThuB) {
+        comparison = -1;
+    } else if (doanhThuA < doanhThuB) {
+        comparison = 1;
     }
+    return comparison;
+}
+
+function sapXepTheoGiaCuoiCungCaoDenThap(a, b) {
+    var giaCuoiCungA;
+    var giaCuoiCungB;
+
+    if (a.giaTriGiamGia > 100) {
+        giaCuoiCungA = a.gia - a.giaTriGiamGia;
+    } else {
+        giaCuoiCungA = a.gia * (100 - a.giaTriGiamGia) / 100;
+    }
+
+    if (b.giaTriGiamGia > 100) {
+        giaCuoiCungB = b.gia - b.giaTriGiamGia;
+    } else {
+        giaCuoiCungB = b.gia * (100 - b.giaTriGiamGia) / 100;
+    }
+
+    let comparison = 0;
+    if (giaCuoiCungA > giaCuoiCungB) {
+        comparison = -1;
+    } else if (giaCuoiCungA < giaCuoiCungB) {
+        comparison = 1;
+    }
+    return comparison;
+}
+
+function sapXepTheoGiaCuoiCungThapDenCao(a, b) {
+    var giaCuoiCungA;
+    var giaCuoiCungB;
+
+    if (a.giaTriGiamGia > 100) {
+        giaCuoiCungA = a.gia - a.giaTriGiamGia;
+    } else {
+        giaCuoiCungA = a.gia * (100 - a.giaTriGiamGia) / 100;
+    }
+
+    if (b.giaTriGiamGia > 100) {
+        giaCuoiCungB = b.gia - b.giaTriGiamGia;
+    } else {
+        giaCuoiCungB = b.gia * (100 - b.giaTriGiamGia) / 100;
+    }
+
+    let comparison = 0;
+    if (giaCuoiCungA > giaCuoiCungB) {
+        comparison = 1;
+    } else if (giaCuoiCungA < giaCuoiCungB) {
+        comparison = -1;
+    }
+    return comparison;
+}
+
+function sapXepTheoSanLuong(a, b) {
+
+    const doanhThuA = a.soLuongDaBan;
+    const doanhThuB = b.soLuongDaBan;
+
+    let comparison = 0;
+    if (doanhThuA > doanhThuB) {
+        comparison = -1;
+    } else if (doanhThuA < doanhThuB) {
+        comparison = 1;
+    }
+    return comparison;
+}
+
+function sapXepTheoSoLuongDonHang(a, b) {
+
+    const doanhThuA = a.soDonHang;
+    const doanhThuB = b.soDonHang;
+
+    let comparison = 0;
+    if (doanhThuA > doanhThuB) {
+        comparison = -1;
+    } else if (doanhThuA < doanhThuB) {
+        comparison = 1;
+    }
+    return comparison;
 }

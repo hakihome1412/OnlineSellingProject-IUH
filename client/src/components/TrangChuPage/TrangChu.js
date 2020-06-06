@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { MarkettingComponent, DealComponent, HotIndustryComponent, ForCustomerComponent } from '../allJS';
+import { MarkettingComponent, DealComponent, HotSearchComponent, ForCustomerComponent } from '../allJS';
 import { axios } from '../../config/constant';
 import { useDispatch, useSelector } from 'react-redux'
 import { useCookies } from 'react-cookie';
+import { message } from 'antd';
 
 function TrangChu() {
     const [dataCarousel, setDataCarousel] = useState([]);
@@ -10,10 +11,11 @@ function TrangChu() {
     const [dataBanner, setDataBanner] = useState([]);
     const [dataProductSale, setDataProductSale] = useState([]);
     const [dataProduct, setDataProduct] = useState([]);
+    const [dataSearch, setDataSearch] = useState([]);
     const dispatch = useDispatch();
-    const[cookies,setCookie,removeCookie] = useCookies();
+    const [cookies, setCookie, removeCookie] = useCookies();
     const statusDangXuat = useSelector(state => state.statusDangXuat);
-    
+
     async function getDataCarousel() {
         let resData = await axios.get('hethong/carousels');
 
@@ -33,6 +35,15 @@ function TrangChu() {
         }
     }
 
+    async function getDataSearch() {
+        let resData = await axios.get('hethong/datasearch');
+        if (resData.data.status === 'success') {
+            setDataSearch(resData.data.data);
+        } else {
+            message.error("Lấy dữ liệu data Search thất bại");
+        }
+    }
+
     async function getDataBanner() {
         let resData = await axios.get('hethong/banners');
         if (resData.data.status === 'success') {
@@ -43,7 +54,7 @@ function TrangChu() {
     }
 
     async function getDataProductTheoTrang() {
-        let resData = await axios.get('hethong/products-showpage/'+0);
+        let resData = await axios.get('hethong/products-showpage/' + 0);
         if (resData.data.status === 'success') {
             setDataProduct(resData.data.data);
         } else {
@@ -64,16 +75,24 @@ function TrangChu() {
         getDataCarousel();
         getDataCategory();
         getDataBanner();
+        getDataSearch();
         getDataProductDangGiamGiaTheoTrang();
         getDataProductTheoTrang();
         removeCookie('shopID');
-        dispatch({type:'SHOW_HEADER'});
+        if (localStorage.getItem('dataGioHang') === null) {
+            localStorage.setItem('dataGioHang', '[]');
+        }
+        if (localStorage.getItem('idVoucher') === null) {
+            localStorage.setItem('idVoucher', undefined);
+        }
+        dispatch({ type: 'SHOW_HEADER' });
     }, []);
 
     return (
-        <div className="container" style={{ marginTop: '100px' }}>
+        <div className="container" style={{ marginTop: '50px' }}>
             <MarkettingComponent dataBanner={dataBanner} dataCategory={dataCategory} dataCarousel={dataCarousel}></MarkettingComponent>
             <DealComponent dataProductSale={dataProductSale}></DealComponent>
+            <HotSearchComponent dataSearch={dataSearch}></HotSearchComponent>
             <ForCustomerComponent dataProduct={dataProduct}></ForCustomerComponent>
         </div>
     );

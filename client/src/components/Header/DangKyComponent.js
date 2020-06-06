@@ -7,18 +7,18 @@ import { useCookies } from 'react-cookie';
 
 export default function DangKyComponent() {
     const dataNgay = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
-    const dataThang = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    const dataThang = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     const dataNam = [];
-    const [cookies,setCookies] = useCookies();
+    const [cookies, setCookies] = useCookies();
     const dispatch = useDispatch()
-    let  maxOffset = 120;
+    let maxOffset = 120;
     let thisYear = (new Date()).getFullYear();
     for (let x = 0; x <= maxOffset; x++) {
         dataNam.push(thisYear - x)
     }
     const [dataNgaySinh, setDataNgaySinh] = useState({
         ngay: 0,
-        thang: 0,
+        thang: -1,
         nam: 0
     })
     const [dataDangKy, setDataDangKy] = useState({
@@ -32,8 +32,8 @@ export default function DangKyComponent() {
         vaiTro: 2
     })
 
-    function KiemTraDuLieuNhap(data){
-        if(data.ten === '' || data.email === '' || data.sdt ==='' || data.cmnd === '' || data.gioiTinh === '' || data.matKhau === ''){
+    function KiemTraDuLieuNhap(data) {
+        if (data.ten === '' || data.email === '' || data.sdt === '' || data.cmnd === '' || data.gioiTinh === '' || data.matKhau === '') {
             return false
         }
 
@@ -51,7 +51,7 @@ export default function DangKyComponent() {
                 if (res.data.vaiTro === 0) {
                     window.location.pathname = "/admin";
                 } else {
-                    window.location.reload();              
+                    window.location.reload();
                 }
             } else {
                 alert(res.data.message);
@@ -62,28 +62,28 @@ export default function DangKyComponent() {
 
     }
 
-    async function TaoTaiKhoan(){
-        let res = await axios.post('hethong/users-them',{
-        ten: dataDangKy.ten,
-        email: dataDangKy.email,
-        sdt: dataDangKy.sdt,
-        cmnd: dataDangKy.cmnd,
-        ngaySinh: dataDangKy.ngaySinh,
-        gioiTinh: dataDangKy.gioiTinh,
-        taiKhoan:{
-            tenTaiKhoan:dataDangKy.email,
-            matKhau:dataDangKy.matKhau
-        },
-        vaiTro: 2,
-        isLock:false,
-        isDelete:false
+    async function TaoTaiKhoan() {
+        let res = await axios.post('hethong/users-them', {
+            ten: dataDangKy.ten,
+            email: dataDangKy.email,
+            sdt: dataDangKy.sdt,
+            cmnd: dataDangKy.cmnd,
+            ngaySinh: dataDangKy.ngaySinh,
+            gioiTinh: dataDangKy.gioiTinh,
+            taiKhoan: {
+                tenTaiKhoan: dataDangKy.email,
+                matKhau: dataDangKy.matKhau
+            },
+            vaiTro: 2,
+            isLock: false,
+            isDelete: false
         })
 
-        if(res.data.status === 'success'){
+        if (res.data.status === 'success') {
             alert('Đăng ký thành công');
-            dispatch({type:'CLOSE_MODAL_DANGNHAP_DANGKY'});
+            dispatch({ type: 'CLOSE_MODAL_DANGNHAP_DANGKY' });
             XuLyDangNhap();
-        }else{
+        } else {
             alert(res.data.message);
         }
     }
@@ -198,10 +198,10 @@ export default function DangKyComponent() {
                                                 thang: e.target.value
                                             })
                                         }}>
-                                            <option value={0}>Tháng</option>
+                                            <option value={-1}>Tháng</option>
                                             {
                                                 dataThang.map((item, i) => {
-                                                    return <option key={i} value={item}>{item}</option>
+                                                    return <option key={i} value={item}>{(item+1).toString()}</option>
                                                 })
                                             }
                                         </Form.Control>
@@ -227,20 +227,20 @@ export default function DangKyComponent() {
                         <Form.Group as={Row}>
                             <Form.Label column sm={3}></Form.Label>
                             <Col sm={9}>
-                                <Button variant="danger" block onMouseOver={()=>{
+                                <Button variant="danger" block onMouseOver={() => {
                                     setDataDangKy({
                                         ...dataDangKy,
-                                        ngaySinh: new Date(dataNgaySinh.nam,dataNgaySinh.thang,dataNgaySinh.ngay)
+                                        ngaySinh: new Date(dataNgaySinh.nam, dataNgaySinh.thang, dataNgaySinh.ngay)
                                     })
                                 }}
-                                onClick={()=>{
-                                    if(KiemTraDuLieuNhap(dataDangKy) === false){
-                                        alert('Vui lòng nhập đủ dữ liệu');
-                                    }else{
-                                        TaoTaiKhoan()
-                                        console.log(dataDangKy);
-                                    }
-                                }}>
+                                    onClick={() => {
+                                        if (KiemTraDuLieuNhap(dataDangKy) === false) {
+                                            alert('Vui lòng nhập đủ dữ liệu');
+                                        } else {
+                                            TaoTaiKhoan()
+                                            console.log(dataDangKy);
+                                        }
+                                    }}>
                                     Đăng Ký
                                 </Button>
                             </Col>

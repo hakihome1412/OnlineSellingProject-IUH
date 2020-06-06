@@ -136,6 +136,7 @@ module.exports = {
             },
             tongTien: req.body.tongTien,
             soLuongSanPham: req.body.soLuongSanPham,
+            hinhThucThanhToan: req.body.hinhThucThanhToan,
             ngayTao: new Date(req.body.ngayTao),
             idUser: req.body.idUser,
             idVoucher: req.body.idVoucher
@@ -152,10 +153,23 @@ module.exports = {
         const colOrderDetail = db.collection('ORDER_DETAILS');
         const colVoucher = db.collection('VOUCHERS');
         const colLichSu = db.collection('LICHSU_CTDONHANG');
+        const colProduct = db.collection('PRODUCTS');
         let result = await colOrder.insertOne(donHangThem);
         let resultVoucher = await colVoucher.find({ idShow: donHangThem.idVoucher }).next();
+        let resultProduct = await colProduct.find({}).toArray();
 
         if (result.insertedCount > 0) {
+            //Cập nhật số lượng đã bán trong database PRODUCTS
+            for (let index1 = 0; index1 < dataGioHang.length; index1++) {
+                for (let index2 = 0; index2 < resultProduct.length; index2++) {
+                    if (dataGioHang[index1].ten === resultProduct[index2].ten) {
+                        await colProduct.findOneAndUpdate({ idShow: resultProduct[index2].idShow }, { $inc: { "soLuongDaBan": dataGioHang[index1].soLuong } });
+                        break;
+                    }
+                }
+            }
+
+            //Cập nhật thông tin giá trị giảm giá vào trong từng chi tiết đơn hàng
             for (let index = 0; index < dataGioHang.length; index++) {
                 var giamGiaResult = 0;
                 if (resultVoucher !== null) {
@@ -166,6 +180,7 @@ module.exports = {
                     }
                 }
 
+                //tạo chi tiết đơn hàng để thêm vào database
                 var chitiet = {
                     idShow: 'ORDDE-' + ids.generate().toUpperCase(),
                     ten: dataGioHang[index].ten,
@@ -176,6 +191,7 @@ module.exports = {
                     mauSac: dataGioHang[index].mauSac,
                     size: dataGioHang[index].size,
                     img: dataGioHang[index].img,
+                    ngayTao:donHangThem.ngayTao,
                     idShop: dataGioHang[index].idShop,
                     idUser: dataGioHang[index].idUser,
                     idOrder: donHangThem.idShow,
@@ -183,6 +199,7 @@ module.exports = {
                     ghiChu: ''
                 }
 
+                // tạo các lịch sử theo trạng thái đơn hàng
                 var lichSu0Default = {
                     idOrderDetail: chitiet.idShow,
                     trangThai: 0,
@@ -219,7 +236,8 @@ module.exports = {
                     ngayThucHien: ''
                 }
 
-                await colLichSu.insertMany([lichSu0Default,lichSu1Default,lichSu2Default,lichSu3Default,lichSu4Default,lichSu5Default]);
+                //thêm các lịch sử và chi tiết đơn hàng vừa mới tạo vào database
+                await colLichSu.insertMany([lichSu0Default, lichSu1Default, lichSu2Default, lichSu3Default, lichSu4Default, lichSu5Default]);
                 await colOrderDetail.insertOne(chitiet);
                 countResultThemChiTiet += 1;
             }

@@ -1,25 +1,9 @@
 [{
   "_id": {
-    "$oid": "5ea3b10e8ee5c9963c5ea859"
-  },
-  "idShow": "VOUCH-KJHUIO",
-  "ten": "Mừng shop được 1 tuổi",
-  "loaiGiamGia": 0,
-  "giaTriGiam": 10000,
-  "ngayBatDau": {
-    "$date": "2020-04-24T17:00:00Z"
-  },
-  "ngayKetThuc": {
-    "$date": "2020-04-29T17:00:00Z"
-  },
-  "isLock": false,
-  "isDelete": false
-},{
-  "_id": {
     "$oid": "5ea5ed9ca71e06540806cb93"
   },
   "idShow": "VOUCH-MNBCGH",
-  "ten": "Mừng ngày khai trương Phong Vũ",
+  "ten": "Mừng TiemDo có 1 triệu người sử dụng",
   "loaiGiamGia": 1,
   "giaTriGiam": 30,
   "ngayBatDau": {
@@ -27,6 +11,21 @@
   },
   "ngayKetThuc": {
     "$date": "2020-05-09T17:00:00Z"
+  },
+  "isLock": false
+},{
+  "_id": {
+    "$oid": "5ec8cda2e81ad64458c2812e"
+  },
+  "idShow": "VOUCH-HAHAHA",
+  "ten": "Mừng TiemDo đạt 2 triệu người dùng",
+  "loaiGiamGia": 1,
+  "giaTriGiam": 20,
+  "ngayBatDau": {
+    "$date": "2020-05-19T17:00:00Z"
+  },
+  "ngayKetThuc": {
+    "$date": "2020-05-30T17:00:00Z"
   },
   "isLock": false
 }]

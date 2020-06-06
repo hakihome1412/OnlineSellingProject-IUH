@@ -1,25 +1,80 @@
 import React, { useState, Fragment, useEffect } from 'react';
-import { Navbar, Nav, NavDropdown, Form, FormControl, Button, Modal, Tab, Tabs } from 'react-bootstrap';
+import { Navbar, Nav, Form, Button, Modal, Tab, Tabs, Table } from 'react-bootstrap';
 import { DangKyComponent, DangNhapComponent, UserComponent } from '../allJS';
 import { useSelector, useDispatch } from 'react-redux';
 import { useCookies } from 'react-cookie';
-import { Badge } from 'antd';
-import { NavLink, useHistory, Link } from 'react-router-dom';
+import { Badge, message, Dropdown, Menu } from 'antd';
+import { useHistory, Link } from 'react-router-dom';
 import { axios } from '../../config/constant';
 
 function Header() {
     const dispatch = useDispatch();
     const [cookies, setCookies] = useCookies();
     const [dataGioHang, setDataGioHang] = useState(JSON.parse(localStorage.getItem('dataGioHang')));
+    const [dataGioHangNew, setDataGioHangNew] = useState([]);
+    const [dataLichSuTimKiem, setDataLichSuTimKiem] = useState([]);
+    const [dataTimKiemGoiY, setDataTimKiemGoiY] = useState([]);
     const statusThayDoiGioHang = useSelector(state => state.statusThayDoiGioHang);
     const showModalDangNhapDangKy = useSelector(state => state.showModalDangNhapDangKy);
     const isAdminReducer = useSelector(state => state.isAdmin);
+    const [countProductInCart, setCountProductInCart] = useState(0);
     const history = useHistory();
     const [userID, setUserID] = useState('');
+    const valueSearch = useSelector(state => state.valueSearch);
+    const menu = (
+        <Menu>
+            <span style={{ padding: 10 }}><strong>TỪ KHÓA HOT</strong></span>
+            {
+                dataTimKiemGoiY.map((item, i) => {
+                    return <Menu.Item style={{ height: 30 }}>
+                        <Link onClick={(e) => {
+                            e.preventDefault();
+                            history.push('/timkiem?data=' + item.ten + '&order=newest');
+                            dispatch({ type: 'VALUE_SEARCH', valueSearch: item.ten });
+                        }}>
+                            <div style={{ width: '100%' }}>
+                                <span>{item.ten}</span>
+                            </div>
+                        </Link>
+                    </Menu.Item>
+                })
+            }
 
-    useEffect(() => {
-        setDataGioHang(JSON.parse(localStorage.getItem('dataGioHang')));
-    }, [statusThayDoiGioHang]);
+            <span style={{ padding: 10 }}><strong>LỊCH SỬ TÌM KIẾM</strong></span>
+            {
+                cookies.userID !== undefined && (
+                    dataLichSuTimKiem.map((item, i) => {
+                        return <Menu.Item style={{ height: 30 }}>
+                            <Link onClick={(e) => {
+                                e.preventDefault();
+                                history.push('/timkiem?data=' + item.ten + '&order=newest');
+                                dispatch({ type: 'VALUE_SEARCH', valueSearch: item.ten });
+                            }}>
+                                <div style={{ width: '100%' }}>
+                                    <span>{item.ten}</span>
+                                </div>
+                            </Link>
+                        </Menu.Item>
+                    })
+                )
+            }
+
+        </Menu>
+    );
+
+    function getGioHangTheoIDUser() {
+        var arrayGioHangNew = [];
+
+        for (let index = 0; index < dataGioHang.length; index++) {
+            if (dataGioHang[index].idUser === cookies.userID) {
+                arrayGioHangNew.push(dataGioHang[index]);
+            }
+        }
+
+        setCountProductInCart(tinhTongSanPhamTrongGioHang(arrayGioHangNew));
+
+        setDataGioHangNew(arrayGioHangNew);
+    }
 
     function tinhTongSanPhamTrongGioHang(data) {
         var tong = 0;
@@ -49,13 +104,62 @@ function Header() {
         }
     }
 
+    async function CapNhatTimKiem() {
+        let res = await axios.post('hethong/datasearch-capnhat', {
+            search: valueSearch,
+            id: cookies.userID
+        })
+
+        if (res.data.status === 'success') {
+            message.success('Đã cập nhật data search');
+        } else {
+            message.error('Không cập nhật được trong database');
+        }
+    }
+
+    async function LayDataTimKiemHot() {
+        let res = await axios.get('hethong/datasearch-goiy');
+
+        if (res.data.status === 'success') {
+            setDataTimKiemGoiY(res.data.data);
+        } else {
+            message.error('Lấy data tìm kiếm hot gợi ý thất bại');
+        }
+    }
+
+    async function LayDataLichSuTimKiem() {
+        let res = await axios.get('hethong/datasearch-lichsutimkiem?id=' + cookies.userID);
+
+        if (res.data.status === 'success') {
+            setDataLichSuTimKiem(res.data.data);
+        } else {
+            message.error('Lấy data lịch sử tìm kiếm thất bại');
+        }
+    }
+
     useEffect(() => {
-        LayDataUserTheoIDUser(userID);
+        if (statusThayDoiGioHang === false) {
+            setDataGioHang(JSON.parse(localStorage.getItem('dataGioHang')));
+        }
+    }, [statusThayDoiGioHang]);
+
+    useEffect(() => {
+        if (userID !== '') {
+            LayDataUserTheoIDUser(userID);
+        }
     }, [userID])
+
+    useEffect(() => {
+        getGioHangTheoIDUser();
+    }, [dataGioHang])
+
+    useEffect(() => {
+        LayDataTimKiemHot();
+    }, [])
 
     return (
         <Fragment>
-            <Navbar bg="light" variant="light" fixed="top">
+            <Navbar bg="light" variant="light">
                 <Navbar.Brand href="/">
                     <img
                         alt=""
@@ -83,8 +187,22 @@ function Header() {
                     {
                         isAdminReducer === false && (
                             <Form inline style={{ marginLeft: '18%' }}>
-                                <FormControl type="text" placeholder="Search" style={{ width: 300 }} className="mr-sm-1" />
-                                <Button variant="outline-success">Tìm Kiếm</Button>
+                                <Dropdown overlay={menu} trigger={['click']}>
+                                    <Form.Control type="text" value={valueSearch} placeholder="Tìm sản phẩm, danh mục hay thương hiệu mong muốn" style={{ width: 480 }} className="mr-sm-1" onChange={(e) => {
+                                        dispatch({ type: 'VALUE_SEARCH', valueSearch: e.target.value });
+                                    }}
+                                        onClick={() => {
+                                            if (cookies.userID !== undefined) {
+                                                LayDataLichSuTimKiem();
+                                            }
+                                        }} />
+                                </Dropdown>
+                                <Button variant="outline-success" onClick={() => {
+                                    if (valueSearch !== '') {
+                                        CapNhatTimKiem();
+                                        history.push('/timkiem?data=' + valueSearch + '&order=newest');
+                                    }
+                                }}>Tìm Kiếm</Button>
                             </Form>
                         )
                     }
@@ -100,7 +218,7 @@ function Header() {
                         {
                             isAdminReducer === false && (
                                 <Nav.Link href="/checkout/cart">
-                                    <Badge count={cookies.token === undefined ? 0 : tinhTongSanPhamTrongGioHang(dataGioHang)} style={{ width: 4, height: 16, paddingRight: 20, paddingTop: 3, alignSelf: 'center' }}>
+                                    <Badge count={cookies.token === undefined ? 0 : countProductInCart} style={{ width: 4, height: 16, paddingRight: 20, paddingTop: 3, alignSelf: 'center' }}>
                                         <i className="fa fa-shopping-cart" style={{ fontSize: 25 }}></i>
                                     </Badge>
                                 </Nav.Link>

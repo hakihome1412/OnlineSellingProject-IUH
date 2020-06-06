@@ -5,11 +5,12 @@ import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'antd/dist/antd.css';
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider } from 'react-redux';
 import allReducers from './reducers/index';
 import { createStore } from 'redux';
 import { CookiesProvider } from 'react-cookie';
+import { QueryParamProvider } from 'use-query-params';
 
 const store = createStore(allReducers);
 
@@ -17,7 +18,9 @@ ReactDOM.render(
   <CookiesProvider>
     <Provider store={store}>
       <Router>
-        <App />
+        <QueryParamProvider ReactRouterRoute={Route}>
+          <App />
+        </QueryParamProvider>
       </Router>
     </Provider>
   </CookiesProvider>

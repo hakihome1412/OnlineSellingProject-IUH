@@ -176,6 +176,33 @@ module.exports = {
         });
     },
 
+    LayDanhSachCategory_Search_NguoiDung: async function (req, res) {
+        const search = BoDau(req.query.search);
+
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colCategory = db.collection('CATEGORY');
+        const colProduct = db.collection('PRODUCTS');
+
+        let arrCategory = await colCategory.find({ isDelete: false, lowerTen: { '$regex': search, '$options': '$i' } }).toArray();
+
+        let arrCount = [];
+        for (let index = 0; index < arrCategory.length; index++) {
+            let arrProduct = await colProduct.find({ idCategory: arrCategory[index]._id.toString() }).toArray();
+            arrCount.push(arrProduct.length);
+
+        }
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrCategory,
+            dataCount: arrCount
+        });
+    },
+
     ThemCategory: async function (req, res) {
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
         let categoryThem = {

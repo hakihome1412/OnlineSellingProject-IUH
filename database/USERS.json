@@ -3,6 +3,7 @@
     "$oid": "5e9ab673699ae60b147a2821"
   },
   "ten": "Huỳnh Phúc Huy",
+  "lowerTen": "huynh phuc huy",
   "email": "huynhphuchuy1412@gmail.com",
   "sdt": "0932774940",
   "cmnd": "025749157",
@@ -16,6 +17,7 @@
   },
   "thongTinShop": {
     "ten": "",
+    "lowerTen": "",
     "diaChi": "",
     "idShop": "",
     "logoShop": "",
@@ -25,7 +27,8 @@
       "carousel": [],
       "banner1": "",
       "banner2": ""
-    }
+    },
+    "isLock": false
   },
   "vaiTro": 0,
   "isLock": false,
@@ -35,20 +38,20 @@
     "$oid": "5e9ab836699ae60b147a2822"
   },
   "ten": "Văn Thanh Tâm",
+  "lowerTen": "van thanh tam",
   "email": "vanthanhtam@gmail.com",
   "sdt": "0769755434",
   "cmnd": "087388387",
-  "ngaySinh": {
-    "$date": "1997-02-09T17:00:00Z"
-  },
+  "ngaySinh": "1997-02-09T17:00:00.000Z",
   "gioiTinh": 0,
   "taiKhoan": {
     "tenTaiKhoan": "vanthanhtam@gmail.com",
-    "matKhau": "$2b$10$b2yhno5Uv7UAIfgwqtCCBOqvMvQhuCM4AqDcGfl74gM31JsWVww7C"
+    "matKhau": "$2b$10$iFsYfqG1YwJYCOC.xOB0fuTnuETA0.0x.JCBEywdafZ3QD.rmktiW"
   },
   "thongTinShop": {
     "ten": "Thanh lý kidosince",
-    "diaChi": "444 Âu Cơ phường 10, Tân Bình, TP.Hồ Chí Minh",
+    "lowerTen": "thanh ly kidosince",
+    "diaChi": "200 Âu Cơ phường 10, Tân Bình, TP.Hồ Chí Minh",
     "idShop": "SHOP-ADDFFS",
     "logoShop": "https://s3-ap-southeast-1.amazonaws.com/misskicklibrary/wp-content/uploads/2017/10/09141546/shop-quan-ao-thiet-ke-kido.jpg",
     "ngayTao": {
@@ -56,10 +59,14 @@
     },
     "moTa": "Chuyên buôn bán, trao đổi các sản phẩm từ KIDO",
     "img": {
-      "carousel": [],
-      "banner1": "",
-      "banner2": ""
-    }
+      "carousel": [
+        "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fcarouselkido1.PNG?alt=media&token=f3fedebf-b4c4-46fb-b603-0811de449fff",
+        "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fcarouselkido2.PNG?alt=media&token=b87a7b70-693f-4222-8546-a1db112d1ab8"
+      ],
+      "banner1": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fbanner1kido.PNG?alt=media&token=f33d1264-20a2-4069-9c03-ff0eb0b9342b",
+      "banner2": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fbanner2kido.PNG?alt=media&token=c16cbd18-9298-4c7e-82ac-c509e0f0278e"
+    },
+    "isLock": false
   },
   "vaiTro": 1,
   "isLock": false,
@@ -69,28 +76,36 @@
     "$oid": "5e9ab944699ae60b147a2823"
   },
   "ten": "Huỳnh Hoàng",
+  "lowerTen": "huynh hoang",
   "email": "huynhhoang@gmail.com",
   "sdt": "0903774245",
   "cmnd": "023444878",
+  "ngaySinh": {
+    "$date": "1972-05-31T17:00:00Z"
+  },
   "gioiTinh": 1,
   "taiKhoan": {
     "tenTaiKhoan": "huynhhoang@gmail.com",
     "matKhau": "$2b$10$b2yhno5Uv7UAIfgwqtCCBOqvMvQhuCM4AqDcGfl74gM31JsWVww7C"
   },
   "thongTinShop": {
-    "ten": "",
-    "diaChi": "",
-    "idShop": "",
-    "logoShop": "",
-    "ngayTao": "",
-    "moTa": "",
+    "idShop": "SHOP-0D403C",
+    "ten": "DEGREY",
+    "lowerTen": "degrey",
+    "diaChi": "123 Nguyễn Chí Thanh p.6 quận Tân Bình TP.HCM",
+    "logoShop": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fdegrey.PNG?alt=media&token=d0bdf9c6-7677-4a76-894b-13f8e46886bf",
+    "ngayTao": {
+      "$date": "2020-05-24T06:39:11.291Z"
+    },
+    "moTa": "Local brand Việt Nam",
     "img": {
       "carousel": [],
       "banner1": "",
       "banner2": ""
-    }
+    },
+    "isLock": false
   },
-  "vaiTro": 2,
+  "vaiTro": 1,
   "isLock": false,
   "isDelete": false
 },{
@@ -98,20 +113,20 @@
     "$oid": "5ebcf703cacdde1d8caeb469"
   },
   "ten": "Huỳnh Nguyễn Thảo Nhi",
+  "lowerTen": "huynh nguyen thao nhi",
   "email": "thaonhi@gmail.com",
   "sdt": "0938883773",
   "cmnd": "984777463",
-  "ngaySinh": {
-    "$date": "2008-01-21T17:00:00Z"
-  },
+  "ngaySinh": "2008-01-21T17:00:00.000Z",
   "gioiTinh": 0,
   "taiKhoan": {
     "tenTaiKhoan": "thaonhi@gmail.com",
-    "matKhau": "$2b$10$jeTLm89rFELIBaL1jO//eOH9sEsDxWB7awZ9Fyhv6k9H2ewqb65UW"
+    "matKhau": "$2b$10$3UotPKbBfBbdLHtxT9CTRelWNdGMjBbwPG89/xXYksk/H92LpXDVi"
   },
   "thongTinShop": {
     "idShop": "SHOP-D156AB",
     "ten": "BOBUI",
+    "lowerTen": "bobui",
     "diaChi": "34 Hai Bà Trưng p.10 quận 3 TP.HCM",
     "logoShop": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fbobui.PNG?alt=media&token=702df1a7-c1a9-435f-b959-9d633294cfa0",
     "ngayTao": {
@@ -122,9 +137,81 @@
       "carousel": [],
       "banner1": "",
       "banner2": ""
+    },
+    "isLock": false
+  },
+  "vaiTro": 1,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec0bdc0aea88349f44f20ae"
+  },
+  "ten": "Lê Nguyễn Phương Nam",
+  "lowerTen": "le nguyen phuong nam",
+  "email": "namkunpro@gmail.com",
+  "sdt": "0977383990",
+  "cmnd": "0999383883",
+  "ngaySinh": {
+    "$date": "1996-09-11T17:00:00Z"
+  },
+  "gioiTinh": 1,
+  "taiKhoan": {
+    "tenTaiKhoan": "namkunpro@gmail.com",
+    "matKhau": "$2b$10$qJ9e9EpESg4RThW6dO1Kf.nsE7SqenGniUldchnp2aPsVfmjQIhkS"
+  },
+  "thongTinShop": {
+    "ten": "",
+    "lowerTen": "",
+    "diaChi": "",
+    "idShop": "",
+    "logoShop": "",
+    "ngayTao": "",
+    "moTa": "",
+    "img": {
+      "carousel": [],
+      "banner1": "",
+      "banner2": ""
+    },
+    "isLock": false
+  },
+  "vaiTro": 0,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ed37e34027d005bd00e9f14"
+  },
+  "ten": "Tèo",
+  "lowerTen": "teo",
+  "email": "teo@gmail.com",
+  "sdt": "0938883938",
+  "cmnd": "2343244",
+  "ngaySinh": {
+    "$date": "1993-02-02T17:00:00Z"
+  },
+  "gioiTinh": 1,
+  "taiKhoan": {
+    "tenTaiKhoan": "teo@gmail.com",
+    "matKhau": "$2b$10$Q7sZRU6bfvMf8ds1ocTU6OYTFAmbVLgylOZvKkGKlgW3V5kO5DYya"
+  },
+  "thongTinShop": {
+    "idShop": "SHOP-AFEC10",
+    "ten": "Tèo shop",
+    "lowerTen": "teo shop",
+    "diaChi": "4 âu cơ",
+    "logoShop": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fbanner1kido.PNG?alt=media&token=0df7475e-0fda-4146-abcc-a069070bd572",
+    "ngayTao": {
+      "$date": "2020-05-31T09:51:56.616Z"
+    },
+    "moTa": "Shop xịn",
+    "img": {
+      "carousel": [],
+      "banner1": "",
+      "banner2": ""
     }
   },
-  "vaiTro": 2,
+  "vaiTro": 1,
   "isLock": false,
   "isDelete": false
 }]

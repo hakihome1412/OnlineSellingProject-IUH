@@ -4,11 +4,11 @@ loaiGiamGia:
 	1: theo phan tram
 
 
-
 -----PROPDUCTCLASSIFY
 nhomPhanLoai:
 	0:màu sắc
 	1:size
+
 
 -----PRODUCTS
 loaiBaoHanh :
@@ -27,3 +27,10 @@ trangThai:
 	3: khách đã nhận
 	4: hoàn thành
 	5: hủy
+
+
+-----ORDERS
+hinhThucThanhToan:
+	0: thanh toán sau khi nhận hàng
+	1: thanh toán bằng Paypal
+	2: thanh toán bằng thẻ ATM nội địa / internet banking

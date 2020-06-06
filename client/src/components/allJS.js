@@ -3,7 +3,7 @@ import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import DealComponent from './TrangChuPage/DealComponent';
 import MarkettingComponent from './TrangChuPage/MarkettingComponent';
-import HotIndustryComponent from './TrangChuPage/HotIndustryComponent';
+import HotSearchComponent from './TrangChuPage/HotSearchComponent';
 import ForCustomerComponent from './TrangChuPage/ForCustomerComponent';
 import ItemComponent from '../components/DungChung/ItemComponent';
 import CategorySanPham from './SanPhamPage/SanPham';
@@ -26,7 +26,7 @@ import QLBrandComponent from '../components/Admin/QLBrandComponent';
 import QLDonHangComponent from '../components/Admin/QLDonHangComponent';
 import QLGianHangComponent from '../components/Admin/QLGianHangComponent';
 import QLNguoiDungComponent from '../components/Admin/QLNguoiDungComponent';
-import ChuongTrinh from '../components/ChuongTrinhPage/ChuongTrinh';
+import QLBaiVietComponent from '../components/Admin/QLBaiVietComponent';
 import QLProductComponent from '../components/Admin/QLProductComponent';
 import CheckoutCart from '../components/CheckoutCartPage/CheckoutCartt';
 import CheckoutShipping from '../components/CheckoutShippingPage/CheckoutShipping';
@@ -37,15 +37,26 @@ import BanHang_TrangChuComponent from '../components/BanHangPage/BanHang_TrangCh
 import BanHang_DanhSachSanPhamComponent from '../components/BanHangPage/BanHang_DanhSachSanPham';
 import BanHang_TaoMoiSanPhamComponent from '../components/BanHangPage/BanHang_TaoMoiSanPham';
 import BanHang_DonHangComponent from '../components/BanHangPage/BanHang_DonHang';
+import BanHang_DanhSachGiamGiaComponent from '../components/BanHangPage/BanHang_DanhSachGiamGia';
+import BanHang_QuanLyTonKhoComponent from '../components/BanHangPage/BanHang_QuanLyTonKho';
+import BanHang_TongHopDonHangComponent from '../components/BanHangPage/BanHang_TongHopDonHang';
+import BanHang_Top10SanPhamBanChayComponent from '../components/BanHangPage/BanHang_Top10SanPhamBanChay';
+import BanHang_BaoCaoBanHangTongHopComponent from '../components/BanHangPage/BanHang_BaoCaoBanHangTongHop';
 import ResultSuccessPage from '../components/CheckoutPaymentPage/ResultSuccessPage';
 import DealPage from '../components/DealPage/Deal';
 import DanhRiengChoBanPage from '../components/DanhRiengChoBanPage/DanhRiengChoBan';
 import ShopPage from '../components/ShopPage/ShopPage';
 import ErrorPhanQuyen from '../components/ErrorPage/ErrorPhanQuyen';
-import DonHang from '../components/DonHangPage/DonHang';
-import DonHangDetail from '../components/DonHangDetailPage/DonHangDetail';
+import Customer_Account from '../components/CustomerPage/Customer_Account';
+import Customer_DonHang from '../components/CustomerPage/Customer_DonHang';
+import Customer_ThongTinThanhToan from '../components/CustomerPage/Customer_ThongTinThanhToan';
+import Customer_DonHang_Detail from '../components/CustomerPage/Customer_DonHang_Detail';
+import Customer from '../components/CustomerPage/Customer';
+import TimKiem from '../components/TimKiemPage/TimKiem';
+import QuillEditor from '../components/DungChung/QuillEditor';
+import BaiViet from '../components/BaiVietPage/BaiViet';
 
-export{
+export {
     TrangChu,
     Header,
     Footer,
@@ -53,7 +64,7 @@ export{
     QLGianHangComponent,
     QLNguoiDungComponent,
     MarkettingComponent,
-    HotIndustryComponent,
+    HotSearchComponent,
     ForCustomerComponent,
     ErrorPhanQuyen,
     ItemComponent,
@@ -70,12 +81,13 @@ export{
     DangKyComponent,
     DangNhapComponent,
     UserComponent,
+    QuillEditor,
     QLCarouselComponent,
     QLBannerComponent,
     QLCategoryComponent,
     QLBrandComponent,
-    ChuongTrinh,
     QLProductComponent,
+    QLBaiVietComponent,
     CheckoutCart,
     CheckoutShipping,
     CheckoutPayment,
@@ -84,12 +96,22 @@ export{
     BanHang_TrangChuComponent,
     BanHang_DanhSachSanPhamComponent,
     BanHang_TaoMoiSanPhamComponent,
+    BanHang_QuanLyTonKhoComponent,
+    BanHang_TongHopDonHangComponent,
+    BanHang_Top10SanPhamBanChayComponent,
+    BanHang_BaoCaoBanHangTongHopComponent,
+    BanHang_DanhSachGiamGiaComponent,
     ResultSuccessPage,
     DealPage,
     DanhRiengChoBanPage,
     ShopPage,
     QLDonHangComponent,
     BanHang_DonHangComponent,
-    DonHang,
-    DonHangDetail
+    Customer_Account,
+    Customer,
+    Customer_DonHang,
+    Customer_DonHang_Detail,
+    Customer_ThongTinThanhToan,
+    TimKiem,
+    BaiViet
 };

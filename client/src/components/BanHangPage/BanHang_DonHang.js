@@ -303,6 +303,7 @@ export default function BanHang_DonHang() {
                                         <th>Size</th>
                                         <th>Số lượng</th>
                                         <th>Tổng tiền</th>
+                                        <th>Ngày đặt</th>
                                         <th>Trạng thái</th>
                                     </tr>
                                 </thead>
@@ -317,11 +318,12 @@ export default function BanHang_DonHang() {
                                                 }}>
                                                     <td>{item.idOrder}</td>
                                                     <td>{item.idShow}</td>
-                                                    <td>{item.ten}</td>
+                                                    <td style={{width:400}}>{item.ten}</td>
                                                     <td>{item.mauSac === '' ? 'Không có' : item.mauSac}</td>
                                                     <td>{item.size === '' ? 'Không có' : item.size}</td>
                                                     <td>{item.soLuong}</td>
                                                     <td>{format_curency(item.thanhTien.toString())}</td>
+                                                    <td>{new Date(item.ngayTao).toISOString().substring(0,10)}</td>
                                                     <td>
                                                         {
                                                             item.trangThai === 0 && (

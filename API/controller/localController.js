@@ -69,8 +69,6 @@ module.exports = {
             }
         }
 
-        console.log(resultPhuong);
-
         if (resultPhuong === null) {
             res.status(200).json({
                 status: 'fail',

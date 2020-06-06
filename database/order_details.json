@@ -1,0 +1,295 @@
+[{
+  "_id": {
+    "$oid": "5ecfe8f12264734568e3fd5d"
+  },
+  "idShow": "ORDDE-89067B",
+  "ten": "Quần Short Ford Nữ GHP-GARMENT GHP0001",
+  "giaCuoiCung": 88500,
+  "giamGia": 0,
+  "thanhTien": 177000,
+  "soLuong": 2,
+  "mauSac": "Đỏ",
+  "size": "M",
+  "img": "https://salt.tikicdn.com/cache/w780/ts/product/e8/0a/76/b239a51dfcbc7aaf915816d9b7477df2.jpg",
+  "ngayTao": {
+    "$date": "2020-05-28T16:37:58.458Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-66572D",
+  "trangThai": 4,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ecfe8f12264734568e3fd64"
+  },
+  "idShow": "ORDDE-85C824",
+  "ten": "Quần Short Ford Nữ GHP-GARMENT GHP0001",
+  "giaCuoiCung": 88500,
+  "giamGia": 0,
+  "thanhTien": 442500,
+  "soLuong": 5,
+  "mauSac": "Vàng",
+  "size": "M",
+  "img": "https://salt.tikicdn.com/cache/w780/ts/product/e8/0a/76/b239a51dfcbc7aaf915816d9b7477df2.jpg",
+  "ngayTao": {
+    "$date": "2020-05-28T16:37:58.458Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-66572D",
+  "trangThai": 4,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ecfe8f12264734568e3fd6b"
+  },
+  "idShow": "ORDDE-3BB787",
+  "ten": "Quần Short Ford Nữ GHP-GARMENT GHP0001",
+  "giaCuoiCung": 88500,
+  "giamGia": 0,
+  "thanhTien": 442500,
+  "soLuong": 5,
+  "mauSac": "Vàng",
+  "size": "L",
+  "img": "https://salt.tikicdn.com/cache/w780/ts/product/e8/0a/76/b239a51dfcbc7aaf915816d9b7477df2.jpg",
+  "ngayTao": {
+    "$date": "2020-05-28T16:37:58.458Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-66572D",
+  "trangThai": 4,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ecfe9302264734568e3fd73"
+  },
+  "idShow": "ORDDE-D180C5",
+  "ten": "Tay Cầm Microsoft Xbox One S (Màu Trắng) - Hàng Nhập Khẩu",
+  "giaCuoiCung": 1430000,
+  "giamGia": 0,
+  "thanhTien": 4290000,
+  "soLuong": 3,
+  "mauSac": "",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2F123.PNG?alt=media&token=ac10a8a8-cfba-432d-8c46-56b7766ed2a7",
+  "ngayTao": {
+    "$date": "2020-05-28T16:39:11.367Z"
+  },
+  "idShop": "SHOP-D156AB",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-95CEE9",
+  "trangThai": 0,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ecfe9302264734568e3fd7a"
+  },
+  "idShow": "ORDDE-B124D3",
+  "ten": "Laptop Asus ROG Strix G G531GD-AL025T Core i5-9300H/ GTX 1050 4GB/ Win10 (15.6 FHD IPS 120Hz) - Hàng Chính Hãng",
+  "giaCuoiCung": 23950000,
+  "giamGia": 0,
+  "thanhTien": 47900000,
+  "soLuong": 2,
+  "mauSac": "",
+  "size": "",
+  "img": "https://salt.tikicdn.com/cache/w1200/ts/product/2f/8f/6d/56c78374c07b57c6b57ab3fd06793ae3.JPG",
+  "ngayTao": {
+    "$date": "2020-05-28T16:39:11.367Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-95CEE9",
+  "trangThai": 4,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ecfe9582264734568e3fd82"
+  },
+  "idShow": "ORDDE-BEF45E",
+  "ten": "Điện Thoại iPhone XS Max 64GB - Nhập Khẩu Chính Hãng",
+  "giaCuoiCung": 26990000,
+  "giamGia": 0,
+  "thanhTien": 53980000,
+  "soLuong": 2,
+  "mauSac": "",
+  "size": "",
+  "img": "https://salt.tikicdn.com/cache/w1200/ts/product/4d/42/b9/63bc496eae758b107b36c07fed4655aa.jpg",
+  "ngayTao": {
+    "$date": "2020-05-28T16:39:51.773Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-F7F4CB",
+  "trangThai": 4,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ecfe9942264734568e3fd8a"
+  },
+  "idShow": "ORDDE-B05524",
+  "ten": "Bàn Phím Có Dây Dell KB216 - Đen - Hàng Chính Hãng",
+  "giaCuoiCung": 250000,
+  "giamGia": 0,
+  "thanhTien": 250000,
+  "soLuong": 1,
+  "mauSac": "",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fbanphim.PNG?alt=media&token=af1274fc-57f4-4b37-891c-8e7b4a5512ec",
+  "ngayTao": {
+    "$date": "2020-05-28T16:40:45.525Z"
+  },
+  "idShop": "SHOP-D156AB",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-2AA747",
+  "trangThai": 0,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ed090364b9a6709707a915e"
+  },
+  "idShow": "ORDDE-50F41E",
+  "ten": "Máy Xay Thịt Philips HR1393 (0.7L) - Hàng chính hãng",
+  "giaCuoiCung": 701220,
+  "giamGia": 0,
+  "thanhTien": 2103660,
+  "soLuong": 3,
+  "mauSac": "Đen",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fmayxaythitchinh.PNG?alt=media&token=97f9db71-dcd7-43d1-8d46-5fdd6110ee4e",
+  "ngayTao": {
+    "$date": "2020-05-29T04:29:44.604Z"
+  },
+  "idShop": "SHOP-D156AB",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-E6D0ED",
+  "trangThai": 0,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ed09ac14b9a6709707a9167"
+  },
+  "idShow": "ORDDE-F1AA7A",
+  "ten": "Laptop Asus ROG Strix G G531GD-AL025T Core i5-9300H/ GTX 1050 4GB/ Win10 (15.6 FHD IPS 120Hz) - Hàng Chính Hãng",
+  "giaCuoiCung": 23950000,
+  "giamGia": 0,
+  "thanhTien": 23950000,
+  "soLuong": 1,
+  "mauSac": "",
+  "size": "",
+  "img": "https://salt.tikicdn.com/cache/w1200/ts/product/2f/8f/6d/56c78374c07b57c6b57ab3fd06793ae3.JPG",
+  "ngayTao": {
+    "$date": "2020-05-29T05:16:47.508Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab944699ae60b147a2823",
+  "idOrder": "ORDER-667CB3",
+  "trangThai": 4,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ed09ac14b9a6709707a916e"
+  },
+  "idShow": "ORDDE-208EFE",
+  "ten": "Nồi Điện Đa Năng Lock&Lock EJC141 (1.5 Lít) - Hàng Chính Hãng",
+  "giaCuoiCung": 1700000,
+  "giamGia": 0,
+  "thanhTien": 3400000,
+  "soLuong": 2,
+  "mauSac": "",
+  "size": "",
+  "img": "https://salt.tikicdn.com/cache/w1200/ts/product/3d/06/b7/3fa9cc0825a2092ea1224b7aed9cf02c.jpg",
+  "ngayTao": {
+    "$date": "2020-05-29T05:16:47.508Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab944699ae60b147a2823",
+  "idOrder": "ORDER-667CB3",
+  "trangThai": 4,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ed20471cf124d31085f433e"
+  },
+  "idShow": "ORDDE-4B8A80",
+  "ten": "Giày Thể Thao Nam Biti's Hunter X 2018",
+  "giaCuoiCung": 360000,
+  "giamGia": 0,
+  "thanhTien": 1080000,
+  "soLuong": 3,
+  "mauSac": "Đỏ",
+  "size": 40,
+  "img": "https://salt.tikicdn.com/cache/w1200/ts/product/b3/4b/d1/becaa4f984872fcd4497ad31fe199414.JPG",
+  "ngayTao": {
+    "$date": "2020-03-20T06:59:59.326Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-76FAA5",
+  "trangThai": 4,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ed20958d486f94940b8db2c"
+  },
+  "idShow": "ORDDE-30CB9B",
+  "ten": "Laptop Asus ROG Strix G G531GD-AL025T Core i5-9300H/ GTX 1050 4GB/ Win10 (15.6 FHD IPS 120Hz) - Hàng Chính Hãng",
+  "giaCuoiCung": 23950000,
+  "giamGia": 0,
+  "thanhTien": 23950000,
+  "soLuong": 1,
+  "mauSac": "",
+  "size": "",
+  "img": "https://salt.tikicdn.com/cache/w1200/ts/product/2f/8f/6d/56c78374c07b57c6b57ab3fd06793ae3.JPG",
+  "ngayTao": {
+    "$date": "2019-12-21T07:20:55.784Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-67B0CC",
+  "trangThai": 4,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ed368c1027d005bd00e9f0b"
+  },
+  "idShow": "ORDDE-79E627",
+  "ten": "Laptop Asus ROG Strix G G531GD-AL025T Core i5-9300H/ GTX 1050 4GB/ Win10 (15.6 FHD IPS 120Hz) - Hàng Chính Hãng",
+  "giaCuoiCung": 23950000,
+  "giamGia": 0,
+  "thanhTien": 23950000,
+  "soLuong": 1,
+  "mauSac": "",
+  "size": "",
+  "img": "https://salt.tikicdn.com/cache/w1200/ts/product/2f/8f/6d/56c78374c07b57c6b57ab3fd06793ae3.JPG",
+  "ngayTao": {
+    "$date": "2020-05-31T08:19:11.054Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-0DCCCC",
+  "trangThai": 1,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ed37d9f027d005bd00e9f13"
+  },
+  "idShow": "ORDDE-AB90EA",
+  "ten": "Điện Thoại iPhone XS Max 64GB - Nhập Khẩu Chính Hãng",
+  "giaCuoiCung": 24291000,
+  "giamGia": 0,
+  "thanhTien": 24291000,
+  "soLuong": 1,
+  "mauSac": "",
+  "size": "",
+  "img": "https://salt.tikicdn.com/cache/w1200/ts/product/4d/42/b9/63bc496eae758b107b36c07fed4655aa.jpg",
+  "ngayTao": {
+    "$date": "2020-05-31T09:48:27.668Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-29DE41",
+  "trangThai": 1,
+  "ghiChu": ""
+}]

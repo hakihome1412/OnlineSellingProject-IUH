@@ -1,13 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Menu, Dropdown, Tabs, Form, Input } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { Menu, Dropdown } from 'antd';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory, Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
-import { storage } from "../../firebase/firebase";
 import { DownOutlined } from '@ant-design/icons';
 import { Button } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { useCookies } from 'react-cookie';
-import { BanHang_TrangChuComponent, BanHang_DanhSachSanPhamComponent, BanHang_TaoMoiSanPhamComponent, BanHang_DonHangComponent } from '../allJS'
+import { BanHang_TrangChuComponent, BanHang_DanhSachSanPhamComponent, BanHang_DanhSachGiamGiaComponent, BanHang_BaoCaoBanHangTongHopComponent, BanHang_Top10SanPhamBanChayComponent, BanHang_TongHopDonHangComponent, BanHang_QuanLyTonKhoComponent, BanHang_TaoMoiSanPhamComponent, BanHang_DonHangComponent } from '../allJS'
 
 export default function BanHang() {
     const { SubMenu } = Menu;
@@ -89,7 +88,7 @@ export default function BanHang() {
         <div className='row' style={{ marginRight: 0 }}>
             <Fragment>
                 <div className='col-sm-2'>
-                    <div style={{ height: 70, width: 310, backgroundColor: '#003366' }}>
+                    <div style={{ height: 70, width: 'auto', backgroundColor: '#003366' }}>
                         <Link to='/'>
                             <div className='row' style={{ alignItems: 'center', justifyContent: 'center' }}>
                                 <img alt="" src='/logo.png' width="50" height="70" />
@@ -97,7 +96,7 @@ export default function BanHang() {
                             </div>
                         </Link>
                     </div>
-                    <Menu mode="inline" theme="dark" style={{ width: 310, height: 600 }}>
+                    <Menu mode="inline" theme="dark" style={{ width: 'auto', height: 'auto' }}>
                         <Menu.Item key="0" onClick={() => {
                             history.push(`${match.url}/trang-chu`);
                         }}>Trang chủ</Menu.Item>
@@ -106,16 +105,30 @@ export default function BanHang() {
                         }}>Đơn hàng</Menu.Item>
                         <SubMenu key="sub1" title="Sản phẩm">
                             <Menu.Item key="2" onClick={() => {
-                                history.push(`${match.url}/danh-sach-san-pham`);
+                                history.push(`${match.url}/san-pham/danh-sach-san-pham`);
                             }}>Danh sách sản phẩm</Menu.Item>
                             <Menu.Item key="3" onClick={() => {
-                                history.push(`${match.url}/tao-moi-san-pham`);
+                                history.push(`${match.url}/san-pham/tao-moi-san-pham`);
                             }}>Tạo mới/ Đăng mới sản phẩm</Menu.Item>
-                            <Menu.Item key="4" onClick={() => {
-                            }}>Báo cáo tồn kho</Menu.Item>
                         </SubMenu>
-                        <SubMenu key="sub2" title="Quảng cáo">
-                            <Menu.Item key="5">Danh sách giảm giá</Menu.Item>
+                        <SubMenu key="sub2" title="Thống kê">
+                            <Menu.Item key="6" onClick={() => {
+                                history.push(`${match.url}/thong-ke/tong-hop-don-hang`);
+                            }}>Tổng hợp đơn hàng</Menu.Item>
+                            <Menu.Item key="7" onClick={() => {
+                                history.push(`${match.url}/thong-ke/top-10-san-pham-ban-chay-nhat`);
+                            }}>Top 10 sản phẩm bạn chạy nhất</Menu.Item>
+                            <Menu.Item key="8" onClick={() => {
+                                history.push(`${match.url}/thong-ke/bao-cao-ban-hang-tong-hop`);
+                            }}>Báo cáo bán hàng tổng hợp</Menu.Item>
+                        </SubMenu>
+                        <Menu.Item key="4" onClick={() => {
+                            history.push(`${match.url}/quan-ly-kho`);
+                        }}>Quản lý kho</Menu.Item>
+                        <SubMenu key="sub3" title="Quảng cáo">
+                            <Menu.Item key="5" onClick={() => {
+                                history.push(`${match.url}/quang-cao/danh-sach-giam-gia`);
+                            }}>Danh sách giảm giá</Menu.Item>
                         </SubMenu>
                     </Menu>
                 </div>
@@ -134,8 +147,13 @@ export default function BanHang() {
                                 <Redirect exact from={match.url} to={`${match.url}/trang-chu`} />
                                 <Route exact path={`${match.url}/trang-chu`} component={BanHang_TrangChuComponent}></Route>
                                 <Route exact path={`${match.url}/don-hang`} component={BanHang_DonHangComponent}></Route>
-                                <Route exact path={`${match.url}/danh-sach-san-pham`} component={BanHang_DanhSachSanPhamComponent}></Route>
-                                <Route exact path={`${match.url}/tao-moi-san-pham`} component={BanHang_TaoMoiSanPhamComponent}></Route>
+                                <Route exact path={`${match.url}/san-pham/danh-sach-san-pham`} component={BanHang_DanhSachSanPhamComponent}></Route>
+                                <Route exact path={`${match.url}/san-pham/tao-moi-san-pham`} component={BanHang_TaoMoiSanPhamComponent}></Route>
+                                <Route exact path={`${match.url}/quan-ly-kho`} component={BanHang_QuanLyTonKhoComponent}></Route>
+                                <Route exact path={`${match.url}/thong-ke/tong-hop-don-hang`} component={BanHang_TongHopDonHangComponent}></Route>
+                                <Route exact path={`${match.url}/thong-ke/top-10-san-pham-ban-chay-nhat`} component={BanHang_Top10SanPhamBanChayComponent}></Route>
+                                <Route exact path={`${match.url}/thong-ke/bao-cao-ban-hang-tong-hop`} component={BanHang_BaoCaoBanHangTongHopComponent}></Route>
+                                <Route exact path={`${match.url}/quang-cao/danh-sach-giam-gia`} component={BanHang_DanhSachGiamGiaComponent}></Route>
                             </Switch>
 
                         </div>

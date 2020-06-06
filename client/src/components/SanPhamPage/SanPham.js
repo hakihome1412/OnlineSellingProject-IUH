@@ -5,6 +5,8 @@ import { Pagination, Image, Button } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { Result, message, Input } from 'antd';
+import { useQueryParam, StringParam, useQueryParams, withDefault, ArrayParam, NumberParam } from 'use-query-params';
 
 
 export default function SanPham(props) {
@@ -12,10 +14,19 @@ export default function SanPham(props) {
     const categoryID = props.match.params.id;
     const [dataProduct, setDataProduct] = useState([]);
     const [tongSoTrang, setTongSoTrang] = useState(0);
+    const [dataGiaOption, setDataGiaOption] = useState({
+        giaDau: '',
+        giaCuoi: ''
+    })
     const [dataCategory, setDataCategory] = useState({
         _id: '',
         ten: ''
     });
+    const [query, setQuery] = useQueryParams({
+        rating: NumberParam,
+        price: StringParam
+    });
+    const { rating: soSao, price: giaTim } = query;
 
     function setLongString(str) {
         var stringNew = str;
@@ -92,14 +103,30 @@ export default function SanPham(props) {
         }
     }
 
+    async function LayDataProductTheoQuery() {
+        let res = await axios.get('hethong/products-category-nguoidung/' + 0 + '?id=' + categoryID + '&rating=' + soSao + '&price=' + giaTim);
+
+        if (res.data.status === 'success') {
+            setDataProduct(res.data.data);
+            setTongSoTrang(res.data.soTrang);
+        } else {
+            message.error('Lấy data sản phẩm theo query thất bại');
+        }
+    }
+
+    useEffect(() => {
+        LayDataProductTheoQuery()
+    }, [soSao, giaTim])
+
     useEffect(() => {
         LayCategoryTheoID(categoryID);
         LayTatCaSanPhamTheoIDCategoryTheoTrang(categoryID, 0);
-        dispatch({type:'SHOW_HEADER'});
+        window.scrollTo(0, 0);
+        dispatch({ type: 'SHOW_HEADER' });
     }, [])
 
     return (
-        <div className="container" style={{ marginTop: '100px' }}>
+        <div className="container" style={{ marginTop: '50px' }}>
             <div className="row">
                 <div className="col-sm-3 sidebar">
                     <div className="danhmuc-sidebar">
@@ -112,28 +139,108 @@ export default function SanPham(props) {
                     <div className="danhgia-sidebar">
                         <h5>ĐÁNH GIÁ</h5>
                         <div className="danhgia-5sao-sidebar">
-                            {[...Array(5)].map((item,i) => {
-                                return <FaStar key={i} color={"#ffc107"} style={{ marginLeft: 2 }} size={15}></FaStar>
-                            })}
-                            <span style={{ color: "gray", fontSize: 14, marginLeft: 5 }}>(từ 5 sao)</span>
+                            <Link onClick={(e) => {
+                                e.preventDefault();
+                                setQuery({
+                                    ...query,
+                                    rating: 5
+                                }, 'push');
+                            }}>
+                                {[...Array(5)].map((item, i) => {
+                                    return <FaStar key={i} color={"#ffc107"} style={{ marginLeft: 2 }} size={15}></FaStar>
+                                })}
+                                <span style={{ color: "gray", fontSize: 14, marginLeft: 5 }}>(từ 5 sao)</span>
+                            </Link>
                         </div>
                         <div className="danhgia-4sao-sidebar">
-                            {[...Array(4)].map((item,i) => {
-                                return <FaStar key={i} color={"#ffc107"} style={{ marginLeft: 2 }} size={15}></FaStar>
-                            })}
-                            <FaStar style={{ marginLeft: 2 }} size={15}></FaStar>
-                            <span style={{ color: "gray", fontSize: 14, marginLeft: 5 }}>(từ 4 sao)</span>
+                            <Link style={{ color: 'black' }} onClick={(e) => {
+                                e.preventDefault();
+                                setQuery({
+                                    ...query,
+                                    rating: 4
+                                }, 'push');
+                            }}>
+                                {[...Array(4)].map((item, i) => {
+                                    return <FaStar key={i} color={"#ffc107"} style={{ marginLeft: 2 }} size={15}></FaStar>
+                                })}
+                                <FaStar style={{ marginLeft: 2 }} size={15}></FaStar>
+                                <span style={{ color: "gray", fontSize: 14, marginLeft: 5 }}>(từ 4 sao)</span>
+                            </Link>
+
                         </div>
                         <div className="danhgia-3sao-sidebar">
-                            {[...Array(3)].map((item,i) => {
-                                return <FaStar key={i} color={"#ffc107"} style={{ marginLeft: 2 }} size={15}></FaStar>
-                            })}
-                            <FaStar style={{ marginLeft: 2 }} size={15}></FaStar>
-                            <FaStar style={{ marginLeft: 2 }} size={15}></FaStar>
-                            <span style={{ color: "gray", fontSize: 14, marginLeft: 5 }}>(từ 3 sao)</span>
+                            <Link style={{ color: 'black' }} onClick={(e) => {
+                                e.preventDefault();
+                                setQuery({
+                                    ...query,
+                                    rating: 3
+                                }, 'push');
+                            }}>
+                                {[...Array(3)].map((item, i) => {
+                                    return <FaStar key={i} color={"#ffc107"} style={{ marginLeft: 2 }} size={15}></FaStar>
+                                })}
+                                <FaStar style={{ marginLeft: 2 }} size={15}></FaStar>
+                                <FaStar style={{ marginLeft: 2 }} size={15}></FaStar>
+                                <span style={{ color: "gray", fontSize: 14, marginLeft: 5 }}>(từ 3 sao)</span>
+                            </Link>
+
                         </div>
                     </div>
                     <hr style={{ width: 240 }}></hr>
+                    <div className="thuonghieu-sidebar">
+                        <h5>GIÁ</h5>
+                        <div className='col'>
+                            <span>Chọn khoảng giá</span><br></br>
+                            <div className='row'>
+                                <Input value={dataGiaOption.giaDau} style={{ width: 100, marginLeft: 15 }} onChange={(e) => {
+                                    // setDataGiaOption({
+                                    //     ...dataGiaOption,
+                                    //     giaDau: format_curency(e.target.value)
+                                    // })
+
+                                    setDataGiaOption({
+                                        ...dataGiaOption,
+                                        giaDau: e.target.value
+                                    })
+                                }}></Input>
+                                &nbsp;__&nbsp;
+                                <Input value={dataGiaOption.giaCuoi} style={{ width: 100 }} onChange={(e) => {
+                                    // setDataGiaOption({
+                                    //     ...dataGiaOption,
+                                    //     giaCuoi: format_curency(e.target.value)
+                                    // })
+
+                                    setDataGiaOption({
+                                        ...dataGiaOption,
+                                        giaCuoi: e.target.value
+                                    })
+                                }}></Input>
+                            </div>
+                            <Button style={{ marginTop: 10, width: 100 }} onClick={() => {
+                                if (dataGiaOption.giaDau === '' && dataGiaOption.giaCuoi !== '' && parseInt(dataGiaOption.giaCuoi) > 0) {
+                                    setQuery({
+                                        ...query,
+                                        price: '0%2C' + dataGiaOption.giaCuoi
+                                    }, 'push');
+                                }
+
+                                if (dataGiaOption.giaCuoi === '' && dataGiaOption.giaDau !== '' && parseInt(dataGiaOption.giaDau) > 0) {
+                                    setQuery({
+                                        ...query,
+                                        price: '0%2C' + dataGiaOption.giaDau
+                                    }, 'push');
+                                }
+
+                                if (parseInt(dataGiaOption.giaDau) > 0 && parseInt(dataGiaOption.giaCuoi) > 0) {
+                                    setQuery({
+                                        ...query,
+                                        price: dataGiaOption.giaDau + '%2C' + dataGiaOption.giaCuoi
+                                    }, 'push');
+                                }
+                            }}>OK</Button>
+                        </div>
+                    </div>
+                    {/* <hr style={{ width: 240 }}></hr>
                     <div className="thuonghieu-sidebar">
                         <h5>THƯƠNG HIỆU</h5>
                         <div className="thuonghieu-items-sidebar">
@@ -153,7 +260,7 @@ export default function SanPham(props) {
                             <p>DEGREY</p>
                             <p>HIGHCLUB</p>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="col-sm-9">
                     <div className="row maincontent">

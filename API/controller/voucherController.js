@@ -73,7 +73,7 @@ module.exports = {
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colVoucher = db.collection('VOUCHERS');
-        let result = await colVoucher.find({ idShow: voucherID, isDelete: false, isLock: false }).next();
+        let result = await colVoucher.find({ idShow: voucherID, isLock: false }).next();
         client.close();
         if (result === null) {
             res.status(200).json({

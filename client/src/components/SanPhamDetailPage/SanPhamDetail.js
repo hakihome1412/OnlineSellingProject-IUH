@@ -111,6 +111,7 @@ export default function SanPhamDetail(props) {
     useEffect(() => {
         LayDataProductTheoID(productID);
         dispatch({type:'SHOW_HEADER'});
+        window.scrollTo(0,0);
     }, [])
 
     useEffect(() => {
@@ -119,7 +120,7 @@ export default function SanPhamDetail(props) {
         LayPhanLoaiSize(thongTinProduct.idShow);
     }, [thongTinProduct])
     return (
-        <div className="container" style={{ marginTop: '100px' }}>
+        <div className="container" style={{ marginTop: '50px' }}>
             <InforItemComponent phanLoaiColor={phanLoaiColor} phanLoaiSize={phanLoaiSize} thongTinProduct={thongTinProduct}></InforItemComponent>
             <InforDetailItemComponent thongTinProduct={thongTinProduct} thongTinBrand={thongTinBrand}></InforDetailItemComponent>
             <DescriptionItemComponent thongTinProduct={thongTinProduct}></DescriptionItemComponent>

@@ -545,7 +545,12 @@ module.exports = {
                         diaChi: shopThem.diaChi,
                         logoShop: shopThem.logoShop,
                         ngayTao: shopThem.ngayTao,
-                        moTa: shopThem.moTa
+                        moTa: shopThem.moTa,
+                        img: {
+                            carousel: [],
+                            banner1: '',
+                            banner2: ''
+                        }
                     },
                     vaiTro: 1
                 }
@@ -618,5 +623,91 @@ module.exports = {
             status: 'success',
             message: 'Sửa thành công'
         });
-    }
+    },
+
+    SuaThongTinTaiKhoan: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        const saltRounds = 10;
+        let thongTinSua = {
+            _id: req.body._id,
+            hoTen: req.body.hoTen,
+            lowerTen: BoDau(req.body.hoTen),
+            gioiTinh: req.body.gioiTinh,
+            ngaySinh: req.body.ngaySinh,
+            matKhauMoi: req.body.matKhauMoi,
+            trangThaiCapNhatMatKhau: req.body.trangThaiCapNhatMatKhau
+        }
+
+        console.log(thongTinSua)
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colUser = db.collection('USERS');
+        let result;
+        if (thongTinSua.trangThaiCapNhatMatKhau === false) {
+            result = await colUser.updateOne({ _id: ObjectId(thongTinSua._id) },
+                {
+                    $set:
+                    {
+                        ten: thongTinSua.hoTen,
+                        lowerTen: thongTinSua.lowerTen,
+                        gioiTinh: thongTinSua.gioiTinh,
+                        ngaySinh: thongTinSua.ngaySinh
+                    }
+                });
+            client.close();
+            res.status(200).json({
+                status: 'success',
+                message: 'Sửa thông tin thành công'
+            });
+        } else {
+            bcrypt.hash(thongTinSua.matKhauMoi, saltRounds, async function (err, hash) {
+                result = await colUser.updateOne({ _id: ObjectId(thongTinSua._id) },
+                    {
+                        $set:
+                        {
+                            ten: thongTinSua.hoTen,
+                            lowerTen: thongTinSua.lowerTen,
+                            gioiTinh: thongTinSua.gioiTinh,
+                            ngaySinh: thongTinSua.ngaySinh,
+                            'taiKhoan.matKhau': hash
+                        }
+                    });
+                client.close();
+                res.status(200).json({
+                    status: 'success',
+                    message: 'Sửa thông tin thành công'
+                });
+            })
+        }
+    },
+
+    KiemTraDoiMatKhau: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        const _id = req.query.idUser;
+        const matKhauCu = req.query.matKhauCu;
+        const matKhauMoi = req.query.matKhauMoi;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colUser = db.collection('USERS');
+        let result = await colUser.findOne({ _id: ObjectId(_id) });
+        client.close();
+
+        bcrypt.compare(matKhauCu, result.taiKhoan.matKhau, function (err, result) {
+            if (result === true) {
+                res.status(200).json({
+                    status: 'success',
+                    message: 'Tất cả hợp lệ'
+                });
+            } else {
+                res.status(200).json({
+                    status: 'fail',
+                    message: 'Mật khẩu cũ không hợp lệ'
+                });
+            }
+        })
+    },
 }

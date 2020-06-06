@@ -4,12 +4,12 @@
   },
   "idShow": "CAROU-KJHOIU",
   "tieuDe": "SINH NHẬT 1 NĂM",
+  "lowerTieuDe": "sinh nhat 1 nam",
   "moTa": "Có nhiều chương trình khuyến mãi mừng sinh nhật 1 năm TiemDo",
   "img": "https://salt.tikicdn.com/cache/w584/ts/banner/2c/31/3d/2006f89d51ced2f4a1c261135b58181d.jpg",
   "ngayTao": {
     "$date": "2020-04-15T17:00:00Z"
   },
-  "isShow": true,
   "isLock": false,
   "isDelete": false
 },{
@@ -18,12 +18,12 @@
   },
   "idShow": "CAROU-YTRFGH",
   "tieuDe": "Siêu bão giá IT - Laptop",
+  "lowerTieuDe": "sieu bao gia it - laptop",
   "moTa": "Mừng sinh nhật Phong Vũ",
   "img": "https://salt.tikicdn.com/cache/w206/ts/banner/08/84/2c/2091071982fd581dc67d779fbba67a89.jpg",
   "ngayTao": {
     "$date": "2020-04-15T17:00:00Z"
   },
-  "isShow": true,
   "isLock": false,
   "isDelete": false
 },{
@@ -32,12 +32,12 @@
   },
   "idShow": "CAROU-MNBVCX",
   "tieuDe": "NGÔI NHÀ MUA SẮM",
+  "lowerTieuDe": "ngoi nha mua sam",
   "moTa": "Nhập TIEMDO15 để được giảm ngay 15K",
   "img": "https://salt.tikicdn.com/ts/banner/20/70/de/4cb10b80561292aee541a1b802d13f79.jpg",
   "ngayTao": {
     "$date": "2020-04-15T17:00:00Z"
   },
-  "isShow": true,
   "isLock": false,
   "isDelete": false
 },{
@@ -46,12 +46,12 @@
   },
   "idShow": "CAROU-MNBGFD",
   "tieuDe": "Cửa Hàng Lock&Lock săn deal",
+  "lowerTieuDe": "cua hang lock&lock san deal",
   "moTa": "Giảm đến 50%",
   "img": "https://salt.tikicdn.com/ts/banner/cf/09/90/8ee724d5b3af47443a2aa33de63369df.jpg",
   "ngayTao": {
     "$date": "2020-04-15T17:00:00Z"
   },
-  "isShow": false,
   "isLock": false,
   "isDelete": false
 }]

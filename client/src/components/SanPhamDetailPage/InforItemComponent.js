@@ -21,6 +21,7 @@ export default function InforItemComponent(props) {
     const [dataGioHangTruocDo, setDataGioHangTruocDo] = useState([]);
     const dispatch = useDispatch();
     const [srcHinhLon, setSrcHinhLon] = useState('');
+    const [hetHang, setHetHang] = useState(false);
     const [changeDivColor, setChangeDivColor] = useState(-1);
     const [changeDivSize, setChangeDivSize] = useState(-1);
     const [thongTinMuaSanPham, setThongTinMuaSanPham] = useState({
@@ -38,40 +39,6 @@ export default function InforItemComponent(props) {
     });
     const statusThayDoiGioHang = useSelector(state => state.statusThayDoiGioHang);
 
-    useEffect(() => {
-        setSrcHinhLon(dataProduct.img.chinh);
-        setThongTinMuaSanPham({
-            ten: dataProduct.ten,
-            giaCuoiCung: parseInt(tinh_tien(dataProduct.gia, dataProduct.giaTriGiamGia)),
-            giaGoc: dataProduct.gia,
-            khuyenMai: dataProduct.giaTriGiamGia,
-            mauSac: '',
-            size: '',
-            soLuong: '',
-            img: dataProduct.img.chinh,
-            idShop: dataProduct.idShop,
-            tenShop: '',
-            idUser: cookies.userID
-        });
-        LayShopTheoID(dataProduct.idShop);
-    }, [dataProduct]);
-
-    useEffect(() => {
-        setThongTinMuaSanPham({
-            ...thongTinMuaSanPham,
-            tenShop: dataShop.tenShop
-        })
-    }, [dataShop])
-
-    useEffect(() => {
-        if (statusThayDoiGioHang === false) {
-            setDataGioHangTruocDo(JSON.parse(localStorage.getItem('dataGioHang')));
-        } else {
-            localStorage.setItem('dataGioHang', JSON.stringify(dataGioHangTruocDo));
-            dispatch({ type: 'KHONG_THAY_DOI_GIO_HANG' });
-        }
-    }, [statusThayDoiGioHang]);
-
     async function LayShopTheoID(shopID) {
         let res = await axios.get('hethong/users/shop-item?idShop=' + shopID);
         if (res.data.status === 'success') {
@@ -83,6 +50,14 @@ export default function InforItemComponent(props) {
         }
     }
 
+    async function KiemTraKho(productID) {
+        let res = await axios.get('hethong/products-kiemtrakho?id=' + productID);
+        if (res.data.status === 'success') {
+            setHetHang(false);
+        } else {
+            setHetHang(true);
+        }
+    }
 
 
     function format_curency(a) {
@@ -130,7 +105,14 @@ export default function InforItemComponent(props) {
         return str;
     }
 
+    function HamGhep_Ten_MauSac_Size_SanPham(data, idUser) {
+        var newString = data.ten + data.mauSac + data.size + idUser;
+        return newString;
+    }
+
     function ThemVaoGioHang(data) {
+        var catchTrung = false;
+        var indexTrung = -1;
         if (dataGioHangTruocDo.length === 0) {
             setDataGioHangTruocDo(
                 [...dataGioHangTruocDo,
@@ -139,40 +121,65 @@ export default function InforItemComponent(props) {
             dispatch({ type: 'THAY_DOI_GIO_HANG' });
         } else {
             for (let index = 0; index < dataGioHangTruocDo.length; index++) {
-                if (data.ten === dataGioHangTruocDo[index].ten) { // Sản phẩm vừa mới thêm vào giỏ hàng trùng tên với sản phẩm đã có trong giỏ hàng trước đó
-                    if (data.mauSac !== dataGioHangTruocDo[index].mauSac) { // Trùng tên mà khác màu sắc
-                        setDataGioHangTruocDo(
-                            [...dataGioHangTruocDo,
-                                data]
-                        )
-                        dispatch({ type: 'THAY_DOI_GIO_HANG' });
-                    } else {
-                        if (data.size !== dataGioHangTruocDo[index].size) { // Trùng tên mà khác size
-                            setDataGioHangTruocDo(
-                                [...dataGioHangTruocDo,
-                                    data]
-                            )
-                            dispatch({ type: 'THAY_DOI_GIO_HANG' });
-                        } else { // Trùng tên , trùng màu , trùng size
-                            dataGioHangTruocDo[index].soLuong += data.soLuong;
-                            setDataGioHangTruocDo(
-                                [...dataGioHangTruocDo]
-                            )
-                            dispatch({ type: 'THAY_DOI_GIO_HANG' });
-                        }
-                    }
-
-                }
-                else {
-                    setDataGioHangTruocDo(
-                        [...dataGioHangTruocDo,
-                            data]
-                    )
-                    dispatch({ type: 'THAY_DOI_GIO_HANG' });
+                if (HamGhep_Ten_MauSac_Size_SanPham(data, data.idUser) === HamGhep_Ten_MauSac_Size_SanPham(dataGioHangTruocDo[index], dataGioHangTruocDo[index].idUser)) {
+                    catchTrung = true;
+                    indexTrung = index;
+                    break;
                 }
             }
+
+            if (catchTrung === true) {
+                dataGioHangTruocDo[indexTrung].soLuong += data.soLuong;
+                setDataGioHangTruocDo(
+                    [...dataGioHangTruocDo]
+                )
+                dispatch({ type: 'THAY_DOI_GIO_HANG' });
+            } else {
+                setDataGioHangTruocDo(
+                    [...dataGioHangTruocDo,
+                        data]
+                )
+                dispatch({ type: 'THAY_DOI_GIO_HANG' });
+            }
         }
+
     }
+
+    useEffect(() => {
+        setSrcHinhLon(dataProduct.img.chinh);
+        setThongTinMuaSanPham({
+            ten: dataProduct.ten,
+            giaCuoiCung: parseInt(tinh_tien(dataProduct.gia, dataProduct.giaTriGiamGia)),
+            giaGoc: dataProduct.gia,
+            khuyenMai: dataProduct.giaTriGiamGia,
+            mauSac: '',
+            size: '',
+            soLuong: '',
+            img: dataProduct.img.chinh,
+            idShop: dataProduct.idShop,
+            tenShop: '',
+            idUser: cookies.userID
+        });
+        LayShopTheoID(dataProduct.idShop);
+        KiemTraKho(dataProduct.idShow);
+    }, [dataProduct]);
+
+    useEffect(() => {
+        setThongTinMuaSanPham({
+            ...thongTinMuaSanPham,
+            tenShop: dataShop.tenShop
+        })
+    }, [dataShop])
+
+    useEffect(() => {
+        if (statusThayDoiGioHang === false) {
+            setDataGioHangTruocDo(JSON.parse(localStorage.getItem('dataGioHang')));
+        } else {
+            localStorage.setItem('dataGioHang', JSON.stringify(dataGioHangTruocDo));
+            dispatch({ type: 'KHONG_THAY_DOI_GIO_HANG' });
+        }
+    }, [statusThayDoiGioHang]);
+
 
     return (
         <div className="row">
@@ -259,68 +266,127 @@ export default function InforItemComponent(props) {
                 </div>
                 <hr></hr>
                 {
-                    dataColor.length > 0 && (
-                        <div className='col'>
-                            <p>Màu sắc:</p>
-                            {dataColor.map((item, i) => {
-                                return <label key={i}>
-                                    <input type='radio' name='color' className='radio-color' value={i}></input>
-                                    <div className='phanloai' style={{ width: 60, height: 30, backgroundColor: changeDivColor === i ? "orange" : "blue", borderRadius: 5, marginLeft: 10, textAlign: 'center', color: 'white' }} onClick={(e) => {
-                                        setChangeDivColor(i);
-                                        setThongTinMuaSanPham({
-                                            ...thongTinMuaSanPham,
-                                            mauSac: item.tenPhanLoai
-                                        })
-                                    }}>{item.tenPhanLoai}</div>
-                                </label>
-                            })}
-                        </div>
+                    hetHang === true && (
+                        <span style={{ fontSize: 24, fontWeight: 'bold', color: 'orange' }}>Đã bán hết</span>
                     )
                 }
 
                 {
-                    dataSize.length > 0 && (
-                        <div className='col'>
-                            <p>Size:</p>
-                            {dataSize.map((item, i) => {
-                                return <label key={i}>
-                                    <input type='radio' name='color' className='radio-color' value={i}></input>
-                                    <div className='phanloai' style={{ width: 60, height: 30, backgroundColor: changeDivSize === i ? "orange" : "blue", borderRadius: 5, marginLeft: 10, textAlign: 'center', color: 'white' }} onClick={(e) => {
-                                        setChangeDivSize(i);
+                    hetHang === false && (
+                        <Fragment>
+                            {
+                                dataColor.length > 0 && (
+                                    <div className='col'>
+                                        <p>Màu sắc:</p>
+                                        {dataColor.map((item, i) => {
+                                            return <label key={i}>
+                                                <input type='radio' name='color' className='radio-color' value={i}></input>
+                                                <div className='phanloai' style={{ width: 60, height: 30, backgroundColor: changeDivColor === i ? "orange" : "blue", borderRadius: 5, marginLeft: 10, textAlign: 'center', color: 'white' }} onClick={(e) => {
+                                                    setChangeDivColor(i);
+                                                    setThongTinMuaSanPham({
+                                                        ...thongTinMuaSanPham,
+                                                        mauSac: item.tenPhanLoai
+                                                    })
+                                                }}>{item.tenPhanLoai}</div>
+                                            </label>
+                                        })}
+                                    </div>
+                                )
+                            }
+
+                            {
+                                dataSize.length > 0 && (
+                                    <div className='col'>
+                                        <p>Size:</p>
+                                        {dataSize.map((item, i) => {
+                                            return <label key={i}>
+                                                <input type='radio' name='color' className='radio-color' value={i}></input>
+                                                <div className='phanloai' style={{ width: 60, height: 30, backgroundColor: changeDivSize === i ? "orange" : "blue", borderRadius: 5, marginLeft: 10, textAlign: 'center', color: 'white' }} onClick={(e) => {
+                                                    setChangeDivSize(i);
+                                                    setThongTinMuaSanPham({
+                                                        ...thongTinMuaSanPham,
+                                                        size: item.tenPhanLoai
+                                                    })
+                                                }}>{item.tenPhanLoai}</div>
+                                            </label>
+                                        })}
+                                    </div>
+                                )
+                            }
+                            <br></br>
+                            <div className="row">
+                                <div className="col">
+                                    <p>Số lượng:</p>
+                                    <InputNumber min={0} defaultValue={0} onChange={(value) => {
                                         setThongTinMuaSanPham({
                                             ...thongTinMuaSanPham,
-                                            size: item.tenPhanLoai
+                                            soLuong: value
                                         })
-                                    }}>{item.tenPhanLoai}</div>
-                                </label>
-                            })}
-                        </div>
+                                    }} />
+                                </div>
+                                <Button style={{ width: 300, marginRight: 150 }} onClick={() => {
+                                    var resultMau = false;
+                                    var resultSize = false;
+                                    if (cookies.token === undefined) {
+                                        dispatch({ type: 'SHOW_MODAL_DANGNHAP_DANGKY' });
+                                    } else {
+                                        if (thongTinMuaSanPham.soLuong === '') {
+                                            alert('Vui lòng chọn số lượng')
+                                        } else {
+                                            if (dataColor.length > 0) {
+                                                resultMau = true;
+                                            }
+                                            if (dataSize.length > 0) {
+                                                resultSize = true;
+                                            }
+
+                                            //Sản phẩm không có cả 2 phân loại Màu Sắc và Size
+                                            if (resultMau === false && resultSize === false) {
+                                                ThemVaoGioHang(thongTinMuaSanPham);
+                                            }
+
+                                            //Sản phẩm có phân loại Màu Sắc mà không có phân loại Size
+                                            if (resultMau === true && resultSize === false) {
+                                                if (thongTinMuaSanPham.mauSac === '') {
+                                                    alert('Vui lòng chọn màu sắc');
+                                                } else {
+                                                    ThemVaoGioHang(thongTinMuaSanPham);
+                                                }
+                                            }
+
+                                            //Sản phẩm có phân loại Size mà không có phân loại Màu Sắc
+                                            if (resultMau === false && resultSize === true) {
+                                                if (thongTinMuaSanPham.size === '') {
+                                                    alert('Vui lòng chọn size');
+                                                } else {
+                                                    ThemVaoGioHang(thongTinMuaSanPham);
+                                                }
+                                            }
+
+                                            //Sản phẩm có cả 2 phân loại Màu Sắc và Size
+                                            if (resultMau === true && resultSize === true) {
+                                                if (thongTinMuaSanPham.mauSac === '') {
+                                                    alert('Vui lòng chọn màu sắc');
+                                                } else {
+                                                    if (thongTinMuaSanPham.size === '') {
+                                                        alert('Vui lòng chọn màu sắc');
+                                                    } else {
+                                                        ThemVaoGioHang(thongTinMuaSanPham);
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                }}>
+                                    <div className="row" style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                        <FaCartPlus size={30}></FaCartPlus>&nbsp;<strong>CHỌN MUA</strong>
+                                    </div>
+                                </Button>
+                            </div>
+                        </Fragment>
                     )
                 }
-
-                <br></br>
-                <div className="row">
-                    <div className="col">
-                        <p>Số lượng:</p>
-                        <InputNumber min={0} defaultValue={0} onChange={(value) => {
-                            setThongTinMuaSanPham({
-                                ...thongTinMuaSanPham,
-                                soLuong: value
-                            })
-                        }} />
-                    </div>
-                    <Button style={{ width: 300, marginRight: 150 }} onClick={() => {
-                        if (cookies.token === undefined) {
-                            dispatch({ type: 'SHOW_MODAL_DANGNHAP_DANGKY' });
-                        } else {
-                            ThemVaoGioHang(thongTinMuaSanPham);
-                        }
-                    }}>
-                        <div className="row" style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <FaCartPlus size={30}></FaCartPlus>&nbsp;<strong>CHỌN MUA</strong>
-                        </div>
-                    </Button>
-                </div>
             </div>
         </div>
     )

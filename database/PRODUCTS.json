@@ -4,6 +4,7 @@
   },
   "idShow": "PRODU-LKJOIU",
   "ten": "Giày Thể Thao Nam Biti's Hunter X 2018",
+  "lowerTen": "giay the thao nam biti's hunter x 2018",
   "img": {
     "chinh": "https://salt.tikicdn.com/cache/w1200/ts/product/b3/4b/d1/becaa4f984872fcd4497ad31fe199414.JPG",
     "phu": [
@@ -11,9 +12,7 @@
       "https://salt.tikicdn.com/cache/w1200/ts/product/00/e9/63/6d7303c0b265f203b09ed4bb2321ff25.jpg",
       "https://salt.tikicdn.com/cache/w1200/ts/product/0d/3b/2e/84cbcf2a17418ef0d4e83a4d527ca801.jpg"
     ],
-    "moTaChiTiet": [
-      ""
-    ]
+    "moTaChiTiet": []
   },
   "gia": 600000,
   "noiSanXuat": "Việt Nam",
@@ -27,8 +26,11 @@
     "Đệm TPU Film giúp định hình và trợ lực gót chân"
   ],
   "soSao": 5,
-  "giaTriGiamGia": 40,
-  "soLuong": 100,
+  "giaTriGiamGia": 30,
+  "giaCuoiCung": 420000,
+  "soLuong": 300,
+  "soLuongDaBan": 3,
+  "luotXem": 0,
   "thongTinBaoHanh": {
     "baoHanh": false,
     "loaiBaoHanh": "",
@@ -60,9 +62,7 @@
       "https://salt.tikicdn.com/cache/w1200/ts/product/d9/fe/5c/c1a48e288ed30008d091e07b186cba43.jpg",
       "https://salt.tikicdn.com/cache/w1200/ts/product/05/e8/dc/4fb7787783debfb09e10200afffef419.jpg"
     ],
-    "moTaChiTiet": [
-      ""
-    ]
+    "moTaChiTiet": []
   },
   "gia": 1800000,
   "noiSanXuat": "Trung Quốc",
@@ -76,8 +76,11 @@
     "Nồi có quai cầm, thuận tiện khi cho món ăn vào chén, dĩa"
   ],
   "soSao": 5,
-  "giaTriGiamGia": 100000,
-  "soLuong": 100,
+  "giaTriGiamGia": 70000,
+  "giaCuoiCung": 1730000,
+  "soLuong": 200,
+  "soLuongDaBan": 2,
+  "luotXem": 0,
   "thongTinBaoHanh": {
     "baoHanh": true,
     "loaiBaoHanh": 0,
@@ -102,6 +105,7 @@
   },
   "idShow": "PRODU-LDJUYW",
   "ten": "Laptop Asus ROG Strix G G531GD-AL025T Core i5-9300H/ GTX 1050 4GB/ Win10 (15.6 FHD IPS 120Hz) - Hàng Chính Hãng",
+  "lowerTen": "laptop asus rog strix g g531gd-al025t core i5-9300h/ gtx 1050 4gb/ win10 (15.6 fhd ips 120hz) - hang chinh hang",
   "img": {
     "chinh": "https://salt.tikicdn.com/cache/w1200/ts/product/2f/8f/6d/56c78374c07b57c6b57ab3fd06793ae3.JPG",
     "phu": [
@@ -109,9 +113,7 @@
       "https://salt.tikicdn.com/cache/w1200/ts/product/60/59/64/4f497ef92f9c7dfe8dd1cfcfa55d28f7.JPG",
       "https://salt.tikicdn.com/cache/w1200/ts/product/d3/7e/ac/05c2e09d217186b8d336febdadbb3630.JPG"
     ],
-    "moTaChiTiet": [
-      ""
-    ]
+    "moTaChiTiet": []
   },
   "gia": 24000000,
   "noiSanXuat": "Đài Loan",
@@ -125,8 +127,11 @@
     "Màn hình: 15.6-inch FHD (1920x1080) IPS, 120Hz, Non-Glare, 100% sRGB, Wide View, Narrow Bezel"
   ],
   "soSao": 5,
-  "giaTriGiamGia": 50000,
+  "giaTriGiamGia": 20,
+  "giaCuoiCung": 19200000,
   "soLuong": 100,
+  "soLuongDaBan": 5,
+  "luotXem": 0,
   "thongTinBaoHanh": {
     "baoHanh": true,
     "loaiBaoHanh": 0,
@@ -151,6 +156,7 @@
   },
   "idShow": "PRODU-POIJDM",
   "ten": "Điện Thoại Samsung Galaxy S20 Plus - Hàng Chính Hãng - Đã Kích Hoạt Bảo Hành Điện Tử",
+  "lowerTen": "dien thoai samsung galaxy s20 plus - hang chinh hang - da kich hoat bao hanh dien tu",
   "img": {
     "chinh": "https://salt.tikicdn.com/cache/w1200/ts/product/ab/18/e1/de59a5bd4d512de45979147c063eda7b.jpg",
     "phu": [
@@ -158,9 +164,7 @@
       "https://salt.tikicdn.com/cache/w1200/ts/product/4d/b7/51/1ff063c68f8ca2c28152bf66946baeb8.jpg",
       "https://salt.tikicdn.com/cache/w1200/ts/product/7c/11/f7/e7cc9b8673de6049f01068b274f398d5.jpg"
     ],
-    "moTaChiTiet": [
-      ""
-    ]
+    "moTaChiTiet": []
   },
   "gia": 23990000,
   "noiSanXuat": "Việt Nam",
@@ -181,7 +185,10 @@
   ],
   "soSao": 4,
   "giaTriGiamGia": 0,
+  "giaCuoiCung": 23990000,
   "soLuong": 200,
+  "soLuongDaBan": 0,
+  "luotXem": 0,
   "thongTinBaoHanh": {
     "baoHanh": true,
     "loaiBaoHanh": 0,
@@ -194,7 +201,9 @@
   "idBrand": "5ea48589b9f24236c8feab01",
   "idShop": "SHOP-ADDFFS",
   "idCategory": [
-    "5e9823e723f9944a9c8a5dbd"
+    "5e9823e723f9944a9c8a5dbd",
+    "5ed7eb6e69beb1888c0bb3cb",
+    "5ed7eb6169beb1888c0bb3ca"
   ],
   "idEvent": "",
   "isAccept": true,
@@ -206,6 +215,7 @@
   },
   "idShow": "PRODU-MNDHSJ",
   "ten": "Điện Thoại iPhone XS Max 64GB - Nhập Khẩu Chính Hãng",
+  "lowerTen": "dien thoai iphone xs 64gb - nhap khau chinh hang",
   "img": {
     "chinh": "https://salt.tikicdn.com/cache/w1200/ts/product/4d/42/b9/63bc496eae758b107b36c07fed4655aa.jpg",
     "phu": [
@@ -213,9 +223,7 @@
       "https://salt.tikicdn.com/cache/w1200/ts/product/10/5e/39/e1a5ad1e75d2e33882b014e67b5b70c2.jpg",
       "https://salt.tikicdn.com/cache/w1200/ts/product/17/b4/0d/ebe97d90dec3d64b6a70f71dc3229d99.jpg"
     ],
-    "moTaChiTiet": [
-      ""
-    ]
+    "moTaChiTiet": []
   },
   "gia": 26990000,
   "noiSanXuat": "Trung Quốc",
@@ -223,7 +231,7 @@
     "Điện Thoại iPhone XS Max cuối cùng cũng chính thức giới thiệu những chiếc iPhone X thế hệ mới với tên gọi XS Max. XS Max được đọc là \"ten ess\", từ s được đặt trong một ô vuông. iPhone XS Max cũng giống như truyền thống của Apple khi hầu như không thay đổi thiết kế bên ngoài và chỉ nâng cấp nhiều về phần cứng bên trong, iPhone XS Max giống như là dòng Plus cũ, tức là một chiếc iPhone XS to hơn và đây cũng là chiếc iPhone có màn hình lớn nhất từ trước đến nay. iPhone XS Max được trang bị kính bảo vệ mới cho màn hình được Apple nói rằng đó là loại kính bền nhất trên smartphone hiện nay. Máy đạt chuẩn chống nước bụi IP68."
   ],
   "moTaNganGon": [
-    "Nguyên seal, Mới 100%, Chưa Active",
+    "Nguyên seal, Mới 100%, Đã Active",
     "Thiết kế: Nguyên khối",
     "Màn hình OLED: 6.5 inch Super Retina (2688 x 1242), 458ppi, 3D Touch, TrueTone Dolby Vision HDR 10",
     "Camera Trước/Sau: 7MP/ 2 camera 12MP",
@@ -232,9 +240,12 @@
     "RAM: 4GB",
     "SIM: 1 Nano SIM, 1 ESIM"
   ],
-  "soSao": null,
-  "giaTriGiamGia": 0,
-  "soLuong": 100,
+  "soSao": 5,
+  "giaTriGiamGia": 15,
+  "giaCuoiCung": 22941500,
+  "soLuong": 200,
+  "soLuongDaBan": 3,
+  "luotXem": 0,
   "thongTinBaoHanh": {
     "baoHanh": "false",
     "loaiBaoHanh": "",
@@ -247,7 +258,9 @@
   "idBrand": "5ea488d7b9f24236c8feab02",
   "idShop": "SHOP-ADDFFS",
   "idCategory": [
-    "5e9823e723f9944a9c8a5dbd"
+    "5e9823e723f9944a9c8a5dbd",
+    "5ed7eb5769beb1888c0bb3c9",
+    "5ed7eb6e69beb1888c0bb3cb"
   ],
   "idEvent": "",
   "isAccept": true,
@@ -259,6 +272,7 @@
   },
   "idShow": "PRODU-B3A836",
   "ten": "Quần Short Ford Nữ GHP-GARMENT GHP0001",
+  "lowerTen": "quan short ford nu ghp-garment ghp0001",
   "img": {
     "chinh": "https://salt.tikicdn.com/cache/w780/ts/product/e8/0a/76/b239a51dfcbc7aaf915816d9b7477df2.jpg",
     "phu": [],
@@ -275,13 +289,16 @@
     "Thiết kế form suông rộng cá tính và quần lưng thun thoải mái"
   ],
   "soSao": 0,
-  "giaTriGiamGia": 41,
-  "soLuong": 200,
+  "giaTriGiamGia": 10,
+  "giaCuoiCung": 135000,
+  "soLuong": 300,
+  "soLuongDaBan": 12,
+  "luotXem": 0,
   "thongTinBaoHanh": {
-    "baoHanh": false,
-    "loaiBaoHanh": "",
-    "thoiGianBaoHanh": "",
-    "donViBaoHanh": ""
+    "baoHanh": true,
+    "loaiBaoHanh": 0,
+    "thoiGianBaoHanh": 10,
+    "donViBaoHanh": 0
   },
   "ngayTao": {
     "$date": "2020-05-08T17:00:00Z"
@@ -293,7 +310,733 @@
   ],
   "idShop": "SHOP-ADDFFS",
   "idEvent": "",
-  "isAccept": false,
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8e09e1124567df8fc8322"
+  },
+  "idShow": "PRODU-FA0B90",
+  "ten": "Tay Cầm Microsoft Xbox One S (Màu Trắng) - Hàng Nhập Khẩu",
+  "lowerTen": "tay cam microsoft xbox one s (mau trang) - hang nhap khau",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2F123.PNG?alt=media&token=ac10a8a8-cfba-432d-8c46-56b7766ed2a7",
+    "phu": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2F123phu1.PNG?alt=media&token=d6398c7b-1d0d-46f4-9266-68f369300f18",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2F123phu2.PNG?alt=media&token=e442fd14-a824-4526-acaf-8d7dfc779570"
+    ],
+    "moTaChiTiet": []
+  },
+  "gia": 1430000,
+  "noiSanXuat": "Vietnam",
+  "moTa": [
+    "Tay Cầm Microsoft Xbox One S (Màu Trắng) mang lại trải nghiệm trò chơi nhất quán và thông dụng trên cả hai hệ thống trò chơi của Microsoft là Windows và Xbox 360.",
+    "Công nghệ không dây hiệu suất cao 2,4 GHz tích hợp cho phép bạn điều khiển tác vụ cách xa bạn tới 9,14 m. ",
+    "Xbox 360 Controller for Windows hoạt động với hầu hết các máy tính chạy Windows 8 và Xbox 360, cung cấp trải nghiệm chơi trò chơi nhất quán và thông dụng.",
+    "Phản hồi rung đảm bảo tập trung vào chơi trò chơi mọi lúc (đối với một số game có hỗ trợ).",
+    "Giá sản phẩm trên Tiki đã bao gồm thuế theo luật hiện hành. Tuy nhiên tuỳ vào từng loại sản phẩm hoặc phương thức, địa chỉ giao hàng mà có thể phát sinh thêm chi phí khác như phí vận chuyển, phụ phí hàng cồng kềnh, ..."
+  ],
+  "moTaNganGon": [
+    "Không dây",
+    "Dành cho máy tính và Xbox 360",
+    "Phản hồi Rung",
+    "Tiện dụng"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 0,
+  "giaCuoiCung": 1430000,
+  "soLuong": 100,
+  "soLuongDaBan": 3,
+  "luotXem": 0,
+  "thongTinBaoHanh": {
+    "baoHanh": true,
+    "loaiBaoHanh": 1,
+    "thoiGianBaoHanh": 10,
+    "donViBaoHanh": 0
+  },
+  "ngayTao": {
+    "$date": "2020-05-23T08:28:01.212Z"
+  },
+  "idBrand": "5ec8df4f1124567df8fc8321",
+  "idCategory": [
+    "5ec8da853d8f9e78b0a868fd",
+    "5ec8da8b3d8f9e78b0a868fe"
+  ],
+  "idShop": "SHOP-D156AB",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8e27c1124567df8fc8324"
+  },
+  "idShow": "PRODU-200042",
+  "ten": "Đĩa Game Final Fantasy VII Remake - Hàng chính hãng",
+  "lowerTen": "dia game final fantasy vii remake - hang chinh hang",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fdiagame.PNG?alt=media&token=f6c83312-08db-487f-8d7e-c35e2073cfe5",
+    "phu": [],
+    "moTaChiTiet": []
+  },
+  "gia": 1890000,
+  "noiSanXuat": "Vietnam",
+  "moTa": [
+    "Giá sản phẩm trên Tiki đã bao gồm thuế theo luật hiện hành. Tuy nhiên tuỳ vào từng loại sản phẩm hoặc phương thức, địa chỉ giao hàng mà có thể phát sinh thêm chi phí khác như phí vận chuyển, phụ phí hàng cồng kềnh, ..."
+  ],
+  "moTaNganGon": [
+    "Thể loại:RPG",
+    "Hệ máy:S4",
+    "ESRB:Teen",
+    "Ngày phát hành:10/4/2020"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 0,
+  "giaCuoiCung": 1890000,
+  "soLuong": 100,
+  "soLuongDaBan": 0,
+  "luotXem": 0,
+  "thongTinBaoHanh": {
+    "baoHanh": false,
+    "loaiBaoHanh": "",
+    "thoiGianBaoHanh": "",
+    "donViBaoHanh": ""
+  },
+  "ngayTao": {
+    "$date": "2020-05-23T08:38:57.771Z"
+  },
+  "idBrand": "5ec8e1a51124567df8fc8323",
+  "idCategory": [
+    "5ec8da853d8f9e78b0a868fd",
+    "5ec8daa53d8f9e78b0a868ff"
+  ],
+  "idShop": "SHOP-D156AB",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8e50f1124567df8fc8326"
+  },
+  "idShow": "PRODU-06EE23",
+  "ten": "Bàn Phím Có Dây Dell KB216 - Đen - Hàng Chính Hãng",
+  "lowerTen": "ban phim co day dell kb216 - den - hang chinh hang",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fbanphim.PNG?alt=media&token=af1274fc-57f4-4b37-891c-8e7b4a5512ec",
+    "phu": [],
+    "moTaChiTiet": []
+  },
+  "gia": 250000,
+  "noiSanXuat": "Australia",
+  "moTa": [
+    "Bàn Phím Có Dây Dell KB216 - Đen - Hàng Chính Hãng có thiết kế ấn tượng với những đường cong tạo nên một dáng vẻ thời trang và hiện đại. Bàn phím thông minh với các lỗ thoát nước hiệu quả, bảo vệ bàn phím an toàn khỏi các sự cố tràn chất lỏng một cách an toàn. Cổng giao tiếp USB.",
+    "Màu đen bóng.",
+    "Có đường thoát nước lớn hơn giúp việc thoát nước dễ dàng nhanh chóng, không đọng nước trên bàn phím.",
+    "Dây 5m",
+    "Có 6 miếng đệm cao su phía dưới bán phím để tránh trượt trong quá trình sử dụng.",
+    "Các phím được bố trí theo công nghệ Zero Degree Titl không gây tiếng ồn khi sử dụng.",
+    "Tính năng PLUS and PLAY dễ dàn tích hợp các phím nóng.",
+    "Sản phẩm này đã được thử nghiệm và xác nhận trên hệ thống Dell.",
+    "Có các phím nóng đa phương tiện giúp cho việc thao tác thuận tiện dễ dàng hơn như play, pause, rewind, fast or volume."
+  ],
+  "moTaNganGon": [
+    "Cổng giao tiếp USB",
+    "Màu đen bóng",
+    "Có đường thoát nước lớn hơn giúp việc thoát nước dễ dàng nhanh chóng, không đọng nước trên bàn phím",
+    "Dây 2m",
+    "Có 6 miếng đệm cao su phía dưới bán phím để tránh trượt trong quá trình sử dụng",
+    "Các phím được bố trí theo công nghệ Zero Degree Titl không gây tiếng ồn khi sử dụng"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 0,
+  "giaCuoiCung": 250000,
+  "soLuong": 100,
+  "soLuongDaBan": 1,
+  "luotXem": 0,
+  "thongTinBaoHanh": {
+    "baoHanh": true,
+    "loaiBaoHanh": 0,
+    "thoiGianBaoHanh": 2,
+    "donViBaoHanh": 1
+  },
+  "ngayTao": {
+    "$date": "2020-05-23T08:44:47.874Z"
+  },
+  "idBrand": "5ec8e35e1124567df8fc8325",
+  "idCategory": [
+    "5ec8db113d8f9e78b0a86901",
+    "5e98553923f9944a9c8a5dbf"
+  ],
+  "idShop": "SHOP-D156AB",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8e6091124567df8fc8327"
+  },
+  "idShow": "PRODU-AADEA3",
+  "ten": "Đồng hồ Apple Watch Series 5 GPS Only, Aluminum - Sport Band - Hàng nhập khẩu",
+  "lowerTen": "dong ho apple watch series 5 gps only, aluminum - sport band - hang nhap khau",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fapplewatch.PNG?alt=media&token=8b29a250-c357-411b-a5a4-c7d90452e987",
+    "phu": [],
+    "moTaChiTiet": []
+  },
+  "gia": 19900000,
+  "noiSanXuat": "United States",
+  "moTa": [
+    "Màn hình Retina cùng tính năng Always on Display (luôn bật).",
+    "Tính năng mới: tích hợp la bàn, cảm biến độ cao, cuộc gọi khẩn cấp toàn cầu.",
+    "Công nghệ mới siêu tiết kiệm pin."
+  ],
+  "moTaNganGon": [
+    "Apple Watch Series 5 model 2019",
+    "Màn hình rộng, tốc độ 2X, 16GB",
+    "Luôn hiển thị giờ kể cả không nhấc cổ tay",
+    "Phiên bản GPS",
+    "Hiển thị notification, theo dõi sức khoẻ",
+    "Chống nước 50m",
+    "Đo nhịp tim chính xác thông qua điện tâm đồ (ECG)",
+    "Đo nhịp tim chính xác thông qua điện tâm đồ (ECG)"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 0,
+  "giaCuoiCung": 19900000,
+  "soLuong": 100,
+  "soLuongDaBan": 0,
+  "luotXem": 0,
+  "thongTinBaoHanh": {
+    "baoHanh": true,
+    "loaiBaoHanh": 0,
+    "thoiGianBaoHanh": 2,
+    "donViBaoHanh": 1
+  },
+  "ngayTao": {
+    "$date": "2020-05-23T08:55:46.114Z"
+  },
+  "idBrand": "5ea488d7b9f24236c8feab02",
+  "idCategory": [
+    "5ec8da4a3d8f9e78b0a868fc"
+  ],
+  "idShop": "SHOP-D156AB",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8e8991124567df8fc8329"
+  },
+  "idShow": "PRODU-F47550",
+  "ten": "Loa Bluetooth DOSS Soundbox Touch - Hàng Chính Hãng",
+  "lowerTen": "loa bluetooth doss soundbox touch - hang chinh hang",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Floachinh.PNG?alt=media&token=44ff14e0-71b3-4a5e-8014-ac7880773dff",
+    "phu": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Floaphu3.PNG?alt=media&token=5689774a-94d2-436b-82db-ad829380b01c",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Floaphu2.PNG?alt=media&token=2c618db2-701a-4cf2-bb03-cf352ac98232",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Floaphu1.PNG?alt=media&token=e7ecf090-2208-4141-ae40-af869a1b3c16"
+    ],
+    "moTaChiTiet": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fdossmota3.PNG?alt=media&token=818d9cd7-538e-454c-8352-7260890a2958",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fdossmota1.PNG?alt=media&token=a1859773-7b68-43a2-bd4c-e08dfe33f466",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fdossmota2.PNG?alt=media&token=de650ef3-e8ac-4161-a9a0-b2532f384ed2",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fdossmota4.PNG?alt=media&token=31821bd2-7952-4c00-afb3-690693886004"
+    ]
+  },
+  "gia": 1150000,
+  "noiSanXuat": "Vietnam",
+  "moTa": [],
+  "moTaNganGon": [
+    "Bluetooth : 4.0+EDR",
+    "Công suất : 2 x 6W",
+    "Cảm ứng tiện dụng",
+    "Chuẩn chống nước IPX4",
+    "Pin: Li-on 3.7V, 2200mAh",
+    "Thời gian chơi nhạc (Âm lượng 50%) : 12h",
+    "Thời gian sạc : ~3h",
+    "Phạm vi hoạt động : 10m (33ft)",
+    "Phạm vi hoạt động : 10m (33ft)"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 0,
+  "giaCuoiCung": 1150000,
+  "soLuong": 100,
+  "soLuongDaBan": 0,
+  "luotXem": 0,
+  "thongTinBaoHanh": {
+    "baoHanh": true,
+    "loaiBaoHanh": 0,
+    "thoiGianBaoHanh": 1,
+    "donViBaoHanh": 1
+  },
+  "ngayTao": {
+    "$date": "2020-05-23T08:59:56.351Z"
+  },
+  "idBrand": "5ec8e64d1124567df8fc8328",
+  "idCategory": [
+    "5ec8d97a3d8f9e78b0a868f7",
+    "5ec8d9ac3d8f9e78b0a868f9"
+  ],
+  "idShop": "SHOP-D156AB",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec8ffd946938440142eef38"
+  },
+  "idShow": "PRODU-6202B8",
+  "ten": "Nồi Chiên Không Dầu Lock&Lock EJF351BLK (5.2L) (Đen) - Hàng chính hãng",
+  "lowerTen": "noi chien khong dau lock&lock ejf351blk (5.2l) (den) - hang chinh hang",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienchinh.PNG?alt=media&token=6f67629d-3296-4582-9d37-bd69e6e5b87a",
+    "phu": [],
+    "moTaChiTiet": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmota3.PNG?alt=media&token=d3263a60-f8bd-4f05-9f2c-2cb93613afac",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmota5.PNG?alt=media&token=5dfe0307-f214-4d83-8751-93aada9f9e23",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmota1.PNG?alt=media&token=0c1da176-31ad-4c4e-b427-ecfb04717160",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmota2.PNG?alt=media&token=f8db28a9-7775-4030-9f3d-cff9b00055d3",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmota4.PNG?alt=media&token=7a17a62a-60e6-417e-843c-da2c137f1a08"
+    ]
+  },
+  "gia": 4700000,
+  "noiSanXuat": "Vietnam",
+  "moTa": [
+    "Nồi Chiên Không Dầu Lock&Lock EJF351BLK thiết kế độc đáo của nồi chiên kết hợp luồng khí được làm nóng rất cao lưu thông nhanh, thiết kế hình sao và cấu hình làm nóng tối ưu cho phép bạn rán nhiều món ăn ngon miệng khác nhau theo cách nhanh chóng, dễ dàng và lành mạnh cho sức khỏe mà không cần thêm dầu.",
+    "Dung tích nồi chiên Lock&lock 5.2L phù hợp để bạn chiên thực phẩm ăn trong ngày cho gia đình khoảng 6-8 người. Với dung tích này, bạn có thể chế biến các món như: Cánh gà chiên, đùi gà chiên, khoai tây/ khoai lang chiên,… hoặc chiên nguyên cả con gà.",
+    "Bạn có thể tháo rời lòng nồi ra khỏi giỏ chiên bằng cách chạm vào nút ở phía trên tay cầm, giúp trọng lượng tay cầm nhẹ hơn, bạn dễ dàng xoay trở và sắp xếp thức ăn cũng như vệ sinh lòng lồi.",
+    "Được trang bị công nghệ điều khiển cơ bền bỉ và dễ dàng thao tác sử dụng, có vỏ ngoài được làm từ chất liệu nhựa bền đẹp, chịu nhiệt tốt và dễ dàng lau chùi khi bị bám bẩn.",
+    "Công nghệ chiên không dầu mới cho phép bạn chiên rán, nướng và quay thực phẩm nhanh chóng, ít chất béo hơn so với nồi chiên thông thường nhờ việc sử dụng ít dầu hoặc không dùng dầu, cũng tạo ra ít mùi hơn và ít chất béo hơn an toàn cho sức khỏe, giảm thiểu nguy cơ mắc các bệnh béo phì, mỡ má thừa lipid.",
+    "Công nghệ chiên chân không, làm nóng 360 độ làm chín thực phẩm bằng cách đốt nóng không khí bên trong nồi, kết hợp quạt thổi giúp lan tỏa luồng khí nóng luân chuyển nhanh và mạnh đều khắp bề mặt thực phẩm. Nhờ đó, mà thực phẩm khi bạn chiên bằng nồi chiên không dầu sẽ được chín vàng đều, thơm ngon hơn so với chiên rán thông thường.",
+    "Công nghệ chiên chân không, làm nóng 360 độ làm chín thực phẩm bằng cách đốt nóng không khí bên trong nồi, kết hợp quạt thổi giúp lan tỏa luồng khí nóng luân chuyển nhanh và mạnh đều khắp bề mặt thực phẩm. Nhờ đó, mà thực phẩm khi bạn chiên bằng nồi chiên không dầu sẽ được chín vàng đều, thơm ngon hơn so với chiên rán thông thường."
+  ],
+  "moTaNganGon": [
+    "Công suất: 1800W",
+    "Dung tích: 5.2L",
+    "Chiên không dùng dầu, không khói",
+    "Bộ hẹn giờ 30 phút",
+    "Tự ngắt điện khi hoàn tất",
+    "Sản phẩm này dùng điện tử",
+    "Sản phẩm này dùng điện tử"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 40,
+  "giaCuoiCung": 2820000,
+  "soLuong": 100,
+  "soLuongDaBan": 0,
+  "luotXem": 0,
+  "thongTinBaoHanh": {
+    "baoHanh": true,
+    "loaiBaoHanh": 0,
+    "thoiGianBaoHanh": 1,
+    "donViBaoHanh": 1
+  },
+  "ngayTao": {
+    "$date": "2020-05-23T10:43:18.459Z"
+  },
+  "idBrand": "5ea47f3db9f24236c8feaaff",
+  "idCategory": [
+    "5e9854d923f9944a9c8a5dbe"
+  ],
+  "idShop": "SHOP-D156AB",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ec90515e7bd512978e05da0"
+  },
+  "idShow": "PRODU-5751AE",
+  "ten": "Máy Xay Thịt Philips HR1393 (0.7L) - Hàng chính hãng",
+  "lowerTen": "may xay thit philips hr1393 (0.7l) - hang chinh hang",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fmayxaythitchinh.PNG?alt=media&token=97f9db71-dcd7-43d1-8d46-5fdd6110ee4e",
+    "phu": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fmayxaythitphu1.PNG?alt=media&token=4dd2fbbf-6ef7-4beb-a767-cdc29b3a705e",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fmayxaythitphu3.PNG?alt=media&token=1cef7b87-ce94-4322-a8b4-fb28ee13358c",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fmayxaythitphu2.PNG?alt=media&token=c99b3760-0c4c-404e-9ee6-f2be465b4ee2"
+    ],
+    "moTaChiTiet": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fmayxaythitmotta3.PNG?alt=media&token=32901383-2ae6-4939-9753-7253493f48dd",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fmayxaythitmotta4.PNG?alt=media&token=d9b81f38-1f03-49a0-99d4-7b739bd254f1",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fmayxaythitmotta2.PNG?alt=media&token=50ba818a-e4bb-4b89-9a5f-c44547dc9e7e",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fmayxaythitmotta1.PNG?alt=media&token=2deaa2c1-380e-4627-ac7b-1cf1bd70989e"
+    ]
+  },
+  "gia": 899000,
+  "noiSanXuat": "Germany",
+  "moTa": [],
+  "moTaNganGon": [
+    "Loại máy xay: Máy xay thịt",
+    "Công suất: 450W",
+    "Chức năng chính: Xay hạt, Xay thịt",
+    "Cối xay: 1 cối, Cốc xay 0.7L",
+    "Chất liệu cối xay: Nhựa",
+    "Chất liệu lưỡi dao: Thép không rỉ",
+    "Chất liệu lưỡi dao: Thép không rỉ"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 20,
+  "giaCuoiCung": 719200,
+  "soLuong": 100,
+  "soLuongDaBan": 3,
+  "luotXem": 0,
+  "thongTinBaoHanh": {
+    "baoHanh": false,
+    "loaiBaoHanh": "",
+    "thoiGianBaoHanh": "",
+    "donViBaoHanh": ""
+  },
+  "ngayTao": {
+    "$date": "2020-05-23T11:05:56.595Z"
+  },
+  "idBrand": "5ec90405e7bd512978e05d9f",
+  "idCategory": [
+    "5e9854d923f9944a9c8a5dbe"
+  ],
+  "idShop": "SHOP-D156AB",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ed78459db80af5a4c2ebb37"
+  },
+  "idShow": "PRODU-19F772",
+  "ten": "Loa Bluetooth LG XBOOM Go PK3 16W - Hàng Chính Hãng",
+  "lowerTen": "loa bluetooth lg xboom go pk3 16w - hang chinh hang",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanhchinhloalg.PNG?alt=media&token=dc4da7c7-3f55-43cb-b367-4dda47a1d023",
+    "phu": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanhphuloalg1.PNG?alt=media&token=569fa0f8-f0d8-4b43-a6d2-95044221b8dc",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanhphuloalg3.PNG?alt=media&token=3f11b34f-deae-4a41-b323-76335766b168",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanhphuloalg2.PNG?alt=media&token=595e6503-eb59-4ed3-93d0-88b821a31586"
+    ],
+    "moTaChiTiet": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Floalgmota1.PNG?alt=media&token=2d6ecff0-9d47-4629-8259-2d4d059eb148",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Floalgmota3.PNG?alt=media&token=99fed401-9e74-4183-8ce0-e9baed2cccf9",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Floalgmota2.PNG?alt=media&token=f0a4ad5d-83b9-449a-a7fb-692d147c76b0"
+    ]
+  },
+  "gia": 900000,
+  "noiSanXuat": "Korea South",
+  "moTa": [
+    "Thiết kế nhỏ gọn, dễ cầm nắm Loa Bluetooth LG XBOOM Go PK3 được thiết kế hình hộp chữ nhật với các cạnh được bo cong không những tiện cho thao tác cầm nắm mà còn tăng thêm tính thẩm mỹ cho chiếc loa.",
+    "Âm thanh ấn tượng ở mọi nơi Trải nghiệm chất lượng âm thanh đỉnh cao và tính di động hoàn hảo của LG XBOOM Go PK3. Loa trang bị công nghệ Meridian Audio giúp bạn có thể nghe nhạc chất lượng cao cả ở trong nhà và ngoài trời.",
+    "LG X MERIDIAN Audio Trải nghiệm âm thanh chất lượng mỗi ngày cùng với Meridian, thương hiệu tiên phong về âm thanh chất lượng cao đến từ Vương Quốc Anh, LG XBOOM Go PK3 sẽ mang đến trải nghiệm âm thanh vượt trội cho những người yêu âm nhạc trên toàn thế giới.",
+    "Khuếch đại âm Bass dù kích thước nhỏ gọn Tuy loa sở hữu kích thước khá nhỏ gọn nhưng lại có khả năng phát ra âm thanh lớn ấn tượng và âm bass dầy dặn. LG XBOOM Go PK3 mang đến sự cân bằng cũng như âm bass mạnh mẽ và không bị biến dạng, để bạn có thể thoải mái phát các bản nhạc yêu thích như Rock, Metal, EDM, Trance House,",
+    "Cảm nhận tiếng Bass đầy mạnh mẽ Hệ thống bass kép mang đến âm bass sâu hơn, có lực hơn sẽ khiến cho bữa tiệc trở nên sôi động hơn. Hãy bật một bài hát có tiếng bass mạnh và đắm say đầy rung động trong không gian âm nhạc tràn đầy năng lượng và đam mê.",
+    "Cảm nhận tiếng Bass đầy mạnh mẽ Hệ thống bass kép mang đến âm bass sâu hơn, có lực hơn sẽ khiến cho bữa tiệc trở nên sôi động hơn. Hãy bật một bài hát có tiếng bass mạnh và đắm say đầy rung động trong không gian âm nhạc tràn đầy năng lượng và đam mê."
+  ],
+  "moTaNganGon": [
+    "Dung lượng pin: 5200mAh",
+    "Công suất: 16W",
+    "Công nghệ MERIDIAN",
+    "Hệ thống bass cộng hưởng",
+    "Điều khiển bằng giọng nói",
+    "Chỉ số chống nước, IPX7",
+    "Kết nối: Bluetooth"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 38,
+  "giaCuoiCung": 558000,
+  "soLuong": 200,
+  "soLuongDaBan": 0,
+  "thongTinBaoHanh": {
+    "baoHanh": true,
+    "loaiBaoHanh": 0,
+    "thoiGianBaoHanh": 2,
+    "donViBaoHanh": 1
+  },
+  "ngayTao": {
+    "$date": "2020-06-03T11:00:43.616Z"
+  },
+  "idBrand": "5ed78318db80af5a4c2ebb36",
+  "idCategory": [
+    "5ec8d97a3d8f9e78b0a868f7",
+    "5ec8d9ac3d8f9e78b0a868f9"
+  ],
+  "idShop": "SHOP-ADDFFS",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ed7e8ce653c7f86505e3103"
+  },
+  "idShow": "PRODU-7885F5",
+  "ten": "Nồi Chiên Không Dầu Magic A-801 (6.0 Lít) - Hàng Chính Hãng",
+  "lowerTen": "noi chien khong dau magic a-801 (6.0 lit) - hang chinh hang",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmagicanhchinh.PNG?alt=media&token=d3fa4302-d0ff-43e6-a927-5093baea570f",
+    "phu": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmagicanhphu3.PNG?alt=media&token=b9865e7e-1f9c-417b-9e36-d979a2060fb0",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmagicanhphu1.PNG?alt=media&token=89599f71-8416-4e13-8398-349933cebb0c",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmagicanhphu2.PNG?alt=media&token=9e9b9ab8-e148-4176-84d5-4714cbdc8519"
+    ],
+    "moTaChiTiet": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmagicanhmota2.PNG?alt=media&token=9c19e0dc-bbe5-4fba-8f01-9b7c476f6a74",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmagicanhmota4.PNG?alt=media&token=c2dd735e-3f82-421a-8d98-e4dc176df748",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmagicanhmota3.PNG?alt=media&token=50287a90-664e-4e47-becb-b2f4fcc73fd9",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmagicanhmota1.PNG?alt=media&token=a0c8a74f-721b-49d3-aa24-8c58bb831fc1"
+    ]
+  },
+  "gia": 2590000,
+  "noiSanXuat": "Angola",
+  "moTa": [
+    "Nồi chiên tốt cho sức khỏe Như chúng ta đã biết, khi sử dụng Nồi Chiên Không Dầu Magic A-801 (6.0 Lít) không chỉ loại bỏ đến 80% lượng dầu mỡ thừa ra khỏi thức ăn để bảo vệ cơ thể. Ngoài ra, còn tiết kiệm thời gian, vệ sinh an toàn thực phẩm và đặc biệt thực phẩm chín đều và rất ngon.  Với cuộc sống bận rộn và an toàn thực phẩm đang ở mức báo động như hiện nay, thì lò nướng chân không quả thực là một lựa chọn không thể thiếu của mỗi gia đình.",
+    "Dung tích lên đến 6 lít Nồi chiên không dầu gọi một cách khác là Nồi chiên không dầu của hãng Magic luôn được quý khách hàng ưu tiên lựa chọn. Không chỉ vì giá cả phù hợp, mà với thiết kế đẹp mắt, tinh tế cộng với tính năng vượt trội nên đã chiếm lấy trái tim người tiêu dùng.  Nồi chiên không dầu Magic A-801 là một sản phẩm mới của chúng tôi, với thiết kế đẹp mắt, tinh tế hơn. Không những vậy tính năng cũng vượt trội, đặc biệt dung tích cực khủng lên tới 6Lít.",
+    "Công nghệ hiện đại Công nghệ đốt nóng chân không Rapid Air: Đây là công nghệ tiên tiến của Nồi chiên không dầu được cải tiến qua từng sản phẩm. Thức ăn sẽ được khí nóng luân chuyển xung quanh theo nhiều luồng áp sát giúp thức ăn chín đều, vừa phải và vẫn giữu đúng hương vị vốn có.  Nhiệt độ cao, công suất lớn: Nhiệt độ lên tới 200 độ C, công suất 1800W giúp thời gian nấu nướng nhanh hơn bao giờ hết. Với lượng nhiệt cao như thế chắc chắn sẽ giúp thức ăn chín cực kỳ nhanh, cộng với đó là công suất lớn sẽ kết hợp lại giúp bạn tiết kiệm cả khổi thời gian để làm việc khác.",
+    "Công nghệ hiện đại Công nghệ đốt nóng chân không Rapid Air: Đây là công nghệ tiên tiến của Nồi chiên không dầu được cải tiến qua từng sản phẩm. Thức ăn sẽ được khí nóng luân chuyển xung quanh theo nhiều luồng áp sát giúp thức ăn chín đều, vừa phải và vẫn giữu đúng hương vị vốn có.  Nhiệt độ cao, công suất lớn: Nhiệt độ lên tới 200 độ C, công suất 1800W giúp thời gian nấu nướng nhanh hơn bao giờ hết. Với lượng nhiệt cao như thế chắc chắn sẽ giúp thức ăn chín cực kỳ nhanh, cộng với đó là công suất lớn sẽ kết hợp lại giúp bạn tiết kiệm cả khổi thời gian để làm việc khác.",
+    "Công nghệ hiện đại Công nghệ đốt nóng chân không Rapid Air: Đây là công nghệ tiên tiến của Nồi chiên không dầu được cải tiến qua từng sản phẩm. Thức ăn sẽ được khí nóng luân chuyển xung quanh theo nhiều luồng áp sát giúp thức ăn chín đều, vừa phải và vẫn giữu đúng hương vị vốn có.  Nhiệt độ cao, công suất lớn: Nhiệt độ lên tới 200 độ C, công suất 1800W giúp thời gian nấu nướng nhanh hơn bao giờ hết. Với lượng nhiệt cao như thế chắc chắn sẽ giúp thức ăn chín cực kỳ nhanh, cộng với đó là công suất lớn sẽ kết hợp lại giúp bạn tiết kiệm cả khổi thời gian để làm việc khác."
+  ],
+  "moTaNganGon": [
+    "Sản phẩm chiên nướng được mọi người tin dùng",
+    "Làm chín thực phẩm không cần đến dầu - mỡ rất an toàn cho cơ thể",
+    "Tiết kiệm thời gian và vệ sinh an toàn"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 48,
+  "giaCuoiCung": 1346800,
+  "soLuong": 100,
+  "soLuongDaBan": 0,
+  "thongTinBaoHanh": {
+    "baoHanh": true,
+    "loaiBaoHanh": 0,
+    "thoiGianBaoHanh": 1,
+    "donViBaoHanh": 1
+  },
+  "ngayTao": {
+    "$date": "2020-06-03T18:08:04.267Z"
+  },
+  "idBrand": "5ed7e765653c7f86505e3102",
+  "idCategory": [
+    "5e9854d923f9944a9c8a5dbe"
+  ],
+  "idShop": "SHOP-ADDFFS",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ed7edb869beb1888c0bb3ce"
+  },
+  "idShow": "PRODU-2A7BED",
+  "ten": "Điện Thoại iPhone 11 Pro Max 64GB - Hàng Chính Hãng",
+  "lowerTen": "dien thoai iphone 11 pro max 64gb - hang chinh hang",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone11chinh.PNG?alt=media&token=fa4c50ea-b5f9-4df1-9309-093b95809ac0",
+    "phu": [],
+    "moTaChiTiet": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone11mota4.PNG?alt=media&token=e69c2bae-3782-4eab-91f1-648d2d6d5c36",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone11mota6.PNG?alt=media&token=7ae6f179-7e96-4e4f-954a-9cca5a0787ea",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone11mota1.PNG?alt=media&token=6ee5581a-60e9-4786-9d6f-0dbc18dbdebe",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone11mota2.PNG?alt=media&token=f9324eec-134c-4719-99b8-8ba56e879428",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone11mota3.PNG?alt=media&token=60d43c64-4cb8-467a-a322-59c77bda75b4",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone11mota5.PNG?alt=media&token=a297aa81-9193-4508-aa76-65cb64f487be"
+    ]
+  },
+  "gia": 33990000,
+  "noiSanXuat": "Vietnam",
+  "moTa": [
+    "Thiết kế iPhone 11 Pro Max cải tiến ở mặt sau Điện thoại iPhone 11 Pro Max là phiên bản cao cấp nhất của iPhone năm nay. Sản phẩm có nhiều cải tiến nổi bật, hiệu năng, thiết kế mới đặc biệt ở phần mặt lưng và hệ thống camera.  iPhone 11 Pro Max có rất nhiều cải tiến về thiết kế, điểm khác biệt lớn nhất đến từ phần mặt lưng với cụm camera được thiết kế cách điệu khá to. Nhìn từ xa, thiết kế khá giống với mặt Apple Watch. Mặt dù kiểu dáng vẫn còn nhiều tranh cãi, tuy nhiên nhiều người vấn đánh giá rất cao về tính thẩm mỹ.",
+    "Màn hình Super Retina XDR 6.5 inch cho trải nghiệm tuyệt vời Sở hữu màn hình kích thước 6.5 inch, iPhone 11 Pro Max mang đến nhiều không gian trải nghiệm hơn. Sản phẩm được trang bị công nghệ tấm nền OLED, độ phân giải 2688 x 1242 pixels. iPhone 11 Pro Max tiếp tục được trang bị màn hình tai thỏ giống như dòng iPhone X từng gây sốt tại thời điểm mới ra mắt. Cùng với đó, các viền cạnh xung quanh máy sẽ được làm mỏng tối đa, giúp màn hình lớn hơn và mang đến những trải nghiệm thú vị hơn. Hơn thế nữa màn hình Super Retina XDR tự hào có thể điều chỉnh độ sáng để giúp bạn có những trải nghiệm hình ảnh tốt nhất. Nó đạt tới 800 nits khi bạn ra ngoài nắng - tuyệt vời để chụp và thực hiện các lựa chọn khi đang di chuyển - và lên tới 1200 nits khi bạn xem nội dung phạm vi cực kỳ động. Nó giống như có một XDR Pro Display trên iPhone của bạn.",
+    "Bộ vi xử lý mới nhất Apple A13 mạnh mẽ Cung cấp sức mạnh cho iPhone 11 Pro Max sẽ là bộ vi xử lý mới nhất Apple A13 cực kỳ mạnh mẽ. Máy đi kèm với bộ nhớ RAM lên đến 4 GB. Sản phẩm đi kèm với các tùy chọn bộ nhớ gồm iPhone 11 Pro Max 64GB, 256GB và iPhone 11 Pro Max 512GB. Apple sử dụng chip A13 chạy trên tiến trình trên 7nm, với công nghệ mới được gọi là EUV (công nghệ khắc dựa trên tia cực tím). Con chip này đi kèm với một co-processor mới tên là 'AMX' hoặc 'matrix', đây là bộ tăng tốc xử lý tác vụ trí tuệ nhân tạo.",
+    "3 camera chính xếp thành hình vuông độc đáo Camera của iPhone năm nay có rất nhiều điều thú vị, không chỉ nằm ở thiết kế mới lạ mà còn nằm ở tính năng của nó. Cụm camera chính của iPhone 11 Pro Max sẽ có đến camera chính xếp theo hình vuông phía mặt lưng. Gồm các cảm biến 12 MP, 12 MP và 12 MP. Trong đó, một camera telephoto, một camera chụp góc rộng giống và camera còn lại nhiều khả năng hỗ trợ chụp siêu rộng, hứa hẹn mang đến nhiều cải thiện ảnh chụp. Phần camera trước của máy cũng được trang bị một cảm biến độ phân giải 12 MP. Vẫn sẽ có nhiều tùy chọn trong phần cài đặt khi chụp ảnh.",
+    "Quay phim 4K chi tiết, chân thực iPhone 11 Pro Max cho phép bạn quay những video đẹp chân thực, với độ chi tiết cao hơn và chuyển động mượt mà hơn. Sức mạnh xử lý sử thi có nghĩa là nó có thể quay video 4K với dải động mở rộng và ổn định video điện ảnh - tất cả đều ở tốc độ 60 khung hình / giây. Bạn cũng có nhiều quyền kiểm soát sáng tạo hơn, với cảnh gấp bốn lần và các công cụ chỉnh sửa mới mạnh mẽ để chơi.",
+    "Quay phim 4K chi tiết, chân thực iPhone 11 Pro Max cho phép bạn quay những video đẹp chân thực, với độ chi tiết cao hơn và chuyển động mượt mà hơn. Sức mạnh xử lý sử thi có nghĩa là nó có thể quay video 4K với dải động mở rộng và ổn định video điện ảnh - tất cả đều ở tốc độ 60 khung hình / giây. Bạn cũng có nhiều quyền kiểm soát sáng tạo hơn, với cảnh gấp bốn lần và các công cụ chỉnh sửa mới mạnh mẽ để chơi."
+  ],
+  "moTaNganGon": [
+    "Chính hãng, Nguyên seal, Mới 100%, Chưa active",
+    "Mã part: VN/A",
+    "Thiết kế: Nguyên khối",
+    "Màn hình: OLED (Super Retina XDR), 6.5 inch, 2688 x 1242 pixels",
+    " CPU: Apple A13 Bionic (7 nm+) Bộ Nhớ: 64 GB RAM: 4GB SIM: 1 Nano SIM + 1 esim Tính năng: Chống nước, chống bụi, Face ID, Sạc pin nhanh",
+    "CPU: Apple A13 Bionic (7 nm+)",
+    "Bộ Nhớ: 64 GB",
+    "RAM: 4GB",
+    "SIM: 1 Nano SIM + 1 esim",
+    "Tính năng: Chống nước, chống bụi, Face ID, Sạc pin nhanh"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 15,
+  "giaCuoiCung": 28891500,
+  "soLuong": 10,
+  "soLuongDaBan": 0,
+  "thongTinBaoHanh": {
+    "baoHanh": true,
+    "loaiBaoHanh": 0,
+    "thoiGianBaoHanh": 1,
+    "donViBaoHanh": 1
+  },
+  "ngayTao": {
+    "$date": "2020-06-03T18:30:17.756Z"
+  },
+  "idBrand": "5ea488d7b9f24236c8feab02",
+  "idCategory": [
+    "5e9823e723f9944a9c8a5dbd",
+    "5ed7eb5769beb1888c0bb3c9",
+    "5ed7eb6e69beb1888c0bb3cb"
+  ],
+  "idShop": "SHOP-ADDFFS",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ed7f02169beb1888c0bb3d2"
+  },
+  "idShow": "PRODU-E9416F",
+  "ten": "Điện Thoại iPhone 11 64GB - Hàng Chính Hãng",
+  "lowerTen": "dien thoai iphone 11 64gb - hang chinh hang",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone112chinh.PNG?alt=media&token=d0e64b52-363d-438e-880e-89d3eb9c41ca",
+    "phu": [],
+    "moTaChiTiet": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone112mota5.PNG?alt=media&token=4cef7449-d78e-40cb-944f-7d62311adf29",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone112mota1.PNG?alt=media&token=41615f4e-4e20-49ed-9c5b-688aea6bafe6",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone112mota4.PNG?alt=media&token=91322d3a-3fcc-4fe0-955c-847040410ac5",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone112mota2.PNG?alt=media&token=84a74780-8288-4cb9-9d04-210c95a9bac8",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone112mota3.PNG?alt=media&token=701c63e5-2a3d-4e59-a9a4-08fb65ba7c59"
+    ]
+  },
+  "gia": 21990000,
+  "noiSanXuat": "Vietnam",
+  "moTa": [
+    "Thiết kế đậm chất phá cách nhưng cũng không kém sang trọng Điện Thoại iPhone 11 là sản phẩm kế nhiệm cho chiếc iPhone Xr từng dành được sự chú ý của giới công nghệ. Lần này, Apple vẫn đi theo những tiêu chỉ của Xr khi tạo ra iPhone 11. Đầu tiên là thiết kế trẻ trung có thể thấy được ngay trên sự đa dạng màu sắc. Hơn nhữa, những màu của iPhone 11 đều mang xu hướng phá cách, tinh nghịch. Nhưng đồng thời, màu sắc này cũng mang trong nó một sự sang trọng nhất định.",
+    "Mặt trước vẫn là tai thỏ thời thượng như trên những thế hệ iPhone toàn màn hình trước. Tuy vậy, ở mặt sau đã có sự chuyển biến khi mà cụm camera kép mới được đặt trong một modul hình vuông. Thiết kế 2 mặt kính, kèm viền nhôm giúp iPhone 11 có trọng lượng nhẹ, nhưng đồng thời cũng cứng cáp. Phím tắt âm được thiết kế lại thành dạng tròn và có cơ cấu gạt xuống, phù hợp hơn trong quá trình sử dụng máy.",
+    "Màn hình Liquid Retina được đánh giá là tấm nền LCD tốt nhất Màn hình LCD của iPhone 11 có cái tên là Liquid Retina với độ phân giải HD+. Màn hình này cho phép iPhone 11 có độ sáng tốt hơn, kèm theo đó thì với chuẩn Retina của Apple thì máy có khả năng tái hiện màu thực sự tốt. Kể cả trong những điều kiện môi trường với độ sáng gắt. Thêm vào đó, màn hình rộng cũng cho phép iPhone 11 hiển thị nhiều thông tin hơn mà lại không bị quá to để gây khó chịu khi sử dụng.",
+    "Apple-A13 khẳng định vị thế vi xử lý Con chip mới nhất của Apple – A13 bionic sẽ cung cấp sức mạnh cho iPhone 11. Những con chip A luôn có chỗ đứng nhất định trong thế giới công nghệ. Và với A13, Apple đã một lần nữa khẳng định vị thế trong mảng bán dẫn của hãng. Với Neural engine được trang bị 1 nhân riêng, khả năng machine learning và AI của Apple gần như là hoàn hảo. iPhone 11 có thể học được thói quen của người dùng và từ đó thiết lập thiết bị sao cho phù hợp nhất.",
+    "Từ khoảng thời gian sạc pin, lịch trình hàng ngày đến những thiết bị hay kết nối. Tất cả đều sync hoàn hảo với chiếc máy. Hơn nữa, sức mạnh của A13 còn thể hiện qua khả năng đồ họa và hiệu năng khi chơi game. Những tác vụ đồ họa nặng như AR, iPhone 11 đều có thể thực hiện mà không có chút khó khăn. Và không có bất cứ game mobile nào trên thị trường hiện nay có thể làm khó được sức mạnh của của chiếc iPhone giá rẻ này.",
+    "Hệ thống camera kép mới iPhone 11 sở hữu cụm camera kép mặt sau, bao gồm camera góc rộng và camera góc siêu rộng. Cảm biến camera góc rộng 12MP có khả năng lấy nét tự động nhanh gấp 3 lần trong điều kiện thiếu sáng. Bên cạnh đó cảm biến góc siêu rộng cho khả năng chụp cảnh rộng gấp 4 lần, là phương tiện ghi hình tuyệt vời cho những chuyến du lịch, chụp hình nhóm. Nhanh chóng chụp ảnh, quay video, chỉnh sửa và chia sẻ ngay trên iPhone, bạn sẽ không bỏ lỡ bất cứ khoảnh khắc đáng nhớ nào.",
+    "Hệ thống camera kép mới iPhone 11 sở hữu cụm camera kép mặt sau, bao gồm camera góc rộng và camera góc siêu rộng. Cảm biến camera góc rộng 12MP có khả năng lấy nét tự động nhanh gấp 3 lần trong điều kiện thiếu sáng. Bên cạnh đó cảm biến góc siêu rộng cho khả năng chụp cảnh rộng gấp 4 lần, là phương tiện ghi hình tuyệt vời cho những chuyến du lịch, chụp hình nhóm. Nhanh chóng chụp ảnh, quay video, chỉnh sửa và chia sẻ ngay trên iPhone, bạn sẽ không bỏ lỡ bất cứ khoảnh khắc đáng nhớ nào.",
+    "Hệ thống camera kép mới iPhone 11 sở hữu cụm camera kép mặt sau, bao gồm camera góc rộng và camera góc siêu rộng. Cảm biến camera góc rộng 12MP có khả năng lấy nét tự động nhanh gấp 3 lần trong điều kiện thiếu sáng. Bên cạnh đó cảm biến góc siêu rộng cho khả năng chụp cảnh rộng gấp 4 lần, là phương tiện ghi hình tuyệt vời cho những chuyến du lịch, chụp hình nhóm. Nhanh chóng chụp ảnh, quay video, chỉnh sửa và chia sẻ ngay trên iPhone, bạn sẽ không bỏ lỡ bất cứ khoảnh khắc đáng nhớ nào."
+  ],
+  "moTaNganGon": [
+    "Nguyên seal, Mới 100%, Chưa Active",
+    "Công nghệ màn hình: IPS LCD",
+    "Độ phân giải: 828 x 1792 pixels",
+    "Màn hình rộng: 6.1 inches",
+    "Camera sau: 12 MP + 12 MP",
+    "Quay phim: 2160p@24/30/60fps, 1080p@30/60/120/240fps, HDR, stereo sound rec.",
+    "Camera trước: 12 MP, f/2.2",
+    "Hệ điều hành: iOS 13",
+    "Chipset (CPU): Apple A13 Bionic 6 nhân",
+    "RAM: 4 GB",
+    "Bộ nhớ trong: 64GB",
+    "Dung lượng pin: 3110 mAh",
+    "SIM: 1 Nano SIM , 1 esim",
+    "Mã Part: VN/A"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 9,
+  "giaCuoiCung": 20010900,
+  "soLuong": 10,
+  "soLuongDaBan": 0,
+  "thongTinBaoHanh": {
+    "baoHanh": true,
+    "loaiBaoHanh": 0,
+    "thoiGianBaoHanh": 1,
+    "donViBaoHanh": 1
+  },
+  "ngayTao": {
+    "$date": "2020-06-03T18:40:44.500Z"
+  },
+  "idBrand": "5ea488d7b9f24236c8feab02",
+  "idCategory": [
+    "5e9823e723f9944a9c8a5dbd",
+    "5ed7eb5769beb1888c0bb3c9",
+    "5ed7eb6e69beb1888c0bb3cb"
+  ],
+  "idShop": "SHOP-ADDFFS",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ed7f2ea69beb1888c0bb3d7"
+  },
+  "idShow": "PRODU-BFCB8E",
+  "ten": "Điện Thoại Samsung Galaxy A51 (128GB/6GB) - Hàng Chính Hãng - Đã Kích Hoạt Bảo Hành Điện Tử",
+  "lowerTen": "dien thoai samsung galaxy a51 (128gb/6gb) - hang chinh hang - da kich hoat bao hanh dien tu",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungchinh.PNG?alt=media&token=56a5b50a-5bd2-4aad-9f30-11f276c7631f",
+    "phu": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungphu2.PNG?alt=media&token=d1ee6596-ba8f-477b-9b2f-95798c168ab2",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungphu3.PNG?alt=media&token=403cb84a-196c-4e7d-b733-2a23db993080",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungphu1.PNG?alt=media&token=3970980d-c8ac-4a13-86f1-b7ce25e722e0",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungchinh.PNG?alt=media&token=caa0b17c-495f-4aea-8821-113a5d830877"
+    ],
+    "moTaChiTiet": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungmota2.PNG?alt=media&token=4885d877-ca52-4188-8f12-b1e938735fd2",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungmota4.PNG?alt=media&token=66fa62a5-f27b-44eb-9cfe-59ba8d6f2e62",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungmota1.PNG?alt=media&token=fe7ccd6a-a5fe-4eb1-b00b-3d6fc793d89d",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungmota5.PNG?alt=media&token=69a87e68-d704-470b-a509-d492ebbc19e2",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungmota6.PNG?alt=media&token=b1ca52ad-0d50-416d-b8b9-bd37535a6b0c",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungmota3.PNG?alt=media&token=cca38f22-9f51-40ef-b517-5921559b1f14"
+    ]
+  },
+  "gia": 7990000,
+  "noiSanXuat": "India",
+  "moTa": [
+    "Bắt trọn đường nét mọi tuyệt tác Điện Thoại Samsung Galaxy A51 (128GB/6GB) được thiết kế trẻ trung với màu sắc độc đáo, 4 camera sau chuyên nghiệp, Samsung Galaxy A51 sẵn sàng đột phá cùng bạn để tạo nên những bức ảnh độc đáo, nghệ thuật như máy ảnh chuyên nghiệp.  Galaxy A51 giúp bạn khám phá những điều nhỏ nhất của cuộc sống bằng camera Macro chuyên chụp cận cảnh. Khả năng lấy nét ở cự ly siêu gần 3-5cm giúp bạn lưu giữ lại những vật thể nhỏ bé với vẻ đẹp tự nhiên, mang đến trải nghiệm chụp ảnh hoàn toàn mới trên điện thoại.",
+    "4 camera sau AI 48MP đẳng cấp Chỉ là một chiếc điện thoại nhưng Galaxy A51 có thể chụp được những bức ảnh chuyên nghiệp trong mọi hoàn cảnh.",
+    "Sở hữu màn hình Infinity O cong, tràn viền vô cực 6,5 inch Super AMOLED Tận hưởng những nội dung sống động trên màn hình tràn viền vô cực 6,5 inch Super AMOLED Full HD+ cực đã với hình ảnh sắc nét và màu sắc rực rỡ tuyệt đẹp. Samsung sử dụng màn hình vô cực Infinity-O thế hệ mới với camera selfie nằm ngay trong màn hình, để bạn có được trải nghiệm hình ảnh liền lạc và thú vị hơn bao giờ hết.",
+    "Thời lượng pin ấn tượng, sạc nhanh siêu tốc Galaxy A51 có viên pin với dung lượng 4000 mAh. Với dung lượng này, người dùng sẽ không gặp khó khăn gì về thời lượng pin trong một ngày dài sử dụng. ",
+    "Cảm biến bằng vân tay Cảm biến vân tay được tích hợp dưới màn hình, dù Samsung chỉ trang bị cảm biến quang học nhưng vẫn mang lại kết quả hấp dẫn. Việc bảo mật điện thoại được tốt hơn và mở thao tác nhanh chóng hơn.  Giá sản phẩm trên Tiki đã bao gồm thuế theo luật hiện hành. Tuy nhiên tuỳ vào từng loại sản phẩm hoặc phương thức, địa chỉ giao hàng mà có thể phát sinh thêm chi phí khác như phí vận chuyển, phụ phí hàng cồng kềnh, ...",
+    "Cảm biến bằng vân tay Cảm biến vân tay được tích hợp dưới màn hình, dù Samsung chỉ trang bị cảm biến quang học nhưng vẫn mang lại kết quả hấp dẫn. Việc bảo mật điện thoại được tốt hơn và mở thao tác nhanh chóng hơn.  Giá sản phẩm trên Tiki đã bao gồm thuế theo luật hiện hành. Tuy nhiên tuỳ vào từng loại sản phẩm hoặc phương thức, địa chỉ giao hàng mà có thể phát sinh thêm chi phí khác như phí vận chuyển, phụ phí hàng cồng kềnh, ..."
+  ],
+  "moTaNganGon": [
+    "Chính hãng, Nguyên seal, Mới 100%",
+    "Đã kích hoạt bảo hành điện tử",
+    "Màn hình: Super AMOLED, 6.5\", Full HD+",
+    "Hệ điều hành: Android 10",
+    "Camera sau: Chính 48 MP & Phụ 12 MP, 5 MP, 5 MP",
+    "Camera trước: 32 MP",
+    "CPU: Exynos 9611 8 nhân",
+    "RAM: 6 GB",
+    "Bộ nhớ trong: 128 GB",
+    "Thẻ nhớ: MicroSD, hỗ trợ tối đa 512 GB",
+    "Thẻ SIM: 2 Nano SIM, Hỗ trợ 4G",
+    "Dung lượng pin: 4000 mAh, có sạc nhanh",
+    "Bảo mật: Mở khoá vân tay siêu âm, Khuôn mặt",
+    "Bảo mật: Mở khoá vân tay siêu âm, Khuôn mặt"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 25,
+  "giaCuoiCung": 5992500,
+  "soLuong": 20,
+  "soLuongDaBan": 0,
+  "thongTinBaoHanh": {
+    "baoHanh": true,
+    "loaiBaoHanh": 0,
+    "thoiGianBaoHanh": 1,
+    "donViBaoHanh": 1
+  },
+  "ngayTao": {
+    "$date": "2020-06-03T18:47:00.516Z"
+  },
+  "idBrand": "5ea48589b9f24236c8feab01",
+  "idCategory": [
+    "5e9823e723f9944a9c8a5dbd",
+    "5ed7eb6169beb1888c0bb3ca",
+    "5ed7eb6e69beb1888c0bb3cb"
+  ],
+  "idShop": "SHOP-ADDFFS",
+  "idEvent": "",
+  "isAccept": true,
   "isLock": false,
   "isDelete": false
 }]
