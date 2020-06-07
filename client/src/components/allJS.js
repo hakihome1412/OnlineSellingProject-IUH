@@ -19,8 +19,6 @@ import DescriptionItemComponent from '../components/SanPhamDetailPage/Descriptio
 import DangKyComponent from '../components/Header/DangKyComponent';
 import DangNhapComponent from '../components/Header/DangNhapComponent';
 import UserComponent from '../components/DungChung/UserComponent';
-import QLCarouselComponent from '../components/Admin/QLCarouselComponent';
-import QLBannerComponent from '../components/Admin/QLBannerComponent';
 import QLCategoryComponent from '../components/Admin/QLCategoryComponent';
 import QLBrandComponent from '../components/Admin/QLBrandComponent';
 import QLDonHangComponent from '../components/Admin/QLDonHangComponent';
@@ -44,7 +42,6 @@ import BanHang_Top10SanPhamBanChayComponent from '../components/BanHangPage/BanH
 import BanHang_BaoCaoBanHangTongHopComponent from '../components/BanHangPage/BanHang_BaoCaoBanHangTongHop';
 import ResultSuccessPage from '../components/CheckoutPaymentPage/ResultSuccessPage';
 import DealPage from '../components/DealPage/Deal';
-import DanhRiengChoBanPage from '../components/DanhRiengChoBanPage/DanhRiengChoBan';
 import ShopPage from '../components/ShopPage/ShopPage';
 import ErrorPhanQuyen from '../components/ErrorPage/ErrorPhanQuyen';
 import Customer_Account from '../components/CustomerPage/Customer_Account';
@@ -82,8 +79,6 @@ export {
     DangNhapComponent,
     UserComponent,
     QuillEditor,
-    QLCarouselComponent,
-    QLBannerComponent,
     QLCategoryComponent,
     QLBrandComponent,
     QLProductComponent,
@@ -103,7 +98,6 @@ export {
     BanHang_DanhSachGiamGiaComponent,
     ResultSuccessPage,
     DealPage,
-    DanhRiengChoBanPage,
     ShopPage,
     QLDonHangComponent,
     BanHang_DonHangComponent,

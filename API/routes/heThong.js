@@ -37,6 +37,18 @@ router.put('/carousels-mokhoa', carouselController.MoKhoaCarousel);
 // Phần xử lý Database POSTS
 router.post('/baiviet-them', baiVietController.ThemBaiViet);
 router.get('/baiviet-item', baiVietController.LayBaiVietTheoID);
+router.get('/baiviet-item-admin', baiVietController.LayBaiVietTheoID_Admin);
+router.put('/baiviet-capnhatluotxem', baiVietController.CapNhatLuotXemBaiViet);
+router.get('/baiviet-showtrangchu', baiVietController.LayBaiViet_ShowTrangChu);
+router.get('/baiviet-showadmin/:page', baiVietController.LayBaiViet_ShowAdmin);
+router.get('/baiviet-search/:page', baiVietController.LayDanhSachBaiViet_Search_TheoTrang);
+router.get('/baiviet-chuakhoa/:page', baiVietController.LayDanhSachBaiViet_ChuaKhoa_TheoTrang);
+router.get('/baiviet-dakhoa/:page', baiVietController.LayDanhSachBaiViet_DaKhoa_TheoTrang);
+router.put('/baiviet-xoa', baiVietController.XoaBaiViet);
+router.put('/baiviet-sua', baiVietController.SuaBaiViet);
+router.put('/baiviet-khoa', baiVietController.KhoaBaiViet);
+router.put('/baiviet-mokhoa', baiVietController.MoKhoaBaiViet);
+
 
 
 // Phần xử lý Database CATEGORY
@@ -116,6 +128,7 @@ router.put('/users/shop-mokhoashop', userController.MoKhoaShop);
 
 // Phần xử lý Database PRODUCT
 router.get('/products', productController.LayDanhSachProductAll);
+router.get('/products-baiviet', productController.LayDanhSachProductTheoIDBaiViet);
 router.get('/products/:page', productController.LayDanhSachProductTheoTrang);
 router.get('/products-showpage/:page', productController.LayDanhSachProductTheoTrang_ShowPage);
 router.get('/products-all-showpage/:page', productController.LayDanhSachProduct_ShowPage_TheoTrang);
@@ -147,6 +160,8 @@ router.get('/products-topmuoisanphambanchaynhat-theosoluongdonhang', productCont
 router.post('/products-them-chushop', productController.ThemProduct_ChuShop);
 router.put('/products-xoa', productController.XoaProduct_ChuShop);
 router.put('/products-duyetsanpham', productController.DuyetSanPham);
+router.put('/products-khoasanpham', productController.KhoaSanPham);
+router.put('/products-mokhoasanpham', productController.MoKhoaSanPham);
 router.put('/products-sua-chushop', productController.SuaProduct_ChuShop);
 router.put('/products-sua-admin', productController.SuaProduct_Admin);
 router.put('/products-capnhatsoluong', productController.CapNhatSoLuong);

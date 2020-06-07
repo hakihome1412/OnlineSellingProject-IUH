@@ -14,6 +14,8 @@ export default function QLProductComponent() {
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [dataSearch, setDataSearch] = useState('');
     const [trangThaiOption, setTrangThaiOption] = useState(0);
+    const [statusLockOrNoLock, setStatusLockOrNoLock] = useState(false);
+    const [statusAccecptOrNoAccept, setStatusAccecptOrNoAccept] = useState(false);
 
     async function LayDataProductTheoTrang(page) {
         dispatch({ type: 'SPINNER_DATABASE' });
@@ -102,6 +104,36 @@ export default function QLProductComponent() {
             alert('Duyệt sản phẩm thành công');
         } else {
             alert("Duyệt sản phẩm thất bại");
+        }
+    }
+
+    async function KhoaSanPham(idProduct) {
+        let res = await axios.put('hethong/products-khoasanpham', {
+            id: idProduct
+        });
+        //alert(JSON.stringify(resData.data));
+        //setDataCarousel(resData.data.status);
+        if (res.data.status === 'success') {
+            //alert(JSON.stringify(resData.data.data));
+            dispatch({ type: 'RELOAD_DATABASE' });
+            alert('Khóa sản phẩm thành công');
+        } else {
+            alert("Khóa sản phẩm thất bại !");
+        }
+    }
+
+    async function MoKhoaSanPham(idProduct) {
+        let res = await axios.put('hethong/products-mokhoasanpham', {
+            id: idProduct
+        });
+        //alert(JSON.stringify(resData.data));
+        //setDataCarousel(resData.data.status);
+        if (res.data.status === 'success') {
+            //alert(JSON.stringify(resData.data.data));
+            dispatch({ type: 'RELOAD_DATABASE' });
+            alert('Mở khóa sản phẩm thành công');
+        } else {
+            alert("Mở khóa sản phẩm thất bại !");
         }
     }
 
@@ -202,17 +234,59 @@ export default function QLProductComponent() {
                                 setSpinnerReducer === 0 && (
                                     dataProduct.map((item, i) => {
                                         return <tr key={item._id} onClick={(e) => {
-                                            dispatch({ type: 'SHOW_CHITIET_PRODUCT_ADMIN' });
+                                            if(statusAccecptOrNoAccept === false && statusLockOrNoLock === false){
+                                                dispatch({ type: 'SHOW_CHITIET_PRODUCT_ADMIN' });
+                                            }
                                             dispatch({ type: 'OBJECT_ID_NOW', id: item._id });
                                         }}>
                                             <td>{item.idShow}</td>
                                             <td>{item.ten}</td>
                                             <td><Image src={item.img.chinh} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>
                                             <td>{format_curency(item.gia.toString())}</td>
-                                            <td><span style={{ color: item.isAccept === false ? 'red' : 'blue' }}><strong>{item.isAccept === false ? <Button style={{ height: 40, width: 200, marginTop: 30 }} onClick={() => {
-                                                DuyetSanPham(item._id);
-                                            }}>Duyệt</Button> : 'Đã duyệt'}</strong></span></td>
-                                            <td>{item.isLock === false ? "Không" : "Có"}</td>
+                                            <td><span style={{ color: item.isAccept === false ? 'red' : 'blue' }}><strong>{item.isAccept === false ?
+                                                <Button style={{ height: 40, width: 200, marginTop: 30 }} onClick={() => {
+                                                    DuyetSanPham(item._id);
+                                                }}
+                                                    onMouseOver={() => {
+                                                        setStatusAccecptOrNoAccept(true);
+                                                    }}
+                                                    onMouseLeave={() => {
+                                                        setStatusAccecptOrNoAccept(false);
+                                                    }}>Duyệt</Button> : 'Đã duyệt'}</strong></span></td>
+                                            <td>{item.isLock === false ?
+                                                (
+                                                    <Fragment>
+                                                        <center>
+                                                            <strong>Không</strong>
+                                                            <br></br>
+                                                            <Button onClick={() => {
+                                                                KhoaSanPham(item._id);
+                                                            }}
+                                                                onMouseOver={() => {
+                                                                    setStatusLockOrNoLock(true);
+                                                                }}
+                                                                onMouseLeave={() => {
+                                                                    setStatusLockOrNoLock(false);
+                                                                }}>Khóa</Button>
+                                                        </center>
+                                                    </Fragment>
+                                                ) : (
+                                                    <Fragment>
+                                                        <center>
+                                                            <strong>Có</strong>
+                                                            <br></br>
+                                                            <Button onClick={() => {
+                                                                MoKhoaSanPham(item._id);
+                                                            }}
+                                                                onMouseOver={() => {
+                                                                    setStatusLockOrNoLock(true);
+                                                                }}
+                                                                onMouseLeave={() => {
+                                                                    setStatusLockOrNoLock(false);
+                                                                }}>Mở khóa</Button>
+                                                        </center>
+                                                    </Fragment>
+                                                )}</td>
                                         </tr>
                                     })
                                 )

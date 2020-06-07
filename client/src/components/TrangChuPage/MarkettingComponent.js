@@ -1,11 +1,11 @@
 import React, { Fragment, useState } from 'react';
 import { Nav, Carousel, Image, Button } from 'react-bootstrap';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 
 export default function MarkettingComponent(props) {
-    var dataCarousel = props.dataCarousel;
-    var dataCategory = props.dataCategory;
-    var dataBanner = props.dataBanner;
+    const dataCategory = props.dataCategory;
+    const dataBaiViet = props.dataBaiViet;
+    const history = useHistory();
 
     function to_slug(str) {
         // Chuyển hết sang chữ thường
@@ -50,50 +50,59 @@ export default function MarkettingComponent(props) {
                 </div>
                 <div className="col-sm-6">
                     <Carousel interval={2000}>
-                        {dataCarousel.map((item, i) => {
-                            if (item.isLock === false)
+                        {dataBaiViet.map((item, i) => {
+                            if (i < 6) {
                                 return <Carousel.Item key={item._id}>
-                                    <Image style={{ width: '100%', height: 300 }} src={item.img} />
-                                    <Carousel.Caption>
-                                        <h3>{item.tieuDe}</h3>
-                                        <p>{item.moTa}</p>
-                                    </Carousel.Caption>
+                                    <Link onClick={(e) => {
+                                        e.preventDefault();
+                                        history.push('/baiviet/' + item.idShow + '/' + to_slug(item.tieuDe))
+                                    }}>
+                                        <Image style={{ width: '100%', height: 300 }} src={item.img} />
+                                    </Link>
+                                    {
+                                        item.loaiBaiViet === 1 && (
+                                            <Carousel.Caption>
+                                                <h3 style={{ color: '#FF3333', fontSize: 20 }}>{item.tieuDe}</h3>
+                                            </Carousel.Caption>
+                                        )
+                                    }
                                 </Carousel.Item>
+
+                            }
                         })}
                     </Carousel>
-                    <br />
-                    {dataBanner.map((item, i) => {
-                        if (item.isLock === false && item.positionShow.center === true) {
-                            return <Link key={item._id} to={'event/' + item._id + '/' + to_slug(item.ten)}>
-                                <Image id="itemQuangCao" style={{ width: '48%', height: 150, marginLeft: 10 }} src={item.img} rounded />
-                            </Link>
-                        }
-                    })}
+                    {/* <br />
+                    {dataBaiViet.map((item, i) => {
+
+                        return <Link key={item._id} to={'baiviet/' + item.idShow + '/' + to_slug(item.tieuDe)}>
+                            <Image id="itemQuangCao" style={{ width: '48%', height: 150, marginLeft: 10 }} src={item.img} rounded />
+                        </Link>
+
+                    })} */}
                 </div>
-                <div className="col-sm-3">
-                    {dataBanner.map((item, i) => {
-                        if (item.isLock === false && item.positionShow.right === true) {
-                            return <div key={item._id} className="col" style={{ marginTop: 10 }}>
-                                <Link to={'event/' + item._id + '/' + to_slug(item.ten)}>
-                                    <Image id="itemQuangCao" style={{ width: '100%', height: 108 }} src={item.img} rounded />
-                                </Link>
-                            </div>
-                        }
-                    })}
-                </div>
-            </div>
-            <div className="row" style={{ marginTop: 20 }}>
-                {dataBanner.map((item, i) => {
-                    if (item.isLock === false && item.positionShow.bottom === true) {
-                        return <div className="col-sm-3" key={item._id}>
-                            <Link to={'event/' + item._id + '/' + to_slug(item.ten)}>
-                                <Image id="itemQuangCao" style={{ width: '100%', height: 150 }} src={item.img} rounded />
+                {/* <div className="col-sm-3">
+                    {dataBaiViet.map((item, i) => {
+
+                        return <div key={item._id} className="col" style={{ marginTop: 10 }}>
+                            <Link key={item._id} to={'baiviet/' + item.idShow + '/' + to_slug(item.tieuDe)}>
+                                <Image id="itemQuangCao" style={{ width: '100%', height: 108 }} src={item.img} rounded />
                             </Link>
                         </div>
-                    }
+
+                    })}
+                </div> */}
+            </div>
+            {/* <div className="row" style={{ marginTop: 20 }}>
+                {dataBaiViet.map((item, i) => {
+                    return <div className="col-sm-3" key={item._id}>
+                        <Link key={item._id} to={'baiviet/' + item.idShow + '/' + to_slug(item.tieuDe)}>
+                            <Image id="itemQuangCao" style={{ width: '100%', height: 150 }} src={item.img} rounded />
+                        </Link>
+                    </div>
+
                 })}
 
-            </div>
+            </div> */}
         </Fragment>
     )
 }

@@ -186,6 +186,16 @@ p {
   font-weight: bold;
 }
 
+.baiviet h1 {
+  text-align: center;
+}
+
+.baiviet p {
+  font-family: verdana;
+  font-size: 20px;
+  line-height: 2;
+}
+
 .description-item {
   background-color: #f8f9fa;
   width: 100%;

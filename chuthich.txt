@@ -34,3 +34,8 @@ hinhThucThanhToan:
 	0: thanh toán sau khi nhận hàng
 	1: thanh toán bằng Paypal
 	2: thanh toán bằng thẻ ATM nội địa / internet banking
+
+-----POSTS
+loaiBaiViet:
+	0:bài viết chương trình/ sự kiện
+	1:bài viết giới thiệu

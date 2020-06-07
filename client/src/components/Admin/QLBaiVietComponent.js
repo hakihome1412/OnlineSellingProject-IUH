@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
-import { Pagination, Select, Input } from 'antd';
-import { ModalThemBaiViet} from '../Modals/index';
+import { Pagination, Select, Input, message } from 'antd';
+import { ModalThemBaiViet, ModalChiTietBaiViet } from '../Modals/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
 
@@ -14,11 +14,118 @@ export default function QLBaiVietComponent() {
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [dataSearch, setDataSearch] = useState('');
     const [trangThaiOption, setTrangThaiOption] = useState(0);
+    const [statusLockOrNoLock, setStatusLockOrNoLock] = useState(false);
+
+    async function LayDataBaiViet_TheoTrang(page) {
+        dispatch({ type: 'SPINNER_DATABASE' });
+        let res = await axios.get('hethong/baiviet-showadmin/' + page);
+
+        if (res.data.status === 'success') {
+            setDataBaiViet(res.data.data);
+            setTongSoTrang(res.data.soTrang);
+            dispatch({ type: 'NO_SPINNER_DATABASE' });
+        } else {
+            message.error('Lấy data bài viết từ admin thất bại');
+        }
+    }
+
+    async function LayDanhSachBaiVietSearch(page) {
+        dispatch({ type: 'SPINNER_DATABASE' });
+        let resData = await axios.get('hethong/baiviet-search/' + page + '?search=' + dataSearch);
+        if (resData.data.status === 'success') {
+            setDataBaiViet(resData.data.data);
+            setTongSoTrang(resData.data.soTrang);
+            dispatch({ type: 'NO_SPINNER_DATABASE' });
+        } else {
+            alert("Lấy data thất bại");
+        }
+    }
+
+    async function LayDataBaiViet_ChuaKhoa_TheoTrang(page) {
+        dispatch({ type: 'SPINNER_DATABASE' });
+        let resData = await axios.get('hethong/baiviet-chuakhoa/' + page);
+        //alert(JSON.stringify(resData.data));
+        //setDataCarousel(resData.data.status);
+        if (resData.data.status === 'success') {
+            //alert(JSON.stringify(resData.data.data));
+            setDataBaiViet(resData.data.data);
+            setTongSoTrang(resData.data.soTrang);
+            dispatch({ type: 'NO_SPINNER_DATABASE' });
+        } else {
+            alert("Lấy data thất bại");
+        }
+    }
+
+    async function LayDataBaiViet_DaKhoa_TheoTrang(page) {
+        dispatch({ type: 'SPINNER_DATABASE' });
+        let resData = await axios.get('hethong/baiviet-dakhoa/' + page);
+        //alert(JSON.stringify(resData.data));
+        //setDataCarousel(resData.data.status);
+        if (resData.data.status === 'success') {
+            //alert(JSON.stringify(resData.data.data));
+            setDataBaiViet(resData.data.data);
+            setTongSoTrang(resData.data.soTrang);
+            dispatch({ type: 'NO_SPINNER_DATABASE' });
+        } else {
+            alert("Lấy data thất bại");
+        }
+    }
+
+    async function KhoaBaiViet(id) {
+        let res = await axios.put('hethong/baiviet-khoa', {
+            id: id
+        })
+
+        if (res.data.status === 'success') {
+            alert('Đã khóa thành công');
+            dispatch({ type: 'RELOAD_DATABASE' });
+        } else {
+            alert('Khóa thất bại !');
+        }
+    }
+
+    async function MoKhoaBaiViet(id) {
+        let res = await axios.put('hethong/baiviet-mokhoa', {
+            id: id
+        })
+
+        if (res.data.status === 'success') {
+            alert('Mở khóa thành công');
+            dispatch({ type: 'RELOAD_DATABASE' });
+        } else {
+            alert('Mở khóa thất bại !');
+        }
+    }
+
+
+    useEffect(() => {
+        LayDataBaiViet_TheoTrang(0);
+    }, [])
+
+    useEffect(() => {
+        if (trangThaiOption === 0) {
+            LayDataBaiViet_TheoTrang(0);
+        }
+        if (trangThaiOption === 1) {
+            LayDataBaiViet_ChuaKhoa_TheoTrang(0);
+        }
+        if (trangThaiOption === 2) {
+            LayDataBaiViet_DaKhoa_TheoTrang(0);
+        }
+    }, [trangThaiOption])
+
+    useEffect(() => {
+        if (reloadDatabaseReducer) {
+            LayDataBaiViet_TheoTrang(0);
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
+            setTrangThaiOption(0);
+        }
+    }, [reloadDatabaseReducer]);
 
     return (
         <Fragment>
             <ModalThemBaiViet ></ModalThemBaiViet>
-            {/* <ModalChiTietBrand></ModalChiTietBrand> */}
+            <ModalChiTietBaiViet></ModalChiTietBaiViet>
             <div className="col-sm-10" style={{ padding: 20 }}>
                 <div className="col" style={{ width: '100%' }}>
                     <Form>
@@ -30,7 +137,7 @@ export default function QLBaiVietComponent() {
                             </Col>
                             <Col>
                                 <Button variant="primary" style={{ width: 200 }} onClick={() => {
-                                    // LayDanhSachBrandSearch(0);
+                                    LayDanhSachBaiVietSearch(0);
                                 }}>
                                     <i className="fa fa-search"></i> &nbsp; Tìm kiếm
                                     </Button>
@@ -59,8 +166,9 @@ export default function QLBaiVietComponent() {
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Tên</th>
+                                <th>Tiêu đề</th>
                                 <th>Hình ảnh</th>
+                                <th>Loại bài viết</th>
                                 <th>Trạng thái khóa</th>
                             </tr>
                         </thead>
@@ -69,13 +177,49 @@ export default function QLBaiVietComponent() {
                                 setSpinnerReducer === 0 && (
                                     dataBaiViet.map((item, i) => {
                                         return <tr key={item._id} onClick={(e) => {
-                                            dispatch({ type: 'SHOW_CHITIET_BRAND' });
                                             dispatch({ type: 'OBJECT_ID_NOW', id: item._id });
+                                            if (statusLockOrNoLock === false) {
+                                                dispatch({ type: 'SHOW_CHITIET_BAIVIET' });
+                                            }
                                         }}>
                                             <td>{item.idShow}</td>
-                                            <td>{item.ten}</td>
+                                            <td>{item.tieuDe}</td>
                                             <td><Image src={item.img} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>
-                                            <td>{item.isLock === false ? "Không" : "Có"}</td>
+                                            <td>{item.loaiBaiViet === 0 ? "Chương trình/sự kiện" : "Giới thiệu"}</td>
+                                            <td>{item.isLock === false ?
+                                                (
+                                                    <Fragment>
+                                                        <center>
+                                                            <strong>Không</strong>
+                                                            <br></br>
+                                                            <Button onClick={() => {
+                                                                KhoaBaiViet(item._id);
+                                                            }}
+                                                                onMouseOver={() => {
+                                                                    setStatusLockOrNoLock(true);
+                                                                }}
+                                                                onMouseLeave={() => {
+                                                                    setStatusLockOrNoLock(false);
+                                                                }}>Khóa</Button>
+                                                        </center>
+                                                    </Fragment>
+                                                ) : (
+                                                    <Fragment>
+                                                        <center>
+                                                            <strong>Có</strong>
+                                                            <br></br>
+                                                            <Button onClick={() => {
+                                                                MoKhoaBaiViet(item._id);
+                                                            }}
+                                                                onMouseOver={() => {
+                                                                    setStatusLockOrNoLock(true);
+                                                                }}
+                                                                onMouseLeave={() => {
+                                                                    setStatusLockOrNoLock(false);
+                                                                }}>Mở khóa</Button>
+                                                        </center>
+                                                    </Fragment>
+                                                )}</td>
                                         </tr>
                                     })
                                 )
@@ -91,15 +235,15 @@ export default function QLBaiVietComponent() {
                     }
                     <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
                         dispatch({ type: 'SPINNER_DATABASE' });
-                        // if (trangThaiOption === 0) {
-                        //     LayDataBrandTheoTrang(page - 1);
-                        // }
-                        // if (trangThaiOption === 1) {
-                        //     LayDataBrand_ChuaKhoa_TheoTrang(page - 1);
-                        // }
-                        // if (trangThaiOption === 2) {
-                        //     LayDataBrand_DaKhoa_TheoTrang(page - 1);
-                        // }
+                        if (trangThaiOption === 0) {
+                            LayDataBaiViet_TheoTrang(page - 1);
+                        }
+                        if (trangThaiOption === 1) {
+                            LayDataBaiViet_ChuaKhoa_TheoTrang(page - 1);
+                        }
+                        if (trangThaiOption === 2) {
+                            LayDataBaiViet_DaKhoa_TheoTrang(page - 1);
+                        }
                     }}>
                     </Pagination>
                 </div>

@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 import { axios } from '../../config/constant';
 import { DownOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { QLCarouselComponent, QLBaiVietComponent, QLBannerComponent, QLGianHangComponent, QLNguoiDungComponent, QLCategoryComponent, QLBrandComponent, QLProductComponent, QLDonHangComponent } from '../allJS';
+import {QLBaiVietComponent,  QLGianHangComponent, QLNguoiDungComponent, QLCategoryComponent, QLBrandComponent, QLProductComponent, QLDonHangComponent } from '../allJS';
 import { Dropdown, Menu } from 'antd';
 
 
@@ -45,41 +45,6 @@ export default function MainAdmin() {
                         </div>
                         <div>
                             <ListGroup>
-                                <Link to={`${match.url}/qlcarousel`} style={{ textDecoration: 'none' }} onClick={(e) => {
-                                    if (cookies.userID === undefined) {
-                                        e.preventDefault();
-                                        alert("Vui lòng đăng nhập để sử dụng chức năng");
-                                    } else {
-                                        if (isAdminReducer === false) {
-                                            e.preventDefault();
-                                            alert("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
-                                        }
-
-                                    }
-                                }}>
-                                    <ListGroup.Item style={{ marginTop: 10 }}>
-                                        Quản lý Carousel
-                                    </ListGroup.Item>
-                                </Link>
-
-
-                                <Link to={`${match.url}/qlbanner`} style={{ textDecoration: 'none' }} onClick={(e) => {
-                                    if (cookies.userID === undefined) {
-                                        e.preventDefault();
-                                        alert("Vui lòng đăng nhập để sử dụng chức năng");
-                                    } else {
-                                        if (isAdminReducer === false) {
-                                            e.preventDefault();
-                                            alert("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
-                                        }
-
-                                    }
-                                }}>
-                                    <ListGroup.Item style={{ marginTop: 10 }}>
-                                        Quản lý Banner
-                                    </ListGroup.Item>
-                                </Link>
-
                                 <Link to={`${match.url}/qlbaiviet`} style={{ textDecoration: 'none' }} onClick={(e) => {
                                     if (cookies.userID === undefined) {
                                         e.preventDefault();
@@ -206,9 +171,7 @@ export default function MainAdmin() {
                         isAdminReducer === true && (
                             <Switch>
                                 <Route exact path={`${match.url}/qlcategory`} component={QLCategoryComponent}></Route>
-                                <Route exact path={`${match.url}/qlcarousel`} component={QLCarouselComponent}></Route>
                                 <Route exact path={`${match.url}/qlbrand`} component={QLBrandComponent}></Route>
-                                <Route exact path={`${match.url}/qlbanner`} component={QLBannerComponent}></Route>
                                 <Route exact path={`${match.url}/qlproduct`} component={QLProductComponent}></Route>
                                 <Route exact path={`${match.url}/qldonhang`} component={QLDonHangComponent}></Route>
                                 <Route exact path={`${match.url}/qlgianhang`} component={QLGianHangComponent}></Route>

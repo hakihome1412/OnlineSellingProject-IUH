@@ -5,8 +5,8 @@ import { Pagination, Image, Button } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Result, message, Input } from 'antd';
-import { useQueryParam, StringParam, useQueryParams, withDefault, ArrayParam, NumberParam } from 'use-query-params';
+import { message, Input } from 'antd';
+import { StringParam, useQueryParams, NumberParam } from 'use-query-params';
 
 
 export default function SanPham(props) {

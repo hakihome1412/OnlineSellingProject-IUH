@@ -89,7 +89,6 @@ function Header() {
         if (resData.data.status === 'success') {
             if (resData.data.data.vaiTro === 2) {
                 history.push('/dang-ky-gian-hang');
-                console.log(resData.data.data.thongTinShop.idShop)
             } else {
                 if (resData.data.data.vaiTro === 1) {
                     if (resData.data.data.thongTinShop.isLock === false) {
@@ -97,6 +96,8 @@ function Header() {
                     } else {
                         history.push('/error/403');
                     }
+                } else {
+                    history.push('/admin');
                 }
             }
         } else {
@@ -137,6 +138,18 @@ function Header() {
         }
     }
 
+    async function KiemTraTokenAdmin() {
+        await axios.get('hethong/auth/token-admin', { headers: { 'token': cookies.token } }).then(function (res) {
+            if (res.data.status === "fail") {
+                dispatch({ type: 'NO_ADMIN' });
+            } else {
+                dispatch({ type: 'ADMIN' });
+            }
+        }).catch(function (err) {
+            console.log(err);
+        });
+    }
+
     useEffect(() => {
         if (statusThayDoiGioHang === false) {
             setDataGioHang(JSON.parse(localStorage.getItem('dataGioHang')));
@@ -155,6 +168,7 @@ function Header() {
 
     useEffect(() => {
         LayDataTimKiemHot();
+        KiemTraTokenAdmin();
     }, [])
 
     return (
@@ -182,38 +196,26 @@ function Header() {
                             } else {
                                 setUserID(cookies.userID);
                             }
-                        }}>Shop Của Bạn</Nav.Link>
+                        }}>{isAdminReducer ? 'Trang Quản Lý' : 'Shop Của Bạn'}</Nav.Link>
                     </Nav>
-                    {
-                        isAdminReducer === false && (
-                            <Form inline style={{ marginLeft: '18%' }}>
-                                <Dropdown overlay={menu} trigger={['click']}>
-                                    <Form.Control type="text" value={valueSearch} placeholder="Tìm sản phẩm, danh mục hay thương hiệu mong muốn" style={{ width: 480 }} className="mr-sm-1" onChange={(e) => {
-                                        dispatch({ type: 'VALUE_SEARCH', valueSearch: e.target.value });
-                                    }}
-                                        onClick={() => {
-                                            if (cookies.userID !== undefined) {
-                                                LayDataLichSuTimKiem();
-                                            }
-                                        }} />
-                                </Dropdown>
-                                <Button variant="outline-success" onClick={() => {
-                                    if (valueSearch !== '') {
-                                        CapNhatTimKiem();
-                                        history.push('/timkiem?data=' + valueSearch + '&order=newest');
+                    <Form inline style={{ marginLeft: '18%' }}>
+                        <Dropdown overlay={menu} trigger={['click']}>
+                            <Form.Control type="text" value={valueSearch} placeholder="Tìm sản phẩm, danh mục hay thương hiệu mong muốn" style={{ width: 480 }} className="mr-sm-1" onChange={(e) => {
+                                dispatch({ type: 'VALUE_SEARCH', valueSearch: e.target.value });
+                            }}
+                                onClick={() => {
+                                    if (cookies.userID !== undefined) {
+                                        LayDataLichSuTimKiem();
                                     }
-                                }}>Tìm Kiếm</Button>
-                            </Form>
-                        )
-                    }
-                    {
-                        isAdminReducer === true && (
-                            <Form inline style={{ marginLeft: '40%' }}>
-
-                            </Form>
-                        )
-                    }
-
+                                }} />
+                        </Dropdown>
+                        <Button variant="outline-success" onClick={() => {
+                            if (valueSearch !== '') {
+                                CapNhatTimKiem();
+                                history.push('/timkiem?data=' + valueSearch + '&order=newest');
+                            }
+                        }}>Tìm Kiếm</Button>
+                    </Form>
                     <Nav style={{ marginLeft: '22%' }}>
                         {
                             isAdminReducer === false && (

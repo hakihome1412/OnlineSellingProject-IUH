@@ -6,25 +6,14 @@ import { useCookies } from 'react-cookie';
 import { message } from 'antd';
 
 function TrangChu() {
-    const [dataCarousel, setDataCarousel] = useState([]);
     const [dataCategory, setDataCategory] = useState([]);
-    const [dataBanner, setDataBanner] = useState([]);
+    const [dataBaiViet, setDataBaiViet] = useState([]);
     const [dataProductSale, setDataProductSale] = useState([]);
     const [dataProduct, setDataProduct] = useState([]);
     const [dataSearch, setDataSearch] = useState([]);
     const dispatch = useDispatch();
     const [cookies, setCookie, removeCookie] = useCookies();
     const statusDangXuat = useSelector(state => state.statusDangXuat);
-
-    async function getDataCarousel() {
-        let resData = await axios.get('hethong/carousels');
-
-        if (resData.data.status === 'success') {
-            setDataCarousel(resData.data.data);
-        } else {
-            alert('Lấy dữ liệu data Carousel thất bại');
-        }
-    }
 
     async function getDataCategory() {
         let resData = await axios.get('hethong/categorys-show');
@@ -44,12 +33,12 @@ function TrangChu() {
         }
     }
 
-    async function getDataBanner() {
-        let resData = await axios.get('hethong/banners');
+    async function getDataBaiViet() {
+        let resData = await axios.get('hethong/baiviet-showtrangchu');
         if (resData.data.status === 'success') {
-            setDataBanner(resData.data.data);
+            setDataBaiViet(resData.data.data);
         } else {
-            alert("Lấy dữ liệu data Banner thất bại");
+            alert("Lấy dữ liệu data bài viết thất bại");
         }
     }
 
@@ -72,9 +61,8 @@ function TrangChu() {
     }
 
     useEffect(() => {
-        getDataCarousel();
         getDataCategory();
-        getDataBanner();
+        getDataBaiViet();
         getDataSearch();
         getDataProductDangGiamGiaTheoTrang();
         getDataProductTheoTrang();
@@ -90,7 +78,7 @@ function TrangChu() {
 
     return (
         <div className="container" style={{ marginTop: '50px' }}>
-            <MarkettingComponent dataBanner={dataBanner} dataCategory={dataCategory} dataCarousel={dataCarousel}></MarkettingComponent>
+            <MarkettingComponent dataBaiViet={dataBaiViet} dataCategory={dataCategory}></MarkettingComponent>
             <DealComponent dataProductSale={dataProductSale}></DealComponent>
             <HotSearchComponent dataSearch={dataSearch}></HotSearchComponent>
             <ForCustomerComponent dataProduct={dataProduct}></ForCustomerComponent>

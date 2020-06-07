@@ -172,13 +172,14 @@ module.exports = {
 
         soTrang = Math.ceil(parseInt(allProduct.length) / 16);
 
-        // console.log(arrProduct);
+         console.log(soTrang);
 
         client.close();
 
         res.status(200).json({
             status: 'success',
             data: arrProduct,
+            dataAll:allProduct,
             soTrang: soTrang
         });
     },
@@ -291,13 +292,55 @@ module.exports = {
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colProduct = db.collection('PRODUCTS');
-        let allProduct = await colProduct.find({ isDelete: false }).toArray();
+        let allProduct = await colProduct.find({ isDelete: false, isAccept: true, isLock: false }).toArray();
         client.close();
 
         res.status(200).json({
             status: 'success',
             data: allProduct
         });
+    },
+
+    LayDanhSachProductTheoIDBaiViet: async function (req, res) {
+        const id = req.query.id;
+        const page = req.params.page
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        const colPost = db.collection('POSTS');
+
+        const result = await colPost.findOne({ idShow: id });
+        let allProduct = await colProduct.find({ isDelete: false, isAccept: true, isLock: false }).toArray();
+        client.close();
+        let arrProduct = [];
+
+        if (result === null) {
+            res.status(200).json({
+                status: 'fail',
+                message: 'Lấy danh sách sản phẩm theo bài viết thất bại'
+            });
+        } else {
+            for (let index = 0; index < result.idProducts.length; index++) {
+                for (let index2 = 0; index2 < allProduct.length; index2++) {
+                    if (result.idProducts[index] === allProduct[index2]._id.toString()) {
+                        arrProduct.push(allProduct[index2]);
+                        break;
+                    }
+                }
+            }
+
+            res.status(200).json({
+                status: 'success',
+                data: arrProduct,
+                message: 'Lấy danh sách sản phẩm theo bài viết thất bại'
+            });
+        }
+
+
+
     },
 
     LayProductTheoID: async function (req, res) {
@@ -920,12 +963,48 @@ module.exports = {
         await client.connect();
         console.log("Connected correctly to server");
         const db = client.db(DbName);
-        const colBrand = db.collection('PRODUCTS');
-        let result = await colBrand.updateOne({ _id: ObjectId(productID) }, { $set: { isAccept: true } });
+        const colProduct = db.collection('PRODUCTS');
+        let result = await colProduct.updateOne({ _id: ObjectId(productID) }, { $set: { isAccept: true } });
         client.close();
         res.status(200).json({
             status: 'success',
             message: 'Duyệt sản phẩm thành công !'
+        });
+
+    },
+
+    KhoaSanPham: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        let productID = req.body.id;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let result = await colProduct.updateOne({ _id: ObjectId(productID) }, { $set: { isLock: true } });
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            message: 'Khóa sản phẩm thành công !'
+        });
+
+    },
+
+    MoKhoaSanPham: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        let productID = req.body.id;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let result = await colProduct.updateOne({ _id: ObjectId(productID) }, { $set: { isLock: false } });
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            message: 'Khóa sản phẩm thành công !'
         });
 
     },
@@ -961,8 +1040,8 @@ module.exports = {
         await client.connect();
         console.log("Connected correctly to server");
         const db = client.db(DbName);
-        const colBrand = db.collection('PRODUCTS');
-        let result = await colBrand.updateOne({ _id: ObjectId(productSua._id) },
+        const colProduct = db.collection('PRODUCTS');
+        let result = await colProduct.updateOne({ _id: ObjectId(productSua._id) },
             {
                 $set:
                 {

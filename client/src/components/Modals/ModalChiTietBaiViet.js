@@ -1,0 +1,389 @@
+import React, { useState, useEffect } from 'react';
+import { Modal, Spinner, Button } from 'react-bootstrap';
+import { Form, Input, Select } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
+import { axios } from '../../config/constant';
+import { storage } from '../../firebase/firebase';
+import TextArea from 'antd/lib/input/TextArea';
+
+export default function ModalChiTietBaiViet() {
+    const { Option } = Select;
+    const dispatch = useDispatch();
+    const showChiTietBaiViet = useSelector(state => state.showChiTietBaiViet);
+    const [spinnerChiTietBaiViet, setSpinnerChiTietBaiViet] = useState(false);
+    const objectIDDuocChonReducer = useSelector(state => state.objectIDDuocChon);
+    const [imageAsUrl, setImageAsUrl] = useState([]);
+    const [imageAsFile, setImageAsFile] = useState([]);
+    const [showButtonHuy, setShowButtonHuy] = useState(false);
+    const [countAnhDaUploadThanhCong, setCountAnhDaUploadThanhCong] = useState(0);
+    const [firstTime, setFirstTime] = useState(true);
+    const [disableOptions, setDisableOptions] = useState(false);
+    const [statusSua, setStatusSua] = useState(0);
+    const [spinnerXoaBaiViet, setSpinnerXoaBaiViet] = useState(-1);
+    const [spinnerSuaBaiViet, setSpinnerSuaBaiViet] = useState(-1);
+    const [baiVietNow, setBaiVietNow] = useState({
+        _id: '',
+        tieuDe: '',
+        img: '',
+        ngayTao: '',
+        loaiBaiViet: '',
+        idProducts: '',
+        content: '',
+        isLock: '',
+    });
+    const [baiVietSua, setBaiVietSua] = useState({
+        tieuDe: '',
+        img: '',
+        content: '',
+        isLock: ''
+    });
+
+    const handleChangeIMG = (e) => {
+        var soLuongFile = e.target.files.length;
+        var listFile = [];
+        var listUrl = [];
+        for (let index = 0; index < soLuongFile; index++) {
+            listFile.push(e.target.files[index]);
+        }
+
+        setImageAsFile(listFile);
+
+        if (listFile.length === 0) {
+            console.log('Không có file nào được upload');
+        } else {
+            for (let index = 0; index < soLuongFile; index++) {
+                console.log('start of upload');
+                // async magic goes here...
+                if (listFile[index] === '') {
+                    console.error(`not an image, the image file is a ${typeof (listFile[index])}`);
+                }
+                const uploadTask = storage.ref(`/images/${listFile[index].name}`).put(listFile[index]);
+                uploadTask.on('state_changed',
+                    (snapShot) => {
+                        //takes a snap shot of the process as it is happening
+                        console.log(snapShot);
+                    }, (err) => {
+                        //catches the errors
+                        console.log(err)
+                    }, () => {
+                        // gets the functions from storage refences the image storage in firebase by the children
+                        // gets the download url then sets the image from firebase as the value for the imgUrl key:
+                        storage.ref('images').child(listFile[index].name).getDownloadURL()
+                            .then(fireBaseUrl => {
+                                // setImageAsUrl(prevObject => ({ ...prevObject, imageAsUrl: fireBaseUrl }))
+                                setBaiVietSua({
+                                    ...baiVietSua,
+                                    img: fireBaseUrl
+                                });
+                                listUrl.push(fireBaseUrl);
+                                setCountAnhDaUploadThanhCong(countPrev => countPrev + 1);
+                            })
+                    })
+            }
+        }
+        setImageAsUrl(listUrl);
+    }
+
+    async function SuaBaiViet(baiVietID) {
+        setSpinnerSuaBaiViet(1);
+        setDisableOptions(false);
+        if (statusSua === 1) {
+            let resData = await axios.put('hethong/baiviet-sua', {
+                _id: baiVietID,
+                tieuDe: baiVietSua.tieuDe,
+                img: baiVietSua.img,
+                content: baiVietSua.content,
+                isLock: baiVietSua.isLock,
+            });
+
+            if (resData.data.status === 'success') {
+                dispatch({ type: 'RELOAD_DATABASE' });
+                setStatusSua(0);
+                setSpinnerSuaBaiViet(-1);
+                alert("Sửa thành công");
+                setDisableOptions(false);
+                dispatch({ type: 'CLOSE_CHITIET_BAIVIET' });
+            }
+            else {
+                setSpinnerSuaBaiViet(0);
+                setStatusSua(0);
+                setDisableOptions(true);
+                dispatch({ type: 'NO_RELOAD_DATABASE' });
+                alert("Sửa thất bại");
+            }
+
+        } else {
+            alert("fail 1");
+        }
+    }
+
+    async function XoaBaiViet(baiVietID) {
+        setSpinnerXoaBaiViet(1);
+        let resData = await axios.put('hethong/baiviet-xoa', {
+            id: baiVietID
+        });
+
+        if (resData.data.status === 'success') {
+            setStatusSua(0);
+            setDisableOptions(false);
+            setSpinnerXoaBaiViet(0);
+            dispatch({ type: 'RELOAD_DATABASE' });
+            dispatch({ type: 'CLOSE_CHITIET_BAIVIET' });
+            alert("Xóa thành công");
+        } else {
+            setStatusSua(0);
+            setDisableOptions(false);
+            setSpinnerXoaBaiViet(0);
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
+            alert("Xóa thất bại");
+        }
+    }
+
+    async function LayBaiVietTheoID(baiVietID) {
+        setSpinnerChiTietBaiViet(true);
+        let resData = await axios.get('hethong/baiviet-item-admin?id=' + baiVietID);
+        if (resData.data.status === 'success') {
+            setBaiVietNow({
+                _id: resData.data.data._id,
+                tieuDe: resData.data.data.tieuDe,
+                img: resData.data.data.img,
+                ngayTao: resData.data.data.ngayTao,
+                loaiBaiViet: resData.data.data.loaiBaiViet,
+                idProducts: resData.data.data.idProducts,
+                content: resData.data.data.content,
+                isLock: resData.data.data.isLock
+            });
+            setSpinnerChiTietBaiViet(false);
+        } else {
+            alert("Lấy data thất bại");
+            setSpinnerChiTietBaiViet(false);
+        }
+    }
+
+    useEffect(() => {
+        if (firstTime === false) {
+            if (imageAsFile.length === 0) {
+                alert('Vui lòng chọn ảnh cho bài viết')
+            } else {
+                if (countAnhDaUploadThanhCong === imageAsFile.length) {
+                    alert('Upload ảnh bài viết thành công');
+                }
+            }
+        }
+    }, [countAnhDaUploadThanhCong])
+
+    useEffect(() => {
+        if (statusSua === 1) {
+            setShowButtonHuy(true)
+        } else {
+            setShowButtonHuy(false)
+        }
+    }, [statusSua])
+
+    console.log(baiVietNow)
+
+    return (
+        <Modal show={showChiTietBaiViet} size="lg" animation={false} onHide={() => {
+            dispatch({ type: 'CLOSE_CHITIET_BAIVIET' });
+        }}
+            onShow={() => {
+                setDisableOptions(false);
+                setStatusSua(0);
+                LayBaiVietTheoID(objectIDDuocChonReducer);
+            }}>
+            {
+                spinnerChiTietBaiViet === true && (
+                    <Spinner animation="border" role="status" style={{ marginLeft: 400 }}>
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                )
+            }
+            {
+                spinnerChiTietBaiViet === false && (
+                    <Form
+                        name="basic"
+                        layout='vertical'
+                        initialValues={{ remember: true }}
+                        style={{ padding: 40 }}>
+                        <Form.Item
+                            label="Tiêu đề"
+                            name="tieude"
+                            rules={[{ required: true, message: 'Vui lòng nhập tên ' }]}>
+                            <Input disabled={!disableOptions} defaultValue={baiVietNow.tieuDe} onChange={(e) => {
+                                setBaiVietSua({
+                                    ...baiVietSua,
+                                    tieuDe: e.target.value
+                                });
+                            }} />
+                        </Form.Item>
+
+
+                        <Form.Item
+                            label="Ảnh đại diện"
+                            name="anhchinh"
+                            rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
+                            <input type='file'
+                                disabled={!disableOptions}
+                                onChange={(e) => {
+                                    handleChangeIMG(e);
+                                    setCountAnhDaUploadThanhCong(0);
+                                    setFirstTime(false);
+                                }}>
+                            </input>
+                        </Form.Item>
+
+                        <Form.Item
+                            name='showanhchinh'
+                            label="Show ảnh đại diện">
+                            {
+                                statusSua === 0 && (
+                                    <img style={{ marginLeft: 20 }} src={baiVietNow.img} alt={'ảnh'} width='200' height='150'></img>
+                                )
+                            }
+                            {
+                                statusSua === 1 && (
+                                    imageAsUrl.map((src, i) => {
+                                        return <img key={i} style={{ marginLeft: 20 }} src={src} alt={'ảnh ' + i} width='200' height='150'></img>
+                                    })
+                                )
+                            }
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Loại bài viết"
+                            name="loaibaiviet"
+                            rules={[{ required: true, message: 'Vui lòng chọn loại bài viết' }]}>
+                            <Select disabled={true} defaultValue={baiVietNow.loaiBaiViet}>
+                                <Option value={-1}>Chọn loại bài viết</Option>
+                                <Option value={0}>Bài viết về chương trình/sự kiện</Option>
+                                <Option value={1}>Bài viết giới thiệu</Option>
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Nội dung"
+                            name="noidung"
+                            rules={[{ required: true, message: 'Vui lòng nhập nội dung' }]}>
+                            <textarea style={{ width: '100%' }} disabled={!disableOptions} rows="4" cols="50" defaultValue={baiVietNow.content} onChange={(e) => {
+                                setBaiVietSua({
+                                    ...baiVietSua,
+                                    content: e.target.value
+                                });
+                            }}>
+                            </textarea>
+                            {/* <Select disabled={!disableOptions} defaultValue={baiVietNow.loaiBaiViet}>
+                                <Option value={-1}>Chọn loại bài viết</Option>
+                                <Option value={0}>Bài viết về chương trình/sự kiện</Option>
+                                <Option value={1}>Bài viết giới thiệu</Option>
+                            </Select> */}
+                        </Form.Item>
+
+                        {/* {
+                    baiVietNow.loaiBaiViet === 0 && (
+                        <Form.Item
+                            label="Các sản phẩm liên quan đến chương trình/sự kiện"
+                            name="sanphams"
+                            rules={[{ required: true, message: 'Vui lòng chọn các sản phẩm' }]}>
+                            <Select
+                                showSearch
+                                optionFilterProp="children"
+                                filterOption={(input, option) =>
+                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                }
+                                mode="multiple"
+                                style={{ width: '100%' }}
+                                placeholder="Chọn sản phẩm"
+                                onChange={(value) => {
+                                    setDataThem({
+                                        ...dataThem,
+                                        idProducts: value
+                                    })
+                                }}>
+                                {
+                                    dataProduct.map((item, i) => {
+                                        return <Option key={item._id} value={item._id}>
+                                            {item.ten}
+                                        </Option>
+                                    })
+                                }
+                            </Select>
+                        </Form.Item>
+                    )
+                } */}
+
+                        <Form.Item
+                            label="Ngày tạo"
+                            name="ngaytao">
+                            <Input disabled={true} defaultValue={new Date(baiVietNow.ngayTao).toString()} />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Trạng thái khóa">
+                            <Select disabled={!disableOptions} defaultValue={baiVietNow.isLock === false ? "nolock" : "lock"} onChange={(value) => {
+                                setBaiVietSua({
+                                    ...baiVietSua,
+                                    isLock: value === "lock" ? true : false
+                                });
+                            }}>
+                                <Option value="lock">Có</Option>
+                                <Option value="nolock">Không</Option>
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item>
+                            <Button variant="primary" style={{ width: 300, height: 50, marginLeft: '30%' }} disabled={disableOptions} onClick={() => {
+                                XoaBaiViet(baiVietNow._id);
+                            }}>
+                                {
+                                    spinnerXoaBaiViet === 1 ? (
+                                        <Spinner animation="border" role="status">
+                                            <span className="sr-only">Loading...</span>
+                                        </Spinner>) : "Xóa"
+                                }
+                            </Button>
+                        </Form.Item>
+
+                        <Form.Item>
+                            <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
+                                if (statusSua === 0) {
+                                    setStatusSua(1);
+                                    setDisableOptions(true);
+                                } else {
+                                    SuaBaiViet(baiVietNow._id);
+                                }
+                                setBaiVietSua({
+                                    tieuDe: baiVietNow.tieuDe,
+                                    img: baiVietNow.img,
+                                    content: baiVietNow.content,
+                                    isLock: baiVietNow.isLock
+                                });
+                            }}>
+                                {
+                                    statusSua === 0 && spinnerSuaBaiViet === -1 ? "Sửa" : "Lưu"
+                                }
+                                {
+                                    spinnerSuaBaiViet === 1 && (
+                                        <Spinner animation="border" role="status" style={{ marginLeft: 40 }}>
+                                            <span className="sr-only">Loading...</span>
+                                        </Spinner>
+                                    )
+                                }
+                            </Button>
+                        </Form.Item>
+
+                        {
+                            showButtonHuy === true && (
+                                <Form.Item>
+                                    <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
+                                        setDisableOptions(false);
+                                        setStatusSua(0);
+                                    }}>Hủy</Button>
+                                </Form.Item>
+                            )
+                        }
+                    </Form>
+                )
+            }
+        </Modal>
+    )
+}

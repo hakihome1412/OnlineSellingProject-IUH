@@ -7,9 +7,10 @@ import { useHistory } from 'react-router-dom';
 
 export default function UserComponent() {
     const [cookies, setCookies, removeCookie] = useCookies();
-    const isAdmin = useSelector(state => state.isAdmin);
+    const isAdminReducer = useSelector(state => state.isAdmin);
     const [dataUser, setDataUser] = useState({});
     var history = useHistory();
+    const dispatch = useDispatch();
 
     async function LayDataUserTheoID(userID) {
         let res = await axios.get('hethong/users-item?idUser=' + userID);
@@ -20,13 +21,21 @@ export default function UserComponent() {
         }
     }
 
+
     useEffect(() => {
-        LayDataUserTheoID(cookies.userID)
+        LayDataUserTheoID(cookies.userID);
     }, [])
 
     return (
         <Fragment>
             <NavDropdown title={dataUser.email} id="basic-nav-dropdown">
+                {
+                    isAdminReducer && (
+                        <NavDropdown.Item onClick={() => {
+                            history.push('/admin');
+                        }}>Trang quản lý</NavDropdown.Item>
+                    )
+                }
                 <NavDropdown.Item onClick={() => {
                     history.push('/customer/account');
                 }}>Tài khoản của tôi</NavDropdown.Item>

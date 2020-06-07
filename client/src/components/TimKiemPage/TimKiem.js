@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { FaStar } from 'react-icons/fa';
-import { ItemComponent, SideBarComponent } from '../allJS';
-import { Pagination, Image, Button } from 'react-bootstrap';
+import { Image, Button } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { Link, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { SmileOutlined } from '@ant-design/icons';
-import { Result, message, Input } from 'antd';
-import { useQueryParam, StringParam, useQueryParams, withDefault, ArrayParam, NumberParam } from 'use-query-params';
+import { Result, message, Input, Pagination } from 'antd';
+import { StringParam, useQueryParams, NumberParam } from 'use-query-params';
 
 export default function TimKiem() {
     const dispatch = useDispatch();
     const history = useHistory();
-    const valueSearch = useSelector(state => state.valueSearch);
     const [dataProduct, setDataProduct] = useState([]);
+    const [curentPage, setCurentPage] = useState(1);
     const [dataCountCategory, setDataCountCategory] = useState([]);
+    const [countAllProduct, setCountAllProduct] = useState(0);
     const [dataGiaOption, setDataGiaOption] = useState({
         giaDau: '',
         giaCuoi: ''
@@ -86,11 +86,12 @@ export default function TimKiem() {
         return tien.toString();
     }
 
-    async function LayDataProductTheoSearch() {
-        let res = await axios.get('hethong/products-search-nguoidung/' + 0 + '?search=' + dataSearch + '&order=' + optionOrder + '&rating=' + soSao + '&price=' + giaTim);
+    async function LayDataProductTheoSearch(page) {
+        let res = await axios.get('hethong/products-search-nguoidung/' + page + '?search=' + dataSearch + '&order=' + optionOrder + '&rating=' + soSao + '&price=' + giaTim);
 
         if (res.data.status === 'success') {
             setDataProduct(res.data.data);
+            setCountAllProduct(res.data.dataAll.length);
             setTongSoTrang(res.data.soTrang);
         } else {
             message.error('Lấy data sản phẩm theo tìm kiếm thất bại');
@@ -98,7 +99,7 @@ export default function TimKiem() {
     }
 
     async function LayDataCategoryTheoSearch() {
-        let res = await axios.get('hethong/categorys-search-nguoidung?search=' + dataSearch);
+        let res = await axios.get('hethong/categorys-search-nguoidung/?search=' + dataSearch);
 
         if (res.data.status === 'success') {
             setDataCategory(res.data.data);
@@ -109,7 +110,7 @@ export default function TimKiem() {
     }
 
     useEffect(() => {
-        LayDataProductTheoSearch();
+        LayDataProductTheoSearch(0);
         LayDataCategoryTheoSearch();
     }, [dataSearch, optionOrder, soSao, giaTim])
 
@@ -268,7 +269,7 @@ export default function TimKiem() {
                     <div className="row maincontent">
                         <div className="row showitems-maincontent">
                             <div className='col'>
-                                <p style={{ fontSize: 24 }}>Kết quả tìm kiếm cho '{dataSearch}': <span style={{ color: 'silver' }}>{dataProduct.length} kết quả</span></p>
+                                <p style={{ fontSize: 24 }}>Kết quả tìm kiếm cho '{dataSearch}': <span style={{ color: 'silver' }}>{countAllProduct} kết quả</span></p>
                                 <div className='row'>
                                     <Button variant={optionOrder === 'newest' ? 'warning' : 'primary'} onClick={() => {
                                         setQuery({
@@ -371,13 +372,13 @@ export default function TimKiem() {
                             </div>
                         </div>
                         <div className="pagination-maincontent">
-                            {
-                                dataProduct.length > 0 && (
-                                    <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
-                                    }}>
-                                    </Pagination>
-                                )
-                            }
+
+                            <Pagination defaultPageSize={1} current={curentPage} total={tongSoTrang} onChange={(page) => {
+                                LayDataProductTheoSearch(page - 1);
+                                setCurentPage(page);
+                            }}>
+                            </Pagination>
+
 
                         </div>
                     </div>

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.css";
 import 'react-quill/dist/quill.snow.css';
-import { Header, Footer, DealPage, TrangChu, TimKiem, Customer, BanHang_DangKy, ErrorPhanQuyen, DanhRiengChoBanPage, ShopPage, CategorySanPham, SanPhamDetail, BaiViet, CheckoutCart, CheckoutShipping, CheckoutPayment, BanHang, ResultSuccessPage } from '../allJS';
+import { Header, Footer, DealPage, TrangChu, TimKiem, Customer, BanHang_DangKy, ErrorPhanQuyen, ShopPage, CategorySanPham, SanPhamDetail, BaiViet, CheckoutCart, CheckoutShipping, CheckoutPayment, BanHang, ResultSuccessPage } from '../allJS';
 import MainAdmin from '../Admin/MainAdmin';
 import { Switch, Route } from "react-router-dom";
 import { useSelector } from 'react-redux';
@@ -24,12 +24,11 @@ function App() {
         <Route path="/dang-ky-gian-hang" component={BanHang_DangKy}></Route>
         <Route path="/shop/:id/:slug" component={ShopPage}></Route>
         <Route path="/deal" component={DealPage}></Route>
-        <Route path="/product" component={DanhRiengChoBanPage}></Route>
         <Route path="/checkout/payment/success/:id" component={ResultSuccessPage}></Route>
         <Route path="/category/:id/:slug" component={CategorySanPham}></Route>
         <Route path="/admin" component={MainAdmin}></Route>
         <Route path="/detail/:id/:slug" component={SanPhamDetail}></Route>
-        <Route path="/baiviet/:id" component={BaiViet}></Route>
+        <Route path="/baiviet/:id/:slug" component={BaiViet}></Route>
         <Route path="/checkout/cart" component={CheckoutCart}></Route>
         <Route path="/checkout/shipping" component={CheckoutShipping}></Route>
         <Route path="/checkout/payment" component={CheckoutPayment}></Route>

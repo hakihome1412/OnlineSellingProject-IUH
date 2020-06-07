@@ -10,6 +10,7 @@ export default function ModalThemBaiViet() {
     const { Option } = Select;
     const [files, setFiles] = useState([])
     const [firstTime, setFirstTime] = useState(true);
+    const [dataProduct, setDataProduct] = useState([]);
     const [imageAsFile, setImageAsFile] = useState([]);
     const [countAnhDaUploadThanhCong, setCountAnhDaUploadThanhCong] = useState(0);
     const showModalThemBaiViet = useSelector(state => state.showModalThemBaiViet);
@@ -19,6 +20,8 @@ export default function ModalThemBaiViet() {
         tieuDe: "",
         img: "",
         ngayTao: new Date(),
+        loaiBaiViet: -1,
+        idProducts: [],
         content: '',
         luotXem: 0,
         isLock: false,
@@ -83,7 +86,7 @@ export default function ModalThemBaiViet() {
     }
 
     function KiemTraDuLieuNhap(data) {
-        if (data.tieuDe === '' || data.img === '') {
+        if (data.tieuDe === '' || data.img === '' || data.loaiBaiViet === -1) {
             alert('Vui lòng nhập đủ dữ liệu cần thiết');
         } else {
             ThemBaiViet()
@@ -91,6 +94,7 @@ export default function ModalThemBaiViet() {
     }
 
     async function ThemBaiViet() {
+        setSpinnerThemBaiViet(1);
         setDataThem({
             ...dataThem,
             content: ''
@@ -102,7 +106,7 @@ export default function ModalThemBaiViet() {
 
         if (res.data.status === 'success') {
             message.success('Đã tạo bài viết mới thành công');
-            dispatch({ type: 'CLOSE_THEM_BANNER' });
+            dispatch({ type: 'CLOSE_THEM_BAIVIET' });
             dispatch({ type: 'RELOAD_DATABASE' });
             setSpinnerThemBaiViet(0);
         } else {
@@ -111,10 +115,20 @@ export default function ModalThemBaiViet() {
         }
     }
 
+    async function LayDataSanPham() {
+        let res = await axios.get('hethong/products');
+
+        if (res.data.status === 'success') {
+            setDataProduct(res.data.data);
+        } else {
+            message.error('Lấy data sản phẩm thất bại !');
+        }
+    }
+
     useEffect(() => {
         if (firstTime === false) {
             if (imageAsFile.length === 0) {
-                message.success('Vui lòng chọn ảnh đại diện cho Bài viết')
+                message.success('Vui lòng chọn ảnh đại diện cho bài viết')
             } else {
                 if (countAnhDaUploadThanhCong === imageAsFile.length) {
                     message.error('Upload ảnh đại diện bài viết thành công');
@@ -123,11 +137,15 @@ export default function ModalThemBaiViet() {
         }
     }, [countAnhDaUploadThanhCong])
 
+    console.log(dataThem);
+    console.log(dataProduct);
+
     return (
         <Modal show={showModalThemBaiViet} size="lg" animation={false} onHide={() => {
             dispatch({ type: 'CLOSE_THEM_BAIVIET' });
         }}
             onShow={() => {
+                LayDataSanPham();
                 setImageAsFile([]);
                 setFirstTime(true);
                 setCountAnhDaUploadThanhCong(0);
@@ -135,7 +153,10 @@ export default function ModalThemBaiViet() {
                     tieuDe: "",
                     img: "",
                     ngayTao: new Date(),
+                    loaiBaiViet: -1,
+                    idProducts: [],
                     content: '',
+                    luotXem: 0,
                     isLock: false,
                     isDelete: false
                 })
@@ -177,55 +198,64 @@ export default function ModalThemBaiViet() {
                 </Form.Item>
 
                 <Form.Item
-                    label="Vị trí hiển thị">
-                    <Select onChange={(value) => {
-                        if (value === 'center') {
-                            setDataThem({
-                                ...dataThem,
-                                positionShow: {
-                                    center: true,
-                                    right: false,
-                                    bottom: false
-                                }
-                            });
-                        } else {
-                            if (value === 'right') {
-                                setDataThem({
-                                    ...dataThem,
-                                    positionShow: {
-                                        center: false,
-                                        right: true,
-                                        bottom: false
-                                    }
-                                });
-                            } else {
-                                setDataThem({
-                                    ...dataThem,
-                                    positionShow: {
-                                        center: false,
-                                        right: false,
-                                        bottom: true
-                                    }
-                                });
-                            }
-                        }
+                    label="Loại bài viết"
+                    name="loaibaiviet"
+                    rules={[{ required: true, message: 'Vui lòng chọn loại bài viết' }]}>
+                    <Select value={dataThem.loaiBaiViet} onChange={(value) => {
+                        setDataThem({
+                            ...dataThem,
+                            loaiBaiViet: value
+                        })
                     }}>
-                        <Option key="center">Trung tâm</Option>
-                        <Option key="right">Bên phải</Option>
-                        <Option key="bottom">Bên dưới</Option>
+                        <Option value={-1}>Chọn loại bài viết</Option>
+                        <Option value={0}>Bài viết về chương trình/sự kiện</Option>
+                        <Option value={1}>Bài viết giới thiệu</Option>
                     </Select>
                 </Form.Item>
+
+                {
+                    dataThem.loaiBaiViet === 0 && (
+                        <Form.Item
+                            label="Các sản phẩm liên quan đến chương trình/sự kiện"
+                            name="sanphams"
+                            rules={[{ required: true, message: 'Vui lòng chọn các sản phẩm' }]}>
+                            <Select
+                                showSearch
+                                optionFilterProp="children"
+                                filterOption={(input, option) =>
+                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                }
+                                mode="multiple"
+                                style={{ width: '100%' }}
+                                placeholder="Chọn sản phẩm"
+                                onChange={(value) => {
+                                    setDataThem({
+                                        ...dataThem,
+                                        idProducts: value
+                                    })
+                                }}>
+                                {
+                                    dataProduct.map((item, i) => {
+                                        return <Option key={item._id} value={item._id}>
+                                            {item.ten}
+                                        </Option>
+                                    })
+                                }
+                            </Select>
+                        </Form.Item>
+                    )
+                }
 
                 <Form.Item
                     label="Nội dung"
                     name="noidung">
-                    <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
-                        <QuillEditor
-                            placeholder={"Nhập nội dung"}
-                            onEditorChange={onEditorChange}
-                            onFilesChange={onFilesChange}
-                        />
-                    </div>
+
+                    <QuillEditor
+                        placeholder={"Nhập nội dung"}
+                        onEditorChange={onEditorChange}
+                        onFilesChange={onFilesChange}
+                    />
+
                 </Form.Item>
 
                 <Form.Item>

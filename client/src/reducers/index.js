@@ -2,18 +2,10 @@ import { combineReducers } from 'redux';
 import taiKhoanDaDangNhap from '../reducers/DungChung/taiKhoanDaDangNhapReducer';
 import trangThaiDangNhap from '../reducers/DungChung/trangThaiDaDangNhapThanhCong';
 import showMainComponent from '../reducers/DungChung/showMainComponentAdminReducer';
-import showModalThemCarousel from '../reducers/DungChung/showModalThemCarouselReducer';
 import reloadDatabase from '../reducers/DungChung/reloadDatabaseReducer';
 import setSpinner from '../reducers/DungChung/setSpinnerReducer';
 import isAdmin from '../reducers/DungChung/isAdminReducer';
-import showChiTietCarousel from '../reducers/DungChung/showChiTietCarouselReducer';
 import objectIDDuocChon from '../reducers/DungChung/objectIDDangDuocChonReducer';
-import setSpinnerThemCarousel from '../reducers/DungChung/setSpinnerThemCarouselReducer';
-import setSpinnerXoaCarousel from '../reducers/DungChung/setSpinnerXoaCarouselReducer';
-import setSpinnerChiTietCarousel from '../reducers/DungChung/setSpinnerChiTietCarouselReducer';
-import showModalThemBanner from '../reducers/DungChung/showModalThemBannerReducer';
-import showChiTietBanner from '../reducers/DungChung/showChiTietBannerReducer';
-import setSpinnerChiTietBanner from '../reducers/DungChung/setSpinnerChiTietBannerReducer';
 import showModalThemCategory from '../reducers/DungChung/showModalThemCategoryReducer';
 import showChiTietCategory from '../reducers/DungChung/showChiTietCategoryReducer';
 import setSpinnerChiTietCategory from '../reducers/DungChung/setSpinnerChiTietCategoryReducer';
@@ -36,24 +28,17 @@ import showChiTietNguoiDung from '../reducers/DungChung/showChiTietNguoiDungRedu
 import showModalCapNhatKho from '../reducers/DungChung/showModalCapNhatKhoReducer';
 import showModalCapNhatGiaTriGiam from '../reducers/DungChung/showModalCapNhatGiaTriGiamReducer';
 import showModalThemBaiViet from '../reducers/DungChung/showModalThemBaiVietReducer';
+import showChiTietBaiViet from '../reducers/DungChung/showChiTietBaiVietReducer';
 import valueSearch from '../reducers/DungChung/valueSearchReducer';
 
 const allReducers = combineReducers({
     taiKhoanDaDangNhap,
     trangThaiDangNhap,
     showMainComponent,
-    showModalThemCarousel,
     reloadDatabase,
     setSpinner,
     isAdmin,
-    showChiTietCarousel,
     objectIDDuocChon,
-    setSpinnerThemCarousel,
-    setSpinnerXoaCarousel,
-    setSpinnerChiTietCarousel,
-    showModalThemBanner,
-    showChiTietBanner,
-    setSpinnerChiTietBanner,
     showModalThemCategory,
     showChiTietCategory,
     setSpinnerChiTietCategory,
@@ -76,7 +61,8 @@ const allReducers = combineReducers({
     showModalCapNhatKho,
     showModalCapNhatGiaTriGiam,
     showModalThemBaiViet,
-    valueSearch
+    valueSearch,
+    showChiTietBaiViet
 })
 
 export default allReducers;
