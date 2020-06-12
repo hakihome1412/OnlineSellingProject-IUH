@@ -5,14 +5,14 @@ const DbName = 'OnlineSelling';
 const soItemMoiPage = 8;
 const soItemMoiPageCategory = 16;
 const soItemMoiPageAdmin = 4;
-
+const phanTramLoiNhuan = 10;
 
 const vnp_TmnCode = '45PMXZ0H';
 const vnp_HashSecret = 'CFZOAITQKICYDBRGNLGWJGNZAAGAPWLR';
 const vnp_Url = 'http://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
 const vnp_ReturnUrl = 'http://sandbox.vnpayment.vn/merchant_webapi/merchant.html';
 
-module.exports = {DbUrl,DbName,soItemMoiPage,soItemMoiPageAdmin,soItemMoiPageCategory,vnp_TmnCode,vnp_HashSecret,vnp_Url,vnp_ReturnUrl};
+module.exports = { DbUrl, DbName, soItemMoiPage, soItemMoiPageAdmin, soItemMoiPageCategory, vnp_TmnCode, vnp_HashSecret, vnp_Url, vnp_ReturnUrl, phanTramLoiNhuan };
 
 // Get first two documents that match the query
 // .limit(2)

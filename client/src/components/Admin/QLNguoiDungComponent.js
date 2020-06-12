@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Button, Form, Row, Col, Table, Spinner, Image } from 'react-bootstrap';
-import { Pagination, Input, Select } from 'antd';
+import { Pagination, Input, Select, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
 
@@ -14,6 +14,17 @@ export default function QuanLyNguoiDungComponent() {
     const [dataSearch, setDataSearch] = useState('');
     const [trangThaiOption, setTrangThaiOption] = useState(0);
 
+    function hamChuyenDoiNgay(date) {
+        var strDate = '';
+        var now = new Date();
+        var ngay = date.getDate().toString();
+        var thang = (date.getMonth()+1).toString();
+        var nam = date.getFullYear().toString();
+
+        strDate = ngay + '/' + thang + '/' + nam;
+        return strDate;
+    }
+
     async function LayDataUserTheoTrang(page) {
         dispatch({ type: 'SPINNER_DATABASE' });
         let resData = await axios.get('hethong/users/' + page);
@@ -22,7 +33,7 @@ export default function QuanLyNguoiDungComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data người dùng thất bại");
         }
     }
 
@@ -34,7 +45,7 @@ export default function QuanLyNguoiDungComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data người dùng theo search thất bại");
         }
     }
 
@@ -46,7 +57,7 @@ export default function QuanLyNguoiDungComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data người dùng chưa khóa thất bại");
         }
     }
 
@@ -58,7 +69,7 @@ export default function QuanLyNguoiDungComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data người dùng đã khóa thất bại");
         }
     }
 
@@ -68,10 +79,10 @@ export default function QuanLyNguoiDungComponent() {
         })
 
         if (res.data.status === 'success') {
-            alert('Đã khóa thành công');
+            message.success('Đã khóa thành công');
             dispatch({ type: 'RELOAD_DATABASE' });
         } else {
-            alert('Khóa thất bại !');
+            message.error('Khóa thất bại !');
         }
     }
 
@@ -81,10 +92,10 @@ export default function QuanLyNguoiDungComponent() {
         })
 
         if (res.data.status === 'success') {
-            alert('Mở khóa thành công');
+            message.success('Mở khóa thành công');
             dispatch({ type: 'RELOAD_DATABASE' });
         } else {
-            alert('Mở khóa thất bại !');
+            message.error('Mở khóa thất bại !');
         }
     }
 
@@ -165,7 +176,7 @@ export default function QuanLyNguoiDungComponent() {
                                             <td>{item.sdt}</td>
                                             <td>{item.cmnd}</td>
                                             <td>{item.gioiTinh === 0 ? 'Nữ' : 'Nam'}</td>
-                                            <td>{new Date(item.ngaySinh).toString()}</td>
+                                            <td>{hamChuyenDoiNgay(new Date(item.ngaySinh))}</td>
                                             <td>{item.isLock === false ?
                                                 (
                                                     <Fragment>

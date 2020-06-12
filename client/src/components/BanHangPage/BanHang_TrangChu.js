@@ -295,7 +295,7 @@ export default function BanHang_TrangChu(props) {
                     <div className='row' style={{ backgroundColor: '#F8F9FA' }}>
                         <div className='col-sm-3'>
                             <div className='col'>
-                                <img src={dataUser.thongTinShop.logoShop} width='350' height='350'></img>
+                                <img alt='ảnh logo' src={dataUser.thongTinShop.logoShop} width='350' height='350'></img>
                                 <br></br>
                                 <br></br>
                                 <h5>{dataUser.thongTinShop.ten}</h5>
@@ -310,13 +310,13 @@ export default function BanHang_TrangChu(props) {
                                     dataUser.thongTinShop.img.carousel.length === 0 && (
                                         <Carousel style={{ height: 250, width: 900, textAlign: 'center', marginLeft: 60 }}>
                                             <Carousel.Item>
-                                                <img className="d-block w-100" src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='250' />
+                                                <img alt='ảnh' className="d-block w-100" src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='250' />
                                             </Carousel.Item>
                                             <Carousel.Item>
-                                                <img className="d-block w-100" src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='250' />
+                                                <img alt='ảnh' className="d-block w-100" src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='250' />
                                             </Carousel.Item>
                                             <Carousel.Item>
-                                                <img className="d-block w-100" src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='250' />
+                                                <img alt='ảnh' className="d-block w-100" src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='250' />
                                             </Carousel.Item>
                                         </Carousel>
                                     )
@@ -328,7 +328,7 @@ export default function BanHang_TrangChu(props) {
                                             {
                                                 dataUser.thongTinShop.img.carousel.map((src, i) => {
                                                     return <Carousel.Item key={i}>
-                                                        <img className="d-block w-100" src={src} height='250' />
+                                                        <img alt='ảnh carousel' className="d-block w-100" src={src} height='250' />
                                                     </Carousel.Item>
                                                 })
                                             }

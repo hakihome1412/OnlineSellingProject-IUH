@@ -1,18 +1,29 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
 import { useCookies } from 'react-cookie';
+import { message } from 'antd';
 
 export default function DonHang() {
     const dispatch = useDispatch();
     const [dataDonHang, setDataDonHang] = useState([]);
     const [cookies, setCookie, removeCookie] = useCookies();
-    const match = useRouteMatch();
 
     function format_curency(a) {
         a = a.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
         return a;
+    }
+
+    function hamChuyenDoiNgay(date) {
+        var strDate = '';
+        var now = new Date();
+        var ngay = date.getDate().toString();
+        var thang = (date.getMonth()+1).toString();
+        var nam = date.getFullYear().toString();
+
+        strDate = ngay + '/' + thang + '/' + nam;
+        return strDate;
     }
 
     async function LayDataDonHangTheoIDUser(idUser) {
@@ -20,7 +31,7 @@ export default function DonHang() {
         if (result.data.status === 'success') {
             setDataDonHang(result.data.data);
         } else {
-            alert("Lấy dữ liệu data đơn hàng thất bại");
+            message.error("Lấy dữ liệu data đơn hàng thất bại");
         }
     }
 
@@ -37,7 +48,7 @@ export default function DonHang() {
                     <br></br>
                 </div>
 
-                <div style={{ backgroundColor: 'white', width: '100%'}}>
+                <div style={{ backgroundColor: 'white', width: '100%' }}>
                     <table class="table">
                         <thead>
                             <tr>
@@ -52,7 +63,7 @@ export default function DonHang() {
                                 dataDonHang.map((item, i) => {
                                     return <tr key={i}>
                                         <td><Link to={'order/details/' + item.idShow}>{item.idShow}</Link></td>
-                                        <td>{new Date(item.ngayTao).toISOString().substring(0,10)}</td>
+                                        <td>{hamChuyenDoiNgay(new Date(item.ngayTao))}</td>
                                         <td>{item.soLuongSanPham}</td>
                                         <td>{format_curency(item.tongTien.toString())} <u>đ</u></td>
                                     </tr>

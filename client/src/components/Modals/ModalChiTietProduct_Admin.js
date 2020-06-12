@@ -1,11 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Modal, Image, Spinner, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Input, Select } from 'antd';
+import { Form, Input, Select, message } from 'antd';
 import { axios } from '../../config/constant';
 import { storage } from "../../firebase/firebase";
 
-export default function ModalChiTietProduct() {
+export default function ModalChiTietProduct_Admin() {
     const { Option } = Select;
     const dispatch = useDispatch();
     const showChiTietProductAdmin = useSelector(state => state.showChiTietProductAdmin);
@@ -17,16 +17,12 @@ export default function ModalChiTietProduct() {
     const [dataCategory, setDataCategory] = useState([]);
     const [dataCountries, setDataCountries] = useState([]);
     const [dataBrand, setDataBrand] = useState([]);
-    const [countAnhDaUploadThanhCong_MoTaChiTiet, setCountAnhDaUploadThanhCong_MoTaChiTiet] = useState(0);
     const [countAnhDaUploadThanhCong_Chinh, setCountAnhDaUploadThanhCong_Chinh] = useState(0);
     const [countAnhDaUploadThanhCong_Phu, setCountAnhDaUploadThanhCong_Phu] = useState(0);
-    const [imageAsUrl_MoTaChiTiet, setImageAsUrl_MoTaChiTiet] = useState([]);
     const [imageAsUrl_Chinh, setImageAsUrl_Chinh] = useState([]);
     const [imageAsUrl_Phu, setImageAsUrl_Phu] = useState([]);
-    const [imageAsFile_MoTaChiTiet, setImageAsFile_MoTaChiTiet] = useState([]);
     const [imageAsFile_Chinh, setImageAsFile_Chinh] = useState([]);
     const [imageAsFile_Phu, setImageAsFile_Phu] = useState([]);
-    const [firstTime2, setFirstTime2] = useState(true);
     const [firstTime3, setFirstTime3] = useState(true);
     const [firstTime4, setFirstTime4] = useState(true);
     const [spinnerXoaProduct, setSpinnerXoaProduct] = useState(-1);
@@ -41,7 +37,7 @@ export default function ModalChiTietProduct() {
         },
         gia: '',
         noiSanXuat: '',
-        moTa: [],
+        moTa: '',
         moTaNganGon: [],
         soSao: 0,
         giaTriGiamGia: 0,
@@ -67,7 +63,7 @@ export default function ModalChiTietProduct() {
         },
         gia: '',
         noiSanXuat: '',
-        moTa: [],
+        moTa: '',
         moTaNganGon: [],
         soSao: 0,
         giaTriGiamGia: 0,
@@ -83,55 +79,6 @@ export default function ModalChiTietProduct() {
         isLock: '',
         isAccept: ''
     });
-
-    const handleChangeIMG_MotaChiTiet = (e) => {
-        var soLuongFile = e.target.files.length;
-        var listFile = [];
-        var listUrl = [];
-        for (let index = 0; index < soLuongFile; index++) {
-            listFile.push(e.target.files[index]);
-        }
-
-        setImageAsFile_MoTaChiTiet(listFile);
-
-        if (listFile.length === 0) {
-            console.log('Không có file nào được upload');
-        } else {
-            for (let index = 0; index < soLuongFile; index++) {
-                console.log('start of upload');
-                // async magic goes here...
-                if (listFile[index] === '') {
-                    console.error(`not an image, the image file is a ${typeof (listFile[index])}`);
-                }
-                const uploadTask = storage.ref(`/images/${listFile[index].name}`).put(listFile[index]);
-                uploadTask.on('state_changed',
-                    (snapShot) => {
-                        //takes a snap shot of the process as it is happening
-                        console.log(snapShot);
-                    }, (err) => {
-                        //catches the errors
-                        console.log(err)
-                    }, () => {
-                        // gets the functions from storage refences the image storage in firebase by the children
-                        // gets the download url then sets the image from firebase as the value for the imgUrl key:
-                        storage.ref('images').child(listFile[index].name).getDownloadURL()
-                            .then(fireBaseUrl => {
-                                // setImageAsUrl(prevObject => ({ ...prevObject, imageAsUrl: fireBaseUrl }))
-                                listUrl.push(fireBaseUrl);
-                                setCountAnhDaUploadThanhCong_MoTaChiTiet(countPrev => countPrev + 1);
-                            })
-                    })
-            }
-        }
-        setImageAsUrl_MoTaChiTiet(listUrl);
-        setProductSua({
-            ...productSua,
-            img: {
-                ...productSua.img,
-                moTaChiTiet: listUrl
-            }
-        });
-    }
 
     const handleChangeIMG_Chinh = (e) => {
         var soLuongFile = e.target.files.length;
@@ -231,6 +178,17 @@ export default function ModalChiTietProduct() {
         });
     }
 
+    function hamChuyenDoiNgay(date) {
+        var strDate = '';
+        var now = new Date();
+        var ngay = date.getDate().toString();
+        var thang = (date.getMonth()+1).toString();
+        var nam = date.getFullYear().toString();
+
+        strDate = ngay + '/' + thang + '/' + nam;
+        return strDate;
+    }
+
     async function SuaProduct(productID) {
         //dispatch({ type: 'SPINNER_SUACAROUSEL' });
         setSpinnerSuaProduct(1);
@@ -267,19 +225,22 @@ export default function ModalChiTietProduct() {
                 dispatch({ type: 'RELOAD_DATABASE' });
                 setStatusSua(0);
                 setSpinnerSuaProduct(-1);
-                alert("Sửa thành công");
+                message.success("Sửa thông tin sản phẩm thành công");
                 setDisableOptions(false);
+                dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
             }
             else {
                 setSpinnerSuaProduct(-1);
                 setStatusSua(0);
                 setDisableOptions(true);
                 dispatch({ type: 'NO_RELOAD_DATABASE' });
-                alert("Sửa thất bại");
+                message.error("Sửa thông tin sản phẩm thất bại");
+                dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
             }
 
         } else {
-            alert("fail 1");
+            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
         }
     }
 
@@ -294,14 +255,15 @@ export default function ModalChiTietProduct() {
             setDisableOptions(false);
             setSpinnerXoaProduct(0);
             dispatch({ type: 'RELOAD_DATABASE' });
-            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_CHUSHOP' });
-            alert("Xóa thành công");
+            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
+            message.success("Xóa sản phẩm thành công");
         } else {
             setStatusSua(0);
             setDisableOptions(false);
             setSpinnerXoaProduct(0);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
-            alert("Xóa thất bại");
+            message.error("Xóa sản phẩm thất bại");
+            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
         }
     }
 
@@ -338,7 +300,8 @@ export default function ModalChiTietProduct() {
             });
             setSpinnerChiTietProduct(false);
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data sản phẩm thất bại");
+            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
             setSpinnerChiTietProduct(false);
         }
     }
@@ -348,7 +311,8 @@ export default function ModalChiTietProduct() {
         if (resData.data.status === 'success') {
             setDataCategory(resData.data.data);
         } else {
-            alert("Lấy data Category thất bại");
+            message.error("Lấy data danh mục thất bại");
+            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
         }
     }
 
@@ -357,7 +321,8 @@ export default function ModalChiTietProduct() {
         if (resData.data.status === 'success') {
             setDataBrand(resData.data.data);
         } else {
-            alert("Lấy data Brand thất bại");
+            message.error("Lấy data thương hiệu thất bại");
+            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
         }
     }
 
@@ -366,7 +331,8 @@ export default function ModalChiTietProduct() {
         if (resData.data.status === 'success') {
             setDataCountries(resData.data.data);
         } else {
-            alert("Lấy data Countries thất bại");
+            message.error("Lấy data các nước thất bại");
+            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
         }
     }
 
@@ -376,25 +342,14 @@ export default function ModalChiTietProduct() {
         LayDataCountriesAll();
     }, [])
 
-    useEffect(() => {
-        if (firstTime2 === false) {
-            if (imageAsFile_MoTaChiTiet.length === 0) {
-                alert('Vui lòng chọn ảnh cho Mô tả chi tiết')
-            } else {
-                if (countAnhDaUploadThanhCong_MoTaChiTiet === imageAsFile_MoTaChiTiet.length) {
-                    alert('Upload các ảnh mô tả chi tiết thành công');
-                }
-            }
-        }
-    }, [countAnhDaUploadThanhCong_MoTaChiTiet])
 
     useEffect(() => {
         if (firstTime3 === false) {
             if (imageAsFile_Chinh.length === 0) {
-                alert('Vui lòng chọn ảnh chính cho sản phẩm')
+                message.error('Vui lòng chọn ảnh chính cho sản phẩm')
             } else {
                 if (countAnhDaUploadThanhCong_Chinh === imageAsFile_Chinh.length) {
-                    alert('Upload ảnh chính cho sản phẩm thành công');
+                    message.success('Upload ảnh chính cho sản phẩm thành công');
                 }
             }
         }
@@ -403,10 +358,10 @@ export default function ModalChiTietProduct() {
     useEffect(() => {
         if (firstTime4 === false) {
             if (imageAsFile_Phu.length === 0) {
-                alert('Vui lòng chọn ảnh phụ cho sản phẩm')
+                message.error('Vui lòng chọn ảnh phụ cho sản phẩm')
             } else {
                 if (countAnhDaUploadThanhCong_Phu === imageAsFile_Phu.length) {
-                    alert('Upload các ảnh phụ cho sản phẩm thành công');
+                    message.success('Upload các ảnh phụ cho sản phẩm thành công');
                 }
             }
         }
@@ -448,7 +403,7 @@ export default function ModalChiTietProduct() {
                             label="Tên sản phẩm"
                             name="ten"
                             rules={[{ required: true, message: 'Vui lòng nhập tên sản phẩm ' }]}>
-                            <Input disabled={!disableOptions} defaultValue={productNow.ten} onChange={(e) => {
+                            <Input disabled={true} defaultValue={productNow.ten} onChange={(e) => {
                                 setProductSua({
                                     ...productSua,
                                     ten: e.target.value
@@ -462,7 +417,7 @@ export default function ModalChiTietProduct() {
                             rules={[{ required: true, message: 'Vui lòng chọn danh mục' }]}
                         >
                             <Select
-                                disabled={!disableOptions}
+                                disabled={true}
                                 defaultValue={productNow.idCategory}
                                 mode="multiple"
                                 style={{ width: '100%' }}
@@ -490,7 +445,7 @@ export default function ModalChiTietProduct() {
                             rules={[{ required: true, message: 'Vui lòng chọn thương hiệu' }]}
                         >
                             <Select
-                                disabled={!disableOptions}
+                                disabled={true}
                                 defaultValue={productNow.idBrand}
                                 showSearch
                                 optionFilterProp="children"
@@ -522,7 +477,7 @@ export default function ModalChiTietProduct() {
                             rules={[{ required: true, message: 'Vui lòng chọn nơi sản xuất' }]}
                         >
                             <Select
-                                disabled={!disableOptions}
+                                disabled={true}
                                 defaultValue={productNow.noiSanXuat}
                                 style={{ width: '100%' }}
                                 placeholder="Chọn nơi sản xuất"
@@ -550,7 +505,7 @@ export default function ModalChiTietProduct() {
                         >
                             {
                                 productNow.moTaNganGon.map((item, i) => {
-                                    return <Input disabled={!disableOptions} defaultValue={item} onChange={(e) => {
+                                    return <Input disabled={true} defaultValue={item} onChange={(e) => {
                                         productNow.moTaNganGon[i] = e.target.value;
                                         var newArray = productNow.moTaNganGon;
                                         setProductSua({
@@ -567,52 +522,13 @@ export default function ModalChiTietProduct() {
                             name="motachitiet"
                             rules={[{ required: true }]}
                         >
-                            {
-                                productNow.moTa.map((item, i) => {
-                                    return <Input disabled={!disableOptions} defaultValue={item} onChange={(e) => {
-                                        productNow.moTa[i] = e.target.value;
-                                        var newArray = productNow.moTa;
-                                        setProductSua({
-                                            ...productSua,
-                                            moTa: newArray
-                                        })
-                                    }} />
-                                })
-                            }
-                        </Form.Item>
-
-                        <Form.Item
-                            label="Ảnh cho mô tả"
-                            name="anhmota"
-                            rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
-                            <input type='file'
-                                multiple
-                                disabled={!disableOptions}
-                                onChange={(e) => {
-                                    handleChangeIMG_MotaChiTiet(e);
-                                    setCountAnhDaUploadThanhCong_MoTaChiTiet(0);
-                                    setFirstTime2(false);
-                                }}>
-                            </input>
-                        </Form.Item>
-
-                        <Form.Item
-                            name='showanhchomota'
-                            label="Show ảnh cho mô tả">
-                            {
-                                statusSua === 0 && (
-                                    productNow.img.moTaChiTiet.map((src, i) => {
-                                        return <img key={i} style={{ marginLeft: 20 }} src={src} alt={'ảnh ' + i} width='200' height='150'></img>
-                                    })
-                                )
-                            }
-                            {
-                                statusSua === 1 && (
-                                    imageAsUrl_MoTaChiTiet.map((src, i) => {
-                                        return <img key={i} style={{ marginLeft: 20 }} src={src} alt={'ảnh ' + i} width='200' height='150'></img>
-                                    })
-                                )
-                            }
+                            <textarea style={{ width: '100%' }} disabled={true} rows="4" cols="50" defaultValue={productNow.moTa} onChange={(e) => {
+                                setProductSua({
+                                    ...productSua,
+                                    moTa: e.target.value
+                                });
+                            }}>
+                            </textarea>
                         </Form.Item>
 
                         <Form.Item
@@ -620,7 +536,7 @@ export default function ModalChiTietProduct() {
                             name="giagoc"
                             rules={[{ required: true, message: 'Vui lòng nhập giá gốc sản phẩm' }]}>
                             <Input
-                                disabled={!disableOptions}
+                                disabled={true}
                                 defaultValue={productNow.gia.toString()}
                                 onChange={(e) => {
                                     setProductSua({
@@ -634,7 +550,7 @@ export default function ModalChiTietProduct() {
                             label="Giá trị giảm"
                             name="giatrigiam">
                             <Input
-                                disabled={!disableOptions}
+                                disabled={true}
                                 defaultValue={productNow.giaTriGiamGia.toString()}
                                 onChange={(e) => {
                                     setProductSua({
@@ -649,7 +565,7 @@ export default function ModalChiTietProduct() {
                             name="anhchinh"
                             rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
                             <input type='file'
-                                disabled={!disableOptions}
+                                disabled={true}
                                 onChange={(e) => {
                                     handleChangeIMG_Chinh(e);
                                     setCountAnhDaUploadThanhCong_Chinh(0);
@@ -680,7 +596,7 @@ export default function ModalChiTietProduct() {
                             name="anhphu"
                             rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
                             <input type='file'
-                                disabled={!disableOptions}
+                                disabled={true}
                                 multiple
                                 onChange={(e) => {
                                     handleChangeIMG_Phu(e);
@@ -714,7 +630,7 @@ export default function ModalChiTietProduct() {
                             name="soluong"
                             rules={[{ required: true, message: 'Vui lòng nhập số lượng sản phẩm' }]}>
                             <Input
-                                disabled={!disableOptions}
+                                disabled={true}
                                 defaultValue={productNow.soLuong.toString()}
                                 onChange={(e) => {
                                     setProductSua({
@@ -743,7 +659,7 @@ export default function ModalChiTietProduct() {
                                         name="thoigianbaohanh"
                                         rules={[{ required: true, message: 'Vui lòng nhập thời gian bảo hành' }]}>
                                         <Input
-                                            disabled={!disableOptions}
+                                            disabled={true}
                                             defaultValue={productNow.thongTinBaoHanh.thoiGianBaoHanh.toString()}
                                             onChange={(e) => {
                                                 setProductSua({
@@ -761,7 +677,7 @@ export default function ModalChiTietProduct() {
                                         name="donvibaohanh"
                                         rules={[{ required: true, message: 'Vui lòng nhập đơn vị thời gian bảo hành' }]}>
                                         <Select style={{ width: '100%' }}
-                                            disabled={!disableOptions}
+                                            disabled={true}
                                             defaultValue={productNow.thongTinBaoHanh.donViBaoHanh}
                                             onChange={(value) => {
                                                 setProductSua({
@@ -782,7 +698,7 @@ export default function ModalChiTietProduct() {
                                         name="loaibaohanh"
                                         rules={[{ required: true, message: 'Vui lòng chọn loại bảo hành' }]}>
                                         <Select style={{ width: '100%' }}
-                                            disabled={!disableOptions}
+                                            disabled={true}
                                             defaultValue={productNow.thongTinBaoHanh.loaiBaoHanh}
                                             onChange={(value) => {
                                                 setProductSua({
@@ -804,7 +720,7 @@ export default function ModalChiTietProduct() {
                         <Form.Item
                             label="Ngày tạo"
                             name="ngaytao">
-                            <Input disabled={true} defaultValue={new Date(productNow.ngayTao).toString()} />
+                            <Input disabled={true} defaultValue={hamChuyenDoiNgay(new Date(productNow.ngayTao))} />
                         </Form.Item>
 
                         <Form.Item
@@ -855,33 +771,34 @@ export default function ModalChiTietProduct() {
                                 else {
                                     SuaProduct(productNow._id);
                                 }
-                                setProductSua({
-                                    ten: productNow.ten,
-                                    img: {
-                                        chinh: productNow.img.chinh,
-                                        phu: productNow.img.phu,
-                                        moTaChiTiet: productNow.img.moTaChiTiet
-                                    },
-                                    gia: productNow.gia,
-                                    noiSanXuat: productNow.noiSanXuat,
-                                    moTa: productNow.moTa,
-                                    moTaNganGon: productNow.moTaNganGon,
-                                    soSao: productNow.soSao,
-                                    giaTriGiamGia: productNow.giaTriGiamGia,
-                                    soLuong: productNow.soLuong,
-                                    thongTinBaoHanh: {
-                                        baoHanh: productNow.thongTinBaoHanh.baoHanh,
-                                        loaiBaoHanh: productNow.thongTinBaoHanh.loaiBaoHanh,
-                                        thoiGianBaoHanh: productNow.thongTinBaoHanh.thoiGianBaoHanh,
-                                        donViBaoHanh: productNow.thongTinBaoHanh.donViBaoHanh
-                                    },
-                                    idBrand: productNow.idBrand,
-                                    idCategory: productNow.idCategory,
-                                    isLock: productNow.isLock,
-                                    isAccept: productNow.isAccept
-                                });
 
-                                console.log(productSua);
+                                if(statusSua === 0){
+                                    setProductSua({
+                                        ten: productNow.ten,
+                                        img: {
+                                            chinh: productNow.img.chinh,
+                                            phu: productNow.img.phu,
+                                            moTaChiTiet: productNow.img.moTaChiTiet
+                                        },
+                                        gia: productNow.gia,
+                                        noiSanXuat: productNow.noiSanXuat,
+                                        moTa: productNow.moTa,
+                                        moTaNganGon: productNow.moTaNganGon,
+                                        soSao: productNow.soSao,
+                                        giaTriGiamGia: productNow.giaTriGiamGia,
+                                        soLuong: productNow.soLuong,
+                                        thongTinBaoHanh: {
+                                            baoHanh: productNow.thongTinBaoHanh.baoHanh,
+                                            loaiBaoHanh: productNow.thongTinBaoHanh.loaiBaoHanh,
+                                            thoiGianBaoHanh: productNow.thongTinBaoHanh.thoiGianBaoHanh,
+                                            donViBaoHanh: productNow.thongTinBaoHanh.donViBaoHanh
+                                        },
+                                        idBrand: productNow.idBrand,
+                                        idCategory: productNow.idCategory,
+                                        isLock: productNow.isLock,
+                                        isAccept: productNow.isAccept
+                                    });
+                                }     
                             }}>
                                 {
                                     statusSua === 0 && spinnerSuaProduct === -1 ? "Sửa" : "Lưu"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { InputNumber, Input } from 'antd';
+import { InputNumber, Input, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
 import { useCookies } from 'react-cookie';
@@ -14,6 +14,35 @@ export default function CheckoutCartt() {
     const [cookie, setCookie] = useCookies();
     const dispatch = useDispatch();
     const statusThayDoiGioHang = useSelector(state => state.statusThayDoiGioHang);
+
+    function to_slug(str) {
+        // Chuyển hết sang chữ thường
+        str = str.toLowerCase();
+
+        // xóa dấu
+        str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
+        str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
+        str = str.replace(/(ì|í|ị|ỉ|ĩ)/g, 'i');
+        str = str.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/g, 'o');
+        str = str.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/g, 'u');
+        str = str.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/g, 'y');
+        str = str.replace(/(đ)/g, 'd');
+
+        // Xóa ký tự đặc biệt
+        str = str.replace(/([^0-9a-z-\s])/g, '');
+
+        // Xóa khoảng trắng thay bằng ký tự -
+        str = str.replace(/(\s+)/g, '-');
+
+        // xóa phần dự - ở đầu
+        str = str.replace(/^-+/g, '');
+
+        // xóa phần dư - ở cuối
+        str = str.replace(/-+$/g, '');
+
+        // return
+        return str;
+    }
 
     function format_curency(a) {
         a = a.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
@@ -90,9 +119,9 @@ export default function CheckoutCartt() {
 
         if (res.data.status === 'success') {
             setDataVoucher(res.data.data);
-            alert(res.data.message);
+            message.success(res.data.message);
         } else {
-            alert(res.data.message);
+            message.error(res.data.message);
             setDataVoucher('');
         }
     }
@@ -121,11 +150,6 @@ export default function CheckoutCartt() {
         getGioHangTheoIDUser();
     }, [dataGioHang])
 
-
-
-    // useEffect(() => {
-    //     tinhThanhTien(tienTamTinh(dataGioHang),dataVoucher);
-    // }, [dataVoucher])
 
     return (
         <div className="container" style={{ marginTop: '50px', backgroundColor: '#F8F9FA', height: 'auto', padding: 20 }}>
@@ -159,7 +183,7 @@ export default function CheckoutCartt() {
                                             )
                                         }
                                     </strong><br></br>
-                                    Cung cấp bởi: <Link>{item.tenShop}</Link> <br></br><br></br>
+                                    Cung cấp bởi: <Link to={'/shop/'+item.idShop+'/'+to_slug(item.tenShop)}>{item.tenShop}</Link> <br></br><br></br>
                                     <Link onClick={() => {
                                         dataGioHang.splice(item.index, 1);
                                         setDataGioHang([
@@ -222,17 +246,6 @@ export default function CheckoutCartt() {
                             )
                         }
 
-                        {/* <div className='row'>
-                            <div className='col-sm-6'>
-                                <span style={{ float: 'left', fontSize: 16 }}>Mã giảm giá</span>
-                                <span style={{ float: 'left', fontSize: 16, fontWeight: 'bold'}}>VOUCHER-123123</span>
-                            </div>
-                            <div className='col-sm-6'>
-                                <br></br>
-                                <span style={{ float: 'right', fontSize: 16, fontWeight: 'bold' }}>-100.000đ</span>
-                            </div>
-                        </div> */}
-
                         <hr></hr>
                         <div className='row'>
                             <div className='col-sm-6'>
@@ -246,7 +259,7 @@ export default function CheckoutCartt() {
                     <Link to='shipping' onClick={(e) => {
                         if (dataGioHang.length === 0) {
                             e.preventDefault();
-                            alert('Chưa có sản phẩm nào trong giỏ hàng');
+                            message.error('Chưa có sản phẩm nào trong giỏ hàng');
                         } else {
                             if (cookie.token === undefined) {
                                 e.preventDefault();

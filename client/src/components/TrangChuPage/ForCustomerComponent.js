@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Button, Image } from 'react-bootstrap';
-import { ItemComponent } from '../allJS'
 import { Link } from 'react-router-dom';
 
 export default function ForCustomerComponent(props) {
     var dataProduct = props.dataProduct;
+    const [countProductShow, setCountProductShow] = useState(8);
+    const [productShowEnd, setProductShowEnd] = useState(false);
 
     function format_curency(a) {
         a = a.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
@@ -59,6 +60,12 @@ export default function ForCustomerComponent(props) {
         return stringNew;
     }
 
+    useEffect(() => {
+        if (countProductShow >= dataProduct.length && dataProduct.length !== 0) {
+            setProductShowEnd(true);
+        }
+    }, [countProductShow])
+
     return (
         <Fragment>
             <div className="row" style={{ height: 'auto', backgroundColor: '#F8F9FA', marginTop: 40, borderRadius: 10, color: 'black', fontWeight: 'lighter', padding: 10 }}>
@@ -68,46 +75,55 @@ export default function ForCustomerComponent(props) {
                     <div className="row">
                         {
                             dataProduct.map((item, i) => {
-                                if (item.giaTriGiamGia === 0) {
-                                    return <div className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
-                                        <Link to={'detail/' + item._id + '/' + to_slug(item.ten)} className="a_item">
-                                            <div className="row">
-                                                <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
-                                            </div>
-                                            <div className="row item-ten">
-                                                <span><strong>{setLongString(item.ten)}</strong></span>
-                                            </div>
-                                            <div className="row item-gia">
-                                                <h5><strong>{format_curency(item.gia.toString())} VNĐ</strong></h5>
-                                            </div>
-                                        </Link>
-                                    </div>
-                                } else {
-                                    return <div className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
-                                        <Link to={'detail/' + item._id + '/' + to_slug(item.ten)} className="a_item">
-                                            <div className="row">
-                                                <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
-                                            </div>
-                                            <div className="row item-ten">
-                                                <span><strong>{setLongString(item.ten)}</strong></span>
-                                            </div>
-                                            <div className="row item-gia">
-                                                <h5><strong>{format_curency(tinh_tien(item.gia, item.giaTriGiamGia))} VNĐ</strong></h5>&nbsp;<span className="percent">{
-                                                    item.giaTriGiamGia > 100 ? '-' + format_curency(item.giaTriGiamGia.toString()) + 'VNĐ' : '-' + item.giaTriGiamGia + '%'
-                                                }</span>
-                                            </div>
-                                            <div className="row item-giagoc">
-                                                <strike><span className="original">{format_curency(item.gia.toString())} VNĐ</span></strike>
-                                            </div>
-                                        </Link>
-                                    </div>
+                                if (i < countProductShow) {
+                                    if (item.giaTriGiamGia === 0) {
+                                        return <div className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
+                                            <Link to={'detail/' + item._id + '/' + to_slug(item.ten)} className="a_item">
+                                                <div className="row">
+                                                    <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
+                                                </div>
+                                                <div className="row item-ten">
+                                                    <span><strong>{setLongString(item.ten)}</strong></span>
+                                                </div>
+                                                <div className="row item-gia">
+                                                    <h5><strong>{format_curency(item.gia.toString())} VNĐ</strong></h5>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    } else {
+                                        return <div className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
+                                            <Link to={'detail/' + item._id + '/' + to_slug(item.ten)} className="a_item">
+                                                <div className="row">
+                                                    <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
+                                                </div>
+                                                <div className="row item-ten">
+                                                    <span><strong>{setLongString(item.ten)}</strong></span>
+                                                </div>
+                                                <div className="row item-gia">
+                                                    <h5><strong>{format_curency(tinh_tien(item.gia, item.giaTriGiamGia))} VNĐ</strong></h5>&nbsp;<span className="percent">{
+                                                        item.giaTriGiamGia > 100 ? '-' + format_curency(item.giaTriGiamGia.toString()) + 'VNĐ' : '-' + item.giaTriGiamGia + '%'
+                                                    }</span>
+                                                </div>
+                                                <div className="row item-giagoc">
+                                                    <strike><span className="original">{format_curency(item.gia.toString())} VNĐ</span></strike>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    }
                                 }
                             })
                         }
                     </div>
-                    <div className="row" style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
-                        <Link to="/product"><Button variant="outline-primary">Xem Thêm</Button></Link>
-                    </div>
+                    {
+                        productShowEnd === false && (
+                            <div className="row" style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+                                <Button variant="outline-primary" onClick={() => {
+                                    setCountProductShow(prev => prev + 8);
+                                }}>Xem Thêm</Button>
+                            </div>
+                        )
+                    }
+
                 </div>
             </div>
         </Fragment>

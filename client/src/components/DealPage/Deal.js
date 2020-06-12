@@ -2,8 +2,8 @@ import React, { useEffect, Fragment, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
 import { Link } from 'react-router-dom';
-import { Image} from 'react-bootstrap';
-import { Pagination } from 'antd';
+import { Image } from 'react-bootstrap';
+import { Pagination, message } from 'antd';
 
 export default function Deal() {
     const dispatch = useDispatch();
@@ -70,18 +70,19 @@ export default function Deal() {
             setDataProduct(res.data.data);
             setTongSoTrang(res.data.soTrang);
         } else {
-            alert('Lấy data Product thất bại');
+            message.error('Lấy data sản phẩm thất bại');
         }
     }
 
     useEffect(() => {
         dispatch({ type: 'SHOW_HEADER' });
         LayTatCaSanPhamDangGiamGia(0);
-    },[])
+        window.scrollTo(0, 0);
+    }, [])
 
     return (
         <Fragment>
-            <img style={{ marginTop: '50px' }} src='https://previews.123rf.com/images/houbacze/houbacze1803/houbacze180300322/98083578-hot-deal-banner-template.jpg' height='300' width='100%'></img>
+            <img alt='banner' style={{ marginTop: '50px' }} src='https://previews.123rf.com/images/houbacze/houbacze1803/houbacze180300322/98083578-hot-deal-banner-template.jpg' height='300' width='100%'></img>
             <div className="container" style={{ marginTop: '50px' }}>
                 <div className="row maincontent">
                     <div className="row showitems-maincontent">

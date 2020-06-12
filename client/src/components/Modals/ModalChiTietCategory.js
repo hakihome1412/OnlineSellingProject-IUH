@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Image, Spinner, Button } from 'react-bootstrap';
-import { Form, Input, Select, Popconfirm } from 'antd';
+import { Form, Input, Select, Popconfirm, message } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
 import { storage } from '../../firebase/firebase';
@@ -9,6 +9,7 @@ export default function ModalChiTietCategory() {
     const { Option } = Select;
     const dispatch = useDispatch();
     const showChiTietCategoryReducer = useSelector(state => state.showChiTietCategory);
+    const [statusMessageError, setStatusMessageError] = useState(-1);
     const setSpinnerChiTietCategory = useSelector(state => state.setSpinnerChiTietCategory);
     const objectIDDuocChonReducer = useSelector(state => state.objectIDDuocChon);
     const [showButtonHuy, setShowButtonHuy] = useState(false);
@@ -29,7 +30,24 @@ export default function ModalChiTietCategory() {
         isLock: ''
     });
 
+    function KiemTraDuLieuNhap() {
+        if (categorySua.ten === '') {
+            setStatusMessageError(0);
+        } else {
+            SuaCategory(cateogryNow._id);
+            setStatusMessageError(-1);
+        }
+    }
 
+    function hamChuyenDoiNgay(date) {
+        var strDate = '';
+        var ngay = date.getDate().toString();
+        var thang = (date.getMonth() + 1).toString();
+        var nam = date.getFullYear().toString();
+
+        strDate = ngay + '/' + thang + '/' + nam;
+        return strDate;
+    }
 
     async function SuaCategory(categoryID) {
         dispatch({ type: 'SPINNER_CHITIETCATEGORY' });
@@ -48,7 +66,7 @@ export default function ModalChiTietCategory() {
                 dispatch({ type: 'RELOAD_DATABASE' });
                 setStatusSua(0);
                 setSpinnerSuaCategory(-1);
-                alert("Sửa thành công");
+                message.success("Sửa thành công");
                 setDisableOptions(false);
                 dispatch({ type: 'CLOSE_CHITIET_CATEGORY' });
             }
@@ -58,11 +76,13 @@ export default function ModalChiTietCategory() {
                 setStatusSua(0);
                 setDisableOptions(true);
                 dispatch({ type: 'NO_RELOAD_DATABASE' });
-                alert("Sửa thất bại");
+                message.error("Sửa thất bại");
+                dispatch({ type: 'CLOSE_CHITIET_CATEGORY' });
             }
 
         } else {
-            alert("fail 1");
+            dispatch({ type: 'CLOSE_CHITIET_CATEGORY' });
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
         }
     }
 
@@ -78,13 +98,14 @@ export default function ModalChiTietCategory() {
             setSpinnerXoaCategory(0);
             dispatch({ type: 'RELOAD_DATABASE' });
             dispatch({ type: 'CLOSE_CHITIET_CATEGORY' });
-            alert("Xóa thành công");
+            message.success("Xóa thành công");
         } else {
             setStatusSua(0);
             setDisableOptions(false);
             setSpinnerXoaCategory(0);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
-            alert("Xóa thất bại");
+            dispatch({ type: 'CLOSE_CHITIET_CATEGORY' });
+            message.error("Xóa thất bại");
         }
     }
 
@@ -101,7 +122,8 @@ export default function ModalChiTietCategory() {
             });
             dispatch({ type: 'NO_SPINNER_CHITIETCATEGORY' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data danh mục thất bại");
+            dispatch({ type: 'CLOSE_CHITIET_CATEGORY' });
             dispatch({ type: 'NO_SPINNER_CHITIETCATEGORY' });
         }
     }
@@ -123,6 +145,7 @@ export default function ModalChiTietCategory() {
                 setDisableOptions(false);
                 setStatusSua(0);
                 LayCategoryTheoID(objectIDDuocChonReducer);
+                setStatusMessageError(-1);
             }}>
             {
                 setSpinnerChiTietCategory === 1 && (
@@ -165,7 +188,7 @@ export default function ModalChiTietCategory() {
                         <Form.Item
                             label="Ngày tạo"
                             name="ngaytao">
-                            <Input disabled={true} defaultValue={new Date(cateogryNow.ngayTao).toString()} />
+                            <Input disabled={true} defaultValue={hamChuyenDoiNgay(new Date(cateogryNow.ngayTao))} />
                         </Form.Item>
 
                         <Form.Item
@@ -195,18 +218,25 @@ export default function ModalChiTietCategory() {
                         </Form.Item>
 
                         <Form.Item>
+                            {
+                                statusMessageError === 0 && (
+                                    <p style={{ color: 'red', lineHeight: 1.5 }}>Thông tin sửa không hợp lệ. Vui lòng kiểm tra lại</p>
+                                )
+                            }
                             <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
                                 if (statusSua === 0) {
                                     setStatusSua(1);
                                     setDisableOptions(true);
                                 } else {
-                                    SuaCategory(cateogryNow._id);
+                                    KiemTraDuLieuNhap()
                                 }
-                                setCategorySua({
-                                    ten: cateogryNow.ten,
-                                    icon: cateogryNow.icon,
-                                    isLock: cateogryNow.isLock
-                                });
+                                if (statusSua === 0) {
+                                    setCategorySua({
+                                        ten: cateogryNow.ten,
+                                        icon: cateogryNow.icon,
+                                        isLock: cateogryNow.isLock
+                                    });
+                                }
                             }}>
                                 {
                                     statusSua === 0 && spinnerSuaCategory === -1 ? "Sửa" : "Lưu"

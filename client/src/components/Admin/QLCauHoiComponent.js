@@ -1,111 +1,103 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Button, Form, Row, Col, Table, Spinner, Image } from 'react-bootstrap';
+import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
 import { Pagination, Input, Select, message } from 'antd';
+import { ModalChiTietCauHoi } from '../Modals/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
 
-export default function QLGianHangComponent() {
+export default function QLCauHoiComponent() {
     const dispatch = useDispatch();
     const { Option } = Select;
     const setSpinnerReducer = useSelector(state => state.setSpinner);
     const reloadDatabaseReducer = useSelector(state => state.reloadDatabase);
-    const [dataShop, setDataShop] = useState([]);
+    const [dataCauHoi, setDataCauHoi] = useState([]);
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [dataSearch, setDataSearch] = useState('');
     const [trangThaiOption, setTrangThaiOption] = useState(0);
+    const [statusAcceptOrNoAccept, setStatusAcceptOrNoAccept] = useState(false);
 
     function hamChuyenDoiNgay(date) {
         var strDate = '';
-        var now = new Date();
         var ngay = date.getDate().toString();
-        var thang = (date.getMonth()+1).toString();
+        var thang = (date.getMonth() + 1).toString();
         var nam = date.getFullYear().toString();
 
         strDate = ngay + '/' + thang + '/' + nam;
         return strDate;
     }
 
-    async function LayDataShopTheoTrang(page) {
+    async function LayDataCauHoiTheoTrang(page) {
         dispatch({ type: 'SPINNER_DATABASE' });
-        let resData = await axios.get('hethong/users/shop/' + page);
+        let resData = await axios.get('hethong/questanswer-admin/' + page);
         if (resData.data.status === 'success') {
-            setDataShop(resData.data.data);
+            setDataCauHoi(resData.data.data);
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            message.error("Lấy data gian hàng thất bại");
+            message.error("Lấy data câu hỏi khách hàng thất bại");
         }
     }
 
-    async function LayDataShop_ChuaKhoa_TheoTrang(page) {
+    async function LayDanhSachCauHoiSearch(page) {
         dispatch({ type: 'SPINNER_DATABASE' });
-        let resData = await axios.get('hethong/users/shop-chuakhoa/' + page);
+        let resData = await axios.get('hethong/questanswer-admin-search/' + page + '?search=' + dataSearch);
         if (resData.data.status === 'success') {
-            setDataShop(resData.data.data);
+            setDataCauHoi(resData.data.data);
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            message.error("Lấy data gian hàng chưa khóa thất bại");
+            message.error("Lấy data câu hỏi theo search thất bại");
         }
     }
 
-    async function LayDataShop_DaKhoa_TheoTrang(page) {
+    async function LayDataCauHoi_ChuaDuyet_TheoTrang(page) {
         dispatch({ type: 'SPINNER_DATABASE' });
-        let resData = await axios.get('hethong/users/shop-dakhoa/' + page);
+        let resData = await axios.get('hethong/questanswer-admin-chuaduyet/' + page);
         if (resData.data.status === 'success') {
-            setDataShop(resData.data.data);
+            setDataCauHoi(resData.data.data);
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            message.error("Lấy data gian hàng đã khóa thất bại");
+            message.error("Lấy data câu hỏi chưa duyệt thất bại");
         }
     }
 
-    async function LayDanhSachGianHangSearch(page) {
+    async function LayDataCauHoi_DaDuyet_TheoTrang(page) {
         dispatch({ type: 'SPINNER_DATABASE' });
-        let resData = await axios.get('hethong/users/shop-search/' + page + '?search=' + dataSearch);
+        let resData = await axios.get('hethong/questanswer-admin-daduyet/' + page);
         if (resData.data.status === 'success') {
-            setDataShop(resData.data.data);
+            setDataCauHoi(resData.data.data);
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            message.error("Lấy data gian hàng theo search thất bại");
+            message.error("Lấy data câu hỏi đã duyệt thất bại");
         }
     }
 
-    async function KhoaShop(shopID) {
-        let res = await axios.put('hethong/users/shop-khoashop', {
-            id: shopID
-        })
+    async function DuyetCauHoi(cauHoiID) {
+        dispatch({ type: 'SPINNER_DATABASE' });
+        let resData = await axios.put('hethong/questanswer-duyet', {
+            _id: cauHoiID
+        });
+        if (resData.data.status === 'success') {
 
-        if (res.data.status === 'success') {
-            message.success('Đã khóa thành công');
             dispatch({ type: 'RELOAD_DATABASE' });
+            setStatusAcceptOrNoAccept(false);
+            dispatch({ type: 'SHOW_CHITIET_CAUHOI' });
         } else {
-            message.error('Khóa thất bại !');
-        }
-    }
-
-    async function MoKhoaShop(shopID) {
-        let res = await axios.put('hethong/users/shop-mokhoashop', {
-            id: shopID
-        })
-
-        if (res.data.status === 'success') {
-            message.success('Mở khóa thành công');
-            dispatch({ type: 'RELOAD_DATABASE' });
-        } else {
-            message.error('Mở khóa thất bại !');
+            message.error("Duyệt câu hỏi thất bại");
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
+            setStatusAcceptOrNoAccept(false);
         }
     }
 
     useEffect(() => {
-        LayDataShopTheoTrang(0);
+        LayDataCauHoiTheoTrang(0);
     }, []);
 
     useEffect(() => {
         if (reloadDatabaseReducer) {
-            LayDataShopTheoTrang(0);
+            LayDataCauHoiTheoTrang(0);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
             setTrangThaiOption(0);
         }
@@ -113,92 +105,88 @@ export default function QLGianHangComponent() {
 
     useEffect(() => {
         if (trangThaiOption === 0) {
-            LayDataShopTheoTrang(0);
+            LayDataCauHoiTheoTrang(0);
         }
         if (trangThaiOption === 1) {
-            LayDataShop_ChuaKhoa_TheoTrang(0);
+            LayDataCauHoi_ChuaDuyet_TheoTrang(0);
         }
         if (trangThaiOption === 2) {
-            LayDataShop_DaKhoa_TheoTrang(0);
+            LayDataCauHoi_DaDuyet_TheoTrang(0);
         }
     }, [trangThaiOption])
 
     return (
         <Fragment>
+            <ModalChiTietCauHoi></ModalChiTietCauHoi>
             <div className="col-sm-10" style={{ padding: 20 }}>
                 <div className="col" style={{ width: '100%' }}>
                     <Form>
                         <Row>
                             <Col>
-                                <Input size='large' placeholder='Tìm theo ID hoặc Tên shop' onChange={(e) => {
+                                <Input size='large' placeholder='Tìm theo ID sản phẩm' onChange={(e) => {
                                     setDataSearch(e.target.value);
                                 }}></Input>
                             </Col>
                             <Col>
                                 <Button variant="primary" style={{ width: 200 }} onClick={() => {
-                                    LayDanhSachGianHangSearch(0);
+                                    LayDanhSachCauHoiSearch(0);
                                 }}>
                                     <i className="fa fa-search"></i> &nbsp; Tìm kiếm
                                         </Button>
                             </Col>
                             <Col>
-                                <Select style={{ width: 300 }} size='large' defaultValue={0} onChange={(value) => {
+                                <Select style={{ width: 300 }} size='large' value={trangThaiOption} onChange={(value) => {
                                     setTrangThaiOption(value);
                                 }}>
                                     <Option value={0}>Tất cả</Option>
-                                    <Option value={1}>Chưa khóa</Option>
-                                    <Option value={2}>Đã khóa</Option>
+                                    <Option value={1}>Chưa duyệt</Option>
+                                    <Option value={2}>Đã duyệt</Option>
                                 </Select>
                             </Col>
                         </Row>
                     </Form>
                 </div>
                 <div className="col" style={{ width: '100%', marginTop: 20 }}>
-                    <Table bordered hover>
+                    <Table bordered hover responsive>
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Tên gian hàng</th>
-                                <th>Logo</th>
-                                <th>Địa chỉ</th>
-                                <th>Mô tả gian hàng</th>
+                                <th>ID sản phẩm</th>
+                                <th>Câu hỏi</th>
                                 <th>Ngày tạo</th>
-                                <th>Trạng thái khóa</th>
+                                <th><center>Trạng thái duyệt</center></th>
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 setSpinnerReducer === 0 && (
-                                    dataShop.map((item, i) => {
-                                        return <tr key={i}>
-                                            <td>{item.thongTinShop.idShop}</td>
-                                            <td>{item.thongTinShop.ten}</td>
-                                            <td><Image src={item.thongTinShop.logoShop} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>
-                                            <td>{item.thongTinShop.diaChi}</td>
-                                            <td>{item.thongTinShop.moTa}</td>
-                                            <td>{hamChuyenDoiNgay(new Date(item.thongTinShop.ngayTao))}</td>
-                                            <td>{item.thongTinShop.isLock === false ?
+                                    dataCauHoi.map((item, i) => {
+                                        return <tr key={item._id} onClick={(e) => {
+                                            if (statusAcceptOrNoAccept === false) {
+                                                dispatch({ type: 'SHOW_CHITIET_CAUHOI' });
+                                            }
+                                            dispatch({ type: 'OBJECT_ID_NOW', id: item._id });
+                                        }}>
+                                            <td>{item.idProduct}</td>
+                                            <td>{item.question}</td>
+                                            <td>{hamChuyenDoiNgay(new Date(item.ngayTao))}</td>
+                                            <td>{item.isAccept === false ?
                                                 (
                                                     <Fragment>
                                                         <center>
-                                                            <strong>Không</strong>
+                                                            <strong style={{ color: 'red' }}>Chưa duyệt</strong>
                                                             <br></br>
                                                             <Button onClick={() => {
-                                                                KhoaShop(item.thongTinShop.idShop);
-                                                            }}>Khóa</Button>
+                                                                DuyetCauHoi(item._id);
+                                                            }}
+                                                                onMouseOver={() => {
+                                                                    setStatusAcceptOrNoAccept(true);
+                                                                }}
+                                                                onMouseLeave={() => {
+                                                                    setStatusAcceptOrNoAccept(false);
+                                                                }}>Duyệt</Button>
                                                         </center>
                                                     </Fragment>
-                                                ) : (
-                                                    <Fragment>
-                                                        <center>
-                                                            <strong>Có</strong>
-                                                            <br></br>
-                                                            <Button onClick={() => {
-                                                                MoKhoaShop(item.thongTinShop.idShop);
-                                                            }}>Mở khóa</Button>
-                                                        </center>
-                                                    </Fragment>
-                                                )}</td>
+                                                ) : <center><span style={{ color: 'blue', fontWeight: 'bold' }}>Đã duyệt</span></center>}</td>
                                         </tr>
                                     })
                                 )
@@ -215,13 +203,13 @@ export default function QLGianHangComponent() {
                     <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
                         dispatch({ type: 'SPINNER_DATABASE' });
                         if (trangThaiOption === 0) {
-                            LayDataShopTheoTrang(page - 1);
+                            LayDataCauHoiTheoTrang(page - 1);
                         }
                         if (trangThaiOption === 1) {
-                            LayDataShop_ChuaKhoa_TheoTrang(page - 1);
+                            LayDataCauHoi_ChuaDuyet_TheoTrang(page - 1);
                         }
                         if (trangThaiOption === 2) {
-                            LayDataShop_DaKhoa_TheoTrang(page - 1);
+                            LayDataCauHoi_DaDuyet_TheoTrang(page - 1);
                         }
                     }}>
                     </Pagination>

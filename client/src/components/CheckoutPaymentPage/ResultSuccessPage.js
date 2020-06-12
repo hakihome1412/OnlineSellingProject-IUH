@@ -8,9 +8,11 @@ import { Button } from 'react-bootstrap';
 export default function ResultSuccessPage(props) {
     const donhangID = props.match.params.id;
     const dispatch = useDispatch();
+    
     useEffect(() => {
         dispatch({ type: 'CLOSE_HEADER' });
     }, [])
+
     return (
         <div>
             <Result

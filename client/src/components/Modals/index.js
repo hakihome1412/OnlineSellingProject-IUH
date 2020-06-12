@@ -7,6 +7,7 @@ import ModalChiTietBrand from '../Modals/ModalChiTietBrand';
 import ModalChiTietProduct_Admin from '../Modals/ModalChiTietProduct_Admin';
 import ModalChiTietProduct_ChuShop from '../Modals/ModalChiTietProduct_ChuShop';
 import ModalChiTietDonHang_ChuShop from '../Modals/ModalChiTietDonHang_ChuShop';
+import ModalChiTietCauHoi from '../Modals/ModalChiTietCauHoi';
 import ModalCapNhatKho from '../Modals/ModalCapNhatKho';
 import ModalCapNhatGiaTriGiamGia from '../Modals/ModalCapNhatGiaTriGiam';
 export {
@@ -20,5 +21,6 @@ export {
     ModalCapNhatKho,
     ModalCapNhatGiaTriGiamGia,
     ModalThemBaiViet,
-    ModalChiTietBaiViet
+    ModalChiTietBaiViet,
+    ModalChiTietCauHoi
 }

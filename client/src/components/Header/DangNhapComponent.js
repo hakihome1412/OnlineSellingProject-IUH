@@ -1,14 +1,17 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Form, Button, Row, Col, Spinner } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { useDispatch } from 'react-redux';
 import { useCookies } from 'react-cookie';
+import { message } from 'antd';
 
 export default function DangNhapComponent() {
     const [taiKhoan, setTaiKhoan] = useState({
         tenTaikhoan: "",
         matKhau: ""
     });
+
+    const [statusMessageError, setStatusMessageError] = useState(-1);
 
     const [cookies, setCookies] = useCookies();
 
@@ -18,13 +21,18 @@ export default function DangNhapComponent() {
 
     const [duLieuOK, setDuLieuOK] = useState(false);
 
-    function checkOK(txtTaiKhoan) {
-        var filterEmail = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-        if (filterEmail.test(txtTaiKhoan)) {
-            setDuLieuOK(true);
+    function KiemTraDuLieuNhap() {
+        var regEmail = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if (taiKhoan.tenTaikhoan === '' || taiKhoan.matKhau === '') {
+            setStatusMessageError(0);
         } else {
-            setDuLieuOK(false);
+            if (!regEmail.test(taiKhoan.tenTaikhoan)) {
+                setStatusMessageError(1);
+            } else {
+                XuLyDangNhap();
+            }
         }
+
     }
 
     async function XuLyDangNhap() {
@@ -39,20 +47,23 @@ export default function DangNhapComponent() {
                 setCookies('token', res.data.token, { path: '/' });
                 if (res.data.vaiTro === 0) {
                     window.location.pathname = "/admin";
-                    alert("Đăng nhập thành công");
                 } else {
-                    alert("Đăng nhập thành công");
-                    window.location.reload();              
+                    window.location.reload();
                 }
             } else {
                 setLoading(false);
-                alert(res.data.message);
+                message.error(res.data.message);
+                dispatch({ type: 'CLOSE_MODAL_DANGNHAP_DANGKY' });
             }
         }).catch(function (error) {
             console.log(error);
         })
 
     }
+
+    useEffect(() => {
+        setStatusMessageError(-1);
+    }, [])
 
     return (
         <Fragment>
@@ -89,17 +100,20 @@ export default function DangNhapComponent() {
                         <Form.Group as={Row}>
                             <Form.Label column sm={3}></Form.Label>
                             <Col sm={9}>
-                                <Button variant="danger" type="submit" block onClick={(e) => {
-                                    e.preventDefault();
-                                    if (duLieuOK === true) {
-                                        XuLyDangNhap();
-                                    } else {
-                                        alert("Dữ liệu nhập không hợp lệ");
-                                    }
-                                }}
-                                    onMouseOver={() => {
-                                        checkOK(taiKhoan.tenTaikhoan);
-                                    }}>
+                                {
+                                    statusMessageError === 0 && (
+                                        <p style={{ color: 'red', lineHeight: 1.5 }}>Thông tin đăng nhập không hợp lệ. Vui lòng kiểm tra lại thông tin</p>
+                                    )
+                                }
+
+                                {
+                                    statusMessageError === 1 && (
+                                        <p style={{ color: 'red', lineHeight: 1.5 }}>Dữ liệu email không hợp lệ</p>
+                                    )
+                                }
+                                <Button variant="danger" block onClick={(e) => {
+                                    KiemTraDuLieuNhap();
+                                }}>
                                     {loading === false ? "Đăng Nhập" : (<Spinner animation="border" role="status">
                                         <span className="sr-only">Loading...</span>
                                     </Spinner>)}

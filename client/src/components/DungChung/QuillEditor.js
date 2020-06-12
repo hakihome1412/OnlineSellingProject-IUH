@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ReactQuill, { Quill } from 'react-quill';
 import { axios } from '../../config/constant';
 import { storage } from '../../firebase/firebase';
+import { message } from 'antd';
 const QuillClipboard = Quill.import('modules/clipboard');
 const Parchment = Quill.import('parchment');
 
@@ -212,7 +213,7 @@ class QuillEditor extends React.Component {
                                 }, () => { this.props.onFilesChange(this.state.files) });
                             }
                             else {
-                                return alert('failed to upload file')
+                                return message.err('Upload file thất bại');
                             }
                         })
                 })
@@ -254,7 +255,7 @@ class QuillEditor extends React.Component {
                                 }, () => { this.props.onFilesChange(this.state.files) });
                             }
                             else {
-                                return alert('failed to upload file')
+                                return message.error('Up load file thất bại')
                             }
                         })
                 })
@@ -290,7 +291,7 @@ class QuillEditor extends React.Component {
 
                 </div>
                 <ReactQuill
-                    style={{ height: 400}}
+                    style={{ height: 400 }}
                     ref={(el) => { this.reactQuillRef = el }}
                     theme={'snow'}
                     onChange={this.handleChange}

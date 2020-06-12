@@ -5,8 +5,8 @@ import { useCookies } from 'react-cookie';
 import { axios } from '../../config/constant';
 import { DownOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import {QLBaiVietComponent,  QLGianHangComponent, QLNguoiDungComponent, QLCategoryComponent, QLBrandComponent, QLProductComponent, QLDonHangComponent } from '../allJS';
-import { Dropdown, Menu } from 'antd';
+import { QLBaiVietComponent, QLGianHangComponent, QLMaGiamGiaComponent, QLNguoiDungComponent, QLDoanhThuComponent, QLCauHoiComponent, QLCategoryComponent, QLBrandComponent, QLProductComponent, QLDonHangComponent } from '../allJS';
+import { Dropdown, Menu, message } from 'antd';
 
 
 export default function MainAdmin() {
@@ -48,11 +48,11 @@ export default function MainAdmin() {
                                 <Link to={`${match.url}/qlbaiviet`} style={{ textDecoration: 'none' }} onClick={(e) => {
                                     if (cookies.userID === undefined) {
                                         e.preventDefault();
-                                        alert("Vui lòng đăng nhập để sử dụng chức năng");
+                                        message.error("Vui lòng đăng nhập để sử dụng chức năng");
                                     } else {
                                         if (isAdminReducer === false) {
                                             e.preventDefault();
-                                            alert("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
+                                            message.error("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
                                         }
 
                                     }
@@ -66,11 +66,11 @@ export default function MainAdmin() {
                                 <Link to={`${match.url}/qlcategory`} style={{ textDecoration: 'none' }} onClick={(e) => {
                                     if (cookies.userID === undefined) {
                                         e.preventDefault();
-                                        alert("Vui lòng đăng nhập để sử dụng chức năng");
+                                        message.error("Vui lòng đăng nhập để sử dụng chức năng");
                                     } else {
                                         if (isAdminReducer === false) {
                                             e.preventDefault();
-                                            alert("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
+                                            message.error("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
                                         }
 
                                     }
@@ -83,11 +83,11 @@ export default function MainAdmin() {
                                 <Link to={`${match.url}/qlbrand`} style={{ textDecoration: 'none' }} onClick={(e) => {
                                     if (cookies.userID === undefined) {
                                         e.preventDefault();
-                                        alert("Vui lòng đăng nhập để sử dụng chức năng");
+                                        message.error("Vui lòng đăng nhập để sử dụng chức năng");
                                     } else {
                                         if (isAdminReducer === false) {
                                             e.preventDefault();
-                                            alert("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
+                                            message.error("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
                                         }
 
                                     }
@@ -101,11 +101,11 @@ export default function MainAdmin() {
                                 <Link to={`${match.url}/qlproduct`} style={{ textDecoration: 'none' }} onClick={(e) => {
                                     if (cookies.userID === undefined) {
                                         e.preventDefault();
-                                        alert("Vui lòng đăng nhập để sử dụng chức năng");
+                                        message.error("Vui lòng đăng nhập để sử dụng chức năng");
                                     } else {
                                         if (isAdminReducer === false) {
                                             e.preventDefault();
-                                            alert("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
+                                            message.error("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
                                         }
 
                                     }
@@ -118,11 +118,11 @@ export default function MainAdmin() {
                                 <Link to={`${match.url}/qldonhang`} style={{ textDecoration: 'none' }} onClick={(e) => {
                                     if (cookies.userID === undefined) {
                                         e.preventDefault();
-                                        alert("Vui lòng đăng nhập để sử dụng chức năng");
+                                        message.error("Vui lòng đăng nhập để sử dụng chức năng");
                                     } else {
                                         if (isAdminReducer === false) {
                                             e.preventDefault();
-                                            alert("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
+                                            message.error("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
                                         }
 
                                     }
@@ -135,11 +135,11 @@ export default function MainAdmin() {
                                 <Link to={`${match.url}/qlgianhang`} style={{ textDecoration: 'none' }} onClick={(e) => {
                                     if (cookies.userID === undefined) {
                                         e.preventDefault();
-                                        alert("Vui lòng đăng nhập để sử dụng chức năng");
+                                        message.error("Vui lòng đăng nhập để sử dụng chức năng");
                                     } else {
                                         if (isAdminReducer === false) {
                                             e.preventDefault();
-                                            alert("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
+                                            message.error("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
                                         }
 
                                     }
@@ -151,17 +151,68 @@ export default function MainAdmin() {
                                 <Link to={`${match.url}/qlnguoidung`} style={{ textDecoration: 'none' }} onClick={(e) => {
                                     if (cookies.userID === undefined) {
                                         e.preventDefault();
-                                        alert("Vui lòng đăng nhập để sử dụng chức năng");
+                                        message.error("Vui lòng đăng nhập để sử dụng chức năng");
                                     } else {
                                         if (isAdminReducer === false) {
                                             e.preventDefault();
-                                            alert("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
+                                            message.error("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
                                         }
 
                                     }
                                 }}>
                                     <ListGroup.Item style={{ marginTop: 10 }}>
                                         Quản lý Người dùng
+                                    </ListGroup.Item>
+                                </Link>
+
+                                <Link to={`${match.url}/qlvoucher`} style={{ textDecoration: 'none' }} onClick={(e) => {
+                                    if (cookies.userID === undefined) {
+                                        e.preventDefault();
+                                        message.error("Vui lòng đăng nhập để sử dụng chức năng");
+                                    } else {
+                                        if (isAdminReducer === false) {
+                                            e.preventDefault();
+                                            message.error("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
+                                        }
+
+                                    }
+                                }}>
+                                    <ListGroup.Item style={{ marginTop: 10 }}>
+                                        Quản lý Mã giảm giá
+                                    </ListGroup.Item>
+                                </Link>
+
+                                <Link to={`${match.url}/qlcauhoi`} style={{ textDecoration: 'none' }} onClick={(e) => {
+                                    if (cookies.userID === undefined) {
+                                        e.preventDefault();
+                                        message.error("Vui lòng đăng nhập để sử dụng chức năng");
+                                    } else {
+                                        if (isAdminReducer === false) {
+                                            e.preventDefault();
+                                            message.error("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
+                                        }
+
+                                    }
+                                }}>
+                                    <ListGroup.Item style={{ marginTop: 10 }}>
+                                        Quản lý Câu hỏi khách hàng
+                                    </ListGroup.Item>
+                                </Link>
+
+                                <Link to={`${match.url}/qldoanhthu`} style={{ textDecoration: 'none' }} onClick={(e) => {
+                                    if (cookies.userID === undefined) {
+                                        e.preventDefault();
+                                        message.error("Vui lòng đăng nhập để sử dụng chức năng");
+                                    } else {
+                                        if (isAdminReducer === false) {
+                                            e.preventDefault();
+                                            message.error("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
+                                        }
+
+                                    }
+                                }}>
+                                    <ListGroup.Item style={{ marginTop: 10 }}>
+                                        Quản lý Doanh thu
                                     </ListGroup.Item>
                                 </Link>
                             </ListGroup>
@@ -177,6 +228,9 @@ export default function MainAdmin() {
                                 <Route exact path={`${match.url}/qlgianhang`} component={QLGianHangComponent}></Route>
                                 <Route exact path={`${match.url}/qlnguoidung`} component={QLNguoiDungComponent}></Route>
                                 <Route exact path={`${match.url}/qlbaiviet`} component={QLBaiVietComponent}></Route>
+                                <Route exact path={`${match.url}/qlcauhoi`} component={QLCauHoiComponent}></Route>
+                                <Route exact path={`${match.url}/qldoanhthu`} component={QLDoanhThuComponent}></Route>
+                                <Route exact path={`${match.url}/qlvoucher`} component={QLMaGiamGiaComponent}></Route>
                             </Switch>
                         )
                     }

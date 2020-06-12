@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from 'react';
-import { Nav, Carousel, Image, Button } from 'react-bootstrap';
+import React, { Fragment} from 'react';
+import { Nav, Carousel, Image} from 'react-bootstrap';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 
 export default function MarkettingComponent(props) {

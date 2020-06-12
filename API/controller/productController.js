@@ -172,14 +172,14 @@ module.exports = {
 
         soTrang = Math.ceil(parseInt(allProduct.length) / 16);
 
-         console.log(soTrang);
+        console.log(soTrang);
 
         client.close();
 
         res.status(200).json({
             status: 'success',
             data: arrProduct,
-            dataAll:allProduct,
+            dataAll: allProduct,
             soTrang: soTrang
         });
     },
@@ -768,6 +768,7 @@ module.exports = {
         } else {
             giaCuoiCung = req.body.gia * (100 - req.body.giaTriGiamGia) / 100;
         }
+
         let productThem = {
             idShow: 'PRODU-' + ids.generate().toUpperCase(),
             ten: req.body.ten,
@@ -853,40 +854,59 @@ module.exports = {
         const db = client.db(DbName);
         const colProduct = db.collection('PRODUCTS');
         const colProductClassify = db.collection('PRODUCT_CLASSIFYS');
-        let result1 = await colProduct.insertOne(productThem);
-        if (result1.insertedCount > 0) {
-            console.log('Thêm sản phẩm thành công');
-            for (let index = 0; index < dataPhanLoaiMauSac.length; index++) {
-                if (dataPhanLoaiMauSac[index].length > 0) {
-                    await colProductClassify.insertOne({
-                        'nhomPhanLoai': 0, 'tenPhanLoai': dataPhanLoaiMauSac[index], 'idProduct': productThem.idShow
-                    })
-                    countMauSac1 += 1;
-                }
-            }
+        const allProduct = await colProduct.find({}).toArray();
 
-            for (let index = 0; index < dataPhanLoaiSize.length; index++) {
-                if (dataPhanLoaiSize[index].length > 0) {
-                    await colProductClassify.insertOne({
-                        'nhomPhanLoai': 1, 'tenPhanLoai': dataPhanLoaiSize[index], 'idProduct': productThem.idShow
-                    })
-                    countSize1 += 1;
-                }
-            }
+        var trungTen = false;
 
+        for (let index = 0; index < allProduct.length; index++) {
+            if (productThem.ten === allProduct[index].ten) {
+                trungTen = true;
+                break;
+            }
+        }
+
+        if (trungTen) {
             client.close();
-
-            if (countMauSac1 === countMauSac2 && countSize1 === countSize2) {
-                res.status(200).json({
-                    status: 'success',
-                    message: 'Thêm thành công'
-                })
-            }
-        } else {
             res.status(200).json({
                 status: 'fail',
-                message: 'Thêm thất bại!'
+                message: 'Tên sản phẩm này đã tồn tại'
             })
+        } else {
+            let result1 = await colProduct.insertOne(productThem);
+            if (result1.insertedCount > 0) {
+                console.log('Thêm sản phẩm thành công');
+                for (let index = 0; index < dataPhanLoaiMauSac.length; index++) {
+                    if (dataPhanLoaiMauSac[index].length > 0) {
+                        await colProductClassify.insertOne({
+                            'nhomPhanLoai': 0, 'tenPhanLoai': dataPhanLoaiMauSac[index], 'idProduct': productThem.idShow
+                        })
+                        countMauSac1 += 1;
+                    }
+                }
+
+                for (let index = 0; index < dataPhanLoaiSize.length; index++) {
+                    if (dataPhanLoaiSize[index].length > 0) {
+                        await colProductClassify.insertOne({
+                            'nhomPhanLoai': 1, 'tenPhanLoai': dataPhanLoaiSize[index], 'idProduct': productThem.idShow
+                        })
+                        countSize1 += 1;
+                    }
+                }
+
+                client.close();
+
+                if (countMauSac1 === countMauSac2 && countSize1 === countSize2) {
+                    res.status(200).json({
+                        status: 'success',
+                        message: 'Thêm thành công'
+                    })
+                }
+            } else {
+                res.status(200).json({
+                    status: 'fail',
+                    message: 'Thêm thất bại!'
+                })
+            }
         }
     },
 

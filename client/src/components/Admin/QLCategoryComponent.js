@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
-import { Pagination, Input, Select } from 'antd';
+import { Pagination, Input, Select, message } from 'antd';
 import { ModalThemCategory, ModalChiTietCategory } from '../Modals/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
@@ -18,15 +18,12 @@ export default function QLCategoryComponent() {
     async function LayDataCategoryTheoTrang(page) {
         dispatch({ type: 'SPINNER_DATABASE' });
         let resData = await axios.get('hethong/categorys/' + page);
-        //alert(JSON.stringify(resData.data));
-        //setDataCarousel(resData.data.status);
         if (resData.data.status === 'success') {
-            //alert(JSON.stringify(resData.data.data));
             setDataCategory(resData.data.data);
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data danh mục sản phẩm thất bại");
         }
     }
 
@@ -38,7 +35,7 @@ export default function QLCategoryComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data danh mục sản phẩm theo search thất bại");
         }
     }
 
@@ -53,7 +50,7 @@ export default function QLCategoryComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data danh mục sản phẩm chưa khóa thất bại");
         }
     }
 
@@ -68,7 +65,7 @@ export default function QLCategoryComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data danh mục sản phẩm đã khóa thất bại");
         }
     }
 
@@ -154,8 +151,10 @@ export default function QLCategoryComponent() {
                                             dispatch({ type: 'OBJECT_ID_NOW', id: item._id });
                                         }}>
                                             <td>{item.idShow}</td>
-                                            <td>{item.ten}</td>                                   
-                                            <td><i className={item.icon}></i></td>
+                                            <td>{item.ten}</td>
+                                            {
+                                                item.icon.length === 0 ? <td>Không</td> : <td><i className={item.icon}></i></td>
+                                            }
                                             <td>{item.isLock === false ? "Không" : "Có"}</td>
                                         </tr>
                                     })

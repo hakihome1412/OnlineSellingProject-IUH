@@ -89,7 +89,7 @@ export default function SanPham(props) {
                 ten: res.data.data.ten
             })
         } else {
-            alert('Lấy data Category thất bại');
+            message.error('Lấy data danh mục sản phẩm thất bại');
         }
     }
 
@@ -99,7 +99,7 @@ export default function SanPham(props) {
             setDataProduct(res.data.data);
             setTongSoTrang(res.data.soTrang);
         } else {
-            alert('Lấy data Category thất bại');
+            message.error('Lấy data sản phẩm thất bại');
         }
     }
 

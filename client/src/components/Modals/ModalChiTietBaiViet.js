@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Spinner, Button } from 'react-bootstrap';
-import { Form, Input, Select } from 'antd';
+import { Form, Input, Select, message } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
 import { storage } from '../../firebase/firebase';
@@ -9,6 +9,7 @@ import TextArea from 'antd/lib/input/TextArea';
 export default function ModalChiTietBaiViet() {
     const { Option } = Select;
     const dispatch = useDispatch();
+    const [statusMessageError, setStatusMessageError] = useState(-1);
     const showChiTietBaiViet = useSelector(state => state.showChiTietBaiViet);
     const [spinnerChiTietBaiViet, setSpinnerChiTietBaiViet] = useState(false);
     const objectIDDuocChonReducer = useSelector(state => state.objectIDDuocChon);
@@ -84,6 +85,25 @@ export default function ModalChiTietBaiViet() {
         setImageAsUrl(listUrl);
     }
 
+    function hamChuyenDoiNgay(date) {
+        var strDate = '';
+        var ngay = date.getDate().toString();
+        var thang = (date.getMonth() + 1).toString();
+        var nam = date.getFullYear().toString();
+
+        strDate = ngay + '/' + thang + '/' + nam;
+        return strDate;
+    }
+
+    function KiemTraDuLieuNhap() {
+        if (baiVietSua.tieuDe === '' || baiVietSua.img === '') {
+            setStatusMessageError(0);
+        } else {
+            SuaBaiViet(baiVietNow._id);
+            setStatusMessageError(-1);
+        }
+    }
+
     async function SuaBaiViet(baiVietID) {
         setSpinnerSuaBaiViet(1);
         setDisableOptions(false);
@@ -100,7 +120,7 @@ export default function ModalChiTietBaiViet() {
                 dispatch({ type: 'RELOAD_DATABASE' });
                 setStatusSua(0);
                 setSpinnerSuaBaiViet(-1);
-                alert("Sửa thành công");
+                message.success("Sửa thành công");
                 setDisableOptions(false);
                 dispatch({ type: 'CLOSE_CHITIET_BAIVIET' });
             }
@@ -109,11 +129,13 @@ export default function ModalChiTietBaiViet() {
                 setStatusSua(0);
                 setDisableOptions(true);
                 dispatch({ type: 'NO_RELOAD_DATABASE' });
-                alert("Sửa thất bại");
+                dispatch({ type: 'CLOSE_CHITIET_BAIVIET' });
+                message.error("Sửa thất bại");
             }
 
         } else {
-            alert("fail 1");
+            dispatch({ type: 'CLOSE_CHITIET_BAIVIET' });
+            dispatch({ type: 'RELOAD_DATABASE' });
         }
     }
 
@@ -129,13 +151,14 @@ export default function ModalChiTietBaiViet() {
             setSpinnerXoaBaiViet(0);
             dispatch({ type: 'RELOAD_DATABASE' });
             dispatch({ type: 'CLOSE_CHITIET_BAIVIET' });
-            alert("Xóa thành công");
+            message.success("Xóa thành công");
         } else {
             setStatusSua(0);
             setDisableOptions(false);
             setSpinnerXoaBaiViet(0);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
-            alert("Xóa thất bại");
+            dispatch({ type: 'CLOSE_CHITIET_BAIVIET' });
+            message.error("Xóa thất bại");
         }
     }
 
@@ -155,18 +178,19 @@ export default function ModalChiTietBaiViet() {
             });
             setSpinnerChiTietBaiViet(false);
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data bài viết thất bại");
             setSpinnerChiTietBaiViet(false);
+            dispatch({ type: 'CLOSE_CHITIET_BAIVIET' });
         }
     }
 
     useEffect(() => {
         if (firstTime === false) {
             if (imageAsFile.length === 0) {
-                alert('Vui lòng chọn ảnh cho bài viết')
+                setStatusMessageError(1);
             } else {
                 if (countAnhDaUploadThanhCong === imageAsFile.length) {
-                    alert('Upload ảnh bài viết thành công');
+                    setStatusMessageError(-1);
                 }
             }
         }
@@ -190,6 +214,7 @@ export default function ModalChiTietBaiViet() {
                 setDisableOptions(false);
                 setStatusSua(0);
                 LayBaiVietTheoID(objectIDDuocChonReducer);
+                setStatusMessageError(-1);
             }}>
             {
                 spinnerChiTietBaiViet === true && (
@@ -271,50 +296,12 @@ export default function ModalChiTietBaiViet() {
                                 });
                             }}>
                             </textarea>
-                            {/* <Select disabled={!disableOptions} defaultValue={baiVietNow.loaiBaiViet}>
-                                <Option value={-1}>Chọn loại bài viết</Option>
-                                <Option value={0}>Bài viết về chương trình/sự kiện</Option>
-                                <Option value={1}>Bài viết giới thiệu</Option>
-                            </Select> */}
                         </Form.Item>
-
-                        {/* {
-                    baiVietNow.loaiBaiViet === 0 && (
-                        <Form.Item
-                            label="Các sản phẩm liên quan đến chương trình/sự kiện"
-                            name="sanphams"
-                            rules={[{ required: true, message: 'Vui lòng chọn các sản phẩm' }]}>
-                            <Select
-                                showSearch
-                                optionFilterProp="children"
-                                filterOption={(input, option) =>
-                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                }
-                                mode="multiple"
-                                style={{ width: '100%' }}
-                                placeholder="Chọn sản phẩm"
-                                onChange={(value) => {
-                                    setDataThem({
-                                        ...dataThem,
-                                        idProducts: value
-                                    })
-                                }}>
-                                {
-                                    dataProduct.map((item, i) => {
-                                        return <Option key={item._id} value={item._id}>
-                                            {item.ten}
-                                        </Option>
-                                    })
-                                }
-                            </Select>
-                        </Form.Item>
-                    )
-                } */}
 
                         <Form.Item
                             label="Ngày tạo"
                             name="ngaytao">
-                            <Input disabled={true} defaultValue={new Date(baiVietNow.ngayTao).toString()} />
+                            <Input disabled={true} defaultValue={hamChuyenDoiNgay(new Date(baiVietNow.ngayTao))} />
                         </Form.Item>
 
                         <Form.Item
@@ -344,20 +331,29 @@ export default function ModalChiTietBaiViet() {
                         </Form.Item>
 
                         <Form.Item>
-                            <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
-                                if (statusSua === 0) {
-                                    setStatusSua(1);
-                                    setDisableOptions(true);
-                                } else {
-                                    SuaBaiViet(baiVietNow._id);
-                                }
-                                setBaiVietSua({
-                                    tieuDe: baiVietNow.tieuDe,
-                                    img: baiVietNow.img,
-                                    content: baiVietNow.content,
-                                    isLock: baiVietNow.isLock
-                                });
-                            }}>
+                            {
+                                statusMessageError === 0 && (
+                                    <p style={{ color: 'red', lineHeight: 1.5 }}>Thông tin sửa không hợp lệ. Vui lòng kiểm tra lại</p>
+                                )
+                            }
+                            <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }}
+                                onClick={() => {
+                                    if (statusSua === 0) {
+                                        setStatusSua(1);
+                                        setDisableOptions(true);
+                                    } else {
+                                        KiemTraDuLieuNhap();
+                                    }
+                                    if (statusSua === 0) {
+                                        setBaiVietSua({
+                                            tieuDe: baiVietNow.tieuDe,
+                                            img: baiVietNow.img,
+                                            content: baiVietNow.content,
+                                            isLock: baiVietNow.isLock
+                                        });
+                                    }
+                                }}>
+
                                 {
                                     statusSua === 0 && spinnerSuaBaiViet === -1 ? "Sửa" : "Lưu"
                                 }

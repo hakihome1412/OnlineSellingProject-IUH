@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
-import { Pagination, Select, Input } from 'antd';
+import { Pagination, Select, Input, message } from 'antd';
 import { ModalThemBrand, ModalChiTietBrand } from '../Modals/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
@@ -26,7 +26,7 @@ export default function QLBrandComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data thương hiệu thất bại");
         }
     }
 
@@ -41,7 +41,7 @@ export default function QLBrandComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data thương hiệu chưa khóa thất bại");
         }
     }
 
@@ -56,7 +56,7 @@ export default function QLBrandComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data thương hiệu đã khóa thất bại");
         }
     }
 
@@ -68,7 +68,7 @@ export default function QLBrandComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data thương hiệu theo search thất bại");
         }
     }
 
@@ -155,7 +155,10 @@ export default function QLBrandComponent() {
                                         }}>
                                             <td>{item.idShow}</td>
                                             <td>{item.ten}</td>
-                                            <td><Image src={item.img} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>
+                                            {
+                                                item.img.length === 0 ? <td><Image src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td> :
+                                                    <td><Image src={item.img} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>
+                                            }
                                             <td>{item.isLock === false ? "Không" : "Có"}</td>
                                         </tr>
                                     })

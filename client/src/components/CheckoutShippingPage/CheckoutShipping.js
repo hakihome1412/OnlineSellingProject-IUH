@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
-import { Steps, Select, Input } from 'antd';
+import { Steps, Select, Input, message } from 'antd';
 import { Form, Row, Col, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 export default function CheckoutShipping() {
     const dispatch = useDispatch();
+    const history = useHistory();
+    const thongTinDatHang = useSelector(state => state.thongTinDatHang);
     const { Step } = Steps;
     const { Option } = Select;
     const [dataThanhPho, setDataThanhPho] = useState([]);
@@ -40,10 +42,18 @@ export default function CheckoutShipping() {
     ];
 
     function KiemTraThongTinNhap(data) {
+        const regSDT = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
         if (data.hoTen === '' || data.sdt === '' || data.diaChi === '' || data.phuong === '' || data.quan === '' || data.thanhPho === '') {
+            message.error('Thông tin không hợp lệ. Vui lòng kiểm tra lại');
             return false;
+        } else {
+            if (regSDT.test(data.sdt)) {
+                return true;
+            } else {
+                message.error('Số điện thoại không hợp lệ');
+                return false;
+            }
         }
-        return true;
     }
 
     async function LayDataThanhPho() {
@@ -103,8 +113,11 @@ export default function CheckoutShipping() {
     }, [diaChi])
 
     useEffect(() => {
-        setCheckDuLieuNhap(KiemTraThongTinNhap(thongTin));
-    }, [thongTin])
+        if (checkDuLieuNhap === true) {
+            history.push('/checkout/payment');
+            dispatch({ type: 'THONGTIN_DATHANG', thongTin: thongTin });
+        }
+    }, [checkDuLieuNhap])
 
     return (
         <div className="container" style={{ height: 'auto', padding: 20 }}>
@@ -130,7 +143,7 @@ export default function CheckoutShipping() {
                                         Họ tên
                                 </Form.Label>
                                     <Col sm={9}>
-                                        <Input required size='large' placeholder='Nhập họ tên' onChange={(e) => {
+                                        <Input required defaultValue={thongTinDatHang.hoTen} size='large' placeholder='Nhập họ tên' onChange={(e) => {
                                             setThongTin({
                                                 ...thongTin,
                                                 hoTen: e.target.value
@@ -144,7 +157,7 @@ export default function CheckoutShipping() {
                                         Số điện thoại
                                 </Form.Label>
                                     <Col sm={9}>
-                                        <Input required size='large' placeholder='Nhập số điện thoại' onChange={(e) => {
+                                        <Input required defaultValue={thongTinDatHang.sdt} size='large' placeholder='Nhập số điện thoại' onChange={(e) => {
                                             setThongTin({
                                                 ...thongTin,
                                                 sdt: e.target.value
@@ -160,6 +173,11 @@ export default function CheckoutShipping() {
                                     <Col sm={9}>
                                         <Select
                                             allowClear
+                                            showSearch
+                                            optionFilterProp="children"
+                                            filterOption={(input, option) =>
+                                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                            }
                                             style={{ width: '100%' }}
                                             size='large'
                                             value={diaChi.idThanhPho}
@@ -188,6 +206,11 @@ export default function CheckoutShipping() {
                                     <Col sm={9}>
                                         <Select
                                             allowClear
+                                            showSearch
+                                            optionFilterProp="children"
+                                            filterOption={(input, option) =>
+                                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                            }
                                             value={diaChi.idQuan}
                                             style={{ width: '100%' }}
                                             size='large'
@@ -195,7 +218,7 @@ export default function CheckoutShipping() {
                                                 setDiaChi({
                                                     ...diaChi,
                                                     idQuan: value,
-                                                    idPhuong:'-1'
+                                                    idPhuong: '-1'
                                                 });
                                             }}
                                         >
@@ -216,6 +239,11 @@ export default function CheckoutShipping() {
                                     <Col sm={9}>
                                         <Select
                                             allowClear
+                                            showSearch
+                                            optionFilterProp="children"
+                                            filterOption={(input, option) =>
+                                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                            }
                                             value={diaChi.idPhuong}
                                             style={{ width: '100%' }}
                                             size='large'
@@ -253,13 +281,8 @@ export default function CheckoutShipping() {
 
                                 <Form.Group as={Row}>
                                     <Col sm={{ span: 8, offset: 3 }}>
-                                        <Link to='payment' onClick={(e) => {
-                                            if (checkDuLieuNhap === false) {
-                                                e.preventDefault();
-                                                alert('Vui lòng nhập đầy đủ thông tin');
-                                            } else {
-                                                dispatch({ type: 'THONGTIN_DATHANG', thongTin: thongTin });
-                                            }
+                                        <Link onClick={(e) => {
+                                            setCheckDuLieuNhap(KiemTraThongTinNhap(thongTin));
                                         }}>
                                             <Button>Giao đến địa chỉ này</Button>
                                         </Link>

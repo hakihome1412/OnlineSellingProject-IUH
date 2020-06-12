@@ -1,33 +1,14 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { Form, Input, Menu } from 'antd';
+import React, { useEffect } from 'react';
+import { Menu } from 'antd';
 import { UserOutlined, OrderedListOutlined, CreditCardOutlined } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
+import { useDispatch} from 'react-redux';
+import { useHistory, Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import { Customer_Account, Customer_DonHang, Customer_DonHang_Detail, Customer_ThongTinThanhToan } from '../allJS'
-import { Button } from 'react-bootstrap';
-import { axios } from '../../config/constant';
-import { useCookies } from 'react-cookie';
 
 export default function Customer() {
     const dispatch = useDispatch();
     const history = useHistory();
     const match = useRouteMatch();
-    const { SubMenu } = Menu;
-    const layout = {
-        labelCol: {
-            span: 6,
-        },
-        wrapperCol: {
-            span: 12,
-        },
-    };
-
-    const tailLayout = {
-        wrapperCol: {
-            offset: 8,
-            span: 16,
-        },
-    };
 
     useEffect(() => {
         dispatch({ type: 'SHOW_HEADER' });

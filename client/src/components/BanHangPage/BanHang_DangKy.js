@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Menu, Dropdown, Tabs, Form, Input } from 'antd';
+import { Menu, Dropdown, Tabs, Form, Input, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, Switch, Route, useRouteMatch } from 'react-router-dom';
 import { storage } from "../../firebase/firebase";
@@ -35,7 +35,7 @@ export default function BanHang_DangKy() {
         },
     };
 
-    const dispatch =useDispatch();
+    const dispatch = useDispatch();
 
     const tailLayout = {
         wrapperCol: {
@@ -43,7 +43,7 @@ export default function BanHang_DangKy() {
             span: 16,
         },
     };
-    
+
     const menu = (
         <Menu>
             <Menu.Item >
@@ -101,6 +101,20 @@ export default function BanHang_DangKy() {
         setImageAsUrl_Logo(listUrl);
     }
 
+    function KiemTraDuLieuNhap() {
+        var reg = /^[a-zA-Z0-9- ]*$/;
+        if (dataTaoShop.ten === '' || dataTaoShop.ten.trim() === '') {
+            message.error('Tên gian hàng không hợp lệ');
+        } else {
+            if (dataTaoShop.ten.match(reg)) {
+                TaoShop();
+            } else {
+                message.error('Tên gian hàng không hợp lệ');
+            }
+        }
+
+    }
+
     async function LayDataUserTheoIDUser(userID) {
         let resData = await axios.get('hethong/users-item?idUser=' + userID);
         //alert(JSON.stringify(resData.data));
@@ -132,30 +146,27 @@ export default function BanHang_DangKy() {
             ngayTao: dataTaoShop.ngayTao,
             moTa: dataTaoShop.moTa
         });
-        //alert(JSON.stringify(resData.data));
-        //setDataCarousel(resData.data.status);
         if (resData.data.status === 'success') {
-            //alert(JSON.stringify(resData.data.data));
             LayDataUserTheoIDUser(userID);
-            alert('Đăng ký gian hàng thành công');
+            message.success('Đăng ký gian hàng thành công');
 
         } else {
-            alert("Đăng ký gian hàng thất bại");
+            message.error(resData.data.message);
         }
     }
 
     useEffect(() => {
         LayEmailTheoIDUser(userID);
-        dispatch({type:'CLOSE_HEADER'});
+        dispatch({ type: 'CLOSE_HEADER' });
     }, [])
 
     useEffect(() => {
         if (firstTime1 === false) {
             if (imageAsFile_Logo.length === 0) {
-                alert('Vui lòng chọn Logo cho shop')
+                message.error('Vui lòng chọn Logo cho shop')
             } else {
                 if (countAnhDaUploadThanhCong_Logo === imageAsFile_Logo.length) {
-                    alert('Upload logo shop thành công');
+                    message.success('Upload logo shop thành công');
                 }
             }
         }
@@ -226,8 +237,7 @@ export default function BanHang_DangKy() {
 
                                 <Form.Item
                                     label="Logo"
-                                    name="logo"
-                                    rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
+                                    name="logo">
                                     <input type='file'
                                         onChange={(e) => {
                                             handleChangeIMG_Logo(e);
@@ -256,11 +266,16 @@ export default function BanHang_DangKy() {
                                             })
                                         }}
                                         onClick={() => {
-                                            TaoShop();
+                                            KiemTraDuLieuNhap();
                                         }}>
                                         Xác nhận
                                                 </Button>
                                 </Form.Item>
+
+                                <Link to='/' style={{ marginLeft: '43%' }}>
+                                    Trở về Trang Chủ
+                                </Link>
+
                             </Form>
                         </div>
                     </div>

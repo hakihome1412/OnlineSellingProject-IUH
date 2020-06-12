@@ -1,6 +1,6 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { DatePicker } from 'antd';
+import { message } from 'antd';
 import { axios } from '../../config/constant';
 import { useDispatch } from 'react-redux';
 import { useCookies } from 'react-cookie';
@@ -9,6 +9,7 @@ export default function DangKyComponent() {
     const dataNgay = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
     const dataThang = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     const dataNam = [];
+    const [statusMessageError, setStatusMessageError] = useState(-1);
     const [cookies, setCookies] = useCookies();
     const dispatch = useDispatch()
     let maxOffset = 120;
@@ -32,12 +33,24 @@ export default function DangKyComponent() {
         vaiTro: 2
     })
 
-    function KiemTraDuLieuNhap(data) {
-        if (data.ten === '' || data.email === '' || data.sdt === '' || data.cmnd === '' || data.gioiTinh === '' || data.matKhau === '') {
-            return false
-        }
 
-        return true
+    function KiemTraDuLieuNhap(data) {
+        const regEmail = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        const regSDT = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
+        if (data.ten === '' || data.email === '' || data.sdt === '' || data.cmnd === '' || data.gioiTinh === '' || data.matKhau === '') {
+            setStatusMessageError(0);
+        } else {
+            if (!regEmail.test(data.email)) {
+                setStatusMessageError(1);
+            } else {
+                if (!regSDT.test(data.sdt)) {
+                    setStatusMessageError(2);
+                } else {
+                    setStatusMessageError(-1);
+                    TaoTaiKhoan();
+                }
+            }
+        }
     }
 
     async function XuLyDangNhap() {
@@ -54,7 +67,8 @@ export default function DangKyComponent() {
                     window.location.reload();
                 }
             } else {
-                alert(res.data.message);
+                message.error('Đăng ký thất bại');
+                dispatch({ type: 'CLOSE_MODAL_DANGNHAP_DANGKY' });
             }
         }).catch(function (error) {
             console.log(error);
@@ -80,13 +94,17 @@ export default function DangKyComponent() {
         })
 
         if (res.data.status === 'success') {
-            alert('Đăng ký thành công');
+            message.success('Đăng ký thành công');
             dispatch({ type: 'CLOSE_MODAL_DANGNHAP_DANGKY' });
             XuLyDangNhap();
         } else {
-            alert(res.data.message);
+            setStatusMessageError(3);
         }
     }
+
+    useEffect(() => {
+        setStatusMessageError(-1);
+    }, [])
 
     return (
         <Fragment>
@@ -201,7 +219,7 @@ export default function DangKyComponent() {
                                             <option value={-1}>Tháng</option>
                                             {
                                                 dataThang.map((item, i) => {
-                                                    return <option key={i} value={item}>{(item+1).toString()}</option>
+                                                    return <option key={i} value={item}>{(item + 1).toString()}</option>
                                                 })
                                             }
                                         </Form.Control>
@@ -227,6 +245,30 @@ export default function DangKyComponent() {
                         <Form.Group as={Row}>
                             <Form.Label column sm={3}></Form.Label>
                             <Col sm={9}>
+                                {
+                                    statusMessageError === 0 && (
+                                        <p style={{ color: 'red', lineHeight: 1.5 }}>Thông tin đăng ký tài khoản không hợp lệ. Vui lòng kiểm tra lại thông tin</p>
+                                    )
+                                }
+
+                                {
+                                    statusMessageError === 1 && (
+                                        <p style={{ color: 'red', lineHeight: 1.5 }}>Dữ liệu email không hợp lệ</p>
+                                    )
+                                }
+
+                                {
+                                    statusMessageError === 2 && (
+                                        <p style={{ color: 'red', lineHeight: 1.5 }}>Dữ liệu số điện thoại không hợp lệ</p>
+                                    )
+                                }
+
+                                {
+                                    statusMessageError === 3 && (
+                                        <p style={{ color: 'red', lineHeight: 1.5 }}>Email này đã tồn tại. Vui lòng chọn email khác</p>
+                                    )
+                                }
+
                                 <Button variant="danger" block onMouseOver={() => {
                                     setDataDangKy({
                                         ...dataDangKy,
@@ -234,12 +276,7 @@ export default function DangKyComponent() {
                                     })
                                 }}
                                     onClick={() => {
-                                        if (KiemTraDuLieuNhap(dataDangKy) === false) {
-                                            alert('Vui lòng nhập đủ dữ liệu');
-                                        } else {
-                                            TaoTaiKhoan()
-                                            console.log(dataDangKy);
-                                        }
+                                        KiemTraDuLieuNhap(dataDangKy);
                                     }}>
                                     Đăng Ký
                                 </Button>

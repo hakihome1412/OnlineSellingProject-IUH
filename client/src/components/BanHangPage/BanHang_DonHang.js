@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Tabs, Pagination, Select, Input } from 'antd';
+import { Tabs, Pagination, Select, Input, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form, Row, Col, Table, Spinner } from 'react-bootstrap';
 import { axios } from '../../config/constant';
@@ -36,6 +36,17 @@ export default function BanHang_DonHang() {
         diaChi: ''
     })
 
+    function hamChuyenDoiNgay(date) {
+        var strDate = '';
+        var now = new Date();
+        var ngay = date.getDate().toString();
+        var thang = (date.getMonth() + 1).toString();
+        var nam = date.getFullYear().toString();
+
+        strDate = ngay + '/' + thang + '/' + nam;
+        return strDate;
+    }
+
     async function LayDataChiTietDonHang_TheoIDShop_TheoTrang(page, idShop) {
         dispatch({ type: 'SPINNER_DATABASE' });
         let resData = await axios.get('hethong/order-details-shop/' + page + '?idShop=' + idShop);
@@ -48,7 +59,7 @@ export default function BanHang_DonHang() {
         }
     }
 
-    async function LayDataShowChiTietDonHang(idOrder, idOrderDetail) {
+    async function LayDataDonHang(idOrder, idOrderDetail) {
         var ketqua = false;
         let resData = await axios.get('hethong/orders-item?idOrder=' + idOrder);
         if (resData.data.status === 'success') {
@@ -59,13 +70,11 @@ export default function BanHang_DonHang() {
                 diaChi: resData.data.data.thongTinNguoiMua.diaChi
             })
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data đơn hàng thất bại");
         }
 
         if (ketqua === true) {
             LayDataChiTietDonHangTheoIdChiTietDonHang(idOrderDetail);
-        } else {
-            alert("Lấy data thất bại");
         }
     }
 
@@ -85,13 +94,11 @@ export default function BanHang_DonHang() {
                 trangThai: resData.data.data.trangThai
             });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data chi tiết đơn hàng thất bại");
         }
 
         if (ketqua === true) {
             dispatch({ type: 'SHOW_CHITIET_DONHANG_CHUSHOP' });
-        } else {
-            alert("Lấy data thất bại");
         }
     }
 
@@ -103,7 +110,7 @@ export default function BanHang_DonHang() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data chi tiết đơn hàng chờ duyệt thất bại");
         }
     }
 
@@ -115,7 +122,7 @@ export default function BanHang_DonHang() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data chi tiết đơn hàng đã duyệt thất bại");
         }
     }
 
@@ -127,7 +134,7 @@ export default function BanHang_DonHang() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data chi tiết đơn hàng đang vận chuyển thất bại");
         }
     }
 
@@ -139,7 +146,7 @@ export default function BanHang_DonHang() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data chi tiết đơn hàng khách đã nhận hàng thất bại");
         }
     }
 
@@ -150,8 +157,10 @@ export default function BanHang_DonHang() {
 
         if (result.data.status === 'success') {
             CapNhatLichSu(id, 1);
+            setControlModalShow(1);
         } else {
-            alert('Sửa trạng thái thất bại')
+            message.error('Sửa trạng thái thất bại');
+            setControlModalShow(1);
         }
     }
 
@@ -162,10 +171,10 @@ export default function BanHang_DonHang() {
         });
 
         if (result.data.status === 'success') {
-            alert('Đã cập nhật trạng thái thành công');
+            message.success('Đã cập nhật trạng thái thành công');
             dispatch({ type: 'RELOAD_DATABASE' });
         } else {
-            alert('Cập nhật trạng thái thất bại')
+            message.error('Cập nhật trạng thái thất bại')
         }
     }
 
@@ -177,7 +186,7 @@ export default function BanHang_DonHang() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data chi tiết đơn hàng đã hoàn thành thất bại");
         }
     }
 
@@ -189,7 +198,7 @@ export default function BanHang_DonHang() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data chi tiết đơn hàng đã hủy thất bại");
         }
     }
 
@@ -313,17 +322,17 @@ export default function BanHang_DonHang() {
                                             dataChiTietDonHang.map((item, i) => {
                                                 return <tr key={i} onClick={() => {
                                                     if (controlModalShow === 1) {
-                                                        LayDataShowChiTietDonHang(item.idOrder, item.idShow);
+                                                        LayDataDonHang(item.idOrder, item.idShow);
                                                     }
                                                 }}>
                                                     <td>{item.idOrder}</td>
                                                     <td>{item.idShow}</td>
-                                                    <td style={{width:400}}>{item.ten}</td>
+                                                    <td style={{ width: 400 }}>{item.ten}</td>
                                                     <td>{item.mauSac === '' ? 'Không có' : item.mauSac}</td>
                                                     <td>{item.size === '' ? 'Không có' : item.size}</td>
                                                     <td>{item.soLuong}</td>
                                                     <td>{format_curency(item.thanhTien.toString())}</td>
-                                                    <td>{new Date(item.ngayTao).toISOString().substring(0,10)}</td>
+                                                    <td>{hamChuyenDoiNgay(new Date(item.ngayTao))}</td>
                                                     <td>
                                                         {
                                                             item.trangThai === 0 && (

@@ -50,7 +50,7 @@ module.exports = {
                         } else {
                             res.status(200).json({
                                 status: "fail",
-                                message: "Tài khoản hoặc mật khẩu không chính xác !",
+                                message: "Tài khoản hoặc mật khẩu không hợp lệ",
                             });
                         }
                     })
@@ -62,12 +62,12 @@ module.exports = {
     KiemTraTokenAdmin: async function (req, res, next) {
         var token = req.header('token');
         let resultToken = await jwt.verify(token, process.env.SECRET_KEY);
-        if(resultToken.payload.vaiTro === 0){
+        if (resultToken.payload.vaiTro === 0) {
             res.status(200).json({
                 status: "success",
                 message: 'Token hợp lệ',
             });
-        }else{
+        } else {
             res.status(200).json({
                 status: "fail",
                 message: 'Token không hợp lệ !',
@@ -78,8 +78,6 @@ module.exports = {
     KiemTraTokenChuShop: function (req, res, next) {
         var token = req.header('token');
         jwt.verify(token, process.env.SECRET_KEY, function (err, payload) {
-            // req.user = payload;
-            // res.json(payload);
             if (payload.payload.vaiTro === 1) {
                 res.status(200).json({
                     status: "success",
@@ -98,8 +96,6 @@ module.exports = {
     KiemTraTokenNormal: function (req, res, next) {
         var token = req.header('token');
         jwt.verify(token, process.env.SECRET_KEY, function (err, payload) {
-            // req.user = payload;
-            // res.json(payload);
             if (payload.payload.vaiTro === 2) {
                 next();
             } else {

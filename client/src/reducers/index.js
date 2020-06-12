@@ -29,6 +29,7 @@ import showModalCapNhatKho from '../reducers/DungChung/showModalCapNhatKhoReduce
 import showModalCapNhatGiaTriGiam from '../reducers/DungChung/showModalCapNhatGiaTriGiamReducer';
 import showModalThemBaiViet from '../reducers/DungChung/showModalThemBaiVietReducer';
 import showChiTietBaiViet from '../reducers/DungChung/showChiTietBaiVietReducer';
+import showChiTietCauHoi from '../reducers/DungChung/showChiTietCauHoiReducer';
 import valueSearch from '../reducers/DungChung/valueSearchReducer';
 
 const allReducers = combineReducers({
@@ -36,6 +37,7 @@ const allReducers = combineReducers({
     trangThaiDangNhap,
     showMainComponent,
     reloadDatabase,
+    showChiTietCauHoi,
     setSpinner,
     isAdmin,
     objectIDDuocChon,

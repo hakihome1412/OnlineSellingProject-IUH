@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory, Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import { DownOutlined } from '@ant-design/icons';
@@ -50,10 +50,7 @@ export default function BanHang() {
 
     async function LayDataUserTheoIDUser(userID) {
         let resData = await axios.get('hethong/users-item?idUser=' + userID);
-        //alert(JSON.stringify(resData.data));
-        //setDataCarousel(resData.data.status);
         if (resData.data.status === 'success') {
-            //alert(JSON.stringify(resData.data.data));
             setDataUser({
                 _id: resData.data.data._id,
                 email: resData.data.data.email,
@@ -71,7 +68,7 @@ export default function BanHang() {
                 }
             });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data user thất bại");
         }
     }
 

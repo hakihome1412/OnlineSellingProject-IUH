@@ -1,14 +1,14 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
 import { useCookies } from 'react-cookie';
+import { message } from 'antd';
 
 export default function Customer_ThongTinThanhToan() {
     const dispatch = useDispatch();
     const [dataDonHang, setDataDonHang] = useState([]);
     const [cookies, setCookie, removeCookie] = useCookies();
-    const match = useRouteMatch();
 
     function format_curency(a) {
         a = a.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
@@ -20,7 +20,7 @@ export default function Customer_ThongTinThanhToan() {
         if (result.data.status === 'success') {
             setDataDonHang(result.data.data);
         } else {
-            alert("Lấy dữ liệu data đơn hàng thất bại");
+            message.error("Lấy dữ liệu data đơn hàng thất bại");
         }
     }
 

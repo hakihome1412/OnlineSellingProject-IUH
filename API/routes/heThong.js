@@ -18,6 +18,7 @@ const productClassifyController = require('../controller/productClassifyControll
 const lichSu_CTDonHangController = require('../controller/lichsuCTDonHangController');
 const dataSearchController = require('../controller/dataSearchController');
 const baiVietController = require('../controller/baiVietController');
+const questAnswerController = require('../controller/questAnswerController');
 const vnpayController = require('../controller/vnpayController');
 const momoController = require('../controller/momoController');
 
@@ -214,6 +215,10 @@ router.get('/order-details-shop-tinhdatasodonhang3thanggannhat', orderDetailCont
 router.get('/order-details-shop-tinhdataloinhuan6thanggannhat', orderDetailController.TinhDataLoiNhuan6ThangGanNhat);
 router.get('/order-details-shop-tinhdatasanluong6thanggannhat', orderDetailController.TinhDataSanLuong6ThangGanNhat);
 router.get('/order-details-shop-tinhdatasodonhang6thanggannhat', orderDetailController.TinhDataSoDonHang6ThangGanNhat);
+router.get('/order-details-admin-tinhdataloinhuantuannay', orderDetailController.TinhDataLoiNhuanTuanNay_Admin);
+router.get('/order-details-admin-tinhdataloinhuanthangnay', orderDetailController.TinhDataLoiNhuanThangNay_Admin);
+router.get('/order-details-admin-tinhdataloinhuan3thanggannhat', orderDetailController.TinhDataLoiNhuan3ThangGanNhat_Admin);
+router.get('/order-details-admin-tinhdataloinhuan6thanggannhat', orderDetailController.TinhDataLoiNhuan6ThangGanNhat_Admin);
 router.get('/order-details-shop-tinhdonhang-choxacnhan', orderDetailController.TinhOrderDangChoXacNhan);
 router.get('/order-details-shop-tinhdonhang-dangvanchuyen', orderDetailController.TinhOrderDangVanChuyen);
 router.get('/order-details-shop-tinhdonhang-datngayhomqua', orderDetailController.TinhOrderDatNgayHomQua);
@@ -232,6 +237,19 @@ router.post('/auth', authController.KiemTraAccount);
 router.get('/auth/token-admin', authController.KiemTraTokenAdmin);
 router.get('/auth/token-chushop', authController.KiemTraTokenChuShop);
 router.get('/auth/token-normal', authController.KiemTraTokenNormal);
+
+// Phần xử lý Database QUESTANSWER
+router.post('/questanswer-them', questAnswerController.ThemCauHoi);
+router.get('/questanswer-nguoidung', questAnswerController.LayCauHoiTheoIDSanPham_NguoiDung);
+router.get('/questanswer-admin/:page', questAnswerController.LayCauHoiTheoIDSanPham_Admin);
+router.get('/questanswer-item-admin', questAnswerController.LayCauHoiTheoID);
+router.put('/questanswer-sua', questAnswerController.SuaCauHoi);
+router.put('/questanswer-duyet', questAnswerController.DuyetCauHoi);
+router.get('/questanswer-admin-search/:page', questAnswerController.LayCauHoiTheoIDSanPham_TheoSearch_Admin);
+router.get('/questanswer-admin-chuaduyet/:page', questAnswerController.LayCauHoiTheoIDSanPham_ChuaDuyet_Admin);
+router.get('/questanswer-admin-daduyet/:page', questAnswerController.LayCauHoiTheoIDSanPham_DaDuyet_Admin);
+router.put('/questanswer-capnhatthich', questAnswerController.CapNhatThich);
+
 
 // Phần xử lý Database COUNTRIES
 router.get('/countries', countriesController.LayDanhSachCountriesAll);

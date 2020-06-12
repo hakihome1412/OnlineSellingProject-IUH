@@ -101,7 +101,7 @@ function Header() {
                 }
             }
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data user thất bại");
         }
     }
 
@@ -139,15 +139,19 @@ function Header() {
     }
 
     async function KiemTraTokenAdmin() {
-        await axios.get('hethong/auth/token-admin', { headers: { 'token': cookies.token } }).then(function (res) {
-            if (res.data.status === "fail") {
-                dispatch({ type: 'NO_ADMIN' });
-            } else {
-                dispatch({ type: 'ADMIN' });
-            }
-        }).catch(function (err) {
-            console.log(err);
-        });
+        if (cookies.token === undefined) {
+            dispatch({ type: 'NO_ADMIN' });
+        } else {
+            await axios.get('hethong/auth/token-admin', { headers: { 'token': cookies.token } }).then(function (res) {
+                if (res.data.status === "fail") {
+                    dispatch({ type: 'NO_ADMIN' });
+                } else {
+                    dispatch({ type: 'ADMIN' });
+                }
+            }).catch(function (err) {
+                console.log(err);
+            });
+        }
     }
 
     useEffect(() => {

@@ -4,20 +4,20 @@ import { useCookies } from 'react-cookie';
 import { useSelector, useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
 import { useHistory } from 'react-router-dom';
+import { message } from 'antd';
 
 export default function UserComponent() {
     const [cookies, setCookies, removeCookie] = useCookies();
     const isAdminReducer = useSelector(state => state.isAdmin);
     const [dataUser, setDataUser] = useState({});
     var history = useHistory();
-    const dispatch = useDispatch();
 
     async function LayDataUserTheoID(userID) {
         let res = await axios.get('hethong/users-item?idUser=' + userID);
         if (res.data.status === 'success') {
             setDataUser(res.data.data);
         } else {
-            alert('Lấy data User thất bại');
+            message.error('Lấy data user thất bại');
         }
     }
 
@@ -42,7 +42,6 @@ export default function UserComponent() {
                 <NavDropdown.Item onClick={() => {
                     history.push('/customer/order');
                 }}>Đơn hàng của tôi</NavDropdown.Item>
-                <NavDropdown.Item>Thông báo của tôi</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => {
                     removeCookie('token');
                     removeCookie('userID');

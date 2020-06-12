@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Image, Spinner, Button } from 'react-bootstrap';
-import { Form, Input, Select, Popconfirm } from 'antd';
+import { Form, Input, Select, Popconfirm, message } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
 import { storage } from '../../firebase/firebase';
@@ -8,6 +8,7 @@ import { storage } from '../../firebase/firebase';
 export default function ModalChiTietBrand() {
     const { Option } = Select;
     const dispatch = useDispatch();
+    const [statusMessageError, setStatusMessageError] = useState(-1);
     const showChiTietBrandReducer = useSelector(state => state.showChiTietBrand);
     const setSpinnerChiTietBrand = useSelector(state => state.setSpinnerChiTietBrand);
     const objectIDDuocChonReducer = useSelector(state => state.objectIDDuocChon);
@@ -81,6 +82,26 @@ export default function ModalChiTietBrand() {
         setImageAsUrl(listUrl);
     }
 
+    function hamChuyenDoiNgay(date) {
+        var strDate = '';
+        var now = new Date();
+        var ngay = date.getDate().toString();
+        var thang = (date.getMonth() + 1).toString();
+        var nam = date.getFullYear().toString();
+
+        strDate = ngay + '/' + thang + '/' + nam;
+        return strDate;
+    }
+
+    function KiemTraDuLieuNhap() {
+        if (brandSua.ten === '' || brandSua.xuatXu === '') {
+            setStatusMessageError(0);
+        } else {
+            SuaBrand(brandNow._id);
+            setStatusMessageError(-1);
+        }
+    }
+
     async function SuaBrand(brandID) {
         //dispatch({ type: 'SPINNER_SUACAROUSEL' });
         setSpinnerSuaBrand(1);
@@ -99,7 +120,7 @@ export default function ModalChiTietBrand() {
                 dispatch({ type: 'RELOAD_DATABASE' });
                 setStatusSua(0);
                 setSpinnerSuaBrand(-1);
-                alert("Sửa thành công");
+                message.success("Sửa thành công");
                 setDisableOptions(false);
                 dispatch({ type: 'CLOSE_CHITIET_BRAND' });
             }
@@ -109,11 +130,12 @@ export default function ModalChiTietBrand() {
                 setStatusSua(0);
                 setDisableOptions(true);
                 dispatch({ type: 'NO_RELOAD_DATABASE' });
-                alert("Sửa thất bại");
+                message.error("Sửa thất bại");
             }
 
         } else {
-            alert("fail 1");
+            dispatch({ type: 'CLOSE_CHITIET_BRAND' });
+            dispatch({ type: 'RELOAD_DATABASE' });
         }
     }
 
@@ -129,13 +151,14 @@ export default function ModalChiTietBrand() {
             setSpinnerXoaBrand(0);
             dispatch({ type: 'RELOAD_DATABASE' });
             dispatch({ type: 'CLOSE_CHITIET_BRAND' });
-            alert("Xóa thành công");
+            message.success("Xóa thành công");
         } else {
             setStatusSua(0);
             setDisableOptions(false);
             setSpinnerXoaBrand(0);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
-            alert("Xóa thất bại");
+            dispatch({ type: 'CLOSE_CHITIET_BRAND' });
+            message.error("Xóa thất bại");
         }
     }
 
@@ -153,18 +176,19 @@ export default function ModalChiTietBrand() {
             });
             dispatch({ type: 'NO_SPINNER_CHITIETBRAND' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data thương hiệu thất bại");
             dispatch({ type: 'NO_SPINNER_CHITIETBRAND' });
+            dispatch({ type: 'CLOSE_CHITIET_BRAND' });
         }
     }
 
     useEffect(() => {
         if (firstTime === false) {
             if (imageAsFile.length === 0) {
-                alert('Vui lòng chọn ảnh cho Thương hiệu')
+                setStatusMessageError(1);
             } else {
                 if (countAnhDaUploadThanhCong === imageAsFile.length) {
-                    alert('Upload ảnh thương hiệu thành công');
+                    setStatusMessageError(-1);
                 }
             }
         }
@@ -179,13 +203,15 @@ export default function ModalChiTietBrand() {
     }, [statusSua])
 
     return (
-        <Modal show={showChiTietBrandReducer} size="lg" animation={false} onHide={() => {
-            dispatch({ type: 'CLOSE_CHITIET_BRAND' });
-        }}
+        <Modal show={showChiTietBrandReducer} size="lg" animation={false}
+            onHide={() => {
+                dispatch({ type: 'CLOSE_CHITIET_BRAND' });
+            }}
             onShow={() => {
                 setDisableOptions(false);
                 setStatusSua(0);
                 LayBrandTheoID(objectIDDuocChonReducer);
+                setStatusMessageError(-1);
             }}>
             {
                 setSpinnerChiTietBrand === 1 && (
@@ -259,7 +285,7 @@ export default function ModalChiTietBrand() {
                         <Form.Item
                             label="Ngày tạo"
                             name="ngaytao">
-                            <Input disabled={true} defaultValue={new Date(brandNow.ngayTao).toString()} />
+                            <Input disabled={true} defaultValue={hamChuyenDoiNgay(new Date(brandNow.ngayTao))} />
                         </Form.Item>
 
                         <Form.Item
@@ -289,19 +315,26 @@ export default function ModalChiTietBrand() {
                         </Form.Item>
 
                         <Form.Item>
+                            {
+                                statusMessageError === 0 && (
+                                    <p style={{ color: 'red', lineHeight: 1.5 }}>Thông tin sửa không hợp lệ. Vui lòng kiểm tra lại</p>
+                                )
+                            }
                             <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
                                 if (statusSua === 0) {
                                     setStatusSua(1);
                                     setDisableOptions(true);
                                 } else {
-                                    SuaBrand(brandNow._id);
+                                    KiemTraDuLieuNhap();
                                 }
-                                setBrandSua({
-                                    ten: brandNow.ten,
-                                    xuatXu: brandNow.xuatXu,
-                                    img: brandNow.img,
-                                    isLock: brandNow.isLock
-                                });
+                                if (statusSua === 0) {
+                                    setBrandSua({
+                                        ten: brandNow.ten,
+                                        xuatXu: brandNow.xuatXu,
+                                        img: brandNow.img,
+                                        isLock: brandNow.isLock
+                                    });
+                                }
                             }}>
                                 {
                                     statusSua === 0 && spinnerSuaBrand === -1 ? "Sửa" : "Lưu"

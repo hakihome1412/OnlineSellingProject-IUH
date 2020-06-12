@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Image, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { axios } from '../../config/constant';
 import { storage } from '../../firebase/firebase';
 
 export default function ModalThemBrand() {
     const [firstTime, setFirstTime] = useState(true);
     const [imageAsFile, setImageAsFile] = useState([]);
+    const [statusMessageError, setStatusMessageError] = useState(-1);
     const [countAnhDaUploadThanhCong, setCountAnhDaUploadThanhCong] = useState(0);
     const showModalThemBrandReducer = useSelector(state => state.showModalThemBrand);
     const [spinnerThemBrand, setSpinnerThemBrand] = useState(-1);
@@ -64,10 +65,11 @@ export default function ModalThemBrand() {
     }
 
     function KiemTraDuLieuNhap(data) {
-        if (data.ten === '' || data.img === '' || data.xuatXu === '') {
-            alert('Vui lòng nhập đủ dữ liệu cần thiết');
+        if (data.ten === '' || data.xuatXu === '') {
+            setStatusMessageError(0);
         } else {
             ThemBrand()
+            setStatusMessageError(-1);
         }
     }
 
@@ -80,12 +82,14 @@ export default function ModalThemBrand() {
         });
 
         if (res.data.status === 'success') {
-            alert("Thêm thành công");
+            message.success("Thêm thành công");
             dispatch({ type: 'CLOSE_THEM_BRAND' });
             dispatch({ type: 'RELOAD_DATABASE' });
             setSpinnerThemBrand(0);
         } else {
-            alert("Thêm thất bại");
+            message.error("Thêm thất bại");
+            dispatch({ type: 'CLOSE_THEM_BRAND' });
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
             setSpinnerThemBrand(0);
         }
     }
@@ -93,10 +97,10 @@ export default function ModalThemBrand() {
     useEffect(() => {
         if (firstTime === false) {
             if (imageAsFile.length === 0) {
-                alert('Vui lòng chọn ảnh cho Brand')
+                message.error('Vui lòng chọn ảnh cho Brand')
             } else {
                 if (countAnhDaUploadThanhCong === imageAsFile.length) {
-                    alert('Upload ảnh brand thành công');
+                    message.success('Upload ảnh brand thành công');
                 }
             }
         }
@@ -107,6 +111,7 @@ export default function ModalThemBrand() {
             dispatch({ type: 'CLOSE_THEM_BRAND' });
         }}
             onShow={() => {
+                setStatusMessageError(-1);
                 setImageAsFile([]);
                 setFirstTime(true);
                 setCountAnhDaUploadThanhCong(0);
@@ -148,8 +153,7 @@ export default function ModalThemBrand() {
 
                 <Form.Item
                     label="Ảnh đại diện"
-                    name="username"
-                    rules={[{ required: true, message: 'Vui lòng chọn ảnh ảnh' }]}>
+                    name="username">
                     <input type='file'
                         onChange={(e) => {
                             handleChange(e);
@@ -166,7 +170,13 @@ export default function ModalThemBrand() {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
+                    {
+                        statusMessageError === 0 && (
+                            <p style={{ color: 'red', lineHeight: 1.5 }}>Vui lòng nhập đủ dữ liệu cần thiết</p>
+                        )
+                    }
+
+                    <Button type="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
                         KiemTraDuLieuNhap(dataThem);
                     }}>
                         {

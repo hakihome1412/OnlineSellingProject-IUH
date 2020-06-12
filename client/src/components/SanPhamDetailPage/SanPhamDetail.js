@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { InforItemComponent, InforDetailItemComponent, DescriptionItemComponent } from '../allJS'
+import { InforItemComponent, InforDetailItemComponent, DescriptionItemComponent, QuestAndAnswerComponent } from '../allJS'
 import { axios } from '../../config/constant';
 import { useDispatch } from 'react-redux';
+import { message } from 'antd';
+import { useCookies } from 'react-cookie';
 
 export default function SanPhamDetail(props) {
     const productID = props.match.params.id;
     const [phanLoaiColor, setPhanLoaiColor] = useState([]);
     const [phanLoaiSize, setPhanLoaiSize] = useState([]);
     const dispatch = useDispatch();
+    const [cookies, setCookie] = useCookies();
     const [thongTinProduct, setThongTinProduct] = useState({
+        _id: '',
         idShow: '',
         ten: '',
         img: {
@@ -22,6 +26,7 @@ export default function SanPhamDetail(props) {
         moTaNganGon: [],
         soSao: '',
         giaTriGiamGia: 0,
+        giaCuoiCung: 0,
         soLuong: '',
         thongTinBaoHanh: {
             baoHanh: '',
@@ -45,6 +50,7 @@ export default function SanPhamDetail(props) {
 
         if (res.data.status === 'success') {
             setThongTinProduct({
+                _id: res.data.data._id,
                 idShow: res.data.data.idShow,
                 ten: res.data.data.ten,
                 img: {
@@ -58,6 +64,7 @@ export default function SanPhamDetail(props) {
                 moTaNganGon: res.data.data.moTaNganGon,
                 soSao: res.data.data.soSao,
                 giaTriGiamGia: res.data.data.giaTriGiamGia,
+                giaCuoiCung: res.data.data.giaCuoiCung,
                 soLuong: res.data.data.soLuong,
                 thongTinBaoHanh: {
                     baoHanh: res.data.data.thongTinBaoHanh.baoHanh,
@@ -71,7 +78,7 @@ export default function SanPhamDetail(props) {
                 idEvent: res.data.data.idEvent
             })
         } else {
-            alert('Lấy dữ liệu data Product thất bại');
+            message.error('Lấy dữ liệu data sản phẩm thất bại');
         }
     }
 
@@ -84,7 +91,7 @@ export default function SanPhamDetail(props) {
                 xuatXu: res.data.data.xuatXu
             })
         } else {
-            alert('Lấy dữ liệu data Brand thất bại');
+            message.error('Lấy dữ liệu data thương hiệu thất bại');
         }
     }
 
@@ -94,7 +101,7 @@ export default function SanPhamDetail(props) {
         if (res.data.status === 'success') {
             setPhanLoaiColor(res.data.data);
         } else {
-            alert('Lấy dữ liệu data Phân loại color thất bại');
+            message.error('Lấy dữ liệu data phân loại color thất bại');
         }
     }
 
@@ -104,14 +111,27 @@ export default function SanPhamDetail(props) {
         if (res.data.status === 'success') {
             setPhanLoaiSize(res.data.data);
         } else {
-            alert('Lấy dữ liệu data Phân loại size thất bại');
+            message.error('Lấy dữ liệu data phân loại size thất bại');
         }
+    }
+
+    async function KiemTraTokenAdmin() {
+        await axios.get('hethong/auth/token-admin', { headers: { 'token': cookies.token } }).then(function (res) {
+            if (res.data.status === "fail") {
+                dispatch({ type: 'NO_ADMIN' });
+            } else {
+                dispatch({ type: 'ADMIN' });
+            }
+        }).catch(function (err) {
+            console.log(err);
+        });
     }
 
     useEffect(() => {
         LayDataProductTheoID(productID);
-        dispatch({type:'SHOW_HEADER'});
-        window.scrollTo(0,0);
+        KiemTraTokenAdmin();
+        dispatch({ type: 'SHOW_HEADER' });
+        window.scrollTo(0, 0);
     }, [])
 
     useEffect(() => {
@@ -124,6 +144,7 @@ export default function SanPhamDetail(props) {
             <InforItemComponent phanLoaiColor={phanLoaiColor} phanLoaiSize={phanLoaiSize} thongTinProduct={thongTinProduct}></InforItemComponent>
             <InforDetailItemComponent thongTinProduct={thongTinProduct} thongTinBrand={thongTinBrand}></InforDetailItemComponent>
             <DescriptionItemComponent thongTinProduct={thongTinProduct}></DescriptionItemComponent>
+            <QuestAndAnswerComponent thongTinProduct={thongTinProduct}></QuestAndAnswerComponent>
         </div>
     )
 }

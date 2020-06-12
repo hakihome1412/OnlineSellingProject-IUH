@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 
 function Footer() {
     return (
@@ -15,32 +14,6 @@ function Footer() {
                         <span style={{fontSize:14}}>Tại TiemDo bạn có thể mua đồ điện tử giá rẻ, cũng như các loại mặt hàng khác với rất nhiều các chương trình khuyến mãi hàng tháng. Ngoài ra bạn cũng có thể tham gia bán hàng trực tuyến thông qua hệ thống marketplace của TiemDo với rất nhiều hỗ trợ và dịch vụ hấp dẫn. Bây giờ bạn có thể trải nghiệm mua hàng online thỏa thích mà TiemDo mang lại chỉ với 1 click chuột. Dù bạn là một nhà quản lý bận rộn với công việc hay là người nội trợ với danh sách dài việc phải làm, chắc chắn bạn cũng sẽ yêu thích trải nghiệm mua hàng tại TiemDo - mua hàng trực tuyến dễ dàng hơn, thuận tiện hơn và tiết kiệm thời gian.</span>
                     </div>
                     <hr className="clearfix w-100 d-md-none" />
-                    {/* <div className="col-md-2 col-lg-2 mx-auto my-md-4 my-0 mt-4 mb-1">
-                        <h5 className="font-weight-bold text-uppercase mb-4">About</h5>
-                        <ul className="list-unstyled">
-                            <li>
-                                <p>
-                                    <Link to="/">Trang Chủ</Link>
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    <a href="#!">Sản Phẩm</a>
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    <a href="#!">Shop Của Bạn</a>
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    <a href="#!">Liên Hệ</a>
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
-                    <hr className="clearfix w-100 d-md-none" /> */}
                     <div className="col-md-4 col-lg-3 mx-auto my-md-4 my-0 mt-4 mb-1">
                         <h5 className="font-weight-bold text-uppercase mb-4">Address</h5>
                         <ul className="list-unstyled">

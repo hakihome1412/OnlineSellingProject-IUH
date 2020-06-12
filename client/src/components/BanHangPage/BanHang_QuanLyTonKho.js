@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Tabs, Pagination, Select, Input } from 'antd';
+import { Tabs, Pagination, Select, Input, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
@@ -31,7 +31,7 @@ export default function BanHang_QuanLyTonKho() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data sản phẩm thất bại");
         }
     }
 
@@ -42,7 +42,7 @@ export default function BanHang_QuanLyTonKho() {
             setDataProduct(resData.data.data);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data sản phẩm còn trong kho thất bại");
         }
     }
 
@@ -53,7 +53,7 @@ export default function BanHang_QuanLyTonKho() {
             setDataProduct(resData.data.data);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data sản phẩm đã hết hàng thất bại");
         }
     }
 
@@ -65,7 +65,7 @@ export default function BanHang_QuanLyTonKho() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data sản phẩm theo serach thất bại");
         }
     }
 

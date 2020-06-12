@@ -3,7 +3,7 @@ import { axios } from '../../config/constant';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Carousel, Image } from 'react-bootstrap';
-import { Pagination } from 'antd';
+import { Pagination, message } from 'antd';
 
 export default function ShopPage(props) {
     const shopID = props.match.params.id;
@@ -98,7 +98,7 @@ export default function ShopPage(props) {
             setDataProduct(res.data.data);
             setTongSoTrang(res.data.soTrang);
         } else {
-            alert('Lấy data Product thất bại');
+            message.error('Lấy data sản phẩm thất bại');
         }
     }
 
@@ -113,7 +113,7 @@ export default function ShopPage(props) {
         <div className="container" style={{ marginTop: '50px' }}>
             <div className='row'>
                 <div className='col-sm-3' style={{ padding: 10, margin: 0 }}>
-                    <img src={dataShop.logoShop} width='200' height='200'></img><br></br><br></br>
+                    <img alt='logo shop' src={dataShop.logoShop} width='200' height='200'></img><br></br><br></br>
                     <span>Cửa hàng: <Link to={'/shop/' + dataShop.idShop + '/' + to_slug(dataShop.tenShop)}><strong>{dataShop.tenShop}</strong></Link></span><br></br>
                 </div>
                 <div className='col-sm-9'>
@@ -124,7 +124,7 @@ export default function ShopPage(props) {
                                     {
                                         dataShop.img.carousel.map((src, i) => {
                                             return <Carousel.Item key={i}>
-                                                <img className="d-block w-100" src={src} height='250' />
+                                                <img alt='ảnh carousel' className="d-block w-100" src={src} height='250' />
                                             </Carousel.Item>
                                         })
                                     }
@@ -135,10 +135,10 @@ export default function ShopPage(props) {
                             dataShop.img.banner1 !== '' && dataShop.img.banner2 !== '' && (
                                 <div className='row'>
                                     <div className='col-sm-6'>
-                                        <img className="d-block w-100" src={dataShop.img.banner1} height='180' />
+                                        <img alt='ảnh banner1' className="d-block w-100" src={dataShop.img.banner1} height='180' />
                                     </div>
                                     <div className='col-sm-6'>
-                                        <img className="d-block w-100" src={dataShop.img.banner2} height='180' />
+                                        <img alt='ảnh banner2' className="d-block w-100" src={dataShop.img.banner2} height='180' />
                                     </div>
                                 </div>
                             )

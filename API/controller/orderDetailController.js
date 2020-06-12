@@ -1,4 +1,4 @@
-const { DbUrl, DbName, soItemMoiPageAdmin, soItemMoiPage } = require('../config/constant');
+const { DbUrl, DbName, soItemMoiPageAdmin, soItemMoiPage, phanTramLoiNhuan } = require('../config/constant');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const assert = require('assert');
@@ -245,14 +245,30 @@ module.exports = {
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colOrderDetail = db.collection('ORDER_DETAILS');
-        let result = await colOrderDetail.updateOne({ idShow: orderDetailID },
-            {
-                $set:
+        let result;
+
+        if (chiTietSua.trangThai === 4 || chiTietSua.trangThai === 5) {
+            result = await colOrderDetail.updateOne({ idShow: orderDetailID },
                 {
-                    trangThai: chiTietSua.trangThai,
-                    ghiChu: chiTietSua.ghiChu
-                }
-            });
+                    $set:
+                    {
+                        trangThai: chiTietSua.trangThai,
+                        ghiChu: chiTietSua.ghiChu,
+                        ngayHoanThanh: new Date()
+                    }
+                });
+        } else {
+            result = await colOrderDetail.updateOne({ idShow: orderDetailID },
+                {
+                    $set:
+                    {
+                        trangThai: chiTietSua.trangThai,
+                        ghiChu: chiTietSua.ghiChu
+                    }
+                });
+        }
+
+
         client.close();
         res.status(200).json({
             status: 'success',
@@ -485,9 +501,9 @@ module.exports = {
         for (let index1 = 0; index1 < arrDate.length; index1++) {
             var doanhThu = 0;
             for (let index2 = 0; index2 < result.length; index2++) {
-                if (arrDate[index1].getDate() === result[index2].ngayTao.getDate() &&
-                    arrDate[index1].getMonth() === result[index2].ngayTao.getMonth() &&
-                    arrDate[index1].getFullYear() === result[index2].ngayTao.getFullYear()) {
+                if (arrDate[index1].getDate() === result[index2].ngayHoanThanh.getDate() &&
+                    arrDate[index1].getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                    arrDate[index1].getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                     doanhThu += result[index2].thanhTien;
                 }
             }
@@ -506,6 +522,82 @@ module.exports = {
             status: 'success',
             dataDate: arrDateResult,
             dataDoanhThu: arrDoanhThu,
+            message: 'Tính lợi nhuận tuần này thành công'
+        });
+    },
+
+    TinhDataLoiNhuanTuanNay_Admin: async function (req, res) {
+        var curr = new Date; // get current date
+        var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
+        var last = first + 6; // last day is the first day + 6
+
+        var firstday = new Date(curr.setDate(first));
+        var lastday = new Date(curr.setDate(last));
+
+        var arrDate = [];
+        var arrDoanhThu = [];
+
+        for (let index = 0; index <= 7; index++) {
+            var dateThem = new Date(firstday.getFullYear(), firstday.getMonth(), firstday.getDate() + index);
+            if (dateThem >= firstday) {
+                arrDate.push(dateThem);
+            }
+        }
+
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colOrderDetail = db.collection('ORDER_DETAILS');
+        const colLichSu = db.collection('LICHSU_CTDONHANG');
+        let result = await colLichSu.find({ trangThai: 4, ngayThucHien: { $gte: firstday, $lte: lastday } }).toArray();
+
+        let arrOrderDetailID = [];
+        for (let index = 0; index < result.length; index++) {
+            arrOrderDetailID.push(result[index].idOrderDetail);
+        }
+
+        let result2 = await colOrderDetail.find({ trangThai: 4 }).toArray();
+
+        let arrOrderDetail = [];
+
+        for (let index = 0; index < result2.length; index++) {
+            for (let index2 = 0; index2 < arrOrderDetailID.length; index2++) {
+                if (result2[index].idShow === arrOrderDetailID[index2]) {
+                    arrOrderDetail.push(result2[index]);
+                    break;
+                }
+            }
+        }
+
+
+        for (let index1 = 0; index1 < arrDate.length; index1++) {
+            var doanhThu = 0;
+            for (let index2 = 0; index2 < arrOrderDetail.length; index2++) {
+                if (arrDate[index1].getDate() === arrOrderDetail[index2].ngayHoanThanh.getDate() &&
+                    arrDate[index1].getMonth() === arrOrderDetail[index2].ngayHoanThanh.getMonth() &&
+                    arrDate[index1].getFullYear() === arrOrderDetail[index2].ngayHoanThanh.getFullYear()) {
+                    doanhThu += arrOrderDetail[index2].thanhTien * phanTramLoiNhuan / 100;
+                }
+            }
+            arrDoanhThu.push(doanhThu);
+        }
+
+        console.log(arrDoanhThu);
+
+        var arrDateResult = [];
+
+        for (let index = 0; index < arrDate.length; index++) {
+            var stringDate = (arrDate[index].getDate()) + '/' + (arrDate[index].getMonth() + 1) + '/' + arrDate[index].getFullYear();
+            arrDateResult.push(stringDate);
+        }
+
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            dataDate: arrDateResult,
+            dataDoanhThu: arrDoanhThu,
+            data: arrOrderDetail,
             message: 'Tính lợi nhuận tuần này thành công'
         });
     },
@@ -539,9 +631,9 @@ module.exports = {
         for (let index1 = 0; index1 < arrDate.length; index1++) {
             var sanLuong = 0;
             for (let index2 = 0; index2 < result.length; index2++) {
-                if (arrDate[index1].getDate() === result[index2].ngayTao.getDate() &&
-                    arrDate[index1].getMonth() === result[index2].ngayTao.getMonth() &&
-                    arrDate[index1].getFullYear() === result[index2].ngayTao.getFullYear()) {
+                if (arrDate[index1].getDate() === result[index2].ngayHoanThanh.getDate() &&
+                    arrDate[index1].getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                    arrDate[index1].getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                     sanLuong += result[index2].soLuong;
                 }
             }
@@ -593,9 +685,9 @@ module.exports = {
         for (let index1 = 0; index1 < arrDate.length; index1++) {
             var soDonHang = 0;
             for (let index2 = 0; index2 < result.length; index2++) {
-                if (arrDate[index1].getDate() === result[index2].ngayTao.getDate() &&
-                    arrDate[index1].getMonth() === result[index2].ngayTao.getMonth() &&
-                    arrDate[index1].getFullYear() === result[index2].ngayTao.getFullYear()) {
+                if (arrDate[index1].getDate() === result[index2].ngayHoanThanh.getDate() &&
+                    arrDate[index1].getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                    arrDate[index1].getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                     soDonHang += 1;
                 }
             }
@@ -644,9 +736,9 @@ module.exports = {
         for (let index1 = 0; index1 < arrDate.length; index1++) {
             var doanhThu = 0;
             for (let index2 = 0; index2 < result.length; index2++) {
-                if (arrDate[index1].getDate() === result[index2].ngayTao.getDate() &&
-                    arrDate[index1].getMonth() === result[index2].ngayTao.getMonth() &&
-                    arrDate[index1].getFullYear() === result[index2].ngayTao.getFullYear()) {
+                if (arrDate[index1].getDate() === result[index2].ngayHoanThanh.getDate() &&
+                    arrDate[index1].getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                    arrDate[index1].getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                     doanhThu += result[index2].thanhTien;
                 }
             }
@@ -665,6 +757,57 @@ module.exports = {
             status: 'success',
             dataDate: arrDateResult,
             dataDoanhThu: arrDoanhThu,
+            message: 'Tính lợi nhuận tháng này thành công'
+        });
+    },
+
+    TinhDataLoiNhuanThangNay_Admin: async function (req, res) {
+        var curr = new Date(); // get current date
+        var soNgayTrongThang = daysInMonth(curr.getMonth() + 1, curr.getFullYear());
+
+        var arrDate = [];
+        var arrDoanhThu = [];
+        var firstDateOfMonth = new Date(curr.getFullYear(), curr.getMonth(), 1);
+
+        for (let index = 1; index <= soNgayTrongThang; index++) {
+            var dateThem = new Date(firstDateOfMonth.getFullYear(), firstDateOfMonth.getMonth(), index);
+            arrDate.push(dateThem);
+        }
+
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colOrderDetail = db.collection('ORDER_DETAILS');
+        let result = await colOrderDetail.find({ trangThai: 4 }).toArray();
+        let arrOrderDetail = [];
+
+        for (let index1 = 0; index1 < arrDate.length; index1++) {
+            var doanhThu = 0;
+            for (let index2 = 0; index2 < result.length; index2++) {
+                if (arrDate[index1].getDate() === result[index2].ngayHoanThanh.getDate() &&
+                    arrDate[index1].getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                    arrDate[index1].getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
+                    doanhThu += result[index2].thanhTien;
+                    arrOrderDetail.push(result[index2]);
+                }
+            }
+            arrDoanhThu.push(doanhThu);
+        }
+
+        var arrDateResult = [];
+
+        for (let index = 0; index < arrDate.length; index++) {
+            var stringDate = (arrDate[index].getDate()) + '/' + (arrDate[index].getMonth() + 1);
+            arrDateResult.push(stringDate);
+        }
+
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            dataDate: arrDateResult,
+            dataDoanhThu: arrDoanhThu,
+            data: arrOrderDetail,
             message: 'Tính lợi nhuận tháng này thành công'
         });
     },
@@ -696,9 +839,9 @@ module.exports = {
         for (let index1 = 0; index1 < arrDate.length; index1++) {
             var sanLuong = 0;
             for (let index2 = 0; index2 < result.length; index2++) {
-                if (arrDate[index1].getDate() === result[index2].ngayTao.getDate() &&
-                    arrDate[index1].getMonth() === result[index2].ngayTao.getMonth() &&
-                    arrDate[index1].getFullYear() === result[index2].ngayTao.getFullYear()) {
+                if (arrDate[index1].getDate() === result[index2].ngayHoanThanh.getDate() &&
+                    arrDate[index1].getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                    arrDate[index1].getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                     sanLuong += result[index2].soLuong;
                 }
             }
@@ -746,9 +889,9 @@ module.exports = {
         for (let index1 = 0; index1 < arrDate.length; index1++) {
             var soDonHang = 0;
             for (let index2 = 0; index2 < result.length; index2++) {
-                if (arrDate[index1].getDate() === result[index2].ngayTao.getDate() &&
-                    arrDate[index1].getMonth() === result[index2].ngayTao.getMonth() &&
-                    arrDate[index1].getFullYear() === result[index2].ngayTao.getFullYear()) {
+                if (arrDate[index1].getDate() === result[index2].ngayHoanThanh.getDate() &&
+                    arrDate[index1].getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                    arrDate[index1].getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                     soDonHang += 1;
                 }
             }
@@ -791,18 +934,18 @@ module.exports = {
         var doanhThu3 = 0;
 
         for (let index2 = 0; index2 < result.length; index2++) {
-            if (thangThuNhat.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuNhat.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuNhat.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuNhat.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu1 += result[index2].thanhTien;
             }
 
-            if (thangThuHai.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuHai.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuHai.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuHai.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu2 += result[index2].thanhTien;
             }
 
-            if (thangThuBa.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuBa.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuBa.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuBa.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu3 += result[index2].thanhTien;
             }
         }
@@ -829,6 +972,67 @@ module.exports = {
         });
     },
 
+    TinhDataLoiNhuan3ThangGanNhat_Admin: async function (req, res) {
+        var curr = new Date(); // get current date
+        var arrDoanhThu = [];
+
+        var thangThuNhat = new Date(curr.getFullYear(), curr.getMonth() - 1, 1);
+        var thangThuHai = new Date(curr.getFullYear(), curr.getMonth() - 2, 1);
+        var thangThuBa = new Date(curr.getFullYear(), curr.getMonth() - 3, 1);
+
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colOrderDetail = db.collection('ORDER_DETAILS');
+        let result = await colOrderDetail.find({ trangThai: 4 }).toArray();
+        var doanhThu1 = 0;
+        var doanhThu2 = 0;
+        var doanhThu3 = 0;
+
+        let arrOrderDetail = [];
+
+        for (let index2 = 0; index2 < result.length; index2++) {
+            if (thangThuNhat.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuNhat.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
+                doanhThu1 += result[index2].thanhTien;
+                arrOrderDetail.push(result[index2]);
+            }
+
+            if (thangThuHai.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuHai.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
+                doanhThu2 += result[index2].thanhTien;
+                arrOrderDetail.push(result[index2]);
+            }
+
+            if (thangThuBa.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuBa.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
+                doanhThu3 += result[index2].thanhTien;
+                arrOrderDetail.push(result[index2]);
+            }
+        }
+
+        arrDoanhThu.push(doanhThu3, doanhThu2, doanhThu1);
+
+        var arrDateResult = [];
+
+        var stringThangThuNhat = (thangThuNhat.getMonth() + 1).toString() + '/' + (thangThuNhat.getFullYear()).toString();
+        var stringThangThuHai = (thangThuHai.getMonth() + 1).toString() + '/' + (thangThuHai.getFullYear()).toString();
+        var stringThangThuBa = (thangThuBa.getMonth() + 1).toString() + '/' + (thangThuBa.getFullYear()).toString();
+
+        arrDateResult.push(stringThangThuBa, stringThangThuHai, stringThangThuNhat);
+
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            dataDate: arrDateResult,
+            dataDoanhThu: arrDoanhThu,
+            data: arrOrderDetail,
+            message: 'Tính lợi nhuận 3 tháng gần nhất thành công'
+        });
+    },
+
+
     TinhDataSanLuong3ThangGanNhat: async function (req, res) {
         var curr = new Date(); // get current date
         const shopID = req.query.idShop;
@@ -849,18 +1053,18 @@ module.exports = {
         var sanLuong3 = 0;
 
         for (let index2 = 0; index2 < result.length; index2++) {
-            if (thangThuNhat.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuNhat.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuNhat.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuNhat.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 sanLuong1 += result[index2].soLuong;
             }
 
-            if (thangThuHai.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuHai.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuHai.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuHai.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 sanLuong2 += result[index2].soLuong;
             }
 
-            if (thangThuBa.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuBa.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuBa.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuBa.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 sanLuong3 += result[index2].soLuong;
             }
         }
@@ -904,18 +1108,18 @@ module.exports = {
         var soDonHang3 = 0;
 
         for (let index2 = 0; index2 < result.length; index2++) {
-            if (thangThuNhat.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuNhat.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuNhat.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuNhat.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 soDonHang1 += 1;
             }
 
-            if (thangThuHai.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuHai.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuHai.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuHai.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 soDonHang2 += 1;
             }
 
-            if (thangThuBa.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuBa.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuBa.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuBa.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 soDonHang3 += 1;
             }
         }
@@ -967,33 +1171,33 @@ module.exports = {
 
 
         for (let index2 = 0; index2 < result.length; index2++) {
-            if (thangThuNhat.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuNhat.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuNhat.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuNhat.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu1 += result[index2].thanhTien;
             }
 
-            if (thangThuHai.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuHai.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuHai.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuHai.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu2 += result[index2].thanhTien;
             }
 
-            if (thangThuBa.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuBa.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuBa.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuBa.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu3 += result[index2].thanhTien;
             }
 
-            if (thangThuTu.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuTu.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuTu.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuTu.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu4 += result[index2].thanhTien;
             }
 
-            if (thangThuNam.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuNam.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuNam.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuNam.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu5 += result[index2].thanhTien;
             }
 
-            if (thangThuSau.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuSau.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuSau.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuSau.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu6 += result[index2].thanhTien;
             }
         }
@@ -1020,6 +1224,95 @@ module.exports = {
             message: 'Tính lợi nhuận 6 tháng gần nhất thành công'
         });
     },
+
+    TinhDataLoiNhuan6ThangGanNhat_Admin: async function (req, res) {
+        var curr = new Date(); // get current date
+        var arrDoanhThu = [];
+
+        var thangThuNhat = new Date(curr.getFullYear(), curr.getMonth() - 1, 1);
+        var thangThuHai = new Date(curr.getFullYear(), curr.getMonth() - 2, 1);
+        var thangThuBa = new Date(curr.getFullYear(), curr.getMonth() - 3, 1);
+        var thangThuTu = new Date(curr.getFullYear(), curr.getMonth() - 4, 1);
+        var thangThuNam = new Date(curr.getFullYear(), curr.getMonth() - 5, 1);
+        var thangThuSau = new Date(curr.getFullYear(), curr.getMonth() - 6, 1);
+
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colOrderDetail = db.collection('ORDER_DETAILS');
+        let result = await colOrderDetail.find({ trangThai: 4 }).toArray();
+        var doanhThu1 = 0;
+        var doanhThu2 = 0;
+        var doanhThu3 = 0;
+        var doanhThu4 = 0;
+        var doanhThu5 = 0;
+        var doanhThu6 = 0;
+        let arrOrderDetail = [];
+
+
+        for (let index2 = 0; index2 < result.length; index2++) {
+            if (thangThuNhat.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuNhat.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
+                doanhThu1 += result[index2].thanhTien;
+                arrOrderDetail.push(result[index2]);
+            }
+
+            if (thangThuHai.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuHai.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
+                doanhThu2 += result[index2].thanhTien;
+                arrOrderDetail.push(result[index2]);
+            }
+
+            if (thangThuBa.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuBa.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
+                doanhThu3 += result[index2].thanhTien;
+                arrOrderDetail.push(result[index2]);
+            }
+
+            if (thangThuTu.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuTu.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
+                doanhThu4 += result[index2].thanhTien;
+                arrOrderDetail.push(result[index2]);
+            }
+
+            if (thangThuNam.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuNam.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
+                doanhThu5 += result[index2].thanhTien;
+                arrOrderDetail.push(result[index2]);
+            }
+
+            if (thangThuSau.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuSau.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
+                doanhThu6 += result[index2].thanhTien;
+                arrOrderDetail.push(result[index2]);
+            }
+        }
+
+        arrDoanhThu.push(doanhThu6, doanhThu5, doanhThu4, doanhThu3, doanhThu2, doanhThu1);
+
+        var arrDateResult = [];
+
+        var stringThangThuNhat = (thangThuNhat.getMonth() + 1).toString() + '/' + (thangThuNhat.getFullYear()).toString();
+        var stringThangThuHai = (thangThuHai.getMonth() + 1).toString() + '/' + (thangThuHai.getFullYear()).toString();
+        var stringThangThuBa = (thangThuBa.getMonth() + 1).toString() + '/' + (thangThuBa.getFullYear()).toString();
+        var stringThangThuTu = (thangThuTu.getMonth() + 1).toString() + '/' + (thangThuTu.getFullYear()).toString();
+        var stringThangThuNam = (thangThuNam.getMonth() + 1).toString() + '/' + (thangThuNam.getFullYear()).toString();
+        var stringThangThuSau = (thangThuSau.getMonth() + 1).toString() + '/' + (thangThuSau.getFullYear()).toString();
+
+
+        arrDateResult.push(stringThangThuSau, stringThangThuNam, stringThangThuTu, stringThangThuBa, stringThangThuHai, stringThangThuNhat);
+
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            dataDate: arrDateResult,
+            dataDoanhThu: arrDoanhThu,
+            data: arrOrderDetail,
+            message: 'Tính lợi nhuận 6 tháng gần nhất thành công'
+        });
+    },
+
 
     TinhDataSanLuong6ThangGanNhat: async function (req, res) {
         var curr = new Date(); // get current date
@@ -1048,33 +1341,33 @@ module.exports = {
 
 
         for (let index2 = 0; index2 < result.length; index2++) {
-            if (thangThuNhat.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuNhat.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuNhat.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuNhat.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 sanLuong1 += result[index2].thanhTien;
             }
 
-            if (thangThuHai.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuHai.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuHai.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuHai.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 sanLuong2 += result[index2].soLuong;
             }
 
-            if (thangThuBa.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuBa.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuBa.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuBa.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 sanLuong3 += result[index2].soLuong;
             }
 
-            if (thangThuTu.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuTu.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuTu.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuTu.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 sanLuong4 += result[index2].soLuong;
             }
 
-            if (thangThuNam.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuNam.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuNam.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuNam.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 sanLuong5 += result[index2].soLuong;
             }
 
-            if (thangThuSau.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuSau.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuSau.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuSau.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 sanLuong6 += result[index2].soLuong;
             }
         }
@@ -1128,33 +1421,33 @@ module.exports = {
 
 
         for (let index2 = 0; index2 < result.length; index2++) {
-            if (thangThuNhat.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuNhat.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuNhat.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuNhat.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 soDonHang1 += 1;
             }
 
-            if (thangThuHai.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuHai.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuHai.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuHai.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 soDonHang2 += 1;
             }
 
-            if (thangThuBa.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuBa.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuBa.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuBa.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 soDonHang3 += 1;
             }
 
-            if (thangThuTu.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuTu.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuTu.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuTu.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 soDonHang4 += 1;
             }
 
-            if (thangThuNam.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuNam.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuNam.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuNam.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 soDonHang5 += 1;
             }
 
-            if (thangThuSau.getMonth() === result[index2].ngayTao.getMonth() &&
-                thangThuSau.getFullYear() === result[index2].ngayTao.getFullYear()) {
+            if (thangThuSau.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
+                thangThuSau.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 soDonHang6 += 1;
             }
         }
@@ -1180,6 +1473,8 @@ module.exports = {
             message: 'Tính số đơn hàng 6 tháng gần nhất thành công'
         });
     },
+
+
 
 }
 

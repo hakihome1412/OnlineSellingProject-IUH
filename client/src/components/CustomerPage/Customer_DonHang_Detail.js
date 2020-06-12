@@ -1,8 +1,8 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import { useDispatch } from 'react-redux'
 import { axios } from '../../config/constant';
-import { Steps, List } from 'antd';
-import { Image, Button } from 'react-bootstrap';
+import { Steps, List, message } from 'antd';
+import { Image} from 'react-bootstrap';
 
 export default function DonHangDetail(props) {
     const dispatch = useDispatch();
@@ -17,13 +17,24 @@ export default function DonHangDetail(props) {
         return a;
     }
 
+    function hamChuyenDoiNgay(date) {
+        var strDate = '';
+        var now = new Date();
+        var ngay = date.getDate().toString();
+        var thang = (date.getMonth()+1).toString();
+        var nam = date.getFullYear().toString();
+
+        strDate = ngay + '/' + thang + '/' + nam;
+        return strDate;
+    }
+
     async function LayChiTietDonHangTheoIDDonHang(idDonHang) {
         let res = await axios('hethong/order-details?idOrder=' + idDonHang);
 
         if (res.data.status === 'success') {
             setDataChiTietDonHang(res.data.data);
         } else {
-            alert('Lấy data chi tiết đơn hàng thất bại');
+            message.error('Lấy data chi tiết đơn hàng thất bại');
         }
     }
 
@@ -33,7 +44,7 @@ export default function DonHangDetail(props) {
         if (res.data.status === 'success') {
             setDataLichSu(res.data.data);
         } else {
-            alert('Lấy data lịch sử thất bại');
+            message.error('Lấy data lịch sử thất bại');
         }
     }
 
@@ -232,7 +243,7 @@ export default function DonHangDetail(props) {
                                                                                         </div>
                                                                                         <div className='col-sm-6'>
                                                                                             {
-                                                                                                item2.ngayThucHien !== '' ? new Date(item2.ngayThucHien).toString() : '...'
+                                                                                                item2.ngayThucHien !== '' ? hamChuyenDoiNgay(new Date(item2.ngayThucHien)) : '...'
                                                                                             }
                                                                                         </div>
                                                                                     </div>

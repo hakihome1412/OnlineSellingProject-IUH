@@ -1,8 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Form, Input, Menu, Checkbox, Radio, Select, message } from 'antd';
-import { UserOutlined, OrderedListOutlined, CreditCardOutlined } from '@ant-design/icons';
+import { Form, Input, Checkbox, Radio, Select, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, Switch, Route, useRouteMatch } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { useCookies } from 'react-cookie';
@@ -49,7 +47,7 @@ export default function Account() {
         matKhauMoi: '',
         nhapLai: ''
     })
-    const { SubMenu } = Menu;
+
     const layout = {
         labelCol: {
             span: 3,
@@ -96,7 +94,7 @@ export default function Account() {
         if (res.data.status === 'success') {
             setDataUser(res.data.data);
         } else {
-            alert('Lấy data User thất bại');
+            message.error('Lấy data user thất bại');
         }
     }
 
@@ -289,8 +287,6 @@ export default function Account() {
 
                         <Form.Item {...tailLayout}>
                             <Button variant='warning' style={{ width: 200 }} onClick={() => {
-                                // CapNhatTaiKhoan(cookies.userID);
-                                // console.log(thongTinSua)
                                 KiemTraDuLieuHopLe();
                             }}>Cập nhật</Button>
                         </Form.Item>

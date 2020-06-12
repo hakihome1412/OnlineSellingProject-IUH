@@ -177,19 +177,30 @@ module.exports = {
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colBrand = db.collection('BRANDS');
-        let result = await colBrand.insertOne(brandThem);
-        client.close();
-        if (result.insertedCount > 0) {
-            res.status(200).json({
-                status: 'success',
-                message: 'Thêm thành công'
-            });
+        const brandTrung = await colBrand.findOne({ ten: brandThem.ten });
+
+        if (brandTrung === null) {
+            let result = await colBrand.insertOne(brandThem);
+            client.close();
+            if (result.insertedCount > 0) {
+                res.status(200).json({
+                    status: 'success',
+                    message: 'Thêm thành công'
+                });
+            } else {
+                res.status(200).json({
+                    status: 'fail',
+                    message: 'Thêm thất bại!'
+                })
+            }
         } else {
+            client.close();
             res.status(200).json({
                 status: 'fail',
-                message: 'Thêm thất bại!'
+                message: 'Thương hiệu này đã tồn tại'
             })
         }
+
     },
 
     XoaBrand: async function (req, res) {

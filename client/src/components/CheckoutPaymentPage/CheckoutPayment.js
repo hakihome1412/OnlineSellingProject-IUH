@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
-import { Steps, Radio, Form, Select } from 'antd';
+import { Steps, Radio, Form, Select, message } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Image } from 'react-bootstrap';
 import ids from 'short-id';
@@ -14,7 +14,7 @@ export default function CheckoutPayment() {
     const [dataGioHangNew, setDataGioHangNew] = useState([]);
     const [cookies, setCookie, removeCookie] = useCookies();
     const { Step } = Steps;
-    const { Option } = Select;
+    // const { Option } = Select;
     const [valueRadioGiaoHang, setValueRadioGiaoHang] = useState(0);
     const [valueRadioThanhToan, setValueRadioThanhToan] = useState(0);
     const thongTinDatHang = useSelector(state => state.thongTinDatHang);
@@ -25,14 +25,14 @@ export default function CheckoutPayment() {
         loaiGiamGia: '',
         giaTriGiam: ''
     });
-    const layout = {
-        labelCol: {
-            span: 0,
-        },
-        wrapperCol: {
-            span: 12,
-        },
-    };
+    // const layout = {
+    //     labelCol: {
+    //         span: 0,
+    //     },
+    //     wrapperCol: {
+    //         span: 12,
+    //     },
+    // };
     const [idVoucher, setIdVoucher] = useState(localStorage.getItem('idVoucher'));
     const [dataGioHang, setDataGioHang] = useState(JSON.parse(localStorage.getItem('dataGioHang')));
     const steps = [
@@ -176,21 +176,21 @@ export default function CheckoutPayment() {
 
     }
 
-    function ThanhToan_ATMnoidia() {
-        let res = axios.post('hethong/vnpay-them', {
-            amount: tinhThanhTien(tienTamTinh(dataGioHangNew), dataVoucher, 0),
-            bankCode: valueNganHang,
-            orderDescription: 'Trả tiền mua hàng cho TiemDo',
-            orderType: 'billpayment',
-            language: 'vn'
-        })
+    // function ThanhToan_ATMnoidia() {
+    //     let res = axios.post('hethong/vnpay-them', {
+    //         amount: tinhThanhTien(tienTamTinh(dataGioHangNew), dataVoucher, 0),
+    //         bankCode: valueNganHang,
+    //         orderDescription: 'Trả tiền mua hàng cho TiemDo',
+    //         orderType: 'billpayment',
+    //         language: 'vn'
+    //     })
 
-        // if(res.data.status === 'success'){
-        //     alert('VNPAY ok');
-        // }else{
-        //     alert('Thanh toán thất bại');
-        // }
-    }
+    //     if(res.data.status === 'success'){
+    //         alert('VNPAY ok');
+    //     }else{
+    //         alert('Thanh toán thất bại');
+    //     }
+    // }
 
     async function TaoDonHang_ThanhToan_COD(dataGioHang) {
         let res = await axios.post('hethong/orders-them', {
@@ -210,12 +210,12 @@ export default function CheckoutPayment() {
         });
 
         if (res.data.status === 'success') {
-            alert('Đã tạo đơn hàng thành công');
+            message.success('Đã tạo đơn hàng thành công');
             localStorage.setItem('dataGioHang', '[]');
             localStorage.setItem('idVoucher', undefined);
             history.push('/checkout/payment/success/' + thongTinDonHang.idShow);
         } else {
-            alert('Đã tạo đơn hàng thất bại');
+            message.error('Đã tạo đơn hàng thất bại');
         }
     }
 
@@ -237,26 +237,26 @@ export default function CheckoutPayment() {
         });
 
         if (res.data.status === 'success') {
-            alert('Đã tạo đơn hàng thành công');
+            message.success('Đã tạo đơn hàng thành công');
             history.push('/checkout/payment/success/' + thongTinDonHang.idShow);
             localStorage.setItem('dataGioHang', '[]');
             localStorage.setItem('idVoucher', undefined);
         } else {
-            alert('Đã tạo đơn hàng thất bại');
+            message.error('Đã tạo đơn hàng thất bại');
         }
     }
 
-    async function ThanhToan_MoMo(dataGioHang) {
-        let res = await axios.post('hethong/gw_payment/transactionProcessor', {
-            amount: tinhThanhTien(tienTamTinh(dataGioHangNew), dataVoucher, 0).toString(),
-            orderInfo: thongTinDonHang.idShow
-        });
-        if (res.data.status === 'success') {
-            window.location.assign(res.data.data);
-        } else {
-            alert('Thanh toán MoMo thất bại');
-        }
-    }
+    // async function ThanhToan_MoMo(dataGioHang) {
+    //     let res = await axios.post('hethong/gw_payment/transactionProcessor', {
+    //         amount: tinhThanhTien(tienTamTinh(dataGioHangNew), dataVoucher, 0).toString(),
+    //         orderInfo: thongTinDonHang.idShow
+    //     });
+    //     if (res.data.status === 'success') {
+    //         window.location.assign(res.data.data);
+    //     } else {
+    //         alert('Thanh toán MoMo thất bại');
+    //     }
+    // }
 
     useEffect(() => {
         KiemTraVoucher(idVoucher);
@@ -325,7 +325,7 @@ export default function CheckoutPayment() {
                                     <Radio style={radioStyle} value={1}>
                                         Thanh toán bằng Paypal
                                 </Radio>
-                                    <Radio style={radioStyle} value={2}>
+                                    {/* <Radio style={radioStyle} value={2}>
                                         Thanh toán bằng thẻ ATM nội địa/Internet Banking
                                 </Radio>
                                 <Radio style={radioStyle} value={3}>
@@ -362,7 +362,7 @@ export default function CheckoutPayment() {
                                                 </Form.Item>
                                             </Form>
                                         )
-                                    }
+                                    } */}
                                 </Radio.Group>
                             </div>
                         </div>
@@ -420,13 +420,13 @@ export default function CheckoutPayment() {
                                 )
                             }
 
-                            {
+                            {/* {
                                 valueRadioThanhToan === 3 && (
                                     <Button style={{ width: 300 }} variant="danger" size='lg' onClick={() => {
                                         ThanhToan_MoMo()
                                     }}>ĐẶT MUA</Button>
                                 )
-                            }
+                            } */}
 
                             {
                                 valueRadioThanhToan === 1 && (
@@ -460,13 +460,13 @@ export default function CheckoutPayment() {
                                 )
                             }
 
-                            {
+                            {/* {
                                 valueRadioThanhToan === 2 && (
                                     <Button style={{ width: 300 }} variant="danger" size='lg' onClick={() => {
                                         ThanhToan_ATMnoidia()
                                     }}>ĐẶT MUA</Button>
                                 )
-                            }
+                            } */}
 
 
                             <p style={{ marginTop: 5 }}>(Xin vui lòng kiểm tra lại đơn hàng trước khi Đặt mua)</p>

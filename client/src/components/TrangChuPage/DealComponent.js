@@ -1,7 +1,5 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment} from 'react';
 import { Button, Image } from 'react-bootstrap';
-import { ItemComponent } from '../allJS'
-import { axios } from '../../config/constant';
 import { Link } from 'react-router-dom';
 
 export default function DealComponent(props) {

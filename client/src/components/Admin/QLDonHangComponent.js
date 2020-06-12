@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Button, Form, Row, Col, Table, Spinner } from 'react-bootstrap';
-import { Pagination, Input } from 'antd';
+import { Pagination, Input, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
 
@@ -14,30 +14,35 @@ export default function QLDonHangComponent() {
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [trangThaiShow, setTrangThaiShow] = useState([]);
 
+    function hamChuyenDoiNgay(date) {
+        var strDate = '';
+        var now = new Date();
+        var ngay = date.getDate().toString();
+        var thang = (date.getMonth()+1).toString();
+        var nam = date.getFullYear().toString();
+
+        strDate = ngay + '/' + thang + '/' + nam;
+        return strDate;
+    }
+
     async function LayDataDonHangTheoTrang(page) {
         dispatch({ type: 'SPINNER_DATABASE' });
         let resData = await axios.get('hethong/orders/' + page);
-        //alert(JSON.stringify(resData.data));
-        //setDataCarousel(resData.data.status);
         if (resData.data.status === 'success') {
-            //alert(JSON.stringify(resData.data.data));
             setDataDonHang(resData.data.data);
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data đơn hàng thất bại");
         }
     }
 
     async function LayDataChiTietDonHang_TheoIDDonHang(idDonHang) {
         let resData = await axios.get('hethong/order-details-all');
-        //alert(JSON.stringify(resData.data));
-        //setDataCarousel(resData.data.status);
         if (resData.data.status === 'success') {
-            //alert(JSON.stringify(resData.data.data));
             setDataChiTietDonHang(resData.data.data);
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data chi tiết đơn hàng thất bại");
         }
     }
 
@@ -49,7 +54,7 @@ export default function QLDonHangComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data đơn hàng theo search thất bại");
         }
     }
 
@@ -122,7 +127,7 @@ export default function QLDonHangComponent() {
                                                 <td>{item.idUser}</td>
                                                 <td>{item.soLuongSanPham}</td>
                                                 <td>{format_curency(item.tongTien.toString())}</td>
-                                                <td>{new Date(item.ngayTao).toString()}</td>
+                                                <td>{hamChuyenDoiNgay(new Date(item.ngayTao))}</td>
                                                 <td>
                                                     <center>
                                                         <a style={{ color: trangThaiShow[i] === true ? 'white' : 'blue' }} href='/' onClick={(e) => {

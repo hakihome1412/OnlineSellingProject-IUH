@@ -534,33 +534,50 @@ module.exports = {
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colUser = db.collection('USERS');
-        let result = await colUser.updateOne({ _id: ObjectId(shopThem._id) },
-            {
-                $set:
-                {
-                    thongTinShop: {
-                        idShop: shopThem.idShop,
-                        ten: shopThem.ten,
-                        lowerTen: shopThem.lowerTen,
-                        diaChi: shopThem.diaChi,
-                        logoShop: shopThem.logoShop,
-                        ngayTao: shopThem.ngayTao,
-                        moTa: shopThem.moTa,
-                        img: {
-                            carousel: [],
-                            banner1: '',
-                            banner2: ''
-                        }
-                    },
-                    vaiTro: 1
-                }
-            });
-        client.close();
-        res.status(200).json({
-            status: 'success',
-            message: 'Sửa thành công'
-        });
+        const allShop = await colUser.find({}).toArray();
 
+        var trungTenShop = false;
+
+        for (let index = 0; index < allShop.length; index++) {
+            if (shopThem.ten === allShop[index].thongTinShop.ten) {
+                trungTenShop = true;
+                break;
+            }
+        }
+
+        if (trungTenShop) {
+            res.status(200).json({
+                status: 'fail',
+                message: 'Tên shop này đã tồn tại'
+            });
+        } else {
+            let result = await colUser.updateOne({ _id: ObjectId(shopThem._id) },
+                {
+                    $set:
+                    {
+                        thongTinShop: {
+                            idShop: shopThem.idShop,
+                            ten: shopThem.ten,
+                            lowerTen: shopThem.lowerTen,
+                            diaChi: shopThem.diaChi,
+                            logoShop: shopThem.logoShop,
+                            ngayTao: shopThem.ngayTao,
+                            moTa: shopThem.moTa,
+                            img: {
+                                carousel: [],
+                                banner1: '',
+                                banner2: ''
+                            }
+                        },
+                        vaiTro: 1
+                    }
+                });
+            client.close();
+            res.status(200).json({
+                status: 'success',
+                message: 'Sửa thành công'
+            });
+        }
     },
 
     SuaThietKeShop: async function (req, res) {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Modal, Spinner, Button } from 'react-bootstrap';
-import { Form, Input, Select } from 'antd';
+import { Form, Input, Select, message } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
 
@@ -10,6 +10,7 @@ export default function ModalChiTietDonHang_ChuShop(props) {
     const { Option } = Select;
     const { TextArea } = Input;
     const dispatch = useDispatch();
+    const [statusMessageError, setStatusMessageError] = useState(-1);
     const [showButtonHuy, setShowButtonHuy] = useState(false);
     const showChiTietDonHang_ChuShop = useSelector(state => state.showChiTietDonHang_ChuShop);
     const [spinnerChiTietDonHang, setSpinnerChiTietDonHang] = useState(0);
@@ -46,17 +47,19 @@ export default function ModalChiTietDonHang_ChuShop(props) {
             dispatch({ type: 'RELOAD_DATABASE' });
             setStatusSua(0);
             setSpinnerSuaChiTietDonHang(-1);
-            alert("Sửa thành công");
+            message.success("Cập nhật trạng thái thành công");
+            dispatch({ type: 'CLOSE_CHITIET_DONHANG_CHUSHOP' });
             setDisableOptions(false);
         } else {
-            alert('Cập nhật trạng thái thất bại')
+            message.error('Cập nhật trạng thái thất bại');
+            dispatch({ type: 'CLOSE_CHITIET_DONHANG_CHUSHOP' });
         }
     }
 
     async function SuaChiTietDonHang(idOrderDetail) {
         setSpinnerSuaChiTietDonHang(1);
         setDisableOptions(false);
-        if (statusSua === 1) { //làm thêm cập nhật lịch sử
+        if (statusSua === 1) {
             let resData = await axios.put('hethong/order-details-sua', {
                 id: idOrderDetail,
                 trangThai: chiTietSua.trangThai,
@@ -70,11 +73,12 @@ export default function ModalChiTietDonHang_ChuShop(props) {
                 setStatusSua(0);
                 setDisableOptions(true);
                 dispatch({ type: 'NO_RELOAD_DATABASE' });
-                alert("Sửa thất bại");
+                message.error("Sửa thất bại");
             }
 
         } else {
-            alert("fail 1");
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
+            dispatch({ type: 'CLOSE_CHITIET_DONHANG_CHUSHOP' });
         }
     }
 
@@ -106,7 +110,7 @@ export default function ModalChiTietDonHang_ChuShop(props) {
             onShow={() => {
                 setDisableOptions(false);
                 setStatusSua(0);
-                console.log(chiTietNow)
+                setStatusMessageError(-1);
             }}>
             {
                 spinnerChiTietDonHang === 1 && (
@@ -206,21 +210,30 @@ export default function ModalChiTietDonHang_ChuShop(props) {
                             </Form.Item>
 
                             <Form.Item>
+                                {
+                                    statusMessageError === 0 && (
+                                        <p style={{ color: 'red', lineHeight: 1.5 }}>Không thể cập nhật lại trạng thái đã có từ trước đó</p>
+                                    )
+                                }
                                 <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
                                     if (statusSua === 0) {
                                         setStatusSua(1);
                                         setDisableOptions(true);
                                     } else {
                                         if (chiTietSua.trangThai < chiTietNow.trangThai) {
-                                            alert('Không được sửa trạng thái đã có trước đó. Vui lòng chọn lại !');
+                                            setStatusMessageError(0);
                                         } else {
+                                            setStatusMessageError(-1);
                                             SuaChiTietDonHang(chiTietNow.idShow);
                                         }
                                     }
-                                    setChiTietSua({
-                                        trangThai: chiTietNow.trangThai,
-                                        ghiChu: chiTietNow.ghiChu
-                                    });
+                                    if (statusSua === 0) {
+                                        setChiTietSua({
+                                            trangThai: chiTietNow.trangThai,
+                                            ghiChu: chiTietNow.ghiChu
+                                        });
+                                    }
+
                                 }}>
                                     {
                                         statusSua === 0 && spinnerSuaChiTietDonHang === -1 ? "Sửa" : "Lưu"

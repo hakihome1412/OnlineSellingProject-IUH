@@ -8,6 +8,7 @@ import { storage } from '../../firebase/firebase';
 export default function ModalThemCategory() {
     const [firstTime, setFirstTime] = useState(true);
     const [imageAsFile, setImageAsFile] = useState([]);
+    const [statusMessageError, setStatusMessageError] = useState(-1);
     const [countAnhDaUploadThanhCong, setCountAnhDaUploadThanhCong] = useState(0);
     const showModalThemCategoryReducer = useSelector(state => state.showModalThemCategory);
     const [spinnerThemCategory, setSpinnerThemCategory] = useState(-1);
@@ -65,9 +66,10 @@ export default function ModalThemCategory() {
 
     function KiemTraDuLieuNhap(data) {
         if (data.ten === '') {
-            alert('Vui lòng nhập đủ dữ liệu cần thiết');
+            setStatusMessageError(0);
         } else {
             ThemCategory()
+            setStatusMessageError(-1);
         }
     }
 
@@ -110,6 +112,7 @@ export default function ModalThemCategory() {
                 setImageAsFile([]);
                 setFirstTime(true);
                 setCountAnhDaUploadThanhCong(0);
+                setStatusMessageError(-1);
                 setDataThem({
                     ten: '',
                     icon: '',
@@ -163,7 +166,12 @@ export default function ModalThemCategory() {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
+                    {
+                        statusMessageError === 0 && (
+                            <p style={{ color: 'red', lineHeight: 1.5 }}>Thông tin tạo mới danh mục sản phẩm không hợp lệ. Vui lòng kiểm tra lại</p>
+                        )
+                    }
+                    <Button type="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
                         KiemTraDuLieuNhap(dataThem)
                     }}>
                         {

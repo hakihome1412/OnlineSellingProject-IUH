@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Tabs, Pagination, Select, Input } from 'antd';
+import { Tabs, Pagination, Select, Input, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
@@ -34,7 +34,7 @@ export default function BanHang_DanhSachGiamGia() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data sản phẩm theo search thất bại");
         }
     }
 
@@ -46,7 +46,7 @@ export default function BanHang_DanhSachGiamGia() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data sản phẩm giảm giá thất bại");
         }
     }
 
@@ -58,7 +58,7 @@ export default function BanHang_DanhSachGiamGia() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data sản phẩm không giảm giá thất bại");
         }
     }
 

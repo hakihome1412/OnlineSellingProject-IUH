@@ -10,6 +10,7 @@ export default function ErrorPhanQuyen() {
     useEffect(()=>{
         dispatch({type:'CLOSE_HEADER'});
     },[])
+    
     return (
         <Result
             status="403"

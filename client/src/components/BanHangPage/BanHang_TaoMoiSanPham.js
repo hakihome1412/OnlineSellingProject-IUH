@@ -1,23 +1,23 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Form, Input, Tabs, Select } from 'antd';
+import { Form, Input, Tabs, Select, message } from 'antd';
 import { axios } from '../../config/constant';
 import { Link } from 'react-router-dom';
 import { Modal, Button, Spinner } from 'react-bootstrap';
 import { storage } from "../../firebase/firebase";
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { useCookies } from 'react-cookie';
+import { QuillEditor } from '../allJS'
 
 export default function BanHang_TaoMoiSanPham(props) {
     const [cookies, setCookie] = useCookies();
     const [shopID, setShopID] = useState(cookies.shopID);
+    const [files, setFiles] = useState([])
     const { TabPane } = Tabs;
     const { Option } = Select;
     const [countAnhDaUploadThanhCong, setCountAnhDaUploadThanhCong] = useState(0);
-    const [countAnhDaUploadThanhCong_MoTaChiTiet, setCountAnhDaUploadThanhCong_MoTaChiTiet] = useState(0);
     const [countAnhDaUploadThanhCong_Chinh, setCountAnhDaUploadThanhCong_Chinh] = useState(0);
     const [countAnhDaUploadThanhCong_Phu, setCountAnhDaUploadThanhCong_Phu] = useState(0);
     const [firstTime, setFirstTime] = useState(true);
-    const [firstTime2, setFirstTime2] = useState(true);
     const [firstTime3, setFirstTime3] = useState(true);
     const [firstTime4, setFirstTime4] = useState(true);
     const [dataCategory, setDataCategory] = useState([]);
@@ -43,16 +43,15 @@ export default function BanHang_TaoMoiSanPham(props) {
         ten: '',
         img: {
             chinh: '',
-            phu: [],
-            moTaChiTiet: []
+            phu: []
         },
-        gia: '',
+        gia: 0,
         noiSanXuat: '',
-        moTa: [],
+        moTa: '',
         moTaNganGon: [],
         soSao: 0,
         giaTriGiamGia: 0,
-        soLuong: '',
+        soLuong: 0,
         thongTinBaoHanh: {
             baoHanh: true,
             loaiBaoHanh: '',
@@ -69,11 +68,9 @@ export default function BanHang_TaoMoiSanPham(props) {
         isDelete: false
     });
     const [imageAsFile, setImageAsFile] = useState([]);
-    const [imageAsFile_MoTaChiTiet, setImageAsFile_MoTaChiTiet] = useState([]);
     const [imageAsFile_Chinh, setImageAsFile_Chinh] = useState([]);
     const [imageAsFile_Phu, setImageAsFile_Phu] = useState([]);
     const [imageAsUrl, setImageAsUrl] = useState([]);
-    const [imageAsUrl_MoTaChiTiet, setImageAsUrl_MoTaChiTiet] = useState([]);
     const [imageAsUrl_Chinh, setImageAsUrl_Chinh] = useState([]);
     const [imageAsUrl_Phu, setImageAsUrl_Phu] = useState([]);
     const [dataThem, setDataThem] = useState({
@@ -84,12 +81,12 @@ export default function BanHang_TaoMoiSanPham(props) {
     const [showModalTaoMoiBrand, setShowModalTaoMoiBrand] = useState(false);
     const [showModalTaoPhanLoai, setShowModalTaoPhanLoai] = useState(false);
     const layout = {
-        labelCol: { span: 3 },
+        labelCol: { span: 4 },
         wrapperCol: { span: 16 },
     };
 
     const tailLayout = {
-        wrapperCol: { offset: 3, span: 16 },
+        wrapperCol: { offset: 4, span: 16 },
     };
 
     const onFinish = values => {
@@ -143,47 +140,6 @@ export default function BanHang_TaoMoiSanPham(props) {
         setImageAsUrl(listUrl);
     }
 
-    const handleChangeIMG_MotaChiTiet = (e) => {
-        var soLuongFile = e.target.files.length;
-        var listFile = [];
-        var listUrl = [];
-        for (let index = 0; index < soLuongFile; index++) {
-            listFile.push(e.target.files[index]);
-        }
-
-        setImageAsFile_MoTaChiTiet(listFile);
-
-        if (listFile.length === 0) {
-            console.log('Không có file nào được upload');
-        } else {
-            for (let index = 0; index < soLuongFile; index++) {
-                console.log('start of upload');
-                // async magic goes here...
-                if (listFile[index] === '') {
-                    console.error(`not an image, the image file is a ${typeof (listFile[index])}`);
-                }
-                const uploadTask = storage.ref(`/images/${listFile[index].name}`).put(listFile[index]);
-                uploadTask.on('state_changed',
-                    (snapShot) => {
-                        //takes a snap shot of the process as it is happening
-                        console.log(snapShot);
-                    }, (err) => {
-                        //catches the errors
-                        console.log(err)
-                    }, () => {
-                        // gets the functions from storage refences the image storage in firebase by the children
-                        // gets the download url then sets the image from firebase as the value for the imgUrl key:
-                        storage.ref('images').child(listFile[index].name).getDownloadURL()
-                            .then(fireBaseUrl => {
-                                // setImageAsUrl(prevObject => ({ ...prevObject, imageAsUrl: fireBaseUrl }))
-                                listUrl.push(fireBaseUrl);
-                                setCountAnhDaUploadThanhCong_MoTaChiTiet(countPrev => countPrev + 1);
-                            })
-                    })
-            }
-        }
-        setImageAsUrl_MoTaChiTiet(listUrl);
-    }
 
     const handleChangeIMG_Chinh = (e) => {
         var soLuongFile = e.target.files.length;
@@ -263,7 +219,7 @@ export default function BanHang_TaoMoiSanPham(props) {
                                 listUrl.push(fireBaseUrl);
                                 setDataThem({
                                     ...dataThem,
-                                    img:fireBaseUrl
+                                    img: fireBaseUrl
                                 });
                                 setCountAnhDaUploadThanhCong_Phu(countPrev => countPrev + 1);
                             })
@@ -273,12 +229,54 @@ export default function BanHang_TaoMoiSanPham(props) {
         setImageAsUrl_Phu(listUrl);
     }
 
+    const onEditorChange = (value) => {
+        setDataTaoMoiSanPham({
+            ...dataTaoMoiSanPham,
+            moTa: value
+        })
+    }
+
+    const onFilesChange = (files) => {
+        setFiles(files)
+    }
+
+    function KiemTraDuLieuNhap() {
+        const regSo = /^[0-9\b]+$/;
+        if (dataTaoMoiSanPham.ten === '' || dataTaoMoiSanPham.idCategory === '' || dataTaoMoiSanPham.idBrand === '' || dataTaoMoiSanPham.noiSanXuat === ''
+            || dataTaoMoiSanPham.moTaNganGon.length === 0 || dataTaoMoiSanPham.img.chinh === '' || dataTaoMoiSanPham.gia === 0 || dataTaoMoiSanPham.soLuong === 0) {
+            message.error('Thông tin tạo mới sản phẩm không hợp lệ. Vui lòng kiểm tra lại');
+        } else {
+            if (!dataTaoMoiSanPham.gia.toString().match(regSo)) {
+                message.error('Giá gốc không hợp lệ')
+            } else {
+                if (!dataTaoMoiSanPham.giaTriGiamGia.toString().match(regSo)) {
+                    message.error('Giá trị giảm giá không hợp lệ')
+                } else {
+                    if (!dataTaoMoiSanPham.soLuong.toString().match(regSo)) {
+                        message.error('Giá trị số lượng sản phẩm không hợp lệ')
+                    } else {
+                        // message.success('ok')
+                        ThemSanPham();
+                    }
+                }
+            }
+        }
+    }
+
+    function KiemTraDuLieuNhapThemMoiThuongHieu() {
+        if (dataThem.ten === '' || dataThem.xuatXu === '') {
+            message.error('Dữ liệu thêm mới thương hiệu không hợp lệ. Vui lòng kiểm tra lại');
+        } else {
+            ThemBrand();
+        }
+    }
+
     async function LayDataCategoryAll() {
         let resData = await axios.get('hethong/categorys');
         if (resData.data.status === 'success') {
             setDataCategory(resData.data.data);
         } else {
-            alert("Lấy data Category thất bại");
+            message.error("Lấy data danh mục thất bại");
         }
     }
 
@@ -287,7 +285,7 @@ export default function BanHang_TaoMoiSanPham(props) {
         if (resData.data.status === 'success') {
             setDataBrand(resData.data.data);
         } else {
-            alert("Lấy data Brand thất bại");
+            message.error("Lấy data thương hiệu thất bại");
         }
     }
 
@@ -296,7 +294,7 @@ export default function BanHang_TaoMoiSanPham(props) {
         if (resData.data.status === 'success') {
             setDataCountries(resData.data.data);
         } else {
-            alert("Lấy data Countries thất bại");
+            message.error("Lấy data Countries thất bại");
         }
     }
 
@@ -308,11 +306,11 @@ export default function BanHang_TaoMoiSanPham(props) {
         });
 
         if (res.data.status === 'success') {
-            alert("Thêm thành công");
+            message.success("Thêm thành công danh mục mới");
             setSpinnerBrand(true);
             setShowModalTaoMoiBrand(false);
         } else {
-            alert("Thêm thất bại");
+            message.error(res.data.message);
             setShowModalTaoMoiBrand(false);
         }
     }
@@ -363,10 +361,10 @@ export default function BanHang_TaoMoiSanPham(props) {
         });
 
         if (res.data.status === 'success') {
-            alert("Thêm thành công");
+            message.success("Thêm thành công");
             window.location.reload();
         } else {
-            alert("Thêm thất bại");
+            message.error(res.data.message);
         }
     }
 
@@ -374,6 +372,7 @@ export default function BanHang_TaoMoiSanPham(props) {
         LayDataCategoryAll();
         LayDataBrandAll();
         LayDataCountriesAll();
+        window.scrollTo(0, 0);
     }, []);
 
     useEffect(() => {
@@ -394,34 +393,22 @@ export default function BanHang_TaoMoiSanPham(props) {
     useEffect(() => {
         if (firstTime === false) {
             if (imageAsFile.length === 0) {
-                alert('Vui lòng chọn ảnh cho Thương hiệu')
+                message.error('Vui lòng chọn ảnh cho Thương hiệu')
             } else {
                 if (countAnhDaUploadThanhCong === imageAsFile.length) {
-                    alert('Upload ảnh thương hiệu thành công');
+                    message.success('Upload ảnh thương hiệu thành công');
                 }
             }
         }
     }, [countAnhDaUploadThanhCong])
 
     useEffect(() => {
-        if (firstTime2 === false) {
-            if (imageAsFile_MoTaChiTiet.length === 0) {
-                alert('Vui lòng chọn ảnh cho Mô tả chi tiết')
-            } else {
-                if (countAnhDaUploadThanhCong_MoTaChiTiet === imageAsFile_MoTaChiTiet.length) {
-                    alert('Upload các ảnh mô tả chi tiết thành công');
-                }
-            }
-        }
-    }, [countAnhDaUploadThanhCong_MoTaChiTiet])
-
-    useEffect(() => {
         if (firstTime3 === false) {
             if (imageAsFile_Chinh.length === 0) {
-                alert('Vui lòng chọn ảnh chính cho sản phẩm')
+                message.error('Vui lòng chọn ảnh chính cho sản phẩm')
             } else {
                 if (countAnhDaUploadThanhCong_Chinh === imageAsFile_Chinh.length) {
-                    alert('Upload ảnh chính cho sản phẩm thành công');
+                    message.success('Upload ảnh chính cho sản phẩm thành công');
                 }
             }
         }
@@ -430,19 +417,19 @@ export default function BanHang_TaoMoiSanPham(props) {
     useEffect(() => {
         if (firstTime4 === false) {
             if (imageAsFile_Phu.length === 0) {
-                alert('Vui lòng chọn ảnh phụ cho sản phẩm')
+                message.error('Vui lòng chọn ảnh phụ cho sản phẩm')
             } else {
                 if (countAnhDaUploadThanhCong_Phu === imageAsFile_Phu.length) {
-                    alert('Upload các ảnh phụ cho sản phẩm thành công');
+                    message.success('Upload các ảnh phụ cho sản phẩm thành công');
                 }
             }
         }
     }, [countAnhDaUploadThanhCong_Phu])
 
-
-
     return (
         <Fragment>
+
+            {/* MODAL THÊM THƯƠNG HIỆU MỚI */}
             <Modal show={showModalTaoMoiBrand} size="lg" animation={false} onHide={() => {
                 setShowModalTaoMoiBrand(false);
             }}>
@@ -469,6 +456,7 @@ export default function BanHang_TaoMoiSanPham(props) {
                         rules={[{ required: true, message: 'Vui lòng chọn xuất xứ' }]}
                     >
                         <Select
+                            showSearch
                             style={{ width: '100%' }}
                             placeholder="Chọn xuất xứ"
                             optionFilterProp="children"
@@ -494,10 +482,9 @@ export default function BanHang_TaoMoiSanPham(props) {
 
                     <Form.Item
                         label="Ảnh đại diện"
-                        name="username"
-                        rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
+                        name="username">
                         <div className='row' style={{ marginLeft: 2 }}>
-                            <input type='file'
+                            <input type='file' accept="image/*"
                                 onChange={(e) => {
                                     handleChange(e);
                                     setCountAnhDaUploadThanhCong(0);
@@ -520,12 +507,14 @@ export default function BanHang_TaoMoiSanPham(props) {
                     <Form.Item
                         name='buttontaomoibrand'>
                         <Button type="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
-                            ThemBrand();
+                            KiemTraDuLieuNhapThemMoiThuongHieu();
                         }}>Tạo Mới</Button>
                     </Form.Item>
                 </Form>
             </Modal>
 
+
+            {/* MODAL THÊM PHÂN LOẠI */}
             <Modal show={showModalTaoPhanLoai} size="lg" animation={false} onHide={() => {
                 setShowModalTaoPhanLoai(false);
             }}>
@@ -624,8 +613,7 @@ export default function BanHang_TaoMoiSanPham(props) {
                     <Form.Item
                         name='luuphanloai'>
                         <Button type="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
-                            // setShowModalTaoPhanLoai(false);
-                            console.log(dataPhanLoai)
+                            setShowModalTaoPhanLoai(false);
                         }}>Lưu</Button>
                     </Form.Item>
                 </Form>
@@ -789,15 +777,14 @@ export default function BanHang_TaoMoiSanPham(props) {
                                                         >
                                                             <Input placeholder={'Đặc điểm ' + (index + 1)} style={{ width: '95%' }}
                                                                 onBlur={(e) => {
-                                                                    var newArray = dataTaoMoiSanPham.moTaNganGon;
-                                                                    newArray.push(e.target.value);
-                                                                    setDataTaoMoiSanPham({
-                                                                        ...dataTaoMoiSanPham,
-                                                                        moTaNganGon: newArray
-                                                                    })
-                                                                }}
-                                                                onChange={(e) => {
-                                                                    dataTaoMoiSanPham.moTaNganGon.splice(parseInt(field.name), 1);
+                                                                    if (e.target.value !== dataTaoMoiSanPham.moTaNganGon[index]) {
+                                                                        var newArray = dataTaoMoiSanPham.moTaNganGon;
+                                                                        newArray[index] = e.target.value
+                                                                        setDataTaoMoiSanPham({
+                                                                            ...dataTaoMoiSanPham,
+                                                                            moTaNganGon: newArray
+                                                                        })
+                                                                    }
                                                                 }} />
                                                         </Form.Item>
                                                         {fields.length > 1 ? (
@@ -833,108 +820,22 @@ export default function BanHang_TaoMoiSanPham(props) {
 
                             <Form.Item
                                 label="Mô tả chi tiết"
-                                name="motachitiet"
-                                rules={[{ required: true }]}
-                            >
-                                <Form.List name="motachitiet">
-                                    {(fields, { add, remove }) => {
-                                        return (
-                                            <div>
-                                                {fields.map((field, index) => (
-                                                    <Form.Item
-                                                        name={'phanmotachitiet' + field.name}
-                                                        required={false}
-                                                        key={field.key}
-                                                    >
-                                                        <Form.Item
-                                                            {...field}
-                                                            name={'motachitiet' + field.name}
-                                                            validateTrigger={['onChange', 'onBlur']}
-                                                            rules={[
-                                                                {
-                                                                    required: true,
-                                                                    whitespace: true,
-                                                                    message: "Vui lòng nhập mô tả hoặc xóa nó",
-                                                                },
-                                                            ]}
-                                                            noStyle
-                                                        >
-                                                            <Input placeholder={'Mô tả ' + (index + 1)} style={{ width: '95%' }}
-                                                                onBlur={(e) => {
-                                                                    var newArray = dataTaoMoiSanPham.moTa;
-                                                                    newArray.push(e.target.value);
-                                                                    setDataTaoMoiSanPham({
-                                                                        ...dataTaoMoiSanPham,
-                                                                        moTa: newArray
-                                                                    })
-                                                                }}
-                                                                onChange={(e) => {
-                                                                    dataTaoMoiSanPham.moTa.splice(parseInt(field.name), 1);
-                                                                }} />
-                                                            {fields.length > 1 ? (
-                                                                <MinusCircleOutlined
-                                                                    className="dynamic-delete-button"
-                                                                    style={{ margin: '0 8px' }}
-                                                                    onClick={() => {
-                                                                        remove(field.name);
-                                                                        dataTaoMoiSanPham.moTa.splice(parseInt(field.name), 1);
-                                                                    }}
-                                                                />
-                                                            ) : null}
-                                                        </Form.Item>
-
-                                                    </Form.Item>
-                                                ))}
-                                                <Form.Item
-                                                    name='buttonthemmota'>
-                                                    <Button
-                                                        type="dashed"
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            add();
-                                                        }}
-                                                        style={{ width: '95%' }}
-                                                    >
-                                                        <PlusOutlined /> Thêm mô tả
-                                                    </Button>
-                                                </Form.Item>
-                                            </div>
-                                        );
-                                    }}
-                                </Form.List>
-                            </Form.Item>
-
-                            <Form.Item
-                                label="Ảnh cho mô tả"
-                                name="anhmota"
-                                rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
-                                <input type='file'
-                                    multiple
-                                    onChange={(e) => {
-                                        handleChangeIMG_MotaChiTiet(e);
-                                        setCountAnhDaUploadThanhCong_MoTaChiTiet(0);
-                                        setFirstTime2(false);
-                                    }}>
-                                </input>
-                            </Form.Item>
-
-                            <Form.Item
-                                name='showanhchomota'
-                                label="Show ảnh cho mô tả">
-                                {
-                                    imageAsUrl_MoTaChiTiet.map((src, i) => {
-                                        return <img key={i} style={{ marginLeft: 20 }} src={src} alt={'ảnh ' + i} width='200' height='150'></img>
-                                    })
-                                }
+                                name="motachitiet">
+                                <QuillEditor
+                                    placeholder={"Nhập nội dung"}
+                                    onEditorChange={onEditorChange}
+                                    onFilesChange={onFilesChange}
+                                />
                             </Form.Item>
 
 
 
+
                             <Form.Item
-                                label="Ảnh chính cho sản phẩm"
+                                label="Ảnh chính "
                                 name="anhchinh"
                                 rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
-                                <input type='file'
+                                <input type='file' accept="image/*"
                                     onChange={(e) => {
                                         handleChangeIMG_Chinh(e);
                                         setCountAnhDaUploadThanhCong_Chinh(0);
@@ -954,10 +855,9 @@ export default function BanHang_TaoMoiSanPham(props) {
                             </Form.Item>
 
                             <Form.Item
-                                label="Ảnh phụ cho sản phẩm"
-                                name="anhphu"
-                                rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
-                                <input type='file'
+                                label="Ảnh phụ"
+                                name="anhphu">
+                                <input type='file' accept="image/*"
                                     multiple
                                     onChange={(e) => {
                                         handleChangeIMG_Phu(e);
@@ -996,7 +896,7 @@ export default function BanHang_TaoMoiSanPham(props) {
                             <Form.Item
                                 label="Giá trị giảm"
                                 name="giatrigiam">
-                                <Input
+                                <Input defaultValue={0}
                                     onChange={(e) => {
                                         setDataTaoMoiSanPham({
                                             ...dataTaoMoiSanPham,
@@ -1135,40 +1035,38 @@ export default function BanHang_TaoMoiSanPham(props) {
                         <Form.Item {...tailLayout}
                             name='buttontaomoisanpham'>
                             <Button
+                                style={{ width: 200 }}
                                 onClick={() => {
-                                    ThemSanPham();
+                                    KiemTraDuLieuNhap();
                                 }}
                                 onMouseOver={() => {
                                     setDataTaoMoiSanPham({
                                         ...dataTaoMoiSanPham,
                                         img: {
                                             chinh: imageAsUrl_Chinh[0],
-                                            phu: imageAsUrl_Phu,
-                                            moTaChiTiet: imageAsUrl_MoTaChiTiet
+                                            phu: imageAsUrl_Phu
                                         }
                                     })
                                 }}>Tạo mới</Button>
                         </Form.Item>
 
-                        <Form.Item {...tailLayout}
+                        {/* <Form.Item {...tailLayout}
                             name='buttontest'>
                             <Button
                                 onClick={() => {
                                     console.log(dataTaoMoiSanPham)
                                     console.log(dataPhanLoai);
-                                    // alert(JSON.stringify(imageAsUrl_MoTaChiTiet));
                                 }}
                                 onMouseOver={() => {
                                     setDataTaoMoiSanPham({
                                         ...dataTaoMoiSanPham,
                                         img: {
                                             chinh: imageAsUrl_Chinh[0],
-                                            phu: imageAsUrl_Phu,
-                                            moTaChiTiet: imageAsUrl_MoTaChiTiet
+                                            phu: imageAsUrl_Phu
                                         }
                                     })
                                 }}>Test</Button>
-                        </Form.Item>
+                        </Form.Item> */}
                     </Form>
                 </TabPane>
             </Tabs>

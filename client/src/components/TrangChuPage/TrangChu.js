@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MarkettingComponent, DealComponent, HotSearchComponent, ForCustomerComponent } from '../allJS';
 import { axios } from '../../config/constant';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useCookies } from 'react-cookie';
 import { message } from 'antd';
 
@@ -13,14 +13,13 @@ function TrangChu() {
     const [dataSearch, setDataSearch] = useState([]);
     const dispatch = useDispatch();
     const [cookies, setCookie, removeCookie] = useCookies();
-    const statusDangXuat = useSelector(state => state.statusDangXuat);
 
     async function getDataCategory() {
         let resData = await axios.get('hethong/categorys-show');
         if (resData.data.status === 'success') {
             setDataCategory(resData.data.data);
         } else {
-            alert("Lấy dữ liệu data Category thất bại");
+            message.error("Lấy dữ liệu data danh mục sản phẩm thất bại");
         }
     }
 
@@ -38,16 +37,16 @@ function TrangChu() {
         if (resData.data.status === 'success') {
             setDataBaiViet(resData.data.data);
         } else {
-            alert("Lấy dữ liệu data bài viết thất bại");
+            message.error("Lấy dữ liệu data bài viết thất bại");
         }
     }
 
-    async function getDataProductTheoTrang() {
-        let resData = await axios.get('hethong/products-showpage/' + 0);
+    async function getDataProduct() {
+        let resData = await axios.get('hethong/products');
         if (resData.data.status === 'success') {
             setDataProduct(resData.data.data);
         } else {
-            alert("Lấy dữ liệu data Product thất bại");
+            message.error("Lấy dữ liệu data sản phẩm thất bại");
         }
     }
 
@@ -56,7 +55,7 @@ function TrangChu() {
         if (resData.data.status === 'success') {
             setDataProductSale(resData.data.data);
         } else {
-            alert("Lấy dữ liệu data Product Sale thất bại");
+            message.error("Lấy dữ liệu data sản phẩm giảm giá thất bại");
         }
     }
 
@@ -65,7 +64,7 @@ function TrangChu() {
         getDataBaiViet();
         getDataSearch();
         getDataProductDangGiamGiaTheoTrang();
-        getDataProductTheoTrang();
+        getDataProduct();
         removeCookie('shopID');
         if (localStorage.getItem('dataGioHang') === null) {
             localStorage.setItem('dataGioHang', '[]');

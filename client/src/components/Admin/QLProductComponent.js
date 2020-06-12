@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
-import { Pagination, Input, Select } from 'antd';
+import { Pagination, Input, Select, message } from 'antd';
 import { ModalChiTietProduct_Admin } from '../Modals/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
@@ -28,7 +28,7 @@ export default function QLProductComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data sản phẩm thất bại");
         }
     }
 
@@ -43,7 +43,7 @@ export default function QLProductComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data sản phẩm chưa khóa thất bại");
         }
     }
 
@@ -58,7 +58,7 @@ export default function QLProductComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data sản phẩm đã khóa thất bại");
         }
     }
 
@@ -73,7 +73,7 @@ export default function QLProductComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data sản phẩm chưa duyệt thất bại");
         }
     }
 
@@ -88,7 +88,7 @@ export default function QLProductComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data sản phẩm đã duyệt thất bại");
         }
     }
 
@@ -101,9 +101,11 @@ export default function QLProductComponent() {
         if (res.data.status === 'success') {
             //alert(JSON.stringify(resData.data.data));
             dispatch({ type: 'RELOAD_DATABASE' });
-            alert('Duyệt sản phẩm thành công');
+            message.success('Duyệt sản phẩm thành công');
+            setStatusAccecptOrNoAccept(false);
         } else {
-            alert("Duyệt sản phẩm thất bại");
+            message.error("Duyệt sản phẩm thất bại");
+            setStatusAccecptOrNoAccept(false);
         }
     }
 
@@ -116,9 +118,11 @@ export default function QLProductComponent() {
         if (res.data.status === 'success') {
             //alert(JSON.stringify(resData.data.data));
             dispatch({ type: 'RELOAD_DATABASE' });
-            alert('Khóa sản phẩm thành công');
+            message.success('Khóa sản phẩm thành công');
+            setStatusAccecptOrNoAccept(false);
         } else {
-            alert("Khóa sản phẩm thất bại !");
+            message.error("Khóa sản phẩm thất bại !");
+            setStatusAccecptOrNoAccept(false);
         }
     }
 
@@ -131,9 +135,11 @@ export default function QLProductComponent() {
         if (res.data.status === 'success') {
             //alert(JSON.stringify(resData.data.data));
             dispatch({ type: 'RELOAD_DATABASE' });
-            alert('Mở khóa sản phẩm thành công');
+            message.success('Mở khóa sản phẩm thành công');
+            setStatusAccecptOrNoAccept(false);
         } else {
-            alert("Mở khóa sản phẩm thất bại !");
+            message.error("Mở khóa sản phẩm thất bại !");
+            setStatusAccecptOrNoAccept(false);
         }
     }
 
@@ -145,7 +151,7 @@ export default function QLProductComponent() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data thương hiệu thất bại");
         }
     }
 

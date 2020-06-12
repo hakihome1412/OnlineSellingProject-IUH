@@ -5,27 +5,25 @@ import DealComponent from './TrangChuPage/DealComponent';
 import MarkettingComponent from './TrangChuPage/MarkettingComponent';
 import HotSearchComponent from './TrangChuPage/HotSearchComponent';
 import ForCustomerComponent from './TrangChuPage/ForCustomerComponent';
-import ItemComponent from '../components/DungChung/ItemComponent';
 import CategorySanPham from './SanPhamPage/SanPham';
-import DanhMucSideBarComponent from './SanPhamPage/DanhMucSideBarComponent';
-import ThuongHieuSideBarComponent from './SanPhamPage/ThuongHieuSideBarComponent';
-import NhaCungCapSideBarComponent from './SanPhamPage/NhaCungCapSideBarComponent';
-import DanhGiaSideBarComponent from './SanPhamPage/DanhGiaSideBarComponent';
-import SideBarComponent from './SanPhamPage/SideBarComponent';
 import SanPhamDetail from '../components/SanPhamDetailPage/SanPhamDetail';
 import InforItemComponent from '../components/SanPhamDetailPage/InforItemComponent';
+import QuestAndAnswerComponent from '../components/SanPhamDetailPage/QuestAndAnswerComponent';
 import InforDetailItemComponent from '../components/SanPhamDetailPage/InforDetailItemComponent';
 import DescriptionItemComponent from '../components/SanPhamDetailPage/DescriptionItemComponent';
 import DangKyComponent from '../components/Header/DangKyComponent';
 import DangNhapComponent from '../components/Header/DangNhapComponent';
 import UserComponent from '../components/DungChung/UserComponent';
 import QLCategoryComponent from '../components/Admin/QLCategoryComponent';
+import QLMaGiamGiaComponent from '../components/Admin/QLMaGiamGiaComponent';
 import QLBrandComponent from '../components/Admin/QLBrandComponent';
 import QLDonHangComponent from '../components/Admin/QLDonHangComponent';
 import QLGianHangComponent from '../components/Admin/QLGianHangComponent';
 import QLNguoiDungComponent from '../components/Admin/QLNguoiDungComponent';
 import QLBaiVietComponent from '../components/Admin/QLBaiVietComponent';
 import QLProductComponent from '../components/Admin/QLProductComponent';
+import QLCauHoiComponent from '../components/Admin/QLCauHoiComponent';
+import QLDoanhThuComponent from '../components/Admin/QLDoanhThuComponent';
 import CheckoutCart from '../components/CheckoutCartPage/CheckoutCartt';
 import CheckoutShipping from '../components/CheckoutShippingPage/CheckoutShipping';
 import CheckoutPayment from '../components/CheckoutPaymentPage/CheckoutPayment';
@@ -60,21 +58,18 @@ export {
     DealComponent,
     QLGianHangComponent,
     QLNguoiDungComponent,
+    QLCauHoiComponent,
+    QLDoanhThuComponent,
     MarkettingComponent,
     HotSearchComponent,
     ForCustomerComponent,
     ErrorPhanQuyen,
-    ItemComponent,
     CategorySanPham,
-    DanhMucSideBarComponent,
-    ThuongHieuSideBarComponent,
-    NhaCungCapSideBarComponent,
-    DanhGiaSideBarComponent,
-    SideBarComponent,
     SanPhamDetail,
     InforItemComponent,
     InforDetailItemComponent,
     DescriptionItemComponent,
+    QuestAndAnswerComponent,
     DangKyComponent,
     DangNhapComponent,
     UserComponent,
@@ -83,6 +78,7 @@ export {
     QLBrandComponent,
     QLProductComponent,
     QLBaiVietComponent,
+    QLMaGiamGiaComponent,
     CheckoutCart,
     CheckoutShipping,
     CheckoutPayment,

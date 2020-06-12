@@ -12,6 +12,7 @@ export default function ModalThemBaiViet() {
     const [firstTime, setFirstTime] = useState(true);
     const [dataProduct, setDataProduct] = useState([]);
     const [imageAsFile, setImageAsFile] = useState([]);
+    const [statusMessageError, setStatusMessageError] = useState(-1);
     const [countAnhDaUploadThanhCong, setCountAnhDaUploadThanhCong] = useState(0);
     const showModalThemBaiViet = useSelector(state => state.showModalThemBaiViet);
     const [spinnerThemBaiViet, setSpinnerThemBaiViet] = useState(-1);
@@ -87,9 +88,10 @@ export default function ModalThemBaiViet() {
 
     function KiemTraDuLieuNhap(data) {
         if (data.tieuDe === '' || data.img === '' || data.loaiBaiViet === -1) {
-            alert('Vui lòng nhập đủ dữ liệu cần thiết');
+            setStatusMessageError(0);
         } else {
             ThemBaiViet()
+            setStatusMessageError(-1);
         }
     }
 
@@ -148,6 +150,7 @@ export default function ModalThemBaiViet() {
                 LayDataSanPham();
                 setImageAsFile([]);
                 setFirstTime(true);
+                setStatusMessageError(-1);
                 setCountAnhDaUploadThanhCong(0);
                 setDataThem({
                     tieuDe: "",
@@ -259,6 +262,11 @@ export default function ModalThemBaiViet() {
                 </Form.Item>
 
                 <Form.Item>
+                    {
+                        statusMessageError === 0 && (
+                            <p style={{ color: 'red', lineHeight: 1.5 }}>Vui lòng nhập đủ dữ liệu cần thiết</p>
+                        )
+                    }
                     <Button type="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
                         KiemTraDuLieuNhap(dataThem);
                     }}>
