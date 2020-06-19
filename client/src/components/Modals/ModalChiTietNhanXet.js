@@ -3,30 +3,30 @@ import { Modal, Spinner, Button } from 'react-bootstrap';
 import { Form, Input, Select, message } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
-import { storage } from '../../firebase/firebase';
 
-export default function ModalChiTietCauHoi() {
+export default function ModalChiTietNhanXet() {
     const { Option } = Select;
     const dispatch = useDispatch();
-    const showChiTietCauHoi = useSelector(state => state.showChiTietCauHoi);
-    const [spinnerChiTietCauHoi, setSpinnerChiTietCauHoi] = useState(false);
+    const showChiTietNhanXet = useSelector(state => state.showChiTietNhanXet);
+    const [spinnerChiTietNhanXet, setSpinnerChiTietNhanXet] = useState(false);
     const objectIDDuocChonReducer = useSelector(state => state.objectIDDuocChon);
     const [showButtonHuy, setShowButtonHuy] = useState(false)
     const [disableOptions, setDisableOptions] = useState(false);
     const [statusSua, setStatusSua] = useState(0);
-    const [spinnerSuaCauHoi, setSpinnerSuaCauHoi] = useState(-1);
-    const [cauHoiNow, setCauHoiNow] = useState({
+    const [spinnerSuaNhanXet, setSpinnerSuaNhanXet] = useState(-1);
+    const [nhanXetNow, setNhanXetNow] = useState({
         _id: '',
         idProduct: '',
-        question: '',
-        answer: '',
-        luotThich: '',
+        soSao: '',
+        tieuDe: '',
+        noiDung: '',
+        traLoi: '',
         ngayTao: '',
         ngayTraLoi: '',
         isAccept: '',
     });
-    const [cauHoiSua, setCauHoiSua] = useState({
-        answer: '',
+    const [nhanXetSua, setNhanXetSua] = useState({
+        traLoi: '',
         isAccept: ''
     });
 
@@ -40,58 +40,59 @@ export default function ModalChiTietCauHoi() {
         return strDate;
     }
 
-    async function SuaCauHoi(cauHoiID) {
-        setSpinnerSuaCauHoi(1);
+    async function SuaNhanXet(nhanXetID) {
+        setSpinnerSuaNhanXet(1);
         setDisableOptions(false);
         if (statusSua === 1) {
-            let resData = await axios.put('hethong/questanswer-sua', {
-                _id: cauHoiID,
-                answer: cauHoiSua.answer,
-                isAccept: cauHoiSua.isAccept
+            let resData = await axios.put('hethong/comments-sua', {
+                _id: nhanXetID,
+                traLoi: nhanXetSua.traLoi,
+                isAccept: nhanXetSua.isAccept
             });
 
             if (resData.data.status === 'success') {
                 dispatch({ type: 'RELOAD_DATABASE' });
                 setStatusSua(0);
-                setSpinnerSuaCauHoi(-1);
+                setSpinnerSuaNhanXet(-1);
                 message.success("Sửa thành công");
                 setDisableOptions(false);
-                dispatch({ type: 'CLOSE_CHITIET_CAUHOI' });
+                dispatch({ type: 'CLOSE_CHITIET_COMMENT' });
             }
             else {
-                setSpinnerSuaCauHoi(0);
+                setSpinnerSuaNhanXet(0);
                 setStatusSua(0);
                 setDisableOptions(true);
                 dispatch({ type: 'NO_RELOAD_DATABASE' });
-                dispatch({ type: 'CLOSE_CHITIET_CAUHOI' });
+                dispatch({ type: 'CLOSE_CHITIET_COMMENT' });
                 message.error("Sửa thất bại");
             }
 
         } else {
-            dispatch({ type: 'CLOSE_CHITIET_CAUHOI' });
+            dispatch({ type: 'CLOSE_CHITIET_COMMENT' });
             dispatch({ type: 'RELOAD_DATABASE' });
         }
     }
 
-    async function LayCauHoiTheoID(cauHoiID) {
-        setSpinnerChiTietCauHoi(true);
-        let resData = await axios.get('hethong/questanswer-item-admin?id=' + cauHoiID);
+    async function LayNhanXetTheoID(nhanXetID) {
+        setSpinnerChiTietNhanXet(true);
+        let resData = await axios.get('hethong/comments-item-admin?id=' + nhanXetID);
         if (resData.data.status === 'success') {
-            setCauHoiNow({
+            setNhanXetNow({
                 _id: resData.data.data._id,
                 idProduct: resData.data.data.idProduct,
-                question: resData.data.data.question,
-                answer: resData.data.data.answer,
-                luotThich: resData.data.data.luotThich,
+                soSao: resData.data.data.soSao,
+                tieuDe: resData.data.data.tieuDe,
+                noiDung: resData.data.data.noiDung,
+                traLoi: resData.data.data.traLoi,
                 ngayTao: resData.data.data.ngayTao,
                 ngayTraLoi: resData.data.data.ngayTraLoi,
-                isAccept: resData.data.data.isAccept
+                isAccept: resData.data.data.isAccept,
             });
-            setSpinnerChiTietCauHoi(false);
+            setSpinnerChiTietNhanXet(false);
         } else {
-            message.error("Lấy data câu hỏi thất bại");
-            setSpinnerChiTietCauHoi(false);
-            dispatch({ type: 'CLOSE_CHITIET_CAUHOI' });
+            message.error("Lấy data nhận xét thất bại");
+            setSpinnerChiTietNhanXet(false);
+            dispatch({ type: 'CLOSE_CHITIET_COMMENT' });
         }
     }
 
@@ -106,23 +107,23 @@ export default function ModalChiTietCauHoi() {
 
 
     return (
-        <Modal show={showChiTietCauHoi} size="lg" animation={false} onHide={() => {
-            dispatch({ type: 'CLOSE_CHITIET_CAUHOI' });
+        <Modal show={showChiTietNhanXet} size="lg" animation={false} onHide={() => {
+            dispatch({ type: 'CLOSE_CHITIET_COMMENT' });
         }}
             onShow={() => {
                 setDisableOptions(false);
                 setStatusSua(0);
-                LayCauHoiTheoID(objectIDDuocChonReducer);
+                LayNhanXetTheoID(objectIDDuocChonReducer);
             }}>
             {
-                spinnerChiTietCauHoi === true && (
+                spinnerChiTietNhanXet === true && (
                     <Spinner animation="border" role="status" style={{ marginLeft: 400 }}>
                         <span className="sr-only">Loading...</span>
                     </Spinner>
                 )
             }
             {
-                spinnerChiTietCauHoi === false && (
+                spinnerChiTietNhanXet === false && (
                     <Form
                         name="basic"
                         layout='vertical'
@@ -132,23 +133,36 @@ export default function ModalChiTietCauHoi() {
                         <Form.Item
                             label="ID sản phẩm"
                             name="id">
-                            <Input disabled={true} defaultValue={cauHoiNow.idProduct} />
+                            <Input disabled={true} defaultValue={nhanXetNow.idProduct} />
                         </Form.Item>
 
                         <Form.Item
-                            label="Câu hỏi"
-                            name="cauhoi">
-                            <Input disabled={true} defaultValue={cauHoiNow.question} />
+                            label="Số sao"
+                            name="sosao">
+                            <Input disabled={true} defaultValue={nhanXetNow.soSao} />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Tiêu đề"
+                            name="tieude">
+                            <Input disabled={true} defaultValue={nhanXetNow.tieuDe} />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Nội dung"
+                            name="noidung">
+                            <textarea style={{ width: '100%' }} disabled={true} rows="4" cols="50" defaultValue={nhanXetNow.noiDung}>
+                            </textarea>
                         </Form.Item>
 
                         <Form.Item
                             label="Trả lời"
                             name="traloi"
-                            rules={[{ required: true, message: 'Vui lòng nhập nội dung' }]}>
-                            <textarea style={{ width: '100%' }} disabled={!disableOptions} rows="4" cols="50" defaultValue={cauHoiNow.answer} onChange={(e) => {
-                                setCauHoiSua({
-                                    ...cauHoiSua,
-                                    answer: e.target.value
+                            rules={[{ required: true, message: 'Vui lòng nhập câu trả lời cho khách hàng' }]}>
+                            <textarea style={{ width: '100%' }} disabled={!disableOptions} rows="4" cols="50" defaultValue={nhanXetNow.traLoi} onChange={(e) => {
+                                setNhanXetSua({
+                                    ...nhanXetSua,
+                                    traLoi: e.target.value
                                 });
                             }}>
                             </textarea>
@@ -157,20 +171,20 @@ export default function ModalChiTietCauHoi() {
                         <Form.Item
                             label="Ngày tạo"
                             name="ngaytao">
-                            <Input disabled={true} defaultValue={hamChuyenDoiNgay(new Date(cauHoiNow.ngayTao))} />
+                            <Input disabled={true} defaultValue={hamChuyenDoiNgay(new Date(nhanXetNow.ngayTao))} />
                         </Form.Item>
 
                         <Form.Item
                             label="Ngày trả lời"
                             name="ngaytraloi">
-                            <Input disabled={true} defaultValue={cauHoiNow.ngayTraLoi === '' ? 'Chưa xác định' : hamChuyenDoiNgay(new Date(cauHoiNow.ngayTraLoi))} />
+                            <Input disabled={true} defaultValue={nhanXetNow.ngayTraLoi === '' ? 'Chưa xác định' : hamChuyenDoiNgay(new Date(nhanXetNow.ngayTraLoi))} />
                         </Form.Item>
 
                         <Form.Item
                             label="Trạng thái duyệt">
-                            <Select disabled={!disableOptions} defaultValue={cauHoiNow.isAccept === false ? "noaccept" : "accept"} onChange={(value) => {
-                                setCauHoiSua({
-                                    ...cauHoiSua,
+                            <Select disabled={!disableOptions} defaultValue={nhanXetNow.isAccept === false ? "noaccept" : "accept"} onChange={(value) => {
+                                setNhanXetSua({
+                                    ...nhanXetSua,
                                     isAccept: value === "accept" ? true : false
                                 });
                             }}>
@@ -186,21 +200,21 @@ export default function ModalChiTietCauHoi() {
                                         setStatusSua(1);
                                         setDisableOptions(true);
                                     } else {
-                                        SuaCauHoi(cauHoiNow._id);
+                                        SuaNhanXet(nhanXetNow._id);
                                     }
                                     if (statusSua === 0) {
-                                        setCauHoiSua({
-                                            answer: cauHoiNow.answer,
-                                            isAccept: cauHoiNow.isAccept
+                                        setNhanXetSua({
+                                            traLoi: nhanXetNow.traLoi,
+                                            isAccept: nhanXetNow.isAccept
                                         });
                                     }
                                 }}>
 
                                 {
-                                    statusSua === 0 && spinnerSuaCauHoi === -1 ? "Sửa" : "Lưu"
+                                    statusSua === 0 && spinnerSuaNhanXet === -1 ? "Sửa" : "Lưu"
                                 }
                                 {
-                                    spinnerSuaCauHoi === 1 && (
+                                    spinnerSuaNhanXet === 1 && (
                                         <Spinner animation="border" role="status" style={{ marginLeft: 40 }}>
                                             <span className="sr-only">Loading...</span>
                                         </Spinner>

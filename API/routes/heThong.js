@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const carouselController = require('../controller/carouselController');
 const categoryController = require('../controller/categoryController');
-const bannerController = require('../controller/bannerController');
 const brandController = require('../controller/brandController');
 const authController = require('../controller/authController');
 const productController = require('../controller/productController');
@@ -19,21 +17,10 @@ const lichSu_CTDonHangController = require('../controller/lichsuCTDonHangControl
 const dataSearchController = require('../controller/dataSearchController');
 const baiVietController = require('../controller/baiVietController');
 const questAnswerController = require('../controller/questAnswerController');
+const commentController = require('../controller/commentController');
 const vnpayController = require('../controller/vnpayController');
 const momoController = require('../controller/momoController');
 
-// Phần xử lý Database CAROUSEL
-router.get('/carousels', carouselController.LayDanhSachCarouselAll);
-router.get('/carousels-search/:page', carouselController.LayDanhSachCarousel_Search_TheoTrang);
-router.get('/carousels/:page', carouselController.LayDanhSachCarouselTheoTrang);
-router.get('/carousels-chuakhoa/:page', carouselController.LayDanhSachCarousel_ChuaKhoa_TheoTrang);
-router.get('/carousels-dakhoa/:page', carouselController.LayDanhSachCarousel_DaKhoa_TheoTrang);
-router.get('/carousels-item', carouselController.LayCarouselTheoIDD);
-router.post('/carousels-them', carouselController.ThemCarousel)
-router.put('/carousels-xoa', carouselController.XoaCarousel);
-router.put('/carousels-sua', carouselController.SuaCarousel);
-router.put('/carousels-khoa', carouselController.KhoaCarousel);
-router.put('/carousels-mokhoa', carouselController.MoKhoaCarousel);
 
 // Phần xử lý Database POSTS
 router.post('/baiviet-them', baiVietController.ThemBaiViet);
@@ -67,21 +54,6 @@ router.put('/categorys-sua', categoryController.SuaCategory);
 router.put('/categorys-khoa', categoryController.KhoaCategory);
 router.put('/categorys-mokhoa', categoryController.MoKhoaCategory);
 
-// Phần xử lý Database BANNER (EVENT)
-router.get('/banners', bannerController.LayDanhSachBannerAll);
-router.get('/banners-search/:page', bannerController.LayDanhSachBanner_Search_TheoTrang);
-router.get('/banners/:page', bannerController.LayDanhSachBannerTheoTrang);
-router.get('/banners-chuakhoa/:page', bannerController.LayDanhSachBanner_ChuaKhoa_TheoTrang);
-router.get('/banners-dakhoa/:page', bannerController.LayDanhSachBanner_DaKhoa_TheoTrang);
-router.get('/banners/vitri-center/:page', bannerController.LayDanhSachBanner_ViTriTrungTam_TheoTrang);
-router.get('/banners/vitri-right/:page', bannerController.LayDanhSachBanner_ViTriBenPhai_TheoTrang);
-router.get('/banners/vitri-bottom/:page', bannerController.LayDanhSachBanner_ViTriBenDuoi_TheoTrang);
-router.get('/banners-item', bannerController.LayBannerTheoID);
-router.post('/banners-them', bannerController.ThemBanner)
-router.put('/banners-xoa', bannerController.XoaBanner);
-router.put('/banners-sua', bannerController.SuaBanner);
-router.put('/banners-khoa', bannerController.KhoaBanner);
-router.put('/banners-mokhoa', bannerController.MoKhoaBanner);
 
 // Phần xử lý Database BRAND
 router.get('/brands', brandController.LayDanhSachBrandAll);
@@ -98,9 +70,12 @@ router.put('/brands-mokhoa', brandController.MoKhoaBrand);
 
 // Phần xử lý Database VOUCHER
 router.get('/vouchers', voucherController.LayDanhSachVoucherAll);
-router.get('/vouchers/:page', voucherController.LayDanhSachVoucherTheoTrang);
+router.get('/vouchers-admin/:page', voucherController.LayDanhSachVoucherTheoTrang);
 router.get('/vouchers-item', voucherController.LayVoucherTheoID);
 router.get('/vouchers-item-show', voucherController.LayVoucherTheoIDShow);
+router.post('/vouchers-them', voucherController.ThemVoucher)
+router.put('/vouchers-khoa', voucherController.KhoaVoucher);
+router.put('/vouchers-mokhoa', voucherController.MoKhoaVoucher);
 
 // Phần xử lý Database USERS
 router.get('/users-item', userController.LayUserTheoID);
@@ -155,6 +130,7 @@ router.get('/products-admin-daduyet/:page', productController.LayTatCaSanPham_Da
 router.get('/products-admin-chuakhoa/:page', productController.LayTatCaSanPham_ChuaKhoa_TheoTrang);
 router.get('/products-admin-dakhoa/:page', productController.LayTatCaSanPham_DaKhoa_TheoTrang);
 router.get('/products-kiemtrakho', productController.KiemTraKho);
+router.get('/products-daxem', productController.LayDataProductDaXem_TheoIDUser);
 router.get('/products-topmuoisanphambanchaynhat-theodoanhthu', productController.Top10SanPhamBanChayNhatTheoDoanhThu);
 router.get('/products-topmuoisanphambanchaynhat-theosanluong', productController.Top10SanPhamBanChayNhatTheoSanLuong);
 router.get('/products-topmuoisanphambanchaynhat-theosoluongdonhang', productController.Top10SanPhamBanChayNhatTheoSoLuongDonHang);
@@ -167,6 +143,7 @@ router.put('/products-sua-chushop', productController.SuaProduct_ChuShop);
 router.put('/products-sua-admin', productController.SuaProduct_Admin);
 router.put('/products-capnhatsoluong', productController.CapNhatSoLuong);
 router.put('/products-capnhatgiatrigiamgia', productController.CapNhatGiaTriGiamGia);
+router.put('/products-capnhatnguoixem', productController.CapNhatNguoiXem);
 
 // Phần xử lý Database PRODUCTCLASSIFY
 router.get('/product-classify', productClassifyController.LayDanhSachPhanLoaiTheoIDProduct);
@@ -249,6 +226,19 @@ router.get('/questanswer-admin-search/:page', questAnswerController.LayCauHoiThe
 router.get('/questanswer-admin-chuaduyet/:page', questAnswerController.LayCauHoiTheoIDSanPham_ChuaDuyet_Admin);
 router.get('/questanswer-admin-daduyet/:page', questAnswerController.LayCauHoiTheoIDSanPham_DaDuyet_Admin);
 router.put('/questanswer-capnhatthich', questAnswerController.CapNhatThich);
+
+// Phần xử lý Database COMMENT
+router.post('/comments-them', commentController.ThemComment);
+router.get('/comments-product',commentController.LayDataSoSaoTheoIDSanPham)
+router.get('/comments-nguoidung', commentController.LayCommentTheoIDSanPham_NguoiDung);
+router.get('/comments-user', commentController.LayCommentTheoIDUser);
+router.get('/comments-admin/:page', commentController.LayCommentTheoIDSanPham_Admin);
+router.get('/comments-item-admin', commentController.LayCommentTheoID);
+router.put('/comments-sua', commentController.SuaComment);
+router.put('/comments-duyet', commentController.DuyetComment);
+router.get('/comments-admin-search/:page', commentController.LayCommentTheoIDSanPham_TheoSearch_Admin);
+router.get('/comments-admin-chuaduyet/:page', commentController.LayCommentTheoIDSanPham_ChuaDuyet_Admin);
+router.get('/comments-admin-daduyet/:page', commentController.LayCommentTheoIDSanPham_DaDuyet_Admin);
 
 
 // Phần xử lý Database COUNTRIES

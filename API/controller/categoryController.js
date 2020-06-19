@@ -219,19 +219,32 @@ module.exports = {
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colCategory = db.collection('CATEGORY');
-        let result = await colCategory.insertOne(categoryThem);
-        client.close();
-        if (result.insertedCount > 0) {
-            res.status(200).json({
-                status: 'success',
-                message: 'Thêm thành công'
-            });
+
+        let result2 = await colCategory.findOne({ lowerTen: categoryThem.lowerTen });
+
+        if (result2 === null) {
+            let result = await colCategory.insertOne(categoryThem);
+            client.close();
+            if (result.insertedCount > 0) {
+                res.status(200).json({
+                    status: 'success',
+                    message: 'Thêm thành công'
+                });
+            } else {
+                res.status(200).json({
+                    status: 'fail',
+                    message: 'Thêm thất bại!'
+                })
+            }
         } else {
+            client.close();
             res.status(200).json({
                 status: 'fail',
-                message: 'Thêm thất bại!'
+                message: 'Tên danh mục này đã được đặt từ trước đó'
             })
         }
+
+
     },
 
     XoaCategory: async function (req, res) {

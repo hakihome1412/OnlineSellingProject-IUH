@@ -182,7 +182,7 @@ export default function Account() {
                         <Form.Item
                             label="Ngày sinh">
                             <span>
-                                <Select style={{ width: '30%' }} value={thongTinSua.ngaySinh.ngay} onChange={(value) => {
+                                <Select style={{ width: '30%' }} value={thongTinSua.ngaySinh.ngay.toString()} onChange={(value) => {
                                     setThongTinSua({
                                         ...thongTinSua,
                                         ngaySinh: {
@@ -199,7 +199,7 @@ export default function Account() {
                                     }
                                 </Select>
 
-                                <Select style={{ width: '30%', marginLeft: 10 }} value={thongTinSua.ngaySinh.thang} onChange={(value) => {
+                                <Select style={{ width: '30%', marginLeft: 10 }} value={thongTinSua.ngaySinh.thang.toString()} onChange={(value) => {
                                     setThongTinSua({
                                         ...thongTinSua,
                                         ngaySinh: {
@@ -216,7 +216,7 @@ export default function Account() {
                                     }
                                 </Select>
 
-                                <Select style={{ width: '30%', marginLeft: 10 }} value={thongTinSua.ngaySinh.nam} onChange={(value) => {
+                                <Select style={{ width: '30%', marginLeft: 10 }} value={thongTinSua.ngaySinh.nam.toString()} onChange={(value) => {
                                     setThongTinSua({
                                         ...thongTinSua,
                                         ngaySinh: {

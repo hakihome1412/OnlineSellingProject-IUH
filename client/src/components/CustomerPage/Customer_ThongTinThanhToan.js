@@ -38,7 +38,7 @@ export default function Customer_ThongTinThanhToan() {
                 </div>
 
                 <div style={{ backgroundColor: 'white', width: '100%' }}>
-                    <table class="table">
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th>STT</th>

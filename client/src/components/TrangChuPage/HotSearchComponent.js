@@ -19,7 +19,7 @@ export default function HotIndustry(props) {
                                         dataSearch.map((item, i) => {
                                             if (i < 4) {
                                                 if (i % 4 === 0) {
-                                                    return <Link onClick={(e) => {
+                                                    return <Link key={i} to='/' onClick={(e) => {
                                                         e.preventDefault();
                                                         history.push('/timkiem?data=' + item.ten + '&order=newest');
                                                     }}>
@@ -28,7 +28,7 @@ export default function HotIndustry(props) {
                                                         </div>
                                                     </Link>
                                                 } else {
-                                                    return <Link onClick={(e) => {
+                                                    return <Link key={i} to='/' onClick={(e) => {
                                                         e.preventDefault();
                                                         history.push('/timkiem?data=' + item.ten + '&order=newest');
                                                     }}>
@@ -51,7 +51,7 @@ export default function HotIndustry(props) {
                                         dataSearch.map((item, i) => {
                                             if (i < 8 && i > 3) {
                                                 if (i % 4 === 0) {
-                                                    return <Link onClick={(e) => {
+                                                    return <Link key={i} to='/' onClick={(e) => {
                                                         e.preventDefault();
                                                         history.push('/timkiem?data=' + item.ten + '&order=newest');
                                                     }}>
@@ -60,7 +60,7 @@ export default function HotIndustry(props) {
                                                         </div>
                                                     </Link>
                                                 } else {
-                                                    return <Link onClick={(e) => {
+                                                    return <Link key={i} to='/' onClick={(e) => {
                                                         e.preventDefault();
                                                         history.push('/timkiem?data=' + item.ten + '&order=newest');
                                                     }}>
@@ -83,7 +83,7 @@ export default function HotIndustry(props) {
                                         dataSearch.map((item, i) => {
                                             if (i < 12 && i > 7) {
                                                 if (i % 4 === 0) {
-                                                    return <Link onClick={(e) => {
+                                                    return <Link key={i} to='/' onClick={(e) => {
                                                         e.preventDefault();
                                                         history.push('/timkiem?data=' + item.ten + '&order=newest');
                                                     }}>
@@ -92,7 +92,7 @@ export default function HotIndustry(props) {
                                                         </div>
                                                     </Link>
                                                 } else {
-                                                    return <Link onClick={(e) => {
+                                                    return <Link key={i} to='/' onClick={(e) => {
                                                         e.preventDefault();
                                                         history.push('/timkiem?data=' + item.ten + '&order=newest');
                                                     }}>

@@ -7,7 +7,7 @@ export default function DescriptionItemComponent(props) {
         <div className="row" style={{ marginTop: 40 }}>
             <div className="col">
                 <h5>MÔ TẢ SẢN PHẨM</h5>
-                <div className="col-sm-9 description-item">
+                <div className="col-sm-9 baiviet">
                     <div dangerouslySetInnerHTML={{ __html: dataProduct.moTa }}></div>
                 </div>
             </div>

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { FaStar } from 'react-icons/fa';
-import { ItemComponent, SideBarComponent } from '../allJS';
-import { Pagination, Image, Button } from 'react-bootstrap';
+import { Image, Button } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { message, Input } from 'antd';
+import { message, Input, Pagination } from 'antd';
 import { StringParam, useQueryParams, NumberParam } from 'use-query-params';
 
 
@@ -139,7 +138,7 @@ export default function SanPham(props) {
                     <div className="danhgia-sidebar">
                         <h5>ĐÁNH GIÁ</h5>
                         <div className="danhgia-5sao-sidebar">
-                            <Link onClick={(e) => {
+                            <Link to='/' onClick={(e) => {
                                 e.preventDefault();
                                 setQuery({
                                     ...query,
@@ -153,7 +152,7 @@ export default function SanPham(props) {
                             </Link>
                         </div>
                         <div className="danhgia-4sao-sidebar">
-                            <Link style={{ color: 'black' }} onClick={(e) => {
+                            <Link to='/' style={{ color: 'black' }} onClick={(e) => {
                                 e.preventDefault();
                                 setQuery({
                                     ...query,
@@ -169,7 +168,7 @@ export default function SanPham(props) {
 
                         </div>
                         <div className="danhgia-3sao-sidebar">
-                            <Link style={{ color: 'black' }} onClick={(e) => {
+                            <Link to='/' style={{ color: 'black' }} onClick={(e) => {
                                 e.preventDefault();
                                 setQuery({
                                     ...query,
@@ -203,7 +202,7 @@ export default function SanPham(props) {
                                         giaDau: e.target.value
                                     })
                                 }}></Input>
-                                &nbsp;__&nbsp;
+                                &nbsp;_&nbsp;
                                 <Input value={dataGiaOption.giaCuoi} style={{ width: 100 }} onChange={(e) => {
                                     // setDataGiaOption({
                                     //     ...dataGiaOption,

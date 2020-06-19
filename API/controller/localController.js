@@ -88,7 +88,9 @@ module.exports = {
         var quanID = req.query.idQuan;
         var phuongID = req.query.idPhuong;
 
-        var tenThanhPho, tenQuan, tenPhuong;
+        var tenThanhPho = '';
+        var tenQuan = '';
+        var tenPhuong = '';
 
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
         await client.connect();
@@ -96,7 +98,7 @@ module.exports = {
         const db = client.db(DbName);
         const colLocal = db.collection('LOCAL');
         let resultThanhPho = await colLocal.find({ id: thanhPhoID }).next();
-        var resultPhuong;
+        var resultPhuong = [];
         client.close();
         if (resultThanhPho === null) {
             res.status(200).json({
@@ -111,35 +113,35 @@ module.exports = {
                     resultPhuong = resultThanhPho.districts[index].wards;
                 }
             }
-        }
-        
-        if (tenQuan === null) {
-            res.status(200).json({
-                status: 'fail',
-                message: 'Không có dữ liệu Quận'
-            })
-        } else {
-            for (let index = 0; index < resultPhuong.length; index++) {
-                if (resultPhuong[index].id === phuongID) {
-                    console.log('catch Phường');
-                    tenPhuong = resultPhuong[index].name;
+
+            if (tenQuan.length === 0) {
+                res.status(200).json({
+                    status: 'fail',
+                    message: 'Không có dữ liệu Quận'
+                })
+            } else {
+                for (let index = 0; index < resultPhuong.length; index++) {
+                    if (resultPhuong[index].id === phuongID) {
+                        console.log('catch Phường');
+                        tenPhuong = resultPhuong[index].name;
+                    }
+                }
+
+                if (tenPhuong.length === 0) {
+                    res.status(200).json({
+                        status: 'fail',
+                        message: 'Không có dữ liệu Tổng'
+                    })
+                } else {
+                    res.status(200).json({
+                        status: 'success',
+                        message: 'Lấy dữ liệu thành công',
+                        tenThanhPho: tenThanhPho,
+                        tenQuan: tenQuan,
+                        tenPhuong: tenPhuong
+                    })
                 }
             }
-        }
-
-        if (tenPhuong === null) {
-            res.status(200).json({
-                status: 'fail',
-                message: 'Không có dữ liệu Tổng'
-            })
-        } else {
-            res.status(200).json({
-                status: 'success',
-                message: 'Lấy dữ liệu thành công',
-                tenThanhPho: tenThanhPho,
-                tenQuan: tenQuan,
-                tenPhuong: tenPhuong
-            })
         }
     }
 }

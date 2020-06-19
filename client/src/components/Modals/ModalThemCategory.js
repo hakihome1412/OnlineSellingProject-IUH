@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Image, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { axios } from '../../config/constant';
 import { storage } from '../../firebase/firebase';
 
@@ -82,12 +82,14 @@ export default function ModalThemCategory() {
         });
 
         if (res.data.status === 'success') {
-            alert("Thêm thành công");
+            message.success("Thêm thành công");
             dispatch({ type: 'CLOSE_THEM_CATEGORY' });
             dispatch({ type: 'RELOAD_DATABASE' });
             setSpinnerThemCategory(0);
         } else {
-            alert("Thêm thất bại");
+            message.error(res.data.message);
+            dispatch({ type: 'CLOSE_THEM_CATEGORY' });
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
             setSpinnerThemCategory(0);
         }
     }
@@ -95,10 +97,10 @@ export default function ModalThemCategory() {
     useEffect(() => {
         if (firstTime === false) {
             if (imageAsFile.length === 0) {
-                alert('Vui lòng chọn ảnh cho Category')
+                message.error('Vui lòng chọn ảnh cho Category')
             } else {
                 if (countAnhDaUploadThanhCong === imageAsFile.length) {
-                    alert('Upload ảnh category thành công');
+                    message.success('Upload ảnh category thành công');
                 }
             }
         }

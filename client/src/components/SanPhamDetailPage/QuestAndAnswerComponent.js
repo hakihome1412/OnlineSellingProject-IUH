@@ -84,7 +84,7 @@ export default function QuestAndAnswerComponent(props) {
                     {
                         dataCauHoi.map((item, i) => {
                             if (i < countCauHoiShow) {
-                                return <div key={i} className='row' style={{ backgroundColor: 'silver', marginTop: 10, borderRadius: 5, padding: 5 }}>
+                                return <div key={i} className='row' style={{ backgroundColor: 'lightgrey', marginTop: 10, borderRadius: 5, padding: 5 }}>
                                     <div className='col-sm-2'>
                                         <center>
                                             <span style={{ fontSize: 24, fontWeight: 'bold' }}>{item.luotThich}</span><br></br>
@@ -109,7 +109,7 @@ export default function QuestAndAnswerComponent(props) {
                                                     }
                                                 }
                                             }}>
-                                                <i class="far fa-thumbs-up"></i>
+                                                <i className="far fa-thumbs-up"></i>
                                                 {
                                                     dataThich[i] === 0 ? 'Thích' : 'Đã thích'
                                                 }

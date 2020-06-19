@@ -111,9 +111,7 @@ export default function BaiViet(props) {
             id: id
         });
 
-        if (res.data.status === 'success') {
-            message.success('Cập nhật lượt xem thành công');
-        } else {
+        if (res.data.status === 'fail') {
             message.error('Cập nhật lượt xem thất bại !');
         }
     }

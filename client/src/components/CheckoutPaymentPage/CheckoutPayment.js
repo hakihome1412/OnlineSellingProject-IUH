@@ -262,6 +262,9 @@ export default function CheckoutPayment() {
         KiemTraVoucher(idVoucher);
         dispatch({ type: 'CLOSE_HEADER' });
         getGioHangTheoIDUser();
+        if (thongTinDatHang.diaChi === '') {
+            history.push('/checkout/shipping');
+        }
     }, []);
 
     useEffect(() => {
@@ -303,12 +306,12 @@ export default function CheckoutPayment() {
                                     <Radio style={radioStyle} value={0}>
                                         Giao hàng tiêu chuẩn
                                 </Radio>
-                                    <Radio style={radioStyle} value={1} disabled>
+                                    {/* <Radio style={radioStyle} value={1} disabled>
                                         Giao hàng bằng GoViet
                                 </Radio>
                                     <Radio style={radioStyle} value={2} disabled>
                                         Giao hàng bằng Grab
-                                </Radio>
+                                </Radio> */}
                                 </Radio.Group>
                             </div>
                         </div>
@@ -484,7 +487,7 @@ export default function CheckoutPayment() {
                         <div className='col'>
                             {
                                 dataGioHangNew.map((item, i) => {
-                                    return <div className='row'>
+                                    return <div className='row' key={i}>
                                         <div className='col-sm-8' style={{ height: 'auto', marginLeft: 0 }}>
                                             <strong>x{item.soLuong}</strong> {item.ten} {item.mauSac !== '' ? ' - ' + item.mauSac : ''} {item.size !== '' ? ' - ' + item.size : ''}
                                         </div>

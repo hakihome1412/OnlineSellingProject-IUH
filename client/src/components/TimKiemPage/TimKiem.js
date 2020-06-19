@@ -142,7 +142,7 @@ export default function TimKiem() {
                     <div className="danhgia-sidebar">
                         <h5>ĐÁNH GIÁ</h5>
                         <div className="danhgia-5sao-sidebar">
-                            <Link onClick={(e) => {
+                            <Link to='/' onClick={(e) => {
                                 e.preventDefault();
                                 setQuery({
                                     ...query,
@@ -206,7 +206,7 @@ export default function TimKiem() {
                                         giaDau: e.target.value
                                     })
                                 }}></Input>
-                                &nbsp;__&nbsp;
+                                &nbsp;_&nbsp;
                                 <Input value={dataGiaOption.giaCuoi} style={{ width: 100 }} onChange={(e) => {
                                     // setDataGiaOption({
                                     //     ...dataGiaOption,

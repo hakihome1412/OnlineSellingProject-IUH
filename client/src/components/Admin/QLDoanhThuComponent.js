@@ -255,7 +255,7 @@ export default function QLDoanhThuComponent() {
                         {
                             donHangShowEnd === false && (
                                 <center>
-                                    <Link onClick={(e) => {
+                                    <Link to='/' onClick={(e) => {
                                         e.preventDefault();
                                         setCountDonHangShow(prev => prev + 8);
                                     }}>Xem thêm</Link>

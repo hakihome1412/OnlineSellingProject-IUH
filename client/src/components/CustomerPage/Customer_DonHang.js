@@ -19,7 +19,7 @@ export default function DonHang() {
         var strDate = '';
         var now = new Date();
         var ngay = date.getDate().toString();
-        var thang = (date.getMonth()+1).toString();
+        var thang = (date.getMonth() + 1).toString();
         var nam = date.getFullYear().toString();
 
         strDate = ngay + '/' + thang + '/' + nam;
@@ -49,7 +49,7 @@ export default function DonHang() {
                 </div>
 
                 <div style={{ backgroundColor: 'white', width: '100%' }}>
-                    <table class="table">
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th>ID</th>

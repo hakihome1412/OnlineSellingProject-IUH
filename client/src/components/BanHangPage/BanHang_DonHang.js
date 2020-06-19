@@ -268,7 +268,7 @@ export default function BanHang_DonHang() {
         <Fragment>
             <ModalChiTietDonHang_ChuShop dataNguoiMua={dataNguoiMua} dataShowChiTietDonHang={dataShowChiTietDonHang}></ModalChiTietDonHang_ChuShop>
             <Tabs size='large' style={{ width: '100%' }}>
-                <TabPane tab="Đơn hàng">
+                <TabPane key={1} tab="Đơn hàng">
                     <div className="col" style={{ padding: 20 }}>
                         <div className="col" style={{ width: '100%' }}>
                             <Form>

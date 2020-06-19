@@ -26,8 +26,8 @@ function Header() {
             <span style={{ padding: 10 }}><strong>TỪ KHÓA HOT</strong></span>
             {
                 dataTimKiemGoiY.map((item, i) => {
-                    return <Menu.Item style={{ height: 30 }}>
-                        <Link onClick={(e) => {
+                    return <Menu.Item key={i} style={{ height: 30 }}>
+                        <Link to='/' onClick={(e) => {
                             e.preventDefault();
                             history.push('/timkiem?data=' + item.ten + '&order=newest');
                             dispatch({ type: 'VALUE_SEARCH', valueSearch: item.ten });
@@ -45,7 +45,7 @@ function Header() {
                 cookies.userID !== undefined && (
                     dataLichSuTimKiem.map((item, i) => {
                         return <Menu.Item style={{ height: 30 }}>
-                            <Link onClick={(e) => {
+                            <Link to='/' onClick={(e) => {
                                 e.preventDefault();
                                 history.push('/timkiem?data=' + item.ten + '&order=newest');
                                 dispatch({ type: 'VALUE_SEARCH', valueSearch: item.ten });

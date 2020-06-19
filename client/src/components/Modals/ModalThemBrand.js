@@ -87,7 +87,7 @@ export default function ModalThemBrand() {
             dispatch({ type: 'RELOAD_DATABASE' });
             setSpinnerThemBrand(0);
         } else {
-            message.error("Thêm thất bại");
+            message.error(res.data.message);
             dispatch({ type: 'CLOSE_THEM_BRAND' });
             dispatch({ type: 'NO_RELOAD_DATABASE' });
             setSpinnerThemBrand(0);

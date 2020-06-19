@@ -111,8 +111,6 @@ export default function CheckoutCartt() {
         setDataGioHangNew(arrayGioHangNew);
     }
 
-    console.log(dataGioHangNew);
-
 
     async function KiemTraVoucher(voucherID) {
         let res = await axios.get('hethong/vouchers-item-show?idShow=' + voucherID);
@@ -158,7 +156,7 @@ export default function CheckoutCartt() {
                 <div className='col-sm-8'>
                     {
                         dataGioHangNew.map((item, i) => {
-                            return <div className='row' style={{ backgroundColor: 'white', height: 160, paddingTop: 10, borderRadius: 10, marginTop: 10 }}>
+                            return <div key={i} className='row' style={{ backgroundColor: 'white', height: 160, paddingTop: 10, borderRadius: 10, marginTop: 10 }}>
                                 <Image src={item.img} style={{ width: 120, height: 140, marginLeft: 20 }}></Image>
                                 <div className='col-sm-6' style={{ marginLeft: 20 }}>
                                     <strong>
@@ -183,8 +181,9 @@ export default function CheckoutCartt() {
                                             )
                                         }
                                     </strong><br></br>
-                                    Cung cấp bởi: <Link to={'/shop/'+item.idShop+'/'+to_slug(item.tenShop)}>{item.tenShop}</Link> <br></br><br></br>
-                                    <Link onClick={() => {
+                                    Cung cấp bởi: <Link to={'/shop/' + item.idShop + '/' + to_slug(item.tenShop)}>{item.tenShop}</Link> <br></br><br></br>
+                                    <Link to='/' onClick={(e) => {
+                                        e.preventDefault();
                                         dataGioHang.splice(item.index, 1);
                                         setDataGioHang([
                                             ...dataGioHang

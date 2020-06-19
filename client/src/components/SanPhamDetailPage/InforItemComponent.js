@@ -151,8 +151,14 @@ export default function InforItemComponent(props) {
             idUser: cookies.userID
         });
         LayShopTheoID(dataProduct.idShop);
-        KiemTraKho(dataProduct.idShow);
+
     }, [dataProduct]);
+
+    useEffect(() => {
+        if (dataProduct.idShow !== '') {
+            KiemTraKho(dataProduct.idShow);
+        }
+    }, [dataProduct.idShow])
 
     useEffect(() => {
         setThongTinMuaSanPham({
@@ -227,7 +233,7 @@ export default function InforItemComponent(props) {
                         {
                             dataProduct.moTaNganGon.map((item, i) => {
                                 if (item.length > 0) {
-                                    return <Fragment>
+                                    return <Fragment key={i}>
                                         -{item}<br></br>
                                     </Fragment>
                                 }

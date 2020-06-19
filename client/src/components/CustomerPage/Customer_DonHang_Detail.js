@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react'
 import { useDispatch } from 'react-redux'
 import { axios } from '../../config/constant';
 import { Steps, List, message } from 'antd';
-import { Image} from 'react-bootstrap';
+import { Image } from 'react-bootstrap';
 
 export default function DonHangDetail(props) {
     const dispatch = useDispatch();
@@ -21,7 +21,7 @@ export default function DonHangDetail(props) {
         var strDate = '';
         var now = new Date();
         var ngay = date.getDate().toString();
-        var thang = (date.getMonth()+1).toString();
+        var thang = (date.getMonth() + 1).toString();
         var nam = date.getFullYear().toString();
 
         strDate = ngay + '/' + thang + '/' + nam;
@@ -116,7 +116,10 @@ export default function DonHangDetail(props) {
                                             }
                                             {
                                                 item.trangThai === 5 && (
-                                                    <span style={{ color: 'black' }}><strong>Hủy</strong></span>
+                                                    <Fragment>
+                                                        <span style={{ color: 'black' }}><strong>Hủy</strong></span><br></br>
+                                                        <span style={{ color: 'red' }}>({item.ghiChu})</span>
+                                                    </Fragment>
                                                 )
                                             }
                                         </td>

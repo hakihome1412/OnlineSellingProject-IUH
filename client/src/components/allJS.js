@@ -8,6 +8,7 @@ import ForCustomerComponent from './TrangChuPage/ForCustomerComponent';
 import CategorySanPham from './SanPhamPage/SanPham';
 import SanPhamDetail from '../components/SanPhamDetailPage/SanPhamDetail';
 import InforItemComponent from '../components/SanPhamDetailPage/InforItemComponent';
+import ClientCommentComponent from '../components/SanPhamDetailPage/ClientCommentComponent';
 import QuestAndAnswerComponent from '../components/SanPhamDetailPage/QuestAndAnswerComponent';
 import InforDetailItemComponent from '../components/SanPhamDetailPage/InforDetailItemComponent';
 import DescriptionItemComponent from '../components/SanPhamDetailPage/DescriptionItemComponent';
@@ -24,6 +25,7 @@ import QLBaiVietComponent from '../components/Admin/QLBaiVietComponent';
 import QLProductComponent from '../components/Admin/QLProductComponent';
 import QLCauHoiComponent from '../components/Admin/QLCauHoiComponent';
 import QLDoanhThuComponent from '../components/Admin/QLDoanhThuComponent';
+import QLNhanXetComponent from '../components/Admin/QLNhanXetComponent';
 import CheckoutCart from '../components/CheckoutCartPage/CheckoutCartt';
 import CheckoutShipping from '../components/CheckoutShippingPage/CheckoutShipping';
 import CheckoutPayment from '../components/CheckoutPaymentPage/CheckoutPayment';
@@ -46,6 +48,8 @@ import Customer_Account from '../components/CustomerPage/Customer_Account';
 import Customer_DonHang from '../components/CustomerPage/Customer_DonHang';
 import Customer_ThongTinThanhToan from '../components/CustomerPage/Customer_ThongTinThanhToan';
 import Customer_DonHang_Detail from '../components/CustomerPage/Customer_DonHang_Detail';
+import Customer_Comment from '../components/CustomerPage/Customer_Comment';
+import Customer_SanPhamDaXem from '../components/CustomerPage/Customer_SanPhamDaXem';
 import Customer from '../components/CustomerPage/Customer';
 import TimKiem from '../components/TimKiemPage/TimKiem';
 import QuillEditor from '../components/DungChung/QuillEditor';
@@ -70,6 +74,7 @@ export {
     InforDetailItemComponent,
     DescriptionItemComponent,
     QuestAndAnswerComponent,
+    ClientCommentComponent,
     DangKyComponent,
     DangNhapComponent,
     UserComponent,
@@ -79,6 +84,7 @@ export {
     QLProductComponent,
     QLBaiVietComponent,
     QLMaGiamGiaComponent,
+    QLNhanXetComponent,
     CheckoutCart,
     CheckoutShipping,
     CheckoutPayment,
@@ -102,6 +108,8 @@ export {
     Customer_DonHang,
     Customer_DonHang_Detail,
     Customer_ThongTinThanhToan,
+    Customer_Comment,
+    Customer_SanPhamDaXem,
     TimKiem,
     BaiViet
 };

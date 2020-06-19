@@ -77,7 +77,7 @@ export default function BanHang_TongHopDonHang() {
     return (
         <Fragment>
             <Tabs size='large' style={{ width: '100%' }}>
-                <TabPane tab='Tổng hợp đơn hàng'>
+                <TabPane key={1} tab='Tổng hợp đơn hàng'>
                     <div className='container'>
                         <div className='col'>
                             <div className='row' style={{ justifyContent: 'center', alignItems: 'center' }}>

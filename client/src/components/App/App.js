@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import 'react-quill/dist/quill.snow.css';
 import { Header, Footer, DealPage, TrangChu, TimKiem, Customer, BanHang_DangKy, ErrorPhanQuyen, ShopPage, CategorySanPham, SanPhamDetail, BaiViet, CheckoutCart, CheckoutShipping, CheckoutPayment, BanHang, ResultSuccessPage } from '../allJS';
 import MainAdmin from '../Admin/MainAdmin';
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
 function App() {

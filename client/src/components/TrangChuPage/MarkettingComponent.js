@@ -1,5 +1,5 @@
-import React, { Fragment} from 'react';
-import { Nav, Carousel, Image} from 'react-bootstrap';
+import React, { Fragment } from 'react';
+import { Nav, Carousel, Image } from 'react-bootstrap';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 
 export default function MarkettingComponent(props) {
@@ -53,7 +53,7 @@ export default function MarkettingComponent(props) {
                         {dataBaiViet.map((item, i) => {
                             if (i < 6) {
                                 return <Carousel.Item key={item._id}>
-                                    <Link onClick={(e) => {
+                                    <Link to='/' onClick={(e) => {
                                         e.preventDefault();
                                         history.push('/baiviet/' + item.idShow + '/' + to_slug(item.tieuDe))
                                     }}>

@@ -528,7 +528,7 @@ export default function ModalChiTietProduct_ChuShop() {
                         >
                             {
                                 productNow.moTaNganGon.map((item, i) => {
-                                    return <Input disabled={!disableOptions} defaultValue={item} onChange={(e) => {
+                                    return <Input key={i} disabled={!disableOptions} defaultValue={item} onChange={(e) => {
                                         productNow.moTaNganGon[i] = e.target.value;
                                         var newArray = productNow.moTaNganGon;
                                         setProductSua({
@@ -763,11 +763,13 @@ export default function ModalChiTietProduct_ChuShop() {
 
                         <Form.Item
                             label="Ngày tạo"
-                            name="ngaytao">
+                            name="ngaytao"
+                        >
                             <Input disabled={true} defaultValue={hamChuyenDoiNgay(new Date(productNow.ngayTao))} />
                         </Form.Item>
 
                         <Form.Item
+                            name="trangthaikhoa"
                             label="Trạng thái khóa">
                             <Select disabled={!disableOptions} defaultValue={productNow.isLock === false ? "nolock" : "lock"} onChange={(value) => {
                                 setProductSua({
@@ -781,6 +783,7 @@ export default function ModalChiTietProduct_ChuShop() {
                         </Form.Item>
 
                         <Form.Item
+                            name="trangthaiduyet"
                             label="Trạng thái duyệt">
                             <Select disabled={true} defaultValue={productNow.isAccept === false ? "noaccept" : "accept"}>
                                 <Option key="accept">Đã duyệt</Option>
@@ -788,7 +791,8 @@ export default function ModalChiTietProduct_ChuShop() {
                             </Select>
                         </Form.Item>
 
-                        <Form.Item>
+                        <Form.Item
+                            name="button1">
                             {
                                 statusMessageError === 0 && (
                                     <p style={{ color: 'red', lineHeight: 1.5 }}>Thông tin tạo mới sản phẩm không hợp lệ. Vui lòng kiểm tra lại</p>
@@ -824,7 +828,8 @@ export default function ModalChiTietProduct_ChuShop() {
                             </Button>
                         </Form.Item>
 
-                        <Form.Item>
+                        <Form.Item
+                            name="button2">
 
                             <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
                                 if (statusSua === 0) {
@@ -875,7 +880,8 @@ export default function ModalChiTietProduct_ChuShop() {
                         </Form.Item>
                         {
                             showButtonHuy === true && (
-                                <Form.Item>
+                                <Form.Item
+                                    name="button3">
                                     <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
                                         setDisableOptions(false);
                                         setStatusSua(0);

@@ -93,7 +93,7 @@ export default function BanHang() {
                             </div>
                         </Link>
                     </div>
-                    <Menu mode="inline" theme="dark" style={{ width: 'auto', height: 'auto' }}>
+                    <Menu mode="inline" theme="dark" style={{ width: 'auto', height: 1036 }}>
                         <Menu.Item key="0" onClick={() => {
                             history.push(`${match.url}/trang-chu`);
                         }}>Trang chủ</Menu.Item>

@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 import { axios } from '../../config/constant';
 import { DownOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { QLBaiVietComponent, QLGianHangComponent, QLMaGiamGiaComponent, QLNguoiDungComponent, QLDoanhThuComponent, QLCauHoiComponent, QLCategoryComponent, QLBrandComponent, QLProductComponent, QLDonHangComponent } from '../allJS';
+import { QLBaiVietComponent, QLGianHangComponent, QLNhanXetComponent, QLMaGiamGiaComponent, QLNguoiDungComponent, QLDoanhThuComponent, QLCauHoiComponent, QLCategoryComponent, QLBrandComponent, QLProductComponent, QLDonHangComponent } from '../allJS';
 import { Dropdown, Menu, message } from 'antd';
 
 
@@ -199,6 +199,23 @@ export default function MainAdmin() {
                                     </ListGroup.Item>
                                 </Link>
 
+                                <Link to={`${match.url}/qlnhanxet`} style={{ textDecoration: 'none' }} onClick={(e) => {
+                                    if (cookies.userID === undefined) {
+                                        e.preventDefault();
+                                        message.error("Vui lòng đăng nhập để sử dụng chức năng");
+                                    } else {
+                                        if (isAdminReducer === false) {
+                                            e.preventDefault();
+                                            message.error("Vui lòng đăng nhập tài khoản Admin để sử dụng chức năng này")
+                                        }
+
+                                    }
+                                }}>
+                                    <ListGroup.Item style={{ marginTop: 10 }}>
+                                        Quản lý Nhận xét khách hàng
+                                    </ListGroup.Item>
+                                </Link>
+
                                 <Link to={`${match.url}/qldoanhthu`} style={{ textDecoration: 'none' }} onClick={(e) => {
                                     if (cookies.userID === undefined) {
                                         e.preventDefault();
@@ -229,6 +246,7 @@ export default function MainAdmin() {
                                 <Route exact path={`${match.url}/qlnguoidung`} component={QLNguoiDungComponent}></Route>
                                 <Route exact path={`${match.url}/qlbaiviet`} component={QLBaiVietComponent}></Route>
                                 <Route exact path={`${match.url}/qlcauhoi`} component={QLCauHoiComponent}></Route>
+                                <Route exact path={`${match.url}/qlnhanxet`} component={QLNhanXetComponent}></Route>
                                 <Route exact path={`${match.url}/qldoanhthu`} component={QLDoanhThuComponent}></Route>
                                 <Route exact path={`${match.url}/qlvoucher`} component={QLMaGiamGiaComponent}></Route>
                             </Switch>

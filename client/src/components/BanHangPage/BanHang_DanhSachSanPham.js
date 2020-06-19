@@ -127,7 +127,7 @@ export default function BanHang_DanhSachSanPham() {
         <Fragment>
             <ModalChiTietProduct_ChuShop></ModalChiTietProduct_ChuShop>
             <Tabs size='large' style={{ width: '100%' }}>
-                <TabPane tab="Danh sách sản phẩm">
+                <TabPane key={1} tab="Danh sách sản phẩm">
                     <div className="col" style={{ padding: 20 }}>
                         <div className="col" style={{ width: '100%' }}>
                             <Form>

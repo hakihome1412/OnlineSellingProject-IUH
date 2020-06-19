@@ -21,17 +21,26 @@ module.exports = {
         const db = client.db(DbName);
         const colPost = db.collection('POSTS');
 
-        let result = await colPost.insertOne(baiVietThem);
-        client.close();
-        if (result.insertedCount > 0) {
-            res.status(200).json({
-                status: 'success',
-                message: 'Thêm thành công'
-            });
+        let result2 = await colPost.findOne({ lowerTieuDe: baiVietThem.lowerTieuDe });
+
+        if (result2 === null) {
+            let result = await colPost.insertOne(baiVietThem);
+            client.close();
+            if (result.insertedCount > 0) {
+                res.status(200).json({
+                    status: 'success',
+                    message: 'Thêm thành công'
+                });
+            } else {
+                res.status(200).json({
+                    status: 'fail',
+                    message: 'Tạo bài viết mới thất bại !'
+                })
+            }
         } else {
             res.status(200).json({
                 status: 'fail',
-                message: 'Thêm thất bại!'
+                message: 'Tiêu đề bài viết này đã được đặt trước đó'
             })
         }
     },

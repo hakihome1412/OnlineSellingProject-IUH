@@ -93,7 +93,7 @@ export default function BanHang_DanhSachGiamGia() {
         <Fragment>
             <ModalCapNhatGiaTriGiamGia></ModalCapNhatGiaTriGiamGia>
             <Tabs size='large' style={{ width: '100%' }}>
-                <TabPane tab="Danh sách giảm giá">
+                <TabPane key={1} tab="Danh sách giảm giá">
                     <div className="col" style={{ padding: 20 }}>
                         <div className="col" style={{ width: '100%' }}>
                             <Form>

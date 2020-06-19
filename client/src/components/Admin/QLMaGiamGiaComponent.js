@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
 import { Pagination, Input, Select, message } from 'antd';
-import { ModalChiTietCauHoi } from '../Modals/index';
+import { ModalThemVoucher } from '../Modals/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
 
@@ -15,6 +15,11 @@ export default function QLMaGiamGiaComponent() {
     const [dataSearch, setDataSearch] = useState('');
     const [trangThaiOption, setTrangThaiOption] = useState(0);
     const [statusLockOrNoLock, setStatusLockOrNoLock] = useState(false);
+
+    function format_curency(a) {
+        a = a.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+        return a;
+    }
 
     function hamChuyenDoiNgay(date) {
         var strDate = '';
@@ -132,7 +137,7 @@ export default function QLMaGiamGiaComponent() {
 
     return (
         <Fragment>
-            <ModalChiTietCauHoi></ModalChiTietCauHoi>
+            <ModalThemVoucher></ModalThemVoucher>
             <div className="col-sm-10" style={{ padding: 20 }}>
                 <div className="col" style={{ width: '100%' }}>
                     <Form>
@@ -158,6 +163,13 @@ export default function QLMaGiamGiaComponent() {
                                     <Option value={2}>Đã duyệt</Option>
                                 </Select>
                             </Col>
+                            <Col>
+                                <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                    dispatch({ type: 'SHOW_THEM_VOUCHER' });
+                                }}>
+                                    Thêm mới +
+                                </Button>
+                            </Col>
                         </Row>
                     </Form>
                 </div>
@@ -171,6 +183,7 @@ export default function QLMaGiamGiaComponent() {
                                 <th>Giá trị giảm</th>
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>
+                                <th>Ngày tạo</th>
                                 <th><center>Trạng thái khóa</center></th>
                             </tr>
                         </thead>
@@ -189,7 +202,7 @@ export default function QLMaGiamGiaComponent() {
                                             <td>{item.loaiGiamGia === 0 ? 'Theo thành tiền' : 'Theo phần trăm'}</td>
                                             {
                                                 item.loaiGiamGia === 0 && (
-                                                    <td>{item.giaTriGiam} đ</td>
+                                                    <td>{format_curency(item.giaTriGiam.toString())} đ</td>
                                                 )
                                             }
                                             {
@@ -199,6 +212,7 @@ export default function QLMaGiamGiaComponent() {
                                             }
                                             <td>{hamChuyenDoiNgay(new Date(item.ngayBatDau))}</td>
                                             <td>{hamChuyenDoiNgay(new Date(item.ngayKetThuc))}</td>
+                                            <td>{hamChuyenDoiNgay(new Date(item.ngayTao))}</td>
                                             <td>{item.isLock === false ?
                                                 (
                                                     <Fragment>

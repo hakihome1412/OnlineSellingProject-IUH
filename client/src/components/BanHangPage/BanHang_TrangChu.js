@@ -292,7 +292,7 @@ export default function BanHang_TrangChu(props) {
         <Fragment>
             <Tabs defaultActiveKey="1" size='large' style={{ width: '100%' }}>
                 <TabPane tab="Thiết kế Gian Hàng" key="1">
-                    <div className='row' style={{ backgroundColor: '#F8F9FA' }}>
+                    <div className='row' style={{ backgroundColor: '#F8F9FA', paddingTop: 20 }}>
                         <div className='col-sm-3'>
                             <div className='col'>
                                 <img alt='ảnh logo' src={dataUser.thongTinShop.logoShop} width='350' height='350'></img>
@@ -351,9 +351,9 @@ export default function BanHang_TrangChu(props) {
                                 {
                                     imageAsUrl_Carousel.length === 0 && (
                                         <Fragment>
-                                            <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='50' width='150' />
-                                            <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='50' width='150' style={{ marginLeft: 20 }} />
-                                            <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='50' width='150' style={{ marginLeft: 20 }} />
+                                            <img alt='ảnh' src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='50' width='150' />
+                                            <img alt='ảnh' src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='50' width='150' style={{ marginLeft: 20 }} />
+                                            <img alt='ảnh' src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='50' width='150' style={{ marginLeft: 20 }} />
                                         </Fragment>
                                     )
                                 }
@@ -452,7 +452,7 @@ export default function BanHang_TrangChu(props) {
                             </div>
                             <br></br>
                             <br></br>
-                            <center><Button size='large' style={{ width: 300, height: 70 }}
+                            <center><Button size='large' style={{ width: 300, height: 70, marginBottom: 20 }}
                                 onClick={() => {
                                     CapNhatThietKeGianHang();
                                     console.log(dataThayDoiThietKe);
@@ -503,7 +503,7 @@ export default function BanHang_TrangChu(props) {
                             <h6>URL:</h6>
                             <p>dasdasdasdas</p>
                             <br></br>
-                            <Button style={{width:150}} onClick={() => {
+                            <Button style={{ width: 150 }} onClick={() => {
                                 CapNhatThongTinGianHang();
                             }}>Lưu</Button>
                         </div>

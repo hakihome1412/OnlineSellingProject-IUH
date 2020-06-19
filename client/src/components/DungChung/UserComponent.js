@@ -9,13 +9,13 @@ import { message } from 'antd';
 export default function UserComponent() {
     const [cookies, setCookies, removeCookie] = useCookies();
     const isAdminReducer = useSelector(state => state.isAdmin);
-    const [dataUser, setDataUser] = useState({});
+    const [dataEmail, setDataEmail] = useState('');
     var history = useHistory();
 
     async function LayDataUserTheoID(userID) {
         let res = await axios.get('hethong/users-item?idUser=' + userID);
         if (res.data.status === 'success') {
-            setDataUser(res.data.data);
+            setDataEmail(res.data.data.email);
         } else {
             message.error('Lấy data user thất bại');
         }
@@ -28,7 +28,7 @@ export default function UserComponent() {
 
     return (
         <Fragment>
-            <NavDropdown title={dataUser.email} id="basic-nav-dropdown">
+            <NavDropdown title={dataEmail.length > 0 ? dataEmail : ''} id="basic-nav-dropdown">
                 {
                     isAdminReducer && (
                         <NavDropdown.Item onClick={() => {
@@ -39,9 +39,24 @@ export default function UserComponent() {
                 <NavDropdown.Item onClick={() => {
                     history.push('/customer/account');
                 }}>Tài khoản của tôi</NavDropdown.Item>
-                <NavDropdown.Item onClick={() => {
-                    history.push('/customer/order');
-                }}>Đơn hàng của tôi</NavDropdown.Item>
+                {
+                    !isAdminReducer && (
+                        <Fragment>
+                            <NavDropdown.Item onClick={() => {
+                                history.push('/customer/order');
+                            }}>Đơn hàng của tôi</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => {
+                                history.push('/customer/payment');
+                            }}>Thông tin thanh toán</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => {
+                                history.push('/customer/comment');
+                            }}>Nhận xét của tôi</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => {
+                                history.push('/customer/san-pham-da-xem');
+                            }}>Sản phẩm đã xem</NavDropdown.Item>
+                        </Fragment>
+                    )
+                }
                 <NavDropdown.Item onClick={() => {
                     removeCookie('token');
                     removeCookie('userID');

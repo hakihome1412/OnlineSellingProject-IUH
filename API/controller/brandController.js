@@ -177,7 +177,7 @@ module.exports = {
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colBrand = db.collection('BRANDS');
-        const brandTrung = await colBrand.findOne({ ten: brandThem.ten });
+        const brandTrung = await colBrand.findOne({ lowerTen: brandThem.lowerTen });
 
         if (brandTrung === null) {
             let result = await colBrand.insertOne(brandThem);
@@ -197,7 +197,7 @@ module.exports = {
             client.close();
             res.status(200).json({
                 status: 'fail',
-                message: 'Thương hiệu này đã tồn tại'
+                message: 'Tên thương hiệu đã được đặt trước đó'
             })
         }
 

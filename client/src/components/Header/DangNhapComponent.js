@@ -19,8 +19,6 @@ export default function DangNhapComponent() {
 
     const [loading, setLoading] = useState(false);
 
-    const [duLieuOK, setDuLieuOK] = useState(false);
-
     function KiemTraDuLieuNhap() {
         var regEmail = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         if (taiKhoan.tenTaikhoan === '' || taiKhoan.matKhau === '') {

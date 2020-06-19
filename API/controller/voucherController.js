@@ -3,6 +3,7 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 const assert = require('assert');
 const ids = require('short-id');
+const { BoDau, shuffle, sapXepTuLonDenBe } = require('../functionHoTro/index');
 
 module.exports = {
     LayDanhSachVoucherTheoTrang: async function (req, res) {
@@ -14,9 +15,9 @@ module.exports = {
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colVoucher = db.collection('VOUCHERS');
-        let allVoucher = await colVoucher.find({ isDelete: false }).toArray();
+        let allVoucher = await colVoucher.find({}).toArray();
         let soTrang = Math.ceil(parseInt(allVoucher.length) / SoItemMoiPageAdmin);
-        let arrVoucher = await colVoucher.find({ isDelete: false }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        let arrVoucher = await colVoucher.find({}).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
         client.close();
 
         res.status(200).json({
@@ -67,13 +68,13 @@ module.exports = {
 
     LayVoucherTheoIDShow: async function (req, res) {
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-        let voucherID = req.query.idShow;
+        let voucherID = BoDau(req.query.idShow);
         await client.connect();
         var dateNow = new Date();
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colVoucher = db.collection('VOUCHERS');
-        let result = await colVoucher.find({ idShow: voucherID, isLock: false }).next();
+        let result = await colVoucher.find({ idLower: voucherID, isLock: false }).next();
         client.close();
         if (result === null) {
             res.status(200).json({
@@ -83,7 +84,7 @@ module.exports = {
         } else {
             if (result.ngayKetThuc < dateNow) {
                 res.status(200).json({
-                    status: 'failt',
+                    status: 'fail',
                     message: 'Voucher đã hết hạn',
                     data: result
                 });
@@ -96,5 +97,85 @@ module.exports = {
             }
 
         }
-    }
+    },
+
+    ThemVoucher: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        let voucherThem = {
+            idShow: req.body.idShow,
+            idLower: BoDau(req.body.idShow),
+            ten: req.body.ten,
+            loaiGiamGia: req.body.loaiGiamGia,
+            giaTriGiam: req.body.giaTriGiam,
+            ngayBatDau: req.body.ngayBatDau,
+            ngayKetThuc: req.body.ngayKetThuc,
+            ngayTao: new Date(),
+            isLock: false
+        }
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colVoucher = db.collection('VOUCHERS');
+        const voucherTrung = await colVoucher.findOne({ idShow: voucherThem.idShow });
+
+        if (voucherTrung === null) {
+            let result = await colVoucher.insertOne(voucherThem);
+            client.close();
+            if (result.insertedCount > 0) {
+                res.status(200).json({
+                    status: 'success',
+                    message: 'Thêm thành công'
+                });
+            } else {
+                res.status(200).json({
+                    status: 'fail',
+                    message: 'Thêm thất bại!'
+                })
+            }
+        } else {
+            client.close();
+            res.status(200).json({
+                status: 'fail',
+                message: 'Voucher này đã tồn tại'
+            })
+        }
+
+    },
+
+    KhoaVoucher: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        let voucherID = req.body._id;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colVoucher = db.collection('VOUCHERS');
+        let result = await colVoucher.updateOne({ _id: ObjectId(voucherID) }, { $set: { isLock: true } });
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            message: 'Khóa thành công !'
+        });
+
+    },
+
+    MoKhoaVoucher: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        let voucherID = req.body._id;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colVoucher = db.collection('VOUCHERS');
+        let result = await colVoucher.updateOne({ _id: ObjectId(voucherID) }, { $set: { isLock: false } });
+        client.close();
+        res.status(200).json({
+            status: 'success',
+            message: 'Khóa thành công !'
+        });
+
+    },
 }

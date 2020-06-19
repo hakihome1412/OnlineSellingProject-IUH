@@ -11,9 +11,9 @@ module.exports = {
             question: req.body.question,
             answer: '',
             luotThich: 0,
-            idProductsThich: [],
+            idUsersThich: [],
             ngayTao: new Date(),
-            ngayTraLoi: new Date(),
+            ngayTraLoi: '',
             idProduct: req.body.id,
             isAccept: false
         }
@@ -69,8 +69,8 @@ module.exports = {
         if (idUser !== undefined) {
             for (let index = 0; index < arrQuestAnswer.length; index++) {
                 var temp = 0
-                for (let index2 = 0; index2 < arrQuestAnswer[index].idProductsThich.length; index2++) {
-                    if (arrQuestAnswer[index].idProductsThich[index2] === idUser) {
+                for (let index2 = 0; index2 < arrQuestAnswer[index].idUsersThich.length; index2++) {
+                    if (arrQuestAnswer[index].idUsersThich[index2] === idUser) {
                         arrLuotThich.push(1);
                         temp = 1;
                         break;
@@ -287,7 +287,7 @@ module.exports = {
         const db = client.db(DbName);
         const colQuestAnswer = db.collection('QUESTANSWER');
         let result = await colQuestAnswer.updateOne({ _id: ObjectId(idCauHoi) }, {
-            $push: { 'idProductsThich': idUser },
+            $push: { 'idUsersThich': idUser },
             $inc: { 'luotThich': 1 }
         });
 

@@ -70,13 +70,10 @@ export default function BanHang_Top10SanPhamBanChay() {
 
     }, [optionValueType]);
 
-
-    console.log(setSpinnerReducer);
-
     return (
         <Fragment>
             <Tabs size='large' style={{ width: '100%' }}>
-                <TabPane tab="Top 10 sản phẩm bán chạy">
+                <TabPane key={1} tab="Top 10 sản phẩm bán chạy">
                     <div className='col'>
                         <Radio.Group value={optionValueType} onChange={(e) => {
                             setOptionValueType(e.target.value);
@@ -103,7 +100,7 @@ export default function BanHang_Top10SanPhamBanChay() {
                                         {
                                             setSpinnerReducer === 0 && optionValueType === 0 && (
                                                 dataProduct.map((item, i) => {
-                                                    return <tr key={item._id}>
+                                                    return <tr key={i}>
                                                         <td>{i + 1}</td>
                                                         <td style={{ width: 400 }}>{item.tenSanPham}</td>
                                                         <td><Image src={item.img} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>

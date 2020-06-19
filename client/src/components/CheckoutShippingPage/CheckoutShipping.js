@@ -101,11 +101,15 @@ export default function CheckoutShipping() {
     }, [])
 
     useEffect(() => {
-        LayDataQuanTheoIDThanhPho(diaChi.idThanhPho);
+        if (diaChi.idThanhPho !== '-1') {
+            LayDataQuanTheoIDThanhPho(diaChi.idThanhPho);
+        }
     }, [diaChi.idThanhPho])
 
     useEffect(() => {
-        LayDataPhuongTheoIDQuan(diaChi.idThanhPho, diaChi.idQuan);
+        if (diaChi.idQuan !== '-1') {
+            LayDataPhuongTheoIDQuan(diaChi.idThanhPho, diaChi.idQuan);
+        }
     }, [diaChi.idQuan])
 
     useEffect(() => {
@@ -281,7 +285,8 @@ export default function CheckoutShipping() {
 
                                 <Form.Group as={Row}>
                                     <Col sm={{ span: 8, offset: 3 }}>
-                                        <Link onClick={(e) => {
+                                        <Link to='/' onClick={(e) => {
+                                            e.preventDefault();
                                             setCheckDuLieuNhap(KiemTraThongTinNhap(thongTin));
                                         }}>
                                             <Button>Giao đến địa chỉ này</Button>

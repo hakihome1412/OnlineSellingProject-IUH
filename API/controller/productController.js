@@ -457,7 +457,7 @@ module.exports = {
         console.log("Connected correctly to server");
         const db = client.db(DbName);
         const colProduct = db.collection('PRODUCTS');
-        let allProduct = await colProduct.find({ isDelete: false, isLock: false, isAccept: true }).toArray();
+        let allProduct = await colProduct.find({ isDelete: false, isLock: false, isAccept: true, idCategory: categoryID }).toArray();
         let soTrang = Math.ceil(parseInt(allProduct.length) / SoItemMoiPageCategory);
         let arrProduct = await colProduct.find({ isDelete: false, idCategory: categoryID, isLock: false, isAccept: true }).sort({ _id: -1 }).limit(soItemMoiPageCategory).skip(soItemMoiPageCategory * page).toArray();
         client.close();
@@ -796,6 +796,7 @@ module.exports = {
             ngayTao: new Date(req.body.ngayTao),
             idBrand: req.body.idBrand,
             idCategory: req.body.idCategory,
+            idUser: [],
             idShop: req.body.idShop,
             idEvent: req.body.idEvent,
             isAccept: req.body.isAccept,
@@ -973,6 +974,33 @@ module.exports = {
             message: 'Cập nhật thành công !'
         });
 
+    },
+
+    CapNhatNguoiXem: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        const productID = req.body.id;
+        const userID = req.body.idUser;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let result2 = await colProduct.findOne({ _id: ObjectId(productID), idUser: userID });
+        if (result2 === null) {
+            let result = await colProduct.updateOne({ _id: ObjectId(productID) }, { $push: { idUser: userID } });
+            client.close();
+            res.status(200).json({
+                status: 'success',
+                message: 'Cập nhật thành công'
+            });
+        } else {
+            client.close();
+            res.status(200).json({
+                status: 'success',
+                message: 'Đã cập nhật user này!'
+            });
+        }
     },
 
     DuyetSanPham: async function (req, res) {
@@ -1191,6 +1219,23 @@ module.exports = {
                 message: 'Hết hàng'
             });
         }
+    },
+
+    LayDataProductDaXem_TheoIDUser: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        const id = req.query.id;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let result = await colProduct.find({ idUser: id, isDelete: false, isLock: false, isAccept: true }).toArray();
+        client.close()
+        res.status(200).json({
+            status: 'success',
+            message: 'Lấy data thành công',
+            data: result
+        });
     },
 
     Top10SanPhamBanChayNhatTheoDoanhThu: async function (req, res) {

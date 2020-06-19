@@ -396,7 +396,7 @@ export default function BanHang_BaoCaoBanHangTongHop() {
     return (
         <Fragment>
             <Tabs size='large' style={{ width: '100%' }}>
-                <TabPane tab="Báo cáo bán hàng tổng hợp">
+                <TabPane key={1} tab="Báo cáo bán hàng tổng hợp">
                     <div className='col'>
                         <span>(*Kết quả báo cáo đều được dựa vào các đơn hàng đã hoàn thành)</span>
                         <br></br>

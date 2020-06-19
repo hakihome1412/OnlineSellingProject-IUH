@@ -276,10 +276,10 @@ class QuillEditor extends React.Component {
                     <button className="ql-underline" />
                     <button className="ql-strike" />
                     <button className="ql-insertImage">
-                        <i class="far fa-file-image"></i>
+                        <i className="far fa-file-image"></i>
                     </button>
                     <button className="ql-insertVideo">
-                        <i class="fas fa-file-video"></i>
+                        <i className="fas fa-file-video"></i>
                     </button>
                     <button className="ql-link" />
                     <button className="ql-code-block" />

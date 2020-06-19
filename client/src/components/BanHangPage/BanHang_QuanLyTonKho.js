@@ -97,7 +97,7 @@ export default function BanHang_QuanLyTonKho() {
         <Fragment>
             <ModalCapNhatKho></ModalCapNhatKho>
             <Tabs size='large' style={{ width: '100%' }}>
-                <TabPane tab="Quản lý kho">
+                <TabPane key={1} tab="Quản lý kho">
                     <div className="col" style={{ padding: 20 }}>
                         <div className="col" style={{ width: '100%' }}>
                             <Form>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { InforItemComponent, InforDetailItemComponent, DescriptionItemComponent, QuestAndAnswerComponent } from '../allJS'
+import { InforItemComponent, InforDetailItemComponent, DescriptionItemComponent, QuestAndAnswerComponent, ClientCommentComponent } from '../allJS'
 import { axios } from '../../config/constant';
 import { useDispatch } from 'react-redux';
 import { message } from 'antd';
@@ -11,6 +11,10 @@ export default function SanPhamDetail(props) {
     const [phanLoaiSize, setPhanLoaiSize] = useState([]);
     const dispatch = useDispatch();
     const [cookies, setCookie] = useCookies();
+    const [thongTinShop, setThongTinShop] = useState({
+        idShop: '',
+        ten: ''
+    });
     const [thongTinProduct, setThongTinProduct] = useState({
         _id: '',
         idShow: '',
@@ -43,7 +47,20 @@ export default function SanPhamDetail(props) {
     const [thongTinBrand, setThongTinBrand] = useState({
         ten: '',
         xuatXu: ''
-    })
+    });
+
+    async function LayDataShopTheoID(shopID) {
+        let res = await axios.get('hethong/users/shop-item?idShop=' + shopID);
+
+        if (res.data.status === 'success') {
+            setThongTinShop({
+                idShop: res.data.data.thongTinShop.idShop,
+                ten: res.data.data.thongTinShop.ten
+            })
+        } else {
+            message.error('Lấy data gian hàng thất bại');
+        }
+    }
 
     async function LayDataProductTheoID(productID) {
         let res = await axios.get('hethong/products-item?id=' + productID);
@@ -127,24 +144,49 @@ export default function SanPhamDetail(props) {
         });
     }
 
+    async function CapNhatNguoiXem() {
+        let res = await axios.put('hethong/products-capnhatnguoixem', {
+            id: productID,
+            idUser: cookies.userID
+        });
+    }
+
     useEffect(() => {
+        if (cookies.userID !== undefined) {
+            CapNhatNguoiXem();
+        }
         LayDataProductTheoID(productID);
-        KiemTraTokenAdmin();
+        if (cookies.token !== undefined) {
+            KiemTraTokenAdmin();
+        }
         dispatch({ type: 'SHOW_HEADER' });
         window.scrollTo(0, 0);
     }, [])
 
     useEffect(() => {
-        LayDataBrandTheoID(thongTinProduct.idBrand);
         LayPhanLoaiColor(thongTinProduct.idShow);
         LayPhanLoaiSize(thongTinProduct.idShow);
     }, [thongTinProduct])
+
+    useEffect(() => {
+        if (thongTinProduct.idShop !== '') {
+            LayDataShopTheoID(thongTinProduct.idShop);
+        }
+    }, [thongTinProduct.idShop])
+
+    useEffect(() => {
+        if (thongTinProduct.idBrand !== '') {
+            LayDataBrandTheoID(thongTinProduct.idBrand);
+        }
+    }, [thongTinProduct.idBrand])
+
     return (
         <div className="container" style={{ marginTop: '50px' }}>
             <InforItemComponent phanLoaiColor={phanLoaiColor} phanLoaiSize={phanLoaiSize} thongTinProduct={thongTinProduct}></InforItemComponent>
             <InforDetailItemComponent thongTinProduct={thongTinProduct} thongTinBrand={thongTinBrand}></InforDetailItemComponent>
             <DescriptionItemComponent thongTinProduct={thongTinProduct}></DescriptionItemComponent>
             <QuestAndAnswerComponent thongTinProduct={thongTinProduct}></QuestAndAnswerComponent>
+            <ClientCommentComponent thongTinShop={thongTinShop} thongTinProduct={thongTinProduct}></ClientCommentComponent>
         </div>
     )
 }

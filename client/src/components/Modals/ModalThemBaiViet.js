@@ -112,7 +112,9 @@ export default function ModalThemBaiViet() {
             dispatch({ type: 'RELOAD_DATABASE' });
             setSpinnerThemBaiViet(0);
         } else {
-            message.error('Tạo bài viết mới thất bại !');
+            message.error(res.data.message);
+            dispatch({ type: 'CLOSE_THEM_BAIVIET' });
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
             setSpinnerThemBaiViet(0);
         }
     }

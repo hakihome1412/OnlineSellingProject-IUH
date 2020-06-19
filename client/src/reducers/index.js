@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import taiKhoanDaDangNhap from '../reducers/DungChung/taiKhoanDaDangNhapReducer';
 import trangThaiDangNhap from '../reducers/DungChung/trangThaiDaDangNhapThanhCong';
 import showMainComponent from '../reducers/DungChung/showMainComponentAdminReducer';
 import reloadDatabase from '../reducers/DungChung/reloadDatabaseReducer';
@@ -30,14 +29,16 @@ import showModalCapNhatGiaTriGiam from '../reducers/DungChung/showModalCapNhatGi
 import showModalThemBaiViet from '../reducers/DungChung/showModalThemBaiVietReducer';
 import showChiTietBaiViet from '../reducers/DungChung/showChiTietBaiVietReducer';
 import showChiTietCauHoi from '../reducers/DungChung/showChiTietCauHoiReducer';
+import showChiTietNhanXet from '../reducers/DungChung/showChiTietNhanXetReducer';
 import valueSearch from '../reducers/DungChung/valueSearchReducer';
+import showModalThemVoucher from '../reducers/DungChung/showModalThemVoucherReducer';
 
 const allReducers = combineReducers({
-    taiKhoanDaDangNhap,
     trangThaiDangNhap,
     showMainComponent,
     reloadDatabase,
     showChiTietCauHoi,
+    showChiTietNhanXet,
     setSpinner,
     isAdmin,
     objectIDDuocChon,
@@ -64,7 +65,8 @@ const allReducers = combineReducers({
     showModalCapNhatGiaTriGiam,
     showModalThemBaiViet,
     valueSearch,
-    showChiTietBaiViet
+    showChiTietBaiViet,
+    showModalThemVoucher
 })
 
 export default allReducers;

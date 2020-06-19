@@ -11,7 +11,6 @@ export default function InforDetailItemComponent(props) {
                 <div className="col">
                     <h5>THÔNG TIN CHI TIẾT</h5>
                     <div className="col-sm-9 infor-detail-item">
-                        <br></br>
                         <Table className="table-infor-detail-item" bordered>
                             <tbody>
                                 <tr>
