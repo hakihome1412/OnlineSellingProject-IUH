@@ -21,6 +21,7 @@ export default function ClientCommentComponent(props) {
     const [dataCommentShow, setDataCommentShow] = useState([]);
     const [dataUser, setDataUser] = useState([]);
     const [nhanXetOption, setNhanXetOption] = useState(0);
+    const [endXemThem, setEndXemThem] = useState(false);
 
     const [comment, setComment] = useState({
         soSao: '',
@@ -143,7 +144,18 @@ export default function ClientCommentComponent(props) {
 
     useEffect(() => {
         LayDataCommentTheoOption();
+        setCountNhanXetShow(10);
     }, [nhanXetOption])
+
+    useEffect(() => {
+        if (countNhanXetShow >= dataCommentShow.length && dataCommentShow.length !== 0) {
+            setEndXemThem(true);
+        }
+    }, [countNhanXetShow])
+
+    console.log('count1: ' + countNhanXetShow)
+    console.log('count2: ' + dataCommentShow.length)
+    console.log(endXemThem)
 
     return (
         <div className="row" style={{ marginTop: 40 }}>
@@ -257,9 +269,7 @@ export default function ClientCommentComponent(props) {
 
                     <div className='row'>
                         <div className='col-sm-3'>
-                            <center>
-                                <span style={{ fontSize: 16 }}>Chọn xem nhận xét</span>
-                            </center>
+                            <span style={{ fontSize: 16 }}>Chọn xem nhận xét</span>
                         </div>
 
                         <div className='col-sm-9'>
@@ -318,17 +328,22 @@ export default function ClientCommentComponent(props) {
                         })
                     }
 
-                    <div className='row' style={{ marginTop: 20 }}>
-                        <div className='col-sm-3'>
+                    {
+                        endXemThem === false && (
+                            <div className='row' style={{ marginTop: 20 }}>
+                                <div className='col-sm-3'>
 
-                        </div>
-                        <div className='col-sm-9'>
-                            <Link to='/' onClick={(e) => {
-                                e.preventDefault();
-                                setCountNhanXetShow(prev => prev + 10);
-                            }}>Xem thêm</Link>
-                        </div>
-                    </div>
+                                </div>
+                                <div className='col-sm-9'>
+                                    <Link to='/' onClick={(e) => {
+                                        e.preventDefault();
+                                        setCountNhanXetShow(prev => prev + 10);
+                                    }}>Xem thêm</Link>
+                                </div>
+                            </div>
+                        )
+                    }
+
                 </div>
             </div>
         </div>

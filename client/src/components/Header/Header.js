@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect } from 'react';
-import { Navbar, Nav, Form, Button, Modal, Tab, Tabs, Table } from 'react-bootstrap';
+import { Navbar, Nav, Form, Button, Modal, Tab, Tabs, Table, FormControl } from 'react-bootstrap';
 import { DangKyComponent, DangNhapComponent, UserComponent } from '../allJS';
 import { useSelector, useDispatch } from 'react-redux';
 import { useCookies } from 'react-cookie';
@@ -110,12 +110,6 @@ function Header() {
             search: valueSearch,
             id: cookies.userID
         })
-
-        if (res.data.status === 'success') {
-            message.success('Đã cập nhật data search');
-        } else {
-            message.error('Không cập nhật được trong database');
-        }
     }
 
     async function LayDataTimKiemHot() {
@@ -177,7 +171,7 @@ function Header() {
 
     return (
         <Fragment>
-            <Navbar bg="light" variant="light">
+            <Navbar bg="light" expand="lg">
                 <Navbar.Brand href="/">
                     <img
                         alt=""
@@ -191,7 +185,7 @@ function Header() {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav>
+                    <Nav className="mr-auto">
                         <Nav.Link href="/">Trang Chủ</Nav.Link>
                         <Nav.Link onClick={(e) => {
                             if (cookies.token === undefined) {
@@ -202,39 +196,44 @@ function Header() {
                             }
                         }}>{isAdminReducer ? 'Trang Quản Lý' : 'Shop Của Bạn'}</Nav.Link>
                     </Nav>
-                    <Form inline style={{ marginLeft: '18%' }}>
-                        <Dropdown overlay={menu} trigger={['click']}>
-                            <Form.Control type="text" value={valueSearch} placeholder="Tìm sản phẩm, danh mục hay thương hiệu mong muốn" style={{ width: 480 }} className="mr-sm-1" onChange={(e) => {
-                                dispatch({ type: 'VALUE_SEARCH', valueSearch: e.target.value });
-                            }}
-                                onClick={() => {
-                                    if (cookies.userID !== undefined) {
-                                        LayDataLichSuTimKiem();
-                                    }
-                                }} />
-                        </Dropdown>
-                        <Button variant="outline-success" onClick={() => {
-                            if (valueSearch !== '') {
-                                CapNhatTimKiem();
-                                history.push('/timkiem?data=' + valueSearch + '&order=newest');
+                    <Nav className="mr-auto">
+                        <Form inline>
+                            <Dropdown overlay={menu} trigger={['click']}>
+                                <FormControl type="text" value={valueSearch} placeholder="Tìm sản phẩm, danh mục hay thương hiệu mong muốn" className="mr-sm-2" style={{ width: 480 }} onChange={(e) => {
+                                    dispatch({ type: 'VALUE_SEARCH', valueSearch: e.target.value });
+                                }}
+                                    onClick={() => {
+                                        if (cookies.userID !== undefined) {
+                                            LayDataLichSuTimKiem();
+                                        }
+                                    }} />
+                            </Dropdown>
+
+                            <Button variant="outline-success" style={{ width: 'auto' }} onClick={() => {
+                                if (valueSearch !== '') {
+                                    CapNhatTimKiem();
+                                    history.push('/timkiem?data=' + valueSearch + '&order=newest');
+                                }
+                            }}>Tìm Kiếm</Button>
+                        </Form>
+                    </Nav>
+                    <Nav className="mr-auto">
+                        <Form inline>
+                            {
+                                isAdminReducer === false && (
+                                    <Nav.Link href="/checkout/cart">
+                                        <Badge count={cookies.token === undefined ? 0 : countProductInCart} style={{ paddingTop: countProductInCart > 99 ? 0 : 6 }}>
+                                            <i className="fa fa-shopping-cart" style={{ fontSize: 25 }}></i>
+                                        </Badge>
+                                    </Nav.Link>
+                                )
                             }
-                        }}>Tìm Kiếm</Button>
-                    </Form>
-                    <Nav style={{ marginLeft: '22%' }}>
-                        {
-                            isAdminReducer === false && (
-                                <Nav.Link href="/checkout/cart">
-                                    <Badge count={cookies.token === undefined ? 0 : countProductInCart} style={{ width: 4, height: 16, paddingRight: 20, paddingTop: 3, alignSelf: 'center' }}>
-                                        <i className="fa fa-shopping-cart" style={{ fontSize: 25 }}></i>
-                                    </Badge>
-                                </Nav.Link>
-                            )
-                        }
-                        {cookies.token === undefined ?
-                            (<Nav.Link onClick={() => {
-                                dispatch({ type: 'SHOW_MODAL_DANGNHAP_DANGKY' });
-                            }} >Đăng Ký / Đăng Nhập</Nav.Link>) : (<UserComponent></UserComponent>)
-                        }
+                            {cookies.token === undefined ?
+                                (<Nav.Link onClick={() => {
+                                    dispatch({ type: 'SHOW_MODAL_DANGNHAP_DANGKY' });
+                                }} >Đăng Ký / Đăng Nhập</Nav.Link>) : (<UserComponent></UserComponent>)
+                            }
+                        </Form>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

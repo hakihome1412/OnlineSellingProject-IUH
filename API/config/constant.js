@@ -1,4 +1,4 @@
-//const DbUrl = 'mongodb+srv://huymotcham:hakihome1412@cluster0-70kfe.mongodb.net/test?retryWrites=true&w=majority';
+// const DbUrl = 'mongodb+srv://huymotcham:hakihome1412@cluster0-70kfe.mongodb.net/test?retryWrites=true&w=majority';
 
 const DbUrl = 'mongodb://localhost:27017';
 const DbName = 'OnlineSelling';

@@ -1,6 +1,7 @@
-import React, { Fragment} from 'react';
+import React, { Fragment } from 'react';
 import { Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Tooltip } from 'antd';
 
 export default function DealComponent(props) {
     var dataProductSale = props.dataProductSale;
@@ -39,6 +40,14 @@ export default function DealComponent(props) {
         return str;
     }
 
+    function setLongString(str) {
+        var stringNew = str;
+        if (str.length > 65) {
+            stringNew = str.substring(0, 65) + '...'
+        }
+        return stringNew;
+    }
+
     function tinh_tien(giaGoc, giaTriGiamGia) {
         var tien = 0;
         if (giaTriGiamGia > 100) {
@@ -54,35 +63,37 @@ export default function DealComponent(props) {
         <Fragment>
             <div className="row" style={{ height: 'auto', backgroundColor: '#F8F9FA', marginTop: 40, borderRadius: 10, color: 'black', fontWeight: 'lighter', padding: 10 }}>
                 <div className="col">
-                    <div className="row" style={{ height: 50, width: '100%', padding: 10 }}>
+                    <div className="row" style={{ height: 50, width: '100%', padding: 10, marginBottom: 20 }}>
                         <i className="fa fa-bell fa-2x" style={{ marginTop: 15 }}></i>
                         <div className="col">
                             <h5 style={{ color: 'orange' }}><strong>TiemDo Deal</strong></h5>
-                            <span>Cập nhật hàng giờ tất cả những deal giảm giá đặc biệt trên TiemDo. Hãy bookmark trang này và quay lại thường xuyên để không bỏ lỡ bạn nhé!</span>
+                            <p style={{ lineHeight: 1 }}>Cập nhật hàng giờ tất cả những deal giảm giá đặc biệt trên TiemDo. Hãy bookmark trang này và quay lại thường xuyên để không bỏ lỡ bạn nhé!</p>
                         </div>
                     </div>
-                    <hr></hr>
                     <div className="row">
                         {
                             dataProductSale.map((item, i) => {
-                                return <div key={i} className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
-                                    <Link to={'detail/' + item._id + '/' + to_slug(item.ten)} className="a_item">
-                                        <div className="row">
-                                            <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
-                                        </div>
-                                        <div className="row item-ten">
-                                            <span><strong>{item.ten}</strong></span>
-                                        </div>
-                                        <div className="row item-gia">
-                                            <h5><strong>{format_curency(tinh_tien(item.gia, item.giaTriGiamGia))} VNĐ</strong></h5>&nbsp;<span className="percent">{
-                                                item.giaTriGiamGia > 100 ? '-' + format_curency(item.giaTriGiamGia.toString()) + 'VNĐ' : '-' + item.giaTriGiamGia + '%'
-                                            }</span>
-                                        </div>
-                                        <div className="row item-giagoc">
-                                            <strike><span className="original">{format_curency(item.gia.toString())} VNĐ</span></strike>
-                                        </div>
-                                    </Link>
-                                </div>
+                                return <Tooltip title={item.ten} placement={'right'} color={'orange'} key={i}>
+                                    <div key={i} className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
+                                        <Link to={'detail/' + item._id + '/' + to_slug(item.ten)} className="a_item">
+                                            <div className="row">
+                                                <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
+                                            </div>
+                                            <div className="row item-ten">
+                                                <span><strong>{setLongString(item.ten)}</strong></span>
+                                            </div>
+                                            <div className="row item-gia">
+                                                <h5><strong>{format_curency(tinh_tien(item.gia, item.giaTriGiamGia))} VNĐ</strong></h5>&nbsp;<span className="percent">{
+                                                    item.giaTriGiamGia > 100 ? '-' + format_curency(item.giaTriGiamGia.toString()) + 'VNĐ' : '-' + item.giaTriGiamGia + '%'
+                                                }</span>
+                                            </div>
+                                            <div className="row item-giagoc">
+                                                <strike><span className="original">{format_curency(item.gia.toString())} VNĐ</span></strike>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                </Tooltip>
+
                             })
                         }
                     </div>

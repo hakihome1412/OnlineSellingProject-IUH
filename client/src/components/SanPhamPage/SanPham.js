@@ -4,7 +4,7 @@ import { Image, Button } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { message, Input, Pagination } from 'antd';
+import { message, Input, Pagination, Tooltip } from 'antd';
 import { StringParam, useQueryParams, NumberParam } from 'use-query-params';
 
 
@@ -267,38 +267,44 @@ export default function SanPham(props) {
                             {
                                 dataProduct.map((item, i) => {
                                     if (item.giaTriGiamGia === 0) {
-                                        return <div key={item._id} className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
-                                            <Link to={'/detail/' + item._id + '/' + to_slug(item.ten)} className="a_item">
-                                                <div className="row">
-                                                    <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
-                                                </div>
-                                                <div className="row item-ten">
-                                                    <span>{setLongString(item.ten)}</span>
-                                                </div>
-                                                <div className="row item-gia">
-                                                    <h5><strong>{format_curency(item.gia.toString())} VNĐ</strong></h5>
-                                                </div>
-                                            </Link>
-                                        </div>
+                                        return <Tooltip title={item.ten} placement={'right'} key={i}>
+                                            <div className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
+                                                <Link to={'/detail/' + item._id + '/' + to_slug(item.ten)} className="a_item">
+                                                    <div className="row">
+                                                        <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
+                                                    </div>
+                                                    <div className="row item-ten">
+                                                        <span>{setLongString(item.ten)}</span>
+                                                    </div>
+                                                    <div className="row item-gia">
+                                                        <h5><strong>{format_curency(item.gia.toString())} VNĐ</strong></h5>
+                                                    </div>
+                                                </Link>
+                                            </div>
+                                        </Tooltip>
+
                                     } else {
-                                        return <div key={item._id} className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
-                                            <Link to={'/detail/' + item._id + '/' + to_slug(item.ten)} className="a_item">
-                                                <div className="row">
-                                                    <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
-                                                </div>
-                                                <div className="row item-ten">
-                                                    <span>{setLongString(item.ten)}</span>
-                                                </div>
-                                                <div className="row item-gia">
-                                                    <h5><strong>{format_curency(tinh_tien(item.gia, item.giaTriGiamGia))} VNĐ</strong></h5>&nbsp;<span className="percent">{
-                                                        item.giaTriGiamGia > 100 ? '-' + format_curency(item.giaTriGiamGia.toString()) + 'VNĐ' : '-' + item.giaTriGiamGia + '%'
-                                                    }</span>
-                                                </div>
-                                                <div className="row item-giagoc">
-                                                    <strike><span className="original">{format_curency(item.gia.toString())} VNĐ</span></strike>
-                                                </div>
-                                            </Link>
-                                        </div>
+                                        return <Tooltip title={item.ten} placement={'right'} key={i}>
+                                            <div className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
+                                                <Link to={'/detail/' + item._id + '/' + to_slug(item.ten)} className="a_item">
+                                                    <div className="row">
+                                                        <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
+                                                    </div>
+                                                    <div className="row item-ten">
+                                                        <span>{setLongString(item.ten)}</span>
+                                                    </div>
+                                                    <div className="row item-gia">
+                                                        <h5><strong>{format_curency(tinh_tien(item.gia, item.giaTriGiamGia))} VNĐ</strong></h5>&nbsp;<span className="percent">{
+                                                            item.giaTriGiamGia > 100 ? '-' + format_curency(item.giaTriGiamGia.toString()) + 'VNĐ' : '-' + item.giaTriGiamGia + '%'
+                                                        }</span>
+                                                    </div>
+                                                    <div className="row item-giagoc">
+                                                        <strike><span className="original">{format_curency(item.gia.toString())} VNĐ</span></strike>
+                                                    </div>
+                                                </Link>
+                                            </div>
+                                        </Tooltip>
+
                                     }
                                 })
                             }

@@ -310,4 +310,30 @@
   },
   "isLock": true,
   "isDelete": false
+},{
+  "_id": {
+    "$oid": "5eecdf87ffce8524909b244a"
+  },
+  "idShow": "CATE-893275",
+  "ten": "Điện Tử - Điện Lạnh",
+  "lowerTen": "dien tu - dien lanh",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-06-19T15:53:43.456Z"
+  },
+  "isLock": true,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5eecdfa0ffce8524909b244b"
+  },
+  "idShow": "CATE-886BCD",
+  "ten": "Máy Lạnh - Máy Điều Hòa",
+  "lowerTen": "may lanh - may dieu hoa",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-06-19T15:54:08.465Z"
+  },
+  "isLock": true,
+  "isDelete": false
 }]

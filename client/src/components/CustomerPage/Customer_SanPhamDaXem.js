@@ -3,7 +3,7 @@ import { Link, useHistory, Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
 import { useCookies, Cookies } from 'react-cookie';
-import { message, Rate } from 'antd';
+import { message, Rate, Tooltip } from 'antd';
 import { Image } from 'react-bootstrap';
 
 export default function Customer_SanPhamDaXem() {
@@ -88,44 +88,49 @@ export default function Customer_SanPhamDaXem() {
 
                             dataProduct.map((item, i) => {
                                 if (item.giaTriGiamGia === 0) {
-                                    return <div className="col-sm-3 item" key={i} style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
-                                        <Link to={'detail/' + item._id + '/' + to_slug(item.ten)} className="a_item" onClick={(e) => {
-                                            e.preventDefault();
-                                            window.location.pathname = 'detail/' + item._id + '/' + to_slug(item.ten);
-                                        }}>
-                                            <div className="row">
-                                                <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
-                                            </div>
-                                            <div className="row item-ten">
-                                                <span><strong>{setLongString(item.ten)}</strong></span>
-                                            </div>
-                                            <div className="row item-gia">
-                                                <h5><strong>{format_curency(item.gia.toString())} VNĐ</strong></h5>
-                                            </div>
-                                        </Link>
-                                    </div>
+                                    return <Tooltip title={item.ten} placement={'right'} color={'orange'} key={i}>
+                                        <div className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
+                                            <Link to={'detail/' + item._id + '/' + to_slug(item.ten)} className="a_item" onClick={(e) => {
+                                                e.preventDefault();
+                                                window.location.pathname = 'detail/' + item._id + '/' + to_slug(item.ten);
+                                            }}>
+                                                <div className="row">
+                                                    <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
+                                                </div>
+                                                <div className="row item-ten">
+                                                    <span><strong>{setLongString(item.ten)}</strong></span>
+                                                </div>
+                                                <div className="row item-gia">
+                                                    <h5><strong>{format_curency(item.gia.toString())} VNĐ</strong></h5>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    </Tooltip>
+
                                 } else {
-                                    return <div className="col-sm-3 item" key={i} style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
-                                        <Link to={'detail/' + item._id + '/' + to_slug(item.ten)} className="a_item" onClick={(e) => {
-                                            e.preventDefault();
-                                            window.location.pathname = 'detail/' + item._id + '/' + to_slug(item.ten);
-                                        }}>
-                                            <div className="row">
-                                                <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
-                                            </div>
-                                            <div className="row item-ten">
-                                                <span><strong>{setLongString(item.ten)}</strong></span>
-                                            </div>
-                                            <div className="row item-gia">
-                                                <h5><strong>{format_curency(item.giaCuoiCung.toString())} VNĐ</strong></h5>&nbsp;<span className="percent">{
-                                                    item.giaTriGiamGia > 100 ? '-' + format_curency(item.giaTriGiamGia.toString()) + 'VNĐ' : '-' + item.giaTriGiamGia + '%'
-                                                }</span>
-                                            </div>
-                                            <div className="row item-giagoc">
-                                                <strike><span className="original">{format_curency(item.gia.toString())} VNĐ</span></strike>
-                                            </div>
-                                        </Link>
-                                    </div>
+                                    return <Tooltip title={item.ten} placement={'right'} color={'orange'} key={i}>
+                                        <div className="col-sm-3 item" key={i} style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
+                                            <Link to={'detail/' + item._id + '/' + to_slug(item.ten)} className="a_item" onClick={(e) => {
+                                                e.preventDefault();
+                                                window.location.pathname = 'detail/' + item._id + '/' + to_slug(item.ten);
+                                            }}>
+                                                <div className="row">
+                                                    <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
+                                                </div>
+                                                <div className="row item-ten">
+                                                    <span><strong>{setLongString(item.ten)}</strong></span>
+                                                </div>
+                                                <div className="row item-gia">
+                                                    <h5><strong>{format_curency(item.giaCuoiCung.toString())} VNĐ</strong></h5>&nbsp;<span className="percent">{
+                                                        item.giaTriGiamGia > 100 ? '-' + format_curency(item.giaTriGiamGia.toString()) + 'VNĐ' : '-' + item.giaTriGiamGia + '%'
+                                                    }</span>
+                                                </div>
+                                                <div className="row item-giagoc">
+                                                    <strike><span className="original">{format_curency(item.gia.toString())} VNĐ</span></strike>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    </Tooltip>
                                 }
                             })
 

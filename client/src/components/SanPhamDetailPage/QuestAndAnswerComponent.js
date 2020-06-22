@@ -15,6 +15,7 @@ export default function QuestAndAnswerComponent(props) {
     const [thichOk, setThichOk] = useState(false);
     const [countCauHoiShow, setCountCauHoiShow] = useState(4);
     const isAdmin = useSelector(state => state.isAdmin);
+    const [endXemThem, setEndXemThem] = useState(false);
 
     function hamChuyenDoiNgay(date) {
         var strDate = '';
@@ -76,11 +77,17 @@ export default function QuestAndAnswerComponent(props) {
         }
     }, [thichOk])
 
+    useEffect(() => {
+        if (countCauHoiShow >= dataCauHoi.length && dataCauHoi.length !== 0) {
+            setEndXemThem(true);
+        }
+    }, [countCauHoiShow])
+
     return (
         <div className="row" style={{ marginTop: 40 }}>
             <div className="col">
                 <h5>HỎI, ĐÁP VỀ SẢN PHẨM</h5>
-                <div className="col-sm-9 description-item">
+                <div className="col-sm-9">
                     {
                         dataCauHoi.map((item, i) => {
                             if (i < countCauHoiShow) {
@@ -95,7 +102,7 @@ export default function QuestAndAnswerComponent(props) {
                                     <div className='col-sm-10'>
                                         <p style={{ lineHeight: 1.5, fontSize: 16 }}><strong>{item.question}</strong></p>
                                         <p style={{ lineHeight: 1.5, fontSize: 16 }}>{item.answer}</p>
-                                        <p style={{ lineHeight: 1.5, fontSize: 14 }}>Đã trả lời vào {hamChuyenDoiNgay(new Date(item.ngayTraLoi))}</p>
+                                        <small>Đã trả lời vào {hamChuyenDoiNgay(new Date(item.ngayTraLoi))}</small>
                                         <div>
                                             <Link onClick={(e) => {
                                                 e.preventDefault();
@@ -123,7 +130,7 @@ export default function QuestAndAnswerComponent(props) {
                     }
 
                     {
-                        dataCauHoi.length > 0 && (
+                        endXemThem === false && (
                             <div className='row' style={{ paddingLeft: 15, backgroundColor: 'white' }}>
                                 <hr style={{ width: '100%' }}></hr>
                                 <Link onClick={(e) => {
@@ -135,7 +142,7 @@ export default function QuestAndAnswerComponent(props) {
                         )
                     }
 
-                    <div className='row' style={{ backgroundColor: 'white' }}>
+                    <div className='row' style={{ backgroundColor: 'white', marginTop: 10 }}>
                         <div className='col-sm-9'>
                             <Input placeholder='Hãy đặt câu hỏi liên quan đến sản phẩm...' style={{ width: '100%', height: 38 }}
                                 onChange={(e) => {

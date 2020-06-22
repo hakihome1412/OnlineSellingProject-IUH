@@ -475,14 +475,14 @@ module.exports = {
     TinhDataLoiNhuanTuanNay: async function (req, res) {
         var curr = new Date; // get current date
         var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-        var last = first + 6; // last day is the first day + 6
 
         var firstday = new Date(curr.setDate(first));
-        var lastday = new Date(curr.setDate(last));
 
         const shopID = req.query.idShop;
         var arrDate = [];
         var arrDoanhThu = [];
+        var arrChietKhau = [];
+        var arrDoanhThuSauChietKhau = [];
 
         for (let index = 0; index <= 7; index++) {
             var dateThem = new Date(firstday.getFullYear(), firstday.getMonth(), firstday.getDate() + index);
@@ -500,14 +500,19 @@ module.exports = {
 
         for (let index1 = 0; index1 < arrDate.length; index1++) {
             var doanhThu = 0;
+            var chietKhau = 0;
+
             for (let index2 = 0; index2 < result.length; index2++) {
                 if (arrDate[index1].getDate() === result[index2].ngayHoanThanh.getDate() &&
                     arrDate[index1].getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                     arrDate[index1].getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                     doanhThu += result[index2].thanhTien;
+                    chietKhau += result[index2].thanhTien * phanTramLoiNhuan / 100;
                 }
             }
             arrDoanhThu.push(doanhThu);
+            arrChietKhau.push(chietKhau);
+            arrDoanhThuSauChietKhau.push(doanhThu - chietKhau);
         }
 
         var arrDateResult = [];
@@ -522,6 +527,7 @@ module.exports = {
             status: 'success',
             dataDate: arrDateResult,
             dataDoanhThu: arrDoanhThu,
+            dataChietKhau: arrChietKhau,
             message: 'Tính lợi nhuận tuần này thành công'
         });
     },
@@ -713,13 +719,14 @@ module.exports = {
     TinhDataLoiNhuanThangNay: async function (req, res) {
         var curr = new Date(); // get current date
         var soNgayTrongThang = daysInMonth(curr.getMonth() + 1, curr.getFullYear());
-        // console.log(curr.toString());
-        console.log(soNgayTrongThang);
+        var firstDateOfMonth = new Date(curr.getFullYear(), curr.getMonth(), 1);
 
         const shopID = req.query.idShop;
         var arrDate = [];
         var arrDoanhThu = [];
-        var firstDateOfMonth = new Date(curr.getFullYear(), curr.getMonth(), 1);
+        var arrChietKhau = [];
+        var arrDoanhThuSauChietKhau = [];
+
 
         for (let index = 1; index <= soNgayTrongThang; index++) {
             var dateThem = new Date(firstDateOfMonth.getFullYear(), firstDateOfMonth.getMonth(), index);
@@ -735,15 +742,23 @@ module.exports = {
 
         for (let index1 = 0; index1 < arrDate.length; index1++) {
             var doanhThu = 0;
+            var chietKhau = 0;
             for (let index2 = 0; index2 < result.length; index2++) {
                 if (arrDate[index1].getDate() === result[index2].ngayHoanThanh.getDate() &&
                     arrDate[index1].getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                     arrDate[index1].getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                     doanhThu += result[index2].thanhTien;
+                    chietKhau += result[index2].thanhTien * phanTramLoiNhuan / 100;
                 }
             }
             arrDoanhThu.push(doanhThu);
+            arrChietKhau.push(chietKhau);
+            arrDoanhThuSauChietKhau.push(doanhThu - chietKhau);
         }
+
+        console.log(arrDoanhThu)
+        console.log(arrChietKhau)
+        console.log(arrDoanhThuSauChietKhau)
 
         var arrDateResult = [];
 
@@ -757,6 +772,8 @@ module.exports = {
             status: 'success',
             dataDate: arrDateResult,
             dataDoanhThu: arrDoanhThu,
+            dataChietKhau: arrChietKhau,
+            dataDoanhThuSauChietKhau: arrDoanhThuSauChietKhau,
             message: 'Tính lợi nhuận tháng này thành công'
         });
     },
@@ -918,6 +935,8 @@ module.exports = {
         var curr = new Date(); // get current date
         const shopID = req.query.idShop;
         var arrDoanhThu = [];
+        var arrChietKhau = [];
+        var arrDoanhThuSauChietKhau = [];
 
         var thangThuNhat = new Date(curr.getFullYear(), curr.getMonth() - 1, 1);
         var thangThuHai = new Date(curr.getFullYear(), curr.getMonth() - 2, 1);
@@ -933,24 +952,33 @@ module.exports = {
         var doanhThu2 = 0;
         var doanhThu3 = 0;
 
+        var chietKhau1 = 0;
+        var chietKhau2 = 0;
+        var chietKhau3 = 0;
+
         for (let index2 = 0; index2 < result.length; index2++) {
             if (thangThuNhat.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuNhat.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu1 += result[index2].thanhTien;
+                chietKhau1 += result[index2].thanhTien * phanTramLoiNhuan / 100;
             }
 
             if (thangThuHai.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuHai.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu2 += result[index2].thanhTien;
+                chietKhau2 += result[index2].thanhTien * phanTramLoiNhuan / 100;
             }
 
             if (thangThuBa.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuBa.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu3 += result[index2].thanhTien;
+                chietKhau3 += result[index2].thanhTien * phanTramLoiNhuan / 100;
             }
         }
 
         arrDoanhThu.push(doanhThu3, doanhThu2, doanhThu1);
+        arrChietKhau.push(chietKhau3, chietKhau2, chietKhau1);
+        arrDoanhThuSauChietKhau.push(doanhThu3 - chietKhau3, doanhThu2 - chietKhau2, doanhThu1 - chietKhau1);
 
         var arrDateResult = [];
 
@@ -960,14 +988,13 @@ module.exports = {
 
         arrDateResult.push(stringThangThuBa, stringThangThuHai, stringThangThuNhat);
 
-        console.log(arrDoanhThu)
-        console.log(arrDateResult)
-
         client.close();
         res.status(200).json({
             status: 'success',
             dataDate: arrDateResult,
             dataDoanhThu: arrDoanhThu,
+            dataChietKhau: arrChietKhau,
+            dataDoanhThuSauChietKhau: arrDoanhThuSauChietKhau,
             message: 'Tính lợi nhuận 3 tháng gần nhất thành công'
         });
     },
@@ -1148,6 +1175,8 @@ module.exports = {
         var curr = new Date(); // get current date
         const shopID = req.query.idShop;
         var arrDoanhThu = [];
+        var arrChietKhau = [];
+        var arrDoanhThuSauChietKhau = [];
 
         var thangThuNhat = new Date(curr.getFullYear(), curr.getMonth() - 1, 1);
         var thangThuHai = new Date(curr.getFullYear(), curr.getMonth() - 2, 1);
@@ -1169,40 +1198,55 @@ module.exports = {
         var doanhThu5 = 0;
         var doanhThu6 = 0;
 
+        var chietKhau1 = 0;
+        var chietKhau2 = 0;
+        var chietKhau3 = 0;
+        var chietKhau4 = 0;
+        var chietKhau5 = 0;
+        var chietKhau6 = 0;
+
 
         for (let index2 = 0; index2 < result.length; index2++) {
             if (thangThuNhat.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuNhat.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu1 += result[index2].thanhTien;
+                chietKhau1 += result[index2].thanhTien * phanTramLoiNhuan / 100;
             }
 
             if (thangThuHai.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuHai.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu2 += result[index2].thanhTien;
+                chietKhau2 += result[index2].thanhTien * phanTramLoiNhuan / 100;
             }
 
             if (thangThuBa.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuBa.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu3 += result[index2].thanhTien;
+                chietKhau3 += result[index2].thanhTien * phanTramLoiNhuan / 100;
             }
 
             if (thangThuTu.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuTu.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu4 += result[index2].thanhTien;
+                chietKhau4 += result[index2].thanhTien * phanTramLoiNhuan / 100;
             }
 
             if (thangThuNam.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuNam.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu5 += result[index2].thanhTien;
+                chietKhau5 += result[index2].thanhTien * phanTramLoiNhuan / 100;
             }
 
             if (thangThuSau.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuSau.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu6 += result[index2].thanhTien;
+                chietKhau6 += result[index2].thanhTien * phanTramLoiNhuan / 100;
             }
         }
 
         arrDoanhThu.push(doanhThu6, doanhThu5, doanhThu4, doanhThu3, doanhThu2, doanhThu1);
+        arrChietKhau.push(chietKhau6, chietKhau5, chietKhau4, chietKhau3, chietKhau2, chietKhau1);
+        arrDoanhThuSauChietKhau.push(doanhThu6 - chietKhau6, doanhThu5 - chietKhau5, doanhThu4 - chietKhau4, doanhThu3 - chietKhau3, doanhThu2 - chietKhau2, doanhThu1 - chietKhau1);
 
         var arrDateResult = [];
 
@@ -1221,6 +1265,8 @@ module.exports = {
             status: 'success',
             dataDate: arrDateResult,
             dataDoanhThu: arrDoanhThu,
+            dataChietKhau: arrChietKhau,
+            dataDoanhThuSauChietKhau: arrDoanhThuSauChietKhau,
             message: 'Tính lợi nhuận 6 tháng gần nhất thành công'
         });
     },

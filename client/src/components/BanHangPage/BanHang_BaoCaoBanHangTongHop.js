@@ -31,9 +31,21 @@ export default function BanHang_BaoCaoBanHangTongHop() {
                 labels: res.data.dataDate,
                 datasets: [
                     {
-                        label: 'VNĐ',
+                        label: 'Doanh Thu Thuần',
                         data: res.data.dataDoanhThu,
                         backgroundColor: 'rgba(75,192,192,0.6)',
+                        borderWidth: 4
+                    },
+                    {
+                        label: 'Chiết Khấu',
+                        data: res.data.dataChietKhau,
+                        backgroundColor: 'rgba(255,99,132,0.6)',
+                        borderWidth: 4
+                    },
+                    {
+                        label: 'Doanh Thu Sau Chiết Khấu',
+                        data: res.data.dataDoanhThuSauChietKhau,
+                        backgroundColor: 'rgba(153,102,255,0.6)',
                         borderWidth: 4
                     }
                 ]
@@ -53,9 +65,21 @@ export default function BanHang_BaoCaoBanHangTongHop() {
                 labels: res.data.dataDate,
                 datasets: [
                     {
-                        label: 'VNĐ',
+                        label: 'Doanh Thu Thuần',
                         data: res.data.dataDoanhThu,
                         backgroundColor: 'rgba(75,192,192,0.6)',
+                        borderWidth: 4
+                    },
+                    {
+                        label: 'Chiết Khấu',
+                        data: res.data.dataChietKhau,
+                        backgroundColor: 'rgba(255,99,132,0.6)',
+                        borderWidth: 4
+                    },
+                    {
+                        label: 'Doanh Thu Sau Chiết Khấu',
+                        data: res.data.dataDoanhThuSauChietKhau,
+                        backgroundColor: 'rgba(153,102,255,0.6)',
                         borderWidth: 4
                     }
                 ]
@@ -75,9 +99,21 @@ export default function BanHang_BaoCaoBanHangTongHop() {
                 labels: res.data.dataDate,
                 datasets: [
                     {
-                        label: 'VNĐ',
+                        label: 'Doanh Thu Thuần',
                         data: res.data.dataDoanhThu,
                         backgroundColor: 'rgba(75,192,192,0.6)',
+                        borderWidth: 4
+                    },
+                    {
+                        label: 'Chiết Khấu',
+                        data: res.data.dataChietKhau,
+                        backgroundColor: 'rgba(255,99,132,0.6)',
+                        borderWidth: 4
+                    },
+                    {
+                        label: 'Doanh Thu Sau Chiết Khấu',
+                        data: res.data.dataDoanhThuSauChietKhau,
+                        backgroundColor: 'rgba(153,102,255,0.6)',
                         borderWidth: 4
                     }
                 ]
@@ -97,9 +133,21 @@ export default function BanHang_BaoCaoBanHangTongHop() {
                 labels: res.data.dataDate,
                 datasets: [
                     {
-                        label: 'VNĐ',
+                        label: 'Doanh Thu Thuần',
                         data: res.data.dataDoanhThu,
                         backgroundColor: 'rgba(75,192,192,0.6)',
+                        borderWidth: 4
+                    },
+                    {
+                        label: 'Chiết Khấu',
+                        data: res.data.dataChietKhau,
+                        backgroundColor: 'rgba(255,99,132,0.6)',
+                        borderWidth: 4
+                    },
+                    {
+                        label: 'Doanh Thu Sau Chiết Khấu',
+                        data: res.data.dataDoanhThuSauChietKhau,
+                        backgroundColor: 'rgba(153,102,255,0.6)',
                         borderWidth: 4
                     }
                 ]

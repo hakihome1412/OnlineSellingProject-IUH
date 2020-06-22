@@ -4,7 +4,7 @@
   },
   "ten": "điện thoại",
   "lowerTen": "dien thoai",
-  "count": 80,
+  "count": 81,
   "idUser": [
     "5e9ab836699ae60b147a2822",
     "5ebcf703cacdde1d8caeb469"
@@ -217,9 +217,10 @@
   },
   "ten": "quan",
   "lowerTen": "quan",
-  "count": 16,
+  "count": 18,
   "idUser": [
-    "5e9ab836699ae60b147a2822"
+    "5e9ab836699ae60b147a2822",
+    "5e9ab673699ae60b147a2821"
   ]
 },{
   "_id": {
@@ -327,9 +328,10 @@
   },
   "ten": "dien",
   "lowerTen": "dien",
-  "count": 2,
+  "count": 3,
   "idUser": [
-    "5e9ab836699ae60b147a2822"
+    "5e9ab836699ae60b147a2822",
+    "5e9ab673699ae60b147a2821"
   ]
 },{
   "_id": {

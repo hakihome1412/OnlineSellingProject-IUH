@@ -156,8 +156,8 @@ export default function CheckoutCartt() {
                 <div className='col-sm-8'>
                     {
                         dataGioHangNew.map((item, i) => {
-                            return <div key={i} className='row' style={{ backgroundColor: 'white', height: 160, paddingTop: 10, borderRadius: 10, marginTop: 10 }}>
-                                <Image src={item.img} style={{ width: 120, height: 140, marginLeft: 20 }}></Image>
+                            return <div key={i} className='row' style={{ backgroundColor: 'white', height: 'auto', padding: 10, borderRadius: 10, marginTop: 10 }}>
+                                <Image src={item.img} style={{ width: 120, height: 140, marginLeft: 10 }}></Image>
                                 <div className='col-sm-6' style={{ marginLeft: 20 }}>
                                     <strong>
                                         {
@@ -215,7 +215,7 @@ export default function CheckoutCartt() {
                     }
                 </div>
 
-                <div className='col-sm-3' style={{ backgroundColor: 'white', marginLeft: 40, padding: 10, borderRadius: 10, height: dataVoucher === '' ? 310 : 390, marginTop: 10 }}>
+                <div className='col-sm-3' style={{ backgroundColor: 'white', marginLeft: 40, padding: 10, borderRadius: 10, height: 'auto', marginTop: 10 }}>
                     <div className='col'>
                         <div className='row'>
                             <div className='col-sm-6'>
@@ -270,7 +270,6 @@ export default function CheckoutCartt() {
                     </Link>
                     <div className='col' style={{ marginTop: 20 }}>
                         <span style={{ fontSize: 16, fontWeight: 'bold' }}>Mã giảm giá / Quà tặng</span>
-                        <hr></hr>
                         <Search
                             placeholder="Nhập mã ở đây"
                             enterButton="Kiểm tra"

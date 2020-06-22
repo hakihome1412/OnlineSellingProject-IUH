@@ -209,9 +209,44 @@
       "carousel": [],
       "banner1": "",
       "banner2": ""
-    }
+    },
+    "isLock": false
   },
   "vaiTro": 1,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5eddb2c8392cad4a88bc2e74"
+  },
+  "ten": "Bùi Vũ Vinh An",
+  "lowerTen": "bui vu vinh an",
+  "email": "vinhan@gmail.com",
+  "sdt": "0937773888",
+  "cmnd": "0399837738",
+  "ngaySinh": {
+    "$date": "1998-06-03T17:00:00Z"
+  },
+  "gioiTinh": 1,
+  "taiKhoan": {
+    "tenTaiKhoan": "vinhan@gmail.com",
+    "matKhau": "$2b$10$S3Gg2rRfXV0yuJmRWWF2tOLgT8EY762N5pKFS1.CwVPLfzgIRI/hi"
+  },
+  "thongTinShop": {
+    "ten": "",
+    "lowerTen": "",
+    "diaChi": "",
+    "idShop": "",
+    "logoShop": "",
+    "ngayTao": "",
+    "moTa": "",
+    "img": {
+      "carousel": [],
+      "banner1": "",
+      "banner2": ""
+    }
+  },
+  "vaiTro": 2,
   "isLock": false,
   "isDelete": false
 }]
