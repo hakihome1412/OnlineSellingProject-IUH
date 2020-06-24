@@ -1,4 +1,6 @@
 const { vnp_TmnCode, vnp_HashSecret, vnp_Url, vnp_ReturnUrl } = require('../config/constant');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.MAIL_KEY);
 
 module.exports = {
     ThemDonHang_VNPAY: function (req, res) {
@@ -81,6 +83,70 @@ module.exports = {
         //res.redirect(vnpUrl);
         res.status(200).json({ code: '00', data: vnpUrl })
 
+    },
+
+    TestSendMail: async function (req, res) {
+        var arr = [
+            {
+                ten: 'Giày',
+                gia: 20000,
+                mauSac: '',
+                size: '',
+                soLuong: 2,
+                img: 'https://kenh14cdn.com/zoom/460_289/2020/6/23/callmexxu96138588240390200367157319795092234551135n-1592900493688220103338-crop-15929005021622094281129.jpg'
+
+            },
+
+            {
+                ten: 'Áo',
+                gia: 30000,
+                mauSac: 'Đỏ',
+                size: 'M',
+                soLuong: 1,
+                img: 'https://kenh14cdn.com/zoom/460_289/2020/6/23/callmexxu96138588240390200367157319795092234551135n-1592900493688220103338-crop-15929005021622094281129.jpg'
+            },
+
+            {
+                ten: 'Quần',
+                gia: 100000,
+                mauSac: '',
+                size: 'XL',
+                soLuong: 5,
+                img: 'https://kenh14cdn.com/zoom/460_289/2020/6/23/callmexxu96138588240390200367157319795092234551135n-1592900493688220103338-crop-15929005021622094281129.jpg'
+            },
+        ];
+        var html = '<h3>DANH SÁCH SẢN PHẨM</h3>';
+
+        for (let index = 0; index < arr.length; index++) {
+            html += `
+                    <img src=${arr[index].img} alt="ảnh" width="120" height="140">
+                    <p><b>Tên sản phẩm: </b>${arr[index].ten}</p>
+                    <p><b>Số lượng: </b>${arr[index].soLuong}</p>
+                    <p><b>Giá: </b>${format_curency(arr[index].gia.toString())}đ</p>
+                    <p><b>Màu sắc: </b>${arr[index].mauSac === '' ? 'Không' : arr[index].mauSac}</p>
+                    <p><b>Size: </b>${arr[index].size === '' ? 'Không' : arr[index].size}</p>
+                    <br></br>
+                    `
+        }
+
+        const emailData = {
+            from: process.env.EMAIL_FROM,
+            to: 'huynhphuchuy1412@gmail.com',
+            subject: 'TiemDo đã nhận đơn hàng ...',
+            html: html
+        }
+
+        await sgMail.send(emailData).then(sent => {
+            console.log('ok')
+            res.status(200).json({
+                status: 'success',
+                message: `Email đã được gửi`
+            })
+        }).catch(err => {
+            res.status(200).json({
+                status: 'fail'
+            })
+        })
     }
 }
 
@@ -100,4 +166,9 @@ function sortObject(o) {
         sorted[a[key]] = o[a[key]];
     }
     return sorted;
+}
+
+function format_curency(a) {
+    a = a.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+    return a;
 }

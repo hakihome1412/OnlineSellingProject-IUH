@@ -47,37 +47,14 @@ export default function DangKyComponent() {
                     setStatusMessageError(2);
                 } else {
                     setStatusMessageError(-1);
-                    TaoTaiKhoan();
+                    KhoiTaoTaiKhoan();
                 }
             }
         }
     }
 
-    async function XuLyDangNhap() {
-        await axios.post('hethong/auth', {
-            tenTaiKhoan: dataDangKy.email,
-            matKhau: dataDangKy.matKhau
-        }).then(function (res) {
-            if (res.data.status === "success") {
-                setCookies('userID', res.data.userID, { path: '/' });
-                setCookies('token', res.data.token, { path: '/' });
-                if (res.data.vaiTro === 0) {
-                    window.location.pathname = "/admin";
-                } else {
-                    window.location.reload();
-                }
-            } else {
-                message.error('Đăng ký thất bại');
-                dispatch({ type: 'CLOSE_MODAL_DANGNHAP_DANGKY' });
-            }
-        }).catch(function (error) {
-            console.log(error);
-        })
-
-    }
-
-    async function TaoTaiKhoan() {
-        let res = await axios.post('hethong/users-them', {
+    async function KhoiTaoTaiKhoan() {
+        let res = await axios.post('hethong/auth/register', {
             ten: dataDangKy.ten,
             email: dataDangKy.email,
             sdt: dataDangKy.sdt,
@@ -94,11 +71,11 @@ export default function DangKyComponent() {
         })
 
         if (res.data.status === 'success') {
-            message.success('Đăng ký thành công');
+            message.success(res.data.message);
             dispatch({ type: 'CLOSE_MODAL_DANGNHAP_DANGKY' });
-            XuLyDangNhap();
         } else {
-            setStatusMessageError(3);
+            dispatch({ type: 'CLOSE_MODAL_DANGNHAP_DANGKY' });
+            message.error(res.data.message);
         }
     }
 

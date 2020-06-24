@@ -54,6 +54,9 @@ import Customer from '../components/CustomerPage/Customer';
 import TimKiem from '../components/TimKiemPage/TimKiem';
 import QuillEditor from '../components/DungChung/QuillEditor';
 import BaiViet from '../components/BaiVietPage/BaiViet';
+import ActivationAccount from '../components/ActivationAccountPage/ActivationAccount';
+import ForgetPassword from '../components/ForgetPasswordPage/ForgetPassword';
+import ResetPassword from '../components/ResetPasswordPage/ResetPassword';
 
 export {
     TrangChu,
@@ -111,5 +114,8 @@ export {
     Customer_Comment,
     Customer_SanPhamDaXem,
     TimKiem,
-    BaiViet
+    BaiViet,
+    ActivationAccount,
+    ForgetPassword,
+    ResetPassword
 };

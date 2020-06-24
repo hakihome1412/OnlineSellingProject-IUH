@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect } from 'react';
-import { Navbar, Nav, Form, Button, Modal, Tab, Tabs, Table, FormControl } from 'react-bootstrap';
+import { Navbar, Nav, Form, Button, Modal, Tab, Tabs, FormControl } from 'react-bootstrap';
 import { DangKyComponent, DangNhapComponent, UserComponent } from '../allJS';
 import { useSelector, useDispatch } from 'react-redux';
 import { useCookies } from 'react-cookie';

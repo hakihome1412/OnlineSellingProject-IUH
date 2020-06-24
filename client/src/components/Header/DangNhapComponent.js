@@ -3,7 +3,8 @@ import { Form, Button, Row, Col, Spinner } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { useDispatch } from 'react-redux';
 import { useCookies } from 'react-cookie';
-import { message } from 'antd';
+import { message, Checkbox } from 'antd';
+import { Link } from 'react-router-dom';
 
 export default function DangNhapComponent() {
     const [taiKhoan, setTaiKhoan] = useState({
@@ -93,6 +94,14 @@ export default function DangNhapComponent() {
                                         matKhau: e.target.value
                                     });
                                 }} />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="formBasicCheckbox">
+                            <Form.Label column sm={3}></Form.Label>
+                            <Col sm={9}>
+                                <Link to='users/password/forget' onClick={() => {
+                                    dispatch({ type: 'CLOSE_MODAL_DANGNHAP_DANGKY' });
+                                }}>Quên mật khẩu</Link>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row}>

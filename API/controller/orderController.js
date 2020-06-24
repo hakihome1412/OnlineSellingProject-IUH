@@ -4,6 +4,8 @@ const ObjectId = require('mongodb').ObjectId;
 const assert = require('assert');
 const ids = require('short-id');
 const { BoDau } = require('../functionHoTro/index');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.MAIL_KEY);
 
 
 module.exports = {
@@ -146,6 +148,8 @@ module.exports = {
         var countGioHang = dataGioHang.length;
         var countResultThemChiTiet = 0;
 
+        var arrChiTietGioHang = [];
+
         await client.connect();
         console.log("Connected correctly to server");
         const db = client.db(DbName);
@@ -200,6 +204,8 @@ module.exports = {
                     ghiChu: ''
                 }
 
+                arrChiTietGioHang.push(chitiet);
+
                 // tạo các lịch sử theo trạng thái đơn hàng
                 var lichSu0Default = {
                     idOrderDetail: chitiet.idShow,
@@ -243,18 +249,67 @@ module.exports = {
                 countResultThemChiTiet += 1;
             }
 
+
+
             if (countResultThemChiTiet === countGioHang) {
-                res.status(200).json({
-                    status: 'success',
-                    message: 'Thêm thành công'
+
+                var html = '<h2>DANH SÁCH SẢN PHẨM</h2>';
+
+                for (let index = 0; index < arrChiTietGioHang.length; index++) {
+                    html += `
+                    <img src=${arrChiTietGioHang[index].img} alt="ảnh" width="150" height="160">
+                    <p><b>Tên sản phẩm: </b>${arrChiTietGioHang[index].ten}</p>
+                    <p><b>Số lượng: </b>${arrChiTietGioHang[index].soLuong}</p>
+                    <p><b>Giá: </b>${format_curency(arrChiTietGioHang[index].giaCuoiCung.toString())}đ</p>
+                    <p><b>Giảm giá: </b>${format_curency(arrChiTietGioHang[index].giamGia.toString())}đ</p>
+                    <p><b>Màu sắc: </b>${arrChiTietGioHang[index].mauSac === '' ? 'Không' : arrChiTietGioHang[index].mauSac}</p>
+                    <p><b>Size: </b>${arrChiTietGioHang[index].size === '' ? 'Không' : arrChiTietGioHang[index].size}</p>
+                    <p><b>Thành tiền: </b>${format_curency(arrChiTietGioHang[index].thanhTien.toString())}đ</p>
+                    <br></br>
+                    `
+                }
+
+                html += `
+                <h2>ĐƠN HÀNG ĐƯỢC GIAO ĐẾN</h2>
+                <p><b>Tên : </b>${donHangThem.thongTinNguoiMua.ten}</p>
+                <p><b>Địa chỉ nhà: </b>${donHangThem.thongTinNguoiMua.diaChi}</p>
+                <p><b>Điện thoại: </b>${donHangThem.thongTinNguoiMua.sdt}</p>
+                <p><b>Email: </b>huynhphuchuy1412@gmail.com</p>
+                <br></br>
+                <h3>Cám ơn bạn đã mua hàng tại TiemDo.</h3>
+                `
+
+                const emailData = {
+                    from: process.env.EMAIL_FROM,
+                    to: 'huynhphuchuy1412@gmail.com',
+                    subject: `TiemDo đã nhận đơn hàng ${donHangThem.idShow}`,
+                    html: html
+                }
+
+                await sgMail.send(emailData).then(sent => {
+                    console.log('ok mail');
+                    res.status(200).json({
+                        status: 'success',
+                        message: 'Thêm đơn hàng thành công'
+                    })
+                }).catch(err => {
+                    res.status(200).json({
+                        status: 'fail',
+                        message: 'Thêm đơn hàng thất bại !'
+                    })
                 })
             }
         } else {
             res.status(200).json({
                 status: 'fail',
-                message: 'Thêm thất bại!'
+                message: 'Thêm đơn hàng thất bại !'
             })
         }
         client.close();
     }
+}
+
+function format_curency(a) {
+    a = a.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+    return a;
 }

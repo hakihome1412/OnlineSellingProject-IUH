@@ -210,10 +210,15 @@ router.get('/locals-phuong', localController.LayPhuongTheoIDQuan);
 router.get('/locals-address', localController.LayTenThanhPhoQuanPhuongTheoID);
 
 // Phần xử lý AUTH
+router.post('/auth/register', authController.DangKyAccount);
+router.post('/auth/forget-password', authController.QuenPassword)
 router.post('/auth', authController.KiemTraAccount);
+router.post('/auth/create-account', authController.TaoAccount);
+router.post('/auth/reset-password', authController.ResetPassword);
 router.get('/auth/token-admin', authController.KiemTraTokenAdmin);
 router.get('/auth/token-chushop', authController.KiemTraTokenChuShop);
 router.get('/auth/token-normal', authController.KiemTraTokenNormal);
+
 
 // Phần xử lý Database QUESTANSWER
 router.post('/questanswer-them', questAnswerController.ThemCauHoi);
@@ -229,7 +234,7 @@ router.put('/questanswer-capnhatthich', questAnswerController.CapNhatThich);
 
 // Phần xử lý Database COMMENT
 router.post('/comments-them', commentController.ThemComment);
-router.get('/comments-product',commentController.LayDataSoSaoTheoIDSanPham)
+router.get('/comments-product', commentController.LayDataSoSaoTheoIDSanPham)
 router.get('/comments-nguoidung', commentController.LayCommentTheoIDSanPham_NguoiDung);
 router.get('/comments-user', commentController.LayCommentTheoIDUser);
 router.get('/comments-admin/:page', commentController.LayCommentTheoIDSanPham_Admin);
@@ -246,6 +251,7 @@ router.get('/countries', countriesController.LayDanhSachCountriesAll);
 
 // Phần xử lý bên VNPAY
 router.post('/vnpay-them', vnpayController.ThemDonHang_VNPAY);
+router.get('/test-sendemail', vnpayController.TestSendMail);
 
 // Phần xử lý bên MOMO
 router.post('/gw_payment/transactionProcessor', momoController.ThemDonHang_MOMO);

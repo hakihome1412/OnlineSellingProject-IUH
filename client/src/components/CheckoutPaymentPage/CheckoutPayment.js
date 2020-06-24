@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
-import { Steps, Radio, Form, Select, message } from 'antd';
+import { Steps, Radio, message } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
-import { Button, Image } from 'react-bootstrap';
+import { Button, Navbar, Nav } from 'react-bootstrap';
 import ids from 'short-id';
 import { useCookies } from 'react-cookie';
 import PaypalExpressBtn from 'react-paypal-express-checkout';
@@ -18,7 +18,6 @@ export default function CheckoutPayment() {
     const [valueRadioGiaoHang, setValueRadioGiaoHang] = useState(0);
     const [valueRadioThanhToan, setValueRadioThanhToan] = useState(0);
     const thongTinDatHang = useSelector(state => state.thongTinDatHang);
-    const [valueNganHang, setValueNganHang] = useState('');
     const [total, setTotal] = useState(0);
     const [dataVoucher, setDataVoucher] = useState({
         idShow: '',
@@ -284,51 +283,71 @@ export default function CheckoutPayment() {
     }, [dataGioHangNew])
 
     return (
-        <div className="container" style={{ height: 'auto', padding: 20 }}>
-            <div className='col'>
-                <div>
-                    <Steps current={2}>
-                        {steps.map(item => (
-                            <Step key={item.title} title={item.title} />
-                        ))}
-                    </Steps>
-                </div>
-                <br></br>
-                <br></br>
-                <div className='row'>
-                    <div className='col-sm-9'>
-                        <div>
-                            <h6>1. Chọn hình thức giao hàng</h6>
-                            <div style={{ height: 'auto', paddingLeft: 20 }}>
-                                <Radio.Group onChange={(e) => {
-                                    setValueRadioGiaoHang(e.target.value);
-                                }} value={valueRadioGiaoHang}>
-                                    <Radio style={radioStyle} value={0}>
-                                        Giao hàng tiêu chuẩn
+        <Fragment>
+            <Navbar bg="light" expand="lg">
+                <Navbar.Brand href="/">
+                    <img
+                        alt=""
+                        src='/logo.png'
+                        width="40"
+                        height="40"
+                        style={{ marginRight: 5 }}
+                        className="d-inline-block"
+                    />
+                    <span style={{ fontWeight: 'bold', color: 'orange' }}>TiemDo</span>
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                        <Nav.Link href="/">Trang Chủ</Nav.Link>
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
+            <div className="container" style={{ height: 'auto', padding: 20 }}>
+                <div className='col'>
+                    <div>
+                        <Steps current={2}>
+                            {steps.map(item => (
+                                <Step key={item.title} title={item.title} />
+                            ))}
+                        </Steps>
+                    </div>
+                    <br></br>
+                    <br></br>
+                    <div className='row'>
+                        <div className='col-sm-9'>
+                            <div>
+                                <h6>1. Chọn hình thức giao hàng</h6>
+                                <div style={{ height: 'auto', paddingLeft: 20 }}>
+                                    <Radio.Group onChange={(e) => {
+                                        setValueRadioGiaoHang(e.target.value);
+                                    }} value={valueRadioGiaoHang}>
+                                        <Radio style={radioStyle} value={0}>
+                                            Giao hàng tiêu chuẩn
                                 </Radio>
-                                    {/* <Radio style={radioStyle} value={1} disabled>
+                                        {/* <Radio style={radioStyle} value={1} disabled>
                                         Giao hàng bằng GoViet
                                 </Radio>
                                     <Radio style={radioStyle} value={2} disabled>
                                         Giao hàng bằng Grab
                                 </Radio> */}
-                                </Radio.Group>
+                                    </Radio.Group>
+                                </div>
                             </div>
-                        </div>
 
-                        <div style={{ marginTop: 20 }}>
-                            <h6>2. Chọn hình thức thanh toán</h6>
-                            <div style={{ height: 'auto', paddingLeft: 20 }}>
-                                <Radio.Group onChange={(e) => {
-                                    setValueRadioThanhToan(e.target.value);
-                                }} value={valueRadioThanhToan}>
-                                    <Radio style={radioStyle} value={0}>
-                                        Thanh toán tiền mặt khi nhận hàng
+                            <div style={{ marginTop: 20 }}>
+                                <h6>2. Chọn hình thức thanh toán</h6>
+                                <div style={{ height: 'auto', paddingLeft: 20 }}>
+                                    <Radio.Group onChange={(e) => {
+                                        setValueRadioThanhToan(e.target.value);
+                                    }} value={valueRadioThanhToan}>
+                                        <Radio style={radioStyle} value={0}>
+                                            Thanh toán tiền mặt khi nhận hàng
                                 </Radio>
-                                    <Radio style={radioStyle} value={1}>
-                                        Thanh toán bằng Paypal
+                                        <Radio style={radioStyle} value={1}>
+                                            Thanh toán bằng Paypal
                                 </Radio>
-                                    {/* <Radio style={radioStyle} value={2}>
+                                        {/* <Radio style={radioStyle} value={2}>
                                         Thanh toán bằng thẻ ATM nội địa/Internet Banking
                                 </Radio>
                                 <Radio style={radioStyle} value={3}>
@@ -366,64 +385,64 @@ export default function CheckoutPayment() {
                                             </Form>
                                         )
                                     } */}
-                                </Radio.Group>
-                            </div>
-                        </div>
-
-                        <div style={{ marginTop: 20 }}>
-                            <h6 style={{ color: 'gray' }}>Thông tin người mua</h6>
-                            <div className='col' style={{ height: 'auto', paddingLeft: 20 }}>
-                                <div className='row'>
-                                    <div className='col-sm-2'>
-                                        <strong>Họ tên:</strong>
-                                    </div>
-                                    <div className='col-sm-6'>
-                                        {thongTinDatHang.hoTen}
-                                    </div>
-                                </div>
-
-                                <div className='row'>
-                                    <div className='col-sm-2'>
-                                        <strong>Số điện thoại:</strong>
-                                    </div>
-                                    <div className='col-sm-6'>
-                                        {thongTinDatHang.sdt}
-                                    </div>
-                                </div>
-
-                                <div className='row'>
-                                    <div className='col-sm-2'>
-                                        <strong>Địa chỉ:</strong>
-                                    </div>
-                                    <div className='col-sm-6'>
-                                        {
-                                            thongTinDatHang.diaChi + ', phường ' + thongTinDatHang.phuong + ', ' + thongTinDatHang.quan + ', ' + thongTinDatHang.thanhPho
-                                        }
-                                    </div>
+                                    </Radio.Group>
                                 </div>
                             </div>
-                        </div>
-                        <div className='col' style={{ marginTop: 20 }}>
-                            {
-                                valueRadioThanhToan === 0 && (
-                                    // <Link to={'payment/success/' + thongTinDonHang.idShow} onClick={(e) => {
 
-                                    <Button style={{ width: 300 }} variant="danger" size='lg'
-                                        onMouseOver={() => {
-                                            if (idVoucher.length > 0) {
-                                                setThongTinDonHang({
-                                                    ...thongTinDonHang,
-                                                    idVoucher: idVoucher
-                                                })
+                            <div style={{ marginTop: 20 }}>
+                                <h6 style={{ color: 'gray' }}>Thông tin người mua</h6>
+                                <div className='col' style={{ height: 'auto', paddingLeft: 20 }}>
+                                    <div className='row'>
+                                        <div className='col-sm-2'>
+                                            <strong>Họ tên:</strong>
+                                        </div>
+                                        <div className='col-sm-6'>
+                                            {thongTinDatHang.hoTen}
+                                        </div>
+                                    </div>
+
+                                    <div className='row'>
+                                        <div className='col-sm-2'>
+                                            <strong>Số điện thoại:</strong>
+                                        </div>
+                                        <div className='col-sm-6'>
+                                            {thongTinDatHang.sdt}
+                                        </div>
+                                    </div>
+
+                                    <div className='row'>
+                                        <div className='col-sm-2'>
+                                            <strong>Địa chỉ:</strong>
+                                        </div>
+                                        <div className='col-sm-6'>
+                                            {
+                                                thongTinDatHang.diaChi + ', phường ' + thongTinDatHang.phuong + ', ' + thongTinDatHang.quan + ', ' + thongTinDatHang.thanhPho
                                             }
-                                        }}
-                                        onClick={() => {
-                                            TaoDonHang_ThanhToan_COD(dataGioHangNew);
-                                        }}>ĐẶT MUA</Button>
-                                )
-                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='col' style={{ marginTop: 20 }}>
+                                {
+                                    valueRadioThanhToan === 0 && (
+                                        // <Link to={'payment/success/' + thongTinDonHang.idShow} onClick={(e) => {
 
-                            {/* {
+                                        <Button style={{ width: 300 }} variant="danger" size='lg'
+                                            onMouseOver={() => {
+                                                if (idVoucher.length > 0) {
+                                                    setThongTinDonHang({
+                                                        ...thongTinDonHang,
+                                                        idVoucher: idVoucher
+                                                    })
+                                                }
+                                            }}
+                                            onClick={() => {
+                                                TaoDonHang_ThanhToan_COD(dataGioHangNew);
+                                            }}>ĐẶT MUA</Button>
+                                    )
+                                }
+
+                                {/* {
                                 valueRadioThanhToan === 3 && (
                                     <Button style={{ width: 300 }} variant="danger" size='lg' onClick={() => {
                                         ThanhToan_MoMo()
@@ -431,39 +450,39 @@ export default function CheckoutPayment() {
                                 )
                             } */}
 
-                            {
-                                valueRadioThanhToan === 1 && (
-                                    <Link to={'payment/success/' + thongTinDonHang.idShow} onClick={(e) => {
-                                        //TaoDonHang(e, dataGioHang);
-                                        e.preventDefault();
-                                    }}
-                                        onMouseOver={() => {
-                                            if (idVoucher.length > 0) {
-                                                setThongTinDonHang({
-                                                    ...thongTinDonHang,
-                                                    idVoucher: idVoucher
-                                                })
-                                            }
-                                        }}>
-                                        <PaypalExpressBtn
-                                            env={env}
-                                            client={client}
-                                            currency={currency}
-                                            total={total}
-                                            onError={onError}
-                                            onSuccess={onSuccess}
-                                            onCancel={onCancel}
-                                            style={{
-                                                size: 'large',
-                                                color: 'blue',
-                                                shape: 'rect',
-                                                label: 'checkout'
-                                            }} />
-                                    </Link>
-                                )
-                            }
+                                {
+                                    valueRadioThanhToan === 1 && (
+                                        <Link to={'payment/success/' + thongTinDonHang.idShow} onClick={(e) => {
+                                            //TaoDonHang(e, dataGioHang);
+                                            e.preventDefault();
+                                        }}
+                                            onMouseOver={() => {
+                                                if (idVoucher.length > 0) {
+                                                    setThongTinDonHang({
+                                                        ...thongTinDonHang,
+                                                        idVoucher: idVoucher
+                                                    })
+                                                }
+                                            }}>
+                                            <PaypalExpressBtn
+                                                env={env}
+                                                client={client}
+                                                currency={currency}
+                                                total={total}
+                                                onError={onError}
+                                                onSuccess={onSuccess}
+                                                onCancel={onCancel}
+                                                style={{
+                                                    size: 'large',
+                                                    color: 'blue',
+                                                    shape: 'rect',
+                                                    label: 'checkout'
+                                                }} />
+                                        </Link>
+                                    )
+                                }
 
-                            {/* {
+                                {/* {
                                 valueRadioThanhToan === 2 && (
                                     <Button style={{ width: 300 }} variant="danger" size='lg' onClick={() => {
                                         ThanhToan_ATMnoidia()
@@ -472,81 +491,83 @@ export default function CheckoutPayment() {
                             } */}
 
 
-                            <p style={{ marginTop: 5 }}>(Xin vui lòng kiểm tra lại đơn hàng trước khi Đặt mua)</p>
+                                <p style={{ marginTop: 5 }}>(Xin vui lòng kiểm tra lại đơn hàng trước khi Đặt mua)</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className='col-sm-3' style={{ height: 'auto', backgroundColor: '#F8F9FA' }}>
-                        <div className='row' style={{ padding: 10 }}>
-                            <span>
-                                <strong>Đơn hàng ({tinhTongSanPhamTrongGioHang(dataGioHangNew)} sản phẩm)</strong> &nbsp;
+                        <div className='col-sm-3' style={{ height: 'auto', backgroundColor: '#F8F9FA' }}>
+                            <div className='row' style={{ padding: 10 }}>
+                                <span>
+                                    <strong>Đơn hàng ({tinhTongSanPhamTrongGioHang(dataGioHangNew)} sản phẩm)</strong> &nbsp;
                                 <Link to='/checkout/cart'>Sửa</Link>
-                            </span>
+                                </span>
 
-                        </div>
-                        <hr style={{ marginTop: 5 }}></hr>
-                        <div className='col'>
-                            {
-                                dataGioHangNew.map((item, i) => {
-                                    return <div className='row' key={i}>
-                                        <div className='col-sm-8' style={{ height: 'auto', marginLeft: 0 }}>
-                                            <strong>x{item.soLuong}</strong> {item.ten} {item.mauSac !== '' ? ' - ' + item.mauSac : ''} {item.size !== '' ? ' - ' + item.size : ''}
+                            </div>
+                            <hr style={{ marginTop: 5 }}></hr>
+                            <div className='col'>
+                                {
+                                    dataGioHangNew.map((item, i) => {
+                                        return <div className='row' key={i}>
+                                            <div className='col-sm-8' style={{ height: 'auto', marginLeft: 0 }}>
+                                                <strong>x{item.soLuong}</strong> {item.ten} {item.mauSac !== '' ? ' - ' + item.mauSac : ''} {item.size !== '' ? ' - ' + item.size : ''}
+                                            </div>
+                                            <div className='col-sm-4' style={{ paddingRight: 10 }}>
+                                                <span style={{ float: 'right', fontWeight: 'bold' }}>{format_curency(tinhTienMoiSanPham(item.giaCuoiCung, item.soLuong).toString())}đ</span>
+                                            </div>
                                         </div>
-                                        <div className='col-sm-4' style={{ paddingRight: 10 }}>
-                                            <span style={{ float: 'right', fontWeight: 'bold' }}>{format_curency(tinhTienMoiSanPham(item.giaCuoiCung, item.soLuong).toString())}đ</span>
-                                        </div>
+                                    })
+                                }
+
+                            </div>
+                            <hr></hr>
+                            <div className='col'>
+                                <div className='row'>
+                                    <div className='col-sm-8' style={{ height: 'auto', marginLeft: 0 }}>
+                                        Tạm tính
+                                </div>
+                                    <div className='col-sm-4' style={{ paddingRight: 10 }}>
+                                        <span style={{ float: 'right', fontWeight: 'bold' }}>{format_curency(tienTamTinh(dataGioHangNew).toString())}đ</span>
                                     </div>
-                                })
-                            }
-
-                        </div>
-                        <hr></hr>
-                        <div className='col'>
-                            <div className='row'>
-                                <div className='col-sm-8' style={{ height: 'auto', marginLeft: 0 }}>
-                                    Tạm tính
                                 </div>
-                                <div className='col-sm-4' style={{ paddingRight: 10 }}>
-                                    <span style={{ float: 'right', fontWeight: 'bold' }}>{format_curency(tienTamTinh(dataGioHangNew).toString())}đ</span>
+                                <div className='row'>
+                                    <div className='col-sm-8' style={{ height: 'auto', marginLeft: 0 }}>
+                                        Voucher
                                 </div>
-                            </div>
-                            <div className='row'>
-                                <div className='col-sm-8' style={{ height: 'auto', marginLeft: 0 }}>
-                                    Voucher
+                                    <div className='col-sm-4' style={{ paddingRight: 10 }}>
+                                        <span style={{ float: 'right', fontWeight: 'bold' }}>
+                                            {dataVoucher.idShow !== '' && (
+                                                dataVoucher.loaiGiamGia === 0 ? '-' + format_curency(dataVoucher.giaTriGiam.toString()) + 'đ' : '-' + dataVoucher.giaTriGiam + '%'
+                                            )}
+                                            {
+                                                dataVoucher.idShow === '' && ('-0đ')
+                                            }
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className='col-sm-4' style={{ paddingRight: 10 }}>
-                                    <span style={{ float: 'right', fontWeight: 'bold' }}>
-                                        {dataVoucher.idShow !== '' && (
-                                            dataVoucher.loaiGiamGia === 0 ? '-' + format_curency(dataVoucher.giaTriGiam.toString()) + 'đ' : '-' + dataVoucher.giaTriGiam + '%'
-                                        )}
-                                        {
-                                            dataVoucher.idShow === '' && ('-0đ')
-                                        }
-                                    </span>
+                                <div className='row'>
+                                    <div className='col-sm-8' style={{ height: 'auto', marginLeft: 0 }}>
+                                        Phí vận chuyển
+                                </div>
+                                    <div className='col-sm-4' style={{ paddingRight: 10 }}>
+                                        <span style={{ float: 'right', fontWeight: 'bold' }}>0đ</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div className='row'>
-                                <div className='col-sm-8' style={{ height: 'auto', marginLeft: 0 }}>
-                                    Phí vận chuyển
+                            <hr></hr>
+                            <div className='col'>
+                                <div className='row'>
+                                    <div className='col-sm-8' style={{ height: 'auto', marginLeft: 0 }}>
+                                        Thành tiền
                                 </div>
-                                <div className='col-sm-4' style={{ paddingRight: 10 }}>
-                                    <span style={{ float: 'right', fontWeight: 'bold' }}>0đ</span>
-                                </div>
-                            </div>
-                        </div>
-                        <hr></hr>
-                        <div className='col'>
-                            <div className='row'>
-                                <div className='col-sm-8' style={{ height: 'auto', marginLeft: 0 }}>
-                                    Thành tiền
-                                </div>
-                                <div className='col-sm-4' style={{ paddingRight: 10 }}>
-                                    <span style={{ float: 'right', color: 'red', fontSize: 20, fontWeight: 'bold' }}>{format_curency(tinhThanhTien(tienTamTinh(dataGioHangNew), dataVoucher, 0).toString())}đ</span>
+                                    <div className='col-sm-4' style={{ paddingRight: 10 }}>
+                                        <span style={{ float: 'right', color: 'red', fontSize: 20, fontWeight: 'bold' }}>{format_curency(tinhThanhTien(tienTamTinh(dataGioHangNew), dataVoucher, 0).toString())}đ</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </Fragment>
+
     )
 }
