@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
-import { Steps, Radio, message } from 'antd';
+import { Steps, Radio, message, Breadcrumb } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Navbar, Nav } from 'react-bootstrap';
 import ids from 'short-id';
@@ -193,6 +193,7 @@ export default function CheckoutPayment() {
 
     async function TaoDonHang_ThanhToan_COD(dataGioHang) {
         let res = await axios.post('hethong/orders-them', {
+            emailNhan: localStorage.getItem('email'),
             idShow: thongTinDonHang.idShow,
             thongTinNguoiMua: {
                 hoTen: thongTinDonHang.thongTinNguoiMua.hoTen,
@@ -220,6 +221,7 @@ export default function CheckoutPayment() {
 
     async function TaoDonHang_ThanhToan_PayPal(dataGioHang) {
         let res = await axios.post('hethong/orders-them', {
+            emailNhan: localStorage.getItem('email'),
             idShow: thongTinDonHang.idShow,
             thongTinNguoiMua: {
                 hoTen: thongTinDonHang.thongTinNguoiMua.hoTen,
@@ -296,14 +298,32 @@ export default function CheckoutPayment() {
                     />
                     <span style={{ fontWeight: 'bold', color: 'orange' }}>TiemDo</span>
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
-                        <Nav.Link href="/">Trang Chủ</Nav.Link>
-                    </Nav>
-                </Navbar.Collapse>
             </Navbar>
             <div className="container" style={{ height: 'auto', padding: 20 }}>
+                <Breadcrumb>
+                    <Breadcrumb.Item>
+                        <a href="/">Trang Chủ</a>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <a href="/" onClick={(e) => {
+                            e.preventDefault();
+                            window.location.pathname = 'checkout/cart';
+                        }}>Giỏ hàng</a>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <a href="/" onClick={(e) => {
+                            e.preventDefault();
+                            window.location.pathname = 'checkout/shipping';
+                        }}>Địa chỉ giao hàng</a>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <a href="/" onClick={(e) => {
+                            e.preventDefault();
+                            window.location.pathname = 'checkout/payment';
+                        }}>Thanh toán & Đặt mua</a>
+                    </Breadcrumb.Item>
+                </Breadcrumb>
+                <br></br>
                 <div className='col'>
                     <div>
                         <Steps current={2}>
@@ -490,8 +510,8 @@ export default function CheckoutPayment() {
                                 )
                             } */}
 
-
-                                <p style={{ marginTop: 5 }}>(Xin vui lòng kiểm tra lại đơn hàng trước khi Đặt mua)</p>
+                                <br></br>
+                                (Xin vui lòng kiểm tra lại đơn hàng trước khi Đặt mua)
                             </div>
                         </div>
                         <div className='col-sm-3' style={{ height: 'auto', backgroundColor: '#F8F9FA' }}>

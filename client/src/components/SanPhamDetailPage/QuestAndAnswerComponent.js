@@ -78,10 +78,16 @@ export default function QuestAndAnswerComponent(props) {
     }, [thichOk])
 
     useEffect(() => {
-        if (countCauHoiShow >= dataCauHoi.length && dataCauHoi.length !== 0) {
+        if (dataCauHoi.length === 0) {
             setEndXemThem(true);
+        } else {
+            if (countCauHoiShow >= dataCauHoi.length) {
+                setEndXemThem(true);
+            } else {
+                setEndXemThem(false);
+            }
         }
-    }, [countCauHoiShow])
+    }, [dataCauHoi, countCauHoiShow])
 
     return (
         <div className="row" style={{ marginTop: 40 }}>
@@ -104,7 +110,7 @@ export default function QuestAndAnswerComponent(props) {
                                         <p style={{ lineHeight: 1.5, fontSize: 16 }}>{item.answer}</p>
                                         <small>Đã trả lời vào {hamChuyenDoiNgay(new Date(item.ngayTraLoi))}</small>
                                         <div>
-                                            <Link onClick={(e) => {
+                                            <Link to='/' onClick={(e) => {
                                                 e.preventDefault();
                                                 if (cookies.token === undefined) {
                                                     message.error('Vui lòng đăng nhập để thích câu hỏi');
@@ -133,7 +139,7 @@ export default function QuestAndAnswerComponent(props) {
                         endXemThem === false && (
                             <div className='row' style={{ paddingLeft: 15, backgroundColor: 'white' }}>
                                 <hr style={{ width: '100%' }}></hr>
-                                <Link onClick={(e) => {
+                                <Link to='/' onClick={(e) => {
                                     e.preventDefault();
                                     setCountCauHoiShow(prev => prev + 4);
                                 }}>Xem thêm</Link>

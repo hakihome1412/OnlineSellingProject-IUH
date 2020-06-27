@@ -199,7 +199,7 @@ function Header() {
                     <Nav className="mr-auto">
                         <Form inline>
                             <Dropdown overlay={menu} trigger={['click']}>
-                                <FormControl type="text" value={valueSearch} placeholder="Tìm sản phẩm, danh mục hay thương hiệu mong muốn" className="mr-sm-2" style={{ width: 480 }} onChange={(e) => {
+                                <FormControl type="text" value={valueSearch} placeholder="Tìm sản phẩm, danh mục hay thương hiệu" className="mr-sm-2" style={{ width: 350 }} onChange={(e) => {
                                     dispatch({ type: 'VALUE_SEARCH', valueSearch: e.target.value });
                                 }}
                                     onClick={() => {
@@ -221,7 +221,7 @@ function Header() {
                         <Form inline>
                             {
                                 isAdminReducer === false && (
-                                    <Nav.Link href="/checkout/cart">
+                                    <Nav.Link href="/checkout/cart" style={{ marginRight: 10 }}>
                                         <Badge count={cookies.token === undefined ? 0 : countProductInCart} style={{ paddingTop: countProductInCart > 99 ? 0 : 6 }}>
                                             <i className="fa fa-shopping-cart" style={{ fontSize: 25 }}></i>
                                         </Badge>
@@ -242,6 +242,7 @@ function Header() {
             <Modal show={showModalDangNhapDangKy} size="lg" onHide={() => {
                 dispatch({ type: 'CLOSE_MODAL_DANGNHAP_DANGKY' });
             }} animation={false}>
+                <Modal.Header closeButton><h5 style={{ fontWeight: 'bold', color: 'orange' }}>TiemDo</h5></Modal.Header>
                 <Tabs defaultActiveKey="dangnhap" id="uncontrolled-tab-example">
                     <Tab eventKey="dangnhap" title="Đăng Nhập">
                         <DangNhapComponent></DangNhapComponent>

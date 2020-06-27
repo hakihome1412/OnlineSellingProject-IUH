@@ -60,6 +60,7 @@ export default function UserComponent() {
                 <NavDropdown.Item onClick={() => {
                     removeCookie('token');
                     removeCookie('userID');
+                    localStorage.setItem('email', 'undefined');
                     window.location.pathname = '/';
                 }}>Đăng xuất</NavDropdown.Item>
             </NavDropdown>

@@ -70,7 +70,7 @@ export default function ModalCapNhatKho() {
                         setGiaTriGiam(parseInt(e.target.value));
                         setIsNumber(true);
                     }} /><br></br>
-                    <span>(Nếu giá trị nhập nhỏ hơn 100 , hệ thống sẽ tự động giảm theo phần trăm)</span>
+                    <span>(Nếu giá trị nhập nhỏ hơn 100 thì hệ thống sẽ tự động giảm theo %)</span>
                 </Form.Item>
                 {
                     isNumber === false && (

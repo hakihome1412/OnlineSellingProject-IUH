@@ -89,7 +89,7 @@ export default function Deal() {
                         {
                             dataProduct.map((item, i) => {
                                 return <Tooltip title={item.ten} placement={'right'} key={i}>
-                                    <div key={item._id} className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
+                                    <div key={item._id} className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, margin: 20, width: '95%' }}>
                                         <Link to={'/detail/' + item._id + '/' + to_slug(item.ten)} className="a_item">
                                             <div className="row">
                                                 <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />

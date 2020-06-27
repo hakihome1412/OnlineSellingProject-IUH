@@ -65,7 +65,7 @@ export default function DealComponent(props) {
                 <div className="col">
                     <div className="row" style={{ height: 50, width: '100%', padding: 10, marginBottom: 20 }}>
                         <i className="fa fa-bell fa-2x" style={{ marginTop: 15 }}></i>
-                        <div className="col">
+                        <div className="col" style={{ height: 'auto' }}>
                             <h5 style={{ color: 'orange' }}><strong>TiemDo Deal</strong></h5>
                             <p style={{ lineHeight: 1 }}>Cập nhật hàng giờ tất cả những deal giảm giá đặc biệt trên TiemDo. Hãy bookmark trang này và quay lại thường xuyên để không bỏ lỡ bạn nhé!</p>
                         </div>
@@ -74,7 +74,7 @@ export default function DealComponent(props) {
                         {
                             dataProductSale.map((item, i) => {
                                 return <Tooltip title={item.ten} placement={'right'} color={'orange'} key={i}>
-                                    <div key={i} className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
+                                    <div key={i} className="col-sm-3 item" style={{ backgroundColor: "white", height: 'auto', marginTop: 35, width: '95%' }}>
                                         <Link to={'detail/' + item._id + '/' + to_slug(item.ten)} className="a_item">
                                             <div className="row">
                                                 <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />

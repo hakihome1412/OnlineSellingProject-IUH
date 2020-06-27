@@ -59,13 +59,11 @@ export default function MarkettingComponent(props) {
                                     }}>
                                         <Image style={{ width: '100%', height: 300 }} src={item.img} />
                                     </Link>
-                                    {
-                                        item.loaiBaiViet === 1 && (
-                                            <Carousel.Caption>
-                                                <h3 style={{ color: '#FF3333', fontSize: 20 }}>{item.tieuDe}</h3>
-                                            </Carousel.Caption>
-                                        )
-                                    }
+                                    <Carousel.Caption>
+                                        <h3 style={{ color: 'white', fontSize: 20 }}>{item.tieuDe}</h3>
+                                    </Carousel.Caption>
+
+
                                 </Carousel.Item>
 
                             }

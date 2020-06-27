@@ -47,6 +47,7 @@ module.exports = {
                                 message: 'Đăng nhập thành công !',
                                 userID: resultUser._id,
                                 tenTaiKhoan: resultUser.taiKhoan.tenTaiKhoan,
+                                email: resultUser.email,
                                 vaiTro: resultUser.vaiTro,
                                 token: token
                             });

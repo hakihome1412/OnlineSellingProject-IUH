@@ -150,9 +150,9 @@ export default function CheckoutCartt() {
 
 
     return (
-        <div className="container" style={{ marginTop: '50px', backgroundColor: '#F8F9FA', height: 'auto', padding: 20 }}>
+        <div className="container" style={{ marginTop: '50px', backgroundColor: '#F8F9FA', height: 'auto', padding: 10 }}>
             <h4>GIỎ HÀNG ({cookie.token === undefined ? 0 : tinhTongSanPhamTrongGioHang(dataGioHangNew)} sản phẩm)</h4>
-            <div className='row' style={{ marginLeft: 5 }}>
+            <div className='row' style={{ padding: 20 }}>
                 <div className='col-sm-8'>
                     {
                         dataGioHangNew.map((item, i) => {
@@ -181,7 +181,7 @@ export default function CheckoutCartt() {
                                             )
                                         }
                                     </strong><br></br>
-                                    Cung cấp bởi: <Link to={'/shop/' + item.idShop + '/' + to_slug(item.tenShop)}>{item.tenShop}</Link> <br></br><br></br>
+                                    Cung cấp bởi: <Link to={'/shop/' + item.idShop + '/' + to_slug(item.tenShop)}>{item.tenShop}</Link> <br></br>
                                     <Link to='/' onClick={(e) => {
                                         e.preventDefault();
                                         dataGioHang.splice(item.index, 1);
@@ -193,12 +193,13 @@ export default function CheckoutCartt() {
                                         dispatch({ type: 'THAY_DOI_GIO_HANG' });
                                     }}>Xóa</Link>
                                 </div>
-                                <div className='col-sm-3' style={{ marginLeft: 20 }}>
-                                    <div className='col' style={{ float: 'right' }}>
+                                <div className='col-sm-3'>
+                                    <div className='col'>
                                         <span style={{ fontSize: 20, fontWeight: 'bold' }}>{format_curency(item.giaCuoiCung.toString())}đ</span><br></br>
                                         <strike>{format_curency(item.giaGoc.toString())}đ</strike> | {item.khuyenMai > 100 ? '-' + format_curency(item.khuyenMai.toString()) + 'đ' : '-' + item.khuyenMai + '%'}
                                     </div>
-                                    <div className='col' style={{ float: 'right', marginTop: 30 }}>
+                                    <div className='col'>
+                                        <br></br>
                                         <InputNumber min={1} defaultValue={item.soLuong} onChange={(value) => {
                                             dataGioHang[item.index].soLuong = value;
                                             setDataGioHang([
@@ -214,8 +215,11 @@ export default function CheckoutCartt() {
                         })
                     }
                 </div>
+                <div className='col-sm-1'>
 
-                <div className='col-sm-3' style={{ backgroundColor: 'white', marginLeft: 40, padding: 10, borderRadius: 10, height: 'auto', marginTop: 10 }}>
+                </div>
+
+                <div className='col-sm-3' style={{ backgroundColor: 'white', padding: 10, borderRadius: 10, height: 'auto', marginTop: 10 }}>
                     <div className='col'>
                         <div className='row'>
                             <div className='col-sm-6'>

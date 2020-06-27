@@ -148,14 +148,17 @@ export default function ClientCommentComponent(props) {
     }, [nhanXetOption])
 
     useEffect(() => {
-        if (countNhanXetShow >= dataCommentShow.length && dataCommentShow.length !== 0) {
+        if (dataCommentShow.length === 0) {
             setEndXemThem(true);
+        } else {
+            if (countNhanXetShow >= dataCommentShow.length) {
+                setEndXemThem(true);
+            } else {
+                setEndXemThem(false);
+            }
         }
-    }, [countNhanXetShow])
 
-    console.log('count1: ' + countNhanXetShow)
-    console.log('count2: ' + dataCommentShow.length)
-    console.log(endXemThem)
+    }, [dataCommentShow, countNhanXetShow])
 
     return (
         <div className="row" style={{ marginTop: 40 }}>
@@ -174,11 +177,11 @@ export default function ClientCommentComponent(props) {
                             </div>
 
                             <div className='col-sm-5'>
-                                <span>5 <i className="fas fa-star"></i>&nbsp;&nbsp;<Progress percent={arrPhanTram[0]} style={{ width: '88%' }} /></span>
-                                <span>4 <i className="fas fa-star"></i>&nbsp;&nbsp;<Progress percent={arrPhanTram[1]} style={{ width: '88%' }} /></span>
-                                <span>3 <i className="fas fa-star"></i>&nbsp;&nbsp;<Progress percent={arrPhanTram[2]} style={{ width: '88%' }} /></span>
-                                <span>2 <i className="fas fa-star"></i>&nbsp;&nbsp;<Progress percent={arrPhanTram[3]} style={{ width: '88%' }} /></span>
-                                <span>1 <i className="fas fa-star"></i>&nbsp;&nbsp;<Progress percent={arrPhanTram[4]} style={{ width: '88%' }} /></span>
+                                <div className='row'>5 <i className="fas fa-star" style={{ marginTop: 3 }}></i>&nbsp;&nbsp;<Progress percent={arrPhanTram[0]} style={{ width: '88%' }} /></div>
+                                <div className='row'>4 <i className="fas fa-star" style={{ marginTop: 3 }}></i>&nbsp;&nbsp;<Progress percent={arrPhanTram[1]} style={{ width: '88%' }} /></div>
+                                <div className='row'>3 <i className="fas fa-star" style={{ marginTop: 3 }}></i>&nbsp;&nbsp;<Progress percent={arrPhanTram[2]} style={{ width: '88%' }} /></div>
+                                <div className='row'>2 <i className="fas fa-star" style={{ marginTop: 3 }}></i>&nbsp;&nbsp;<Progress percent={arrPhanTram[3]} style={{ width: '88%' }} /></div>
+                                <div className='row'>1 <i className="fas fa-star" style={{ marginTop: 3 }}></i>&nbsp;&nbsp;<Progress percent={arrPhanTram[4]} style={{ width: '88%' }} /></div>
                             </div>
 
                             <div className='col-sm-3'>
@@ -215,14 +218,14 @@ export default function ClientCommentComponent(props) {
                                 <div className='row'>
                                     <div className='col-sm-6'>
                                         <h5>GỬI NHẬN XÉT CỦA BẠN</h5>
-                                        <p>1. Đánh giá của bạn về sản phẩm này: <Rate onChange={(value) => {
+                                        1. Đánh giá của bạn về sản phẩm này: <Rate onChange={(value) => {
                                             setComment({
                                                 ...comment,
                                                 soSao: value
                                             })
-                                        }}></Rate></p>
+                                        }}></Rate>
 
-                                        <p>2. Tiêu đề của nhận xét:</p>
+                                        <p style={{ marginTop: 10 }}>2. Tiêu đề của nhận xét:</p>
                                         <Input placeholder='Nhập tiêu đề nhận xét (Không bắt buộc)' onChange={(e) => {
                                             setComment({
                                                 ...comment,
@@ -244,11 +247,11 @@ export default function ClientCommentComponent(props) {
                                     </div>
 
                                     <div className='col-sm-6'>
-                                        <div className='row' style={{ marginLeft: 20 }}>
+                                        <div className='row'>
                                             <div className='col-sm-4'>
                                                 <img alt='ảnh' src={dataProduct.img.chinh} width={120} height={200}></img>
                                             </div>
-                                            <div className='col-sm-8' style={{ marginTop: 40 }}>
+                                            <div className='col-sm-8' style={{ marginTop: 20 }}>
                                                 <h5 style={{ marginLeft: 10 }}>{dataProduct.ten}</h5>
                                                 <p style={{ marginLeft: 10, lineHeight: 1.4 }}>{format_curency(dataProduct.giaCuoiCung.toString())} đ</p>
                                                 <p style={{ marginLeft: 10, lineHeight: 1.4 }}>Cung cấp bởi: <Link to={'/shop/' + dataShop.idShop + '/' + to_slug(dataShop.ten)}>{dataShop.ten}</Link></p>
@@ -291,7 +294,7 @@ export default function ClientCommentComponent(props) {
                     {
                         dataCommentShow.map((item, i) => {
                             if (i < countNhanXetShow) {
-                                return <div className='row' style={{ marginTop: 40 }}>
+                                return <div key={i} className='row' style={{ marginTop: 40 }}>
                                     <div className='col-sm-3'>
                                         <center>
                                             <Avatar size={64} icon={<UserOutlined />} /><br></br>
@@ -309,9 +312,7 @@ export default function ClientCommentComponent(props) {
                                                     <br></br>
                                                     <div className='row'>
                                                         <div className='col-sm-1'>
-                                                            <center>
-                                                                <Avatar size='large' style={{ backgroundColor: '#0099FF' }}>TĐ</Avatar>
-                                                            </center>
+                                                            <Avatar size='large' style={{ backgroundColor: '#0099FF' }}>TĐ</Avatar>
                                                         </div>
 
                                                         <div className='col-sm-11'>

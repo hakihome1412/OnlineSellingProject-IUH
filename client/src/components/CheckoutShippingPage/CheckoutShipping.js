@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
-import { Steps, Select, message } from 'antd';
+import { Steps, Select, message, Breadcrumb } from 'antd';
 import { Form, Row, Col, Button, Nav, Navbar } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -137,14 +137,26 @@ export default function CheckoutShipping() {
                     />
                     <span style={{ fontWeight: 'bold', color: 'orange' }}>TiemDo</span>
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
-                        <Nav.Link href="/">Trang Chủ</Nav.Link>
-                    </Nav>
-                </Navbar.Collapse>
             </Navbar>
             <div className="container" style={{ height: 'auto', padding: 10 }}>
+                <Breadcrumb>
+                    <Breadcrumb.Item>
+                        <a href="/">Trang Chủ</a>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <a href="/" onClick={(e) => {
+                            e.preventDefault();
+                            window.location.pathname = 'checkout/cart';
+                        }}>Giỏ hàng</a>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <a href="/" onClick={(e) => {
+                            e.preventDefault();
+                            window.location.pathname = 'checkout/shipping';
+                        }}>Địa chỉ giao hàng</a>
+                    </Breadcrumb.Item>
+                </Breadcrumb>
+                <br></br>
                 <div className='col'>
                     <div>
                         <Steps current={1}>
@@ -167,7 +179,7 @@ export default function CheckoutShipping() {
                                             Họ tên
                                     </Form.Label>
                                         <Col sm={9}>
-                                            <Form.Control type="text" re placeholder='Nhập họ tên' onChange={(e) => {
+                                            <Form.Control type="text" placeholder='Nhập họ tên' onChange={(e) => {
                                                 setThongTin({
                                                     ...thongTin,
                                                     hoTen: e.target.value

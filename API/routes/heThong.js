@@ -48,6 +48,7 @@ router.get('/categorys-dakhoa/:page', categoryController.LayDanhSachCategory_DaK
 router.get('/categorys', categoryController.LayDanhSachCategoryAll);
 router.get('/categorys-show', categoryController.LayDanhSachCategoryChuaKhoa);
 router.get('/categorys-item', categoryController.LayCategoryTheoID);
+router.get('/categorys-product', categoryController.LayCategoryTheoIDSanPham);
 router.post('/categorys-them', categoryController.ThemCategory)
 router.put('/categorys-xoa', categoryController.XoaCategory);
 router.put('/categorys-sua', categoryController.SuaCategory);

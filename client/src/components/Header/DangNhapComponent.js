@@ -42,6 +42,7 @@ export default function DangNhapComponent() {
         }).then(function (res) {
             if (res.data.status === "success") {
                 setLoading(false);
+                localStorage.setItem('email', res.data.email);
                 setCookies('userID', res.data.userID, { path: '/' });
                 setCookies('token', res.data.token, { path: '/' });
                 if (res.data.vaiTro === 0) {
@@ -67,12 +68,12 @@ export default function DangNhapComponent() {
     return (
         <Fragment>
             <div className="row">
-                <div className="col-sm-4" style={{ height: 600, padding: 40 }}>
+                <div className="col-sm-4" style={{ height: 'auto', padding: 40 }}>
                     <h3>Đăng Nhập</h3>
                     <span style={{ color: 'grey' }}>Đăng nhập để theo dõi đơn hàng, lưu
                                     danh sách sản phẩm yêu thích, nhận nhiều ưu đãi hấp dẫn.</span>
                 </div>
-                <div className="col-sm-8" style={{ height: 600, padding: 40 }}>
+                <div className="col-sm-8" style={{ height: 'auto', padding: 40 }}>
                     <Form style={{ fontSize: 14, padding: 0, margin: 0 }}>
                         <Form.Group as={Row} controlId="formBasicEmail">
                             <Form.Label column sm={3}>Email</Form.Label>

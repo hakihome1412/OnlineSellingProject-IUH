@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { InforItemComponent, InforDetailItemComponent, DescriptionItemComponent, QuestAndAnswerComponent, ClientCommentComponent } from '../allJS'
 import { axios } from '../../config/constant';
 import { useDispatch } from 'react-redux';
-import { message } from 'antd';
+import { message, Breadcrumb } from 'antd';
 import { useCookies } from 'react-cookie';
 
 export default function SanPhamDetail(props) {
     const productID = props.match.params.id;
     const [phanLoaiColor, setPhanLoaiColor] = useState([]);
     const [phanLoaiSize, setPhanLoaiSize] = useState([]);
+    const [dataCategorys, setDataCategorys] = useState([]);
     const dispatch = useDispatch();
     const [cookies, setCookie] = useCookies();
     const [thongTinShop, setThongTinShop] = useState({
@@ -48,6 +49,35 @@ export default function SanPhamDetail(props) {
         ten: '',
         xuatXu: ''
     });
+
+    function to_slug(str) {
+        // Chuyển hết sang chữ thường
+        str = str.toLowerCase();
+
+        // xóa dấu
+        str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
+        str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
+        str = str.replace(/(ì|í|ị|ỉ|ĩ)/g, 'i');
+        str = str.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/g, 'o');
+        str = str.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/g, 'u');
+        str = str.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/g, 'y');
+        str = str.replace(/(đ)/g, 'd');
+
+        // Xóa ký tự đặc biệt
+        str = str.replace(/([^0-9a-z-\s])/g, '');
+
+        // Xóa khoảng trắng thay bằng ký tự -
+        str = str.replace(/(\s+)/g, '-');
+
+        // xóa phần dự - ở đầu
+        str = str.replace(/^-+/g, '');
+
+        // xóa phần dư - ở cuối
+        str = str.replace(/-+$/g, '');
+
+        // return
+        return str;
+    }
 
     async function LayDataShopTheoID(shopID) {
         let res = await axios.get('hethong/users/shop-item?idShop=' + shopID);
@@ -151,6 +181,16 @@ export default function SanPhamDetail(props) {
         });
     }
 
+    async function LayDataCategoryTheoIDSanPham(id) {
+        let res = await axios.get('hethong/categorys-product?id=' + id);
+
+        if (res.data.status === 'success') {
+            setDataCategorys(res.data.data);
+        } else {
+            message.error('Lấy dữ liệu data danh mục sản phẩm thất bại');
+        }
+    }
+
     useEffect(() => {
         if (cookies.userID !== undefined) {
             CapNhatNguoiXem();
@@ -175,6 +215,12 @@ export default function SanPhamDetail(props) {
     }, [thongTinProduct.idShop])
 
     useEffect(() => {
+        if (thongTinProduct._id !== '') {
+            LayDataCategoryTheoIDSanPham(thongTinProduct._id);
+        }
+    }, [thongTinProduct._id])
+
+    useEffect(() => {
         if (thongTinProduct.idBrand !== '') {
             LayDataBrandTheoID(thongTinProduct.idBrand);
         }
@@ -182,6 +228,28 @@ export default function SanPhamDetail(props) {
 
     return (
         <div className="container" style={{ marginTop: '50px' }}>
+            <Breadcrumb>
+                <Breadcrumb.Item>
+                    <a href="/">Trang Chủ</a>
+                </Breadcrumb.Item>
+                {
+                    dataCategorys.map((item, i) => {
+                        return <Breadcrumb.Item key={i}>
+                            <a href='/' onClick={(e) => {
+                                e.preventDefault();
+                                window.location.pathname = 'category/' + item._id + '/' + to_slug(item.ten);
+                            }}>{item.ten}</a>
+                        </Breadcrumb.Item>
+                    })
+                }
+                <Breadcrumb.Item>
+                    <a href="/" onClick={(e) => {
+                        e.preventDefault();
+                        window.location.pathname = 'detail/' + thongTinProduct._id + '/' + to_slug(thongTinProduct.ten);
+                    }}>{thongTinProduct.ten}</a>
+                </Breadcrumb.Item>
+
+            </Breadcrumb>
             <InforItemComponent phanLoaiColor={phanLoaiColor} phanLoaiSize={phanLoaiSize} thongTinProduct={thongTinProduct}></InforItemComponent>
             <InforDetailItemComponent thongTinProduct={thongTinProduct} thongTinBrand={thongTinBrand}></InforDetailItemComponent>
             <DescriptionItemComponent thongTinProduct={thongTinProduct}></DescriptionItemComponent>

@@ -137,7 +137,9 @@ module.exports = {
 
     LayBaiViet_ShowAdmin: async function (req, res) {
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-        const page = req.query.page;
+        const page = req.params.page;
+
+        console.log(page)
 
         await client.connect();
         console.log("Connected correctly to server POSTS");
@@ -145,8 +147,8 @@ module.exports = {
         const colPost = db.collection('POSTS');
 
         let allPost = await colPost.find({ isDelete: false }).toArray();
-        let soTrang = Math.ceil(parseInt(allPost.length) / 4);
         let arrPost = await colPost.find({ isDelete: false }).sort({ _id: -1 }).limit(4).skip(page * 4).toArray();
+        let soTrang = Math.ceil(parseInt(allPost.length) / 4);
         client.close();
 
         res.status(200).json({

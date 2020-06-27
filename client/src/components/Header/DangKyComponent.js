@@ -86,12 +86,12 @@ export default function DangKyComponent() {
     return (
         <Fragment>
             <div className="row">
-                <div className="col-sm-4" style={{ height: 600, padding: 40 }}>
+                <div className="col-sm-4" style={{ height: 'auto', padding: 40 }}>
                     <h3>Đăng Ký</h3>
                     <span style={{ color: 'grey' }}>Tạo tài khoản để theo dõi đơn hàng, lưu
                                     danh sách sản phẩm yêu thích, nhận nhiều ưu đãi hấp dẫn.</span>
                 </div>
-                <div className="col-sm-8" style={{ height: 600, padding: 40, borderLeft: 1 }}>
+                <div className="col-sm-8" style={{ height: 'auto', padding: 40, borderLeft: 1 }}>
                     <Form>
                         <Form.Group as={Row} controlId="formBasicHoTen">
                             <Form.Label column sm={3}>Họ tên</Form.Label>

@@ -124,6 +124,43 @@ module.exports = {
         }
     },
 
+    LayCategoryTheoIDSanPham: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        let productID = req.query.id;
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProducts = db.collection('PRODUCTS');
+        const colCategory = db.collection('CATEGORY');
+        let product = await colProducts.findOne({ _id: ObjectId(productID) });
+        let allCategory = await colCategory.find({}).toArray();
+
+        if (product === null) {
+            client.close();
+            res.status(200).json({
+                status: 'fail',
+                message: 'Không có dữ liệu',
+            })
+        } else {
+            // console.log(product.idCategory)
+            let arrCategory = [];
+            for (let index = 0; index < product.idCategory.length; index++) {
+                for (let index2 = 0; index2 < allCategory.length; index2++) {
+                    if (product.idCategory[index] === allCategory[index2]._id.toString()) {
+                        arrCategory.push(allCategory[index2]);
+                        break;
+                    }
+                }
+            }
+            client.close();
+            res.status(200).json({
+                status: 'success',
+                message: 'Lấy dữ liệu thành công',
+                data: arrCategory
+            })
+        }
+    },
+
     LayDanhSachCategory_Search_TheoTrang: async function (req, res) {
         const page = req.params.page;
         const search = BoDau(req.query.search);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Input, Button, DatePicker } from 'antd';
+import { Form, Input, Button, DatePicker, message } from 'antd';
 import { axios } from '../../config/constant';
 import moment from 'moment';
 
@@ -51,13 +51,14 @@ export default function ModalThemMaGiamGia() {
         });
 
         if (res.data.status === 'success') {
-            alert("Thêm thành công");
+            message.success("Thêm thành công");
             dispatch({ type: 'CLOSE_THEM_VOUCHER' });
             dispatch({ type: 'RELOAD_DATABASE' });
             setSpinnerThemMaGiamGia(0);
         } else {
-            alert("Thêm thất bại");
+            message.error("Thêm thất bại");
             setSpinnerThemMaGiamGia(0);
+            dispatch({ type: 'CLOSE_THEM_VOUCHER' });
         }
     }
 
@@ -115,7 +116,7 @@ export default function ModalThemMaGiamGia() {
                             ...dataThem,
                             giaTriGiam: parseInt(e.target.value)
                         })
-                    }} />
+                    }} />(Nếu giá trị nhập nhỏ hơn 100 thì hệ thống sẽ tự động giảm theo %)
                 </Form.Item>
 
                 <Form.Item

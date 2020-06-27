@@ -240,11 +240,11 @@ export default function InforItemComponent(props) {
                             })
                         }
                     </div>
-                    <div className='col-sm-4' style={{ height: 'auto', marginBottom: 40 }}>
-                        <div style={{ width: 200, height: 150, backgroundColor: '#EEEEEE' }}>
-                            <div className='col'>
+                    <div className='col-sm-4' style={{ height: 'auto' }}>
+                        <div style={{ width: 200, height: 'auto', backgroundColor: '#EEEEEE' }}>
+                            <div className='col' style={{ padding: 5 }}>
                                 <div className='row'>
-                                    <div className='col-sm-3' style={{ padding: 5, margin: 0 }}>
+                                    <div className='col-sm-3' style={{ margin: 0 }}>
                                         <img alt='ảnh logo' src={dataShop.logoShop} width='50' height='60' style={{ marginRight: 50 }}></img>
                                     </div>
                                     <div className='col-sm-9'>
@@ -312,79 +312,81 @@ export default function InforItemComponent(props) {
                                 )
                             }
                             <br></br>
-                            <div className="row">
-                                <div className="col-sm-3">
-                                    <p>Số lượng:</p>
-                                    <InputNumber min={0} defaultValue={0} onChange={(value) => {
-                                        setThongTinMuaSanPham({
-                                            ...thongTinMuaSanPham,
-                                            soLuong: value
-                                        })
-                                    }} />
-                                </div>
-                                <div className="col-sm-9">
-                                    <Button style={{ width: 300, height: 54 }} onClick={() => {
-                                        var resultMau = false;
-                                        var resultSize = false;
-                                        if (cookies.token === undefined) {
-                                            dispatch({ type: 'SHOW_MODAL_DANGNHAP_DANGKY' });
-                                        } else {
-                                            if (isAdmin) {
-                                                message.error('Admin không được thực hiện chức năng này');
+                            <div className='col'>
+                                <div className="row">
+                                    <div className="col-sm-3">
+                                        <p>Số lượng:</p>
+                                        <InputNumber min={0} style={{ marginLeft: 10 }} defaultValue={0} onChange={(value) => {
+                                            setThongTinMuaSanPham({
+                                                ...thongTinMuaSanPham,
+                                                soLuong: value
+                                            })
+                                        }} />
+                                    </div>
+                                    <div className="col-sm-9">
+                                        <Button style={{ width: 300, height: 54, marginTop: 5 }} onClick={() => {
+                                            var resultMau = false;
+                                            var resultSize = false;
+                                            if (cookies.token === undefined) {
+                                                dispatch({ type: 'SHOW_MODAL_DANGNHAP_DANGKY' });
                                             } else {
-                                                if (thongTinMuaSanPham.soLuong === '') {
-                                                    message.error('Vui lòng chọn số lượng')
+                                                if (isAdmin) {
+                                                    message.error('Admin không được thực hiện chức năng này');
                                                 } else {
-                                                    if (dataColor.length > 0) {
-                                                        resultMau = true;
-                                                    }
-                                                    if (dataSize.length > 0) {
-                                                        resultSize = true;
-                                                    }
+                                                    if (thongTinMuaSanPham.soLuong === '') {
+                                                        message.error('Vui lòng chọn số lượng')
+                                                    } else {
+                                                        if (dataColor.length > 0) {
+                                                            resultMau = true;
+                                                        }
+                                                        if (dataSize.length > 0) {
+                                                            resultSize = true;
+                                                        }
 
-                                                    //Sản phẩm không có cả 2 phân loại Màu Sắc và Size
-                                                    if (resultMau === false && resultSize === false) {
-                                                        ThemVaoGioHang(thongTinMuaSanPham);
-                                                    }
-
-                                                    //Sản phẩm có phân loại Màu Sắc mà không có phân loại Size
-                                                    if (resultMau === true && resultSize === false) {
-                                                        if (thongTinMuaSanPham.mauSac === '') {
-                                                            message.error('Vui lòng chọn màu sắc');
-                                                        } else {
+                                                        //Sản phẩm không có cả 2 phân loại Màu Sắc và Size
+                                                        if (resultMau === false && resultSize === false) {
                                                             ThemVaoGioHang(thongTinMuaSanPham);
                                                         }
-                                                    }
 
-                                                    //Sản phẩm có phân loại Size mà không có phân loại Màu Sắc
-                                                    if (resultMau === false && resultSize === true) {
-                                                        if (thongTinMuaSanPham.size === '') {
-                                                            message.error('Vui lòng chọn size');
-                                                        } else {
-                                                            ThemVaoGioHang(thongTinMuaSanPham);
-                                                        }
-                                                    }
-
-                                                    //Sản phẩm có cả 2 phân loại Màu Sắc và Size
-                                                    if (resultMau === true && resultSize === true) {
-                                                        if (thongTinMuaSanPham.mauSac === '') {
-                                                            message.error('Vui lòng chọn màu sắc');
-                                                        } else {
-                                                            if (thongTinMuaSanPham.size === '') {
+                                                        //Sản phẩm có phân loại Màu Sắc mà không có phân loại Size
+                                                        if (resultMau === true && resultSize === false) {
+                                                            if (thongTinMuaSanPham.mauSac === '') {
                                                                 message.error('Vui lòng chọn màu sắc');
                                                             } else {
                                                                 ThemVaoGioHang(thongTinMuaSanPham);
                                                             }
                                                         }
+
+                                                        //Sản phẩm có phân loại Size mà không có phân loại Màu Sắc
+                                                        if (resultMau === false && resultSize === true) {
+                                                            if (thongTinMuaSanPham.size === '') {
+                                                                message.error('Vui lòng chọn size');
+                                                            } else {
+                                                                ThemVaoGioHang(thongTinMuaSanPham);
+                                                            }
+                                                        }
+
+                                                        //Sản phẩm có cả 2 phân loại Màu Sắc và Size
+                                                        if (resultMau === true && resultSize === true) {
+                                                            if (thongTinMuaSanPham.mauSac === '') {
+                                                                message.error('Vui lòng chọn màu sắc');
+                                                            } else {
+                                                                if (thongTinMuaSanPham.size === '') {
+                                                                    message.error('Vui lòng chọn màu sắc');
+                                                                } else {
+                                                                    ThemVaoGioHang(thongTinMuaSanPham);
+                                                                }
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }
-                                        }
-                                    }}>
-                                        <div className="row" style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                            <FaCartPlus size={30}></FaCartPlus>&nbsp;<strong>CHỌN MUA</strong>
-                                        </div>
-                                    </Button>
+                                        }}>
+                                            <div className="row" style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                                <FaCartPlus size={30}></FaCartPlus>&nbsp;<strong>CHỌN MUA</strong>
+                                            </div>
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         </Fragment>

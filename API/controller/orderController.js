@@ -128,6 +128,7 @@ module.exports = {
 
     ThemDonHang: async function (req, res) {
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        let emailNhan = req.body.emailNhan;
         let donHangThem = {
             idShow: req.body.idShow,
             thongTinNguoiMua: {
@@ -281,7 +282,7 @@ module.exports = {
 
                 const emailData = {
                     from: process.env.EMAIL_FROM,
-                    to: 'huynhphuchuy1412@gmail.com',
+                    to: emailNhan,
                     subject: `TiemDo đã nhận đơn hàng ${donHangThem.idShow}`,
                     html: html
                 }

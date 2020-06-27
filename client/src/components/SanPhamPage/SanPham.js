@@ -4,13 +4,14 @@ import { Image, Button } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { message, Input, Pagination, Tooltip } from 'antd';
+import { message, Input, Pagination, Tooltip, Breadcrumb } from 'antd';
 import { StringParam, useQueryParams, NumberParam } from 'use-query-params';
 
 
 export default function SanPham(props) {
     const dispatch = useDispatch();
     const categoryID = props.match.params.id;
+    const slug = props.match.params.slug;
     const [dataProduct, setDataProduct] = useState([]);
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [dataGiaOption, setDataGiaOption] = useState({
@@ -134,7 +135,7 @@ export default function SanPham(props) {
                             <p><strong><Link to='#'>{dataCategory.ten}</Link></strong></p>
                         </div>
                     </div>
-                    <hr style={{ width: 240 }}></hr>
+                    <hr></hr>
                     <div className="danhgia-sidebar">
                         <h5>ĐÁNH GIÁ</h5>
                         <div className="danhgia-5sao-sidebar">
@@ -185,13 +186,15 @@ export default function SanPham(props) {
 
                         </div>
                     </div>
-                    <hr style={{ width: 240 }}></hr>
+                    <hr></hr>
                     <div className="thuonghieu-sidebar">
                         <h5>GIÁ</h5>
                         <div className='col'>
-                            <span>Chọn khoảng giá</span><br></br>
                             <div className='row'>
-                                <Input value={dataGiaOption.giaDau} style={{ width: 100, marginLeft: 15 }} onChange={(e) => {
+                                Chọn khoảng giá
+                            </div>
+                            <div className='row'>
+                                <Input value={dataGiaOption.giaDau} style={{ width: 100 }} onChange={(e) => {
                                     // setDataGiaOption({
                                     //     ...dataGiaOption,
                                     //     giaDau: format_curency(e.target.value)
@@ -215,51 +218,33 @@ export default function SanPham(props) {
                                     })
                                 }}></Input>
                             </div>
-                            <Button style={{ marginTop: 10, width: 100 }} onClick={() => {
-                                if (dataGiaOption.giaDau === '' && dataGiaOption.giaCuoi !== '' && parseInt(dataGiaOption.giaCuoi) > 0) {
-                                    setQuery({
-                                        ...query,
-                                        price: '0%2C' + dataGiaOption.giaCuoi
-                                    }, 'push');
-                                }
+                            <div className='row'>
+                                <Button style={{ marginTop: 10, width: 100 }} onClick={() => {
+                                    if (dataGiaOption.giaDau === '' && dataGiaOption.giaCuoi !== '' && parseInt(dataGiaOption.giaCuoi) > 0) {
+                                        setQuery({
+                                            ...query,
+                                            price: '0%2C' + dataGiaOption.giaCuoi
+                                        }, 'push');
+                                    }
 
-                                if (dataGiaOption.giaCuoi === '' && dataGiaOption.giaDau !== '' && parseInt(dataGiaOption.giaDau) > 0) {
-                                    setQuery({
-                                        ...query,
-                                        price: '0%2C' + dataGiaOption.giaDau
-                                    }, 'push');
-                                }
+                                    if (dataGiaOption.giaCuoi === '' && dataGiaOption.giaDau !== '' && parseInt(dataGiaOption.giaDau) > 0) {
+                                        setQuery({
+                                            ...query,
+                                            price: '0%2C' + dataGiaOption.giaDau
+                                        }, 'push');
+                                    }
 
-                                if (parseInt(dataGiaOption.giaDau) > 0 && parseInt(dataGiaOption.giaCuoi) > 0) {
-                                    setQuery({
-                                        ...query,
-                                        price: dataGiaOption.giaDau + '%2C' + dataGiaOption.giaCuoi
-                                    }, 'push');
-                                }
-                            }}>OK</Button>
+                                    if (parseInt(dataGiaOption.giaDau) > 0 && parseInt(dataGiaOption.giaCuoi) > 0) {
+                                        setQuery({
+                                            ...query,
+                                            price: dataGiaOption.giaDau + '%2C' + dataGiaOption.giaCuoi
+                                        }, 'push');
+                                    }
+                                }}>OK</Button>
+                            </div>
+
                         </div>
                     </div>
-                    {/* <hr style={{ width: 240 }}></hr>
-                    <div className="thuonghieu-sidebar">
-                        <h5>THƯƠNG HIỆU</h5>
-                        <div className="thuonghieu-items-sidebar">
-                            <p>Nike</p>
-                            <p>Adidas</p>
-                            <p>Reebok</p>
-                            <p>Gucci</p>
-                        </div>
-                    </div>
-                    <hr style={{ width: 240 }}></hr>
-                    <div className="nhacungcap-sidebar">
-                        <h5>NHÀ CUNG CẤP</h5>
-                        <div className="nhacungcap-items-sidebar">
-                            <p>G-LAB</p>
-                            <p>GRIMM DC</p>
-                            <p>CEASAR</p>
-                            <p>DEGREY</p>
-                            <p>HIGHCLUB</p>
-                        </div>
-                    </div> */}
                 </div>
                 <div className="col-sm-9">
                     <div className="row maincontent">
@@ -268,7 +253,7 @@ export default function SanPham(props) {
                                 dataProduct.map((item, i) => {
                                     if (item.giaTriGiamGia === 0) {
                                         return <Tooltip title={item.ten} placement={'right'} key={i}>
-                                            <div className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
+                                            <div className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, margin: 20, width: '95%' }}>
                                                 <Link to={'/detail/' + item._id + '/' + to_slug(item.ten)} className="a_item">
                                                     <div className="row">
                                                         <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />
@@ -285,7 +270,7 @@ export default function SanPham(props) {
 
                                     } else {
                                         return <Tooltip title={item.ten} placement={'right'} key={i}>
-                                            <div className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, marginTop: 20, width: '95%' }}>
+                                            <div className="col-sm-3 item" style={{ backgroundColor: "white", height: 350, margin: 20, width: '95%' }}>
                                                 <Link to={'/detail/' + item._id + '/' + to_slug(item.ten)} className="a_item">
                                                     <div className="row">
                                                         <Image style={{ width: '100%', height: 180 }} src={item.img.chinh} />

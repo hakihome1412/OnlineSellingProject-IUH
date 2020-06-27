@@ -14,20 +14,12 @@ export default function HotIndustry(props) {
                     <Carousel indicators={false} interval={2000} controls={false}>
                         <Carousel.Item>
                             <div style={{ width: '100%' }}>
-                                <div style={{ padding: 10 }}>
-                                    {
-                                        dataSearch.map((item, i) => {
-                                            if (i < 4) {
-                                                if (i % 4 === 0) {
-                                                    return <Link key={i} to='/' onClick={(e) => {
-                                                        e.preventDefault();
-                                                        history.push('/timkiem?data=' + item.ten + '&order=newest');
-                                                    }}>
-                                                        <div className='post' style={{ width: 200, height: 200, marginLeft: 130, backgroundColor: '#99CCFF', display: 'inline-block', borderRadius: 10, textAlign: 'center', padding: 20 }}>
-                                                            <h5 style={{ marginTop: '35%', color: 'white' }}>{item.ten}</h5>
-                                                        </div>
-                                                    </Link>
-                                                } else {
+                                <div>
+                                    <center>
+                                        {
+                                            dataSearch.map((item, i) => {
+                                                if (i < 4) {
+
                                                     return <Link key={i} to='/' onClick={(e) => {
                                                         e.preventDefault();
                                                         history.push('/timkiem?data=' + item.ten + '&order=newest');
@@ -36,30 +28,24 @@ export default function HotIndustry(props) {
                                                             <h5 style={{ marginTop: '35%', color: 'white' }}>{item.ten}</h5>
                                                         </div>
                                                     </Link>
+
                                                 }
-                                            }
-                                        })
-                                    }
+                                            })
+                                        }
+                                    </center>
+
                                 </div>
                             </div>
                         </Carousel.Item>
 
                         <Carousel.Item>
                             <div style={{ width: '100%' }}>
-                                <div style={{ padding: 10 }}>
-                                    {
-                                        dataSearch.map((item, i) => {
-                                            if (i < 8 && i > 3) {
-                                                if (i % 4 === 0) {
-                                                    return <Link key={i} to='/' onClick={(e) => {
-                                                        e.preventDefault();
-                                                        history.push('/timkiem?data=' + item.ten + '&order=newest');
-                                                    }}>
-                                                        <div className='post' style={{ width: 200, height: 200, marginLeft: 130, backgroundColor: '#99CCFF', display: 'inline-block', borderRadius: 10, textAlign: 'center', padding: 20 }}>
-                                                            <h5 style={{ marginTop: '35%', color: 'white' }}>{item.ten}</h5>
-                                                        </div>
-                                                    </Link>
-                                                } else {
+                                <div>
+                                    <center>
+                                        {
+                                            dataSearch.map((item, i) => {
+                                                if (i < 8 && i > 3) {
+
                                                     return <Link key={i} to='/' onClick={(e) => {
                                                         e.preventDefault();
                                                         history.push('/timkiem?data=' + item.ten + '&order=newest');
@@ -68,30 +54,24 @@ export default function HotIndustry(props) {
                                                             <h5 style={{ marginTop: '35%', color: 'white' }}>{item.ten}</h5>
                                                         </div>
                                                     </Link>
+
                                                 }
-                                            }
-                                        })
-                                    }
+                                            })
+                                        }
+                                    </center>
+
                                 </div>
                             </div>
                         </Carousel.Item>
 
                         <Carousel.Item>
                             <div style={{ width: '100%' }}>
-                                <div style={{ padding: 10 }}>
-                                    {
-                                        dataSearch.map((item, i) => {
-                                            if (i < 12 && i > 7) {
-                                                if (i % 4 === 0) {
-                                                    return <Link key={i} to='/' onClick={(e) => {
-                                                        e.preventDefault();
-                                                        history.push('/timkiem?data=' + item.ten + '&order=newest');
-                                                    }}>
-                                                        <div className='post' style={{ width: 200, height: 200, marginLeft: 130, backgroundColor: '#99CCFF', display: 'inline-block', borderRadius: 10, textAlign: 'center', padding: 20 }}>
-                                                            <h5 style={{ marginTop: '35%', color: 'white' }}>{item.ten}</h5>
-                                                        </div>
-                                                    </Link>
-                                                } else {
+                                <div>
+                                    <center>
+                                        {
+                                            dataSearch.map((item, i) => {
+                                                if (i < 12 && i > 7) {
+
                                                     return <Link key={i} to='/' onClick={(e) => {
                                                         e.preventDefault();
                                                         history.push('/timkiem?data=' + item.ten + '&order=newest');
@@ -100,10 +80,11 @@ export default function HotIndustry(props) {
                                                             <h5 style={{ marginTop: '35%', color: 'white' }}>{item.ten}</h5>
                                                         </div>
                                                     </Link>
+
                                                 }
-                                            }
-                                        })
-                                    }
+                                            })
+                                        }
+                                    </center>
                                 </div>
                             </div>
                         </Carousel.Item>
