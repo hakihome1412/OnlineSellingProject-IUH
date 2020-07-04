@@ -343,8 +343,7 @@ module.exports = {
         let categorySua = {
             _id: ObjectId(req.body._id),
             ten: req.body.ten,
-            icon: req.body.icon,
-            isLock: req.body.isLock
+            icon: req.body.icon
         }
 
         await client.connect();
@@ -356,8 +355,7 @@ module.exports = {
                 $set:
                 {
                     ten: categorySua.ten,
-                    icon: categorySua.icon,
-                    isLock: categorySua.isLock
+                    icon: categorySua.icon
                 }
             });
         client.close();

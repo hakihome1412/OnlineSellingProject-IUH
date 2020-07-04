@@ -13,12 +13,12 @@ export default function QLDonHangComponent() {
     const [dataChiTietDonHang, setDataChiTietDonHang] = useState([]);
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [trangThaiShow, setTrangThaiShow] = useState([]);
+    const [pageNow, setPageNow] = useState(1);
 
     function hamChuyenDoiNgay(date) {
         var strDate = '';
-        var now = new Date();
         var ngay = date.getDate().toString();
-        var thang = (date.getMonth()+1).toString();
+        var thang = (date.getMonth() + 1).toString();
         var nam = date.getFullYear().toString();
 
         strDate = ngay + '/' + thang + '/' + nam;
@@ -64,7 +64,7 @@ export default function QLDonHangComponent() {
     }
 
     useEffect(() => {
-        LayDataDonHangTheoTrang(0);
+        LayDataDonHangTheoTrang(pageNow);
     }, []);
 
     useEffect(() => {
@@ -77,7 +77,7 @@ export default function QLDonHangComponent() {
 
     useEffect(() => {
         if (reloadDatabaseReducer) {
-            LayDataDonHangTheoTrang(0);
+            LayDataDonHangTheoTrang(pageNow - 1);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
         }
     }, [reloadDatabaseReducer]);
@@ -95,6 +95,7 @@ export default function QLDonHangComponent() {
                             </Col>
                             <Col>
                                 <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                    setPageNow(1);
                                     LayDanhSachDonHangSearch(0);
                                 }}>
                                     <i className="fa fa-search"></i> &nbsp; Tìm kiếm
@@ -233,9 +234,14 @@ export default function QLDonHangComponent() {
                             </Spinner>
                         )
                     }
-                    <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
+                    <Pagination defaultPageSize={1} current={pageNow} total={tongSoTrang} onChange={(page) => {
                         dispatch({ type: 'SPINNER_DATABASE' });
-                        LayDataDonHangTheoTrang(page - 1);
+                        setPageNow(page);
+                        if (dataSearch === '') {
+                            LayDataDonHangTheoTrang(page - 1);
+                        } else {
+                            LayDanhSachDonHangSearch(page - 1);
+                        }
                     }}>
                     </Pagination>
                 </div>

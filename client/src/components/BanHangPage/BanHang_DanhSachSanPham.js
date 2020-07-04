@@ -1,11 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Tabs, Pagination, Select, Input, message } from 'antd';
+import { Tabs, Pagination, Select, Input, message, Popconfirm, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
+import { Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { ModalChiTietProduct_ChuShop } from '../Modals/index';
 import { useCookies } from 'react-cookie';
+import { CheckOutlined, EditOutlined, DeleteOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons';
 
 export default function BanHang_DanhSachSanPham() {
     const [cookies, setCookie] = useCookies();
@@ -19,6 +20,7 @@ export default function BanHang_DanhSachSanPham() {
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [dataSearch, setDataSearch] = useState('');
     const [trangThaiOption, setTrangThaiOption] = useState(0);
+    const [pageNow, setPageNow] = useState(1);
     let history = useHistory();
 
     async function LayDataProductTheoIDShop_TheoTrang(page, idShop) {
@@ -93,33 +95,74 @@ export default function BanHang_DanhSachSanPham() {
         }
     }
 
+    async function XoaProduct(productID) {
+        let resData = await axios.put('hethong/products-xoa', {
+            id: productID
+        });
+
+        if (resData.data.status === 'success') {
+            dispatch({ type: 'RELOAD_DATABASE' });
+            message.success("Xóa thành công");
+        } else {
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
+            message.error("Xóa thất bại");
+        }
+    }
+
+    async function KhoaProduct(productID) {
+        let resData = await axios.put('hethong/products-khoasanpham', {
+            id: productID
+        });
+
+        if (resData.data.status === 'success') {
+            dispatch({ type: 'RELOAD_DATABASE' });
+            message.success("Khóa thành công");
+        } else {
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
+            message.error("Khóa thất bại");
+        }
+    }
+
+    async function MoKhoaProduct(productID) {
+        let resData = await axios.put('hethong/products-mokhoasanpham', {
+            id: productID
+        });
+
+        if (resData.data.status === 'success') {
+            dispatch({ type: 'RELOAD_DATABASE' });
+            message.success("Mở khóa thành công");
+        } else {
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
+            message.error("Mở khóa thất bại");
+        }
+    }
+
     useEffect(() => {
-        LayDataProductTheoIDShop_TheoTrang(0, shopID);
+        LayDataProductTheoIDShop_TheoTrang(pageNow - 1, shopID);
     }, [shopID])
 
     useEffect(() => {
         if (reloadDatabaseReducer) {
-            LayDataProductTheoIDShop_TheoTrang(0, shopID);
+            LayDataProductTheoIDShop_TheoTrang(pageNow - 1, shopID);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
-            setTrangThaiOption(0);
         }
     }, [reloadDatabaseReducer]);
 
     useEffect(() => {
         if (trangThaiOption === 0) {
-            LayDataProductTheoIDShop_TheoTrang(0, shopID);
+            LayDataProductTheoIDShop_TheoTrang(pageNow - 1, shopID);
         }
         if (trangThaiOption === 1) {
-            LayDataProductTheoIDShop_DaDuyet_TheoTrang(0, shopID);
+            LayDataProductTheoIDShop_DaDuyet_TheoTrang(pageNow - 1, shopID);
         }
         if (trangThaiOption === 2) {
-            LayDataProductTheoIDShop_ChuaDuyet_TheoTrang(0, shopID);
+            LayDataProductTheoIDShop_ChuaDuyet_TheoTrang(pageNow - 1, shopID);
         }
         if (trangThaiOption === 3) {
-            LayDataProductTheoIDShop_DaKhoa_TheoTrang(0, shopID);
+            LayDataProductTheoIDShop_DaKhoa_TheoTrang(pageNow - 1, shopID);
         }
         if (trangThaiOption === 4) {
-            LayDataProductTheoIDShop_ChuaKhoa_TheoTrang(0, shopID);
+            LayDataProductTheoIDShop_ChuaKhoa_TheoTrang(pageNow - 1, shopID);
         }
     }, [trangThaiOption])
 
@@ -138,8 +181,9 @@ export default function BanHang_DanhSachSanPham() {
                                         }}></Input>
                                     </Col>
                                     <Col>
-                                        <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                        <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
                                             LayDataProductSearch(dataSearch, 0, shopID);
+                                            setPageNow(1);
                                         }}>
                                             <i className="fa fa-search"></i> &nbsp; Tìm kiếm
                                         </Button>
@@ -156,7 +200,7 @@ export default function BanHang_DanhSachSanPham() {
                                         </Select>
                                     </Col>
                                     <Col>
-                                        <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                        <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
                                             history.push('/banhang/tao-moi-san-pham');
                                         }}>
                                             Tạo mới +
@@ -174,6 +218,7 @@ export default function BanHang_DanhSachSanPham() {
                                         <th>Hình ảnh chính</th>
                                         <th>Trạng thái khóa</th>
                                         <th>Trạng thái duyệt</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -181,14 +226,34 @@ export default function BanHang_DanhSachSanPham() {
                                         setSpinnerReducer === 0 && (
                                             dataProduct.map((item, i) => {
                                                 return <tr key={item._id} onClick={(e) => {
-                                                    dispatch({ type: 'SHOW_CHITIET_PRODUCT_CHUSHOP' });
+
                                                     dispatch({ type: 'OBJECT_ID_NOW', id: item._id });
                                                 }}>
                                                     <td>{item.idShow}</td>
                                                     <td>{item.ten}</td>
                                                     <td><Image src={item.img.chinh} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>
-                                                    <td>{item.isLock === false ? "Không" : "Có"}</td>
-                                                    <td style={{ color: item.isAccept === true ? 'blue' : 'red', fontWeight: 'bold' }}>{item.isAccept === false ? "Chưa duyệt" : "Đã duyệt"}</td>
+                                                    <td style={{ color: item.isLock === true ? 'blue' : 'red', fontWeight: 'bold' }}>{item.isLock === false ? "Chưa khóa" : "Đã khóa"}</td>
+                                                    <td style={{ color: item.isAccept === true ? 'blue' : 'red', fontWeight: 'bold' }}>{item.isAccept === false ? "Chưa được Admin duyệt" : "Đã được Admin duyệt"}</td>
+                                                    <td style={{ width: 300, paddingTop: 40 }}>
+                                                        <center>
+                                                            <Button type="default" icon={<EditOutlined />} size='large' onClick={() => {
+                                                                dispatch({ type: 'SHOW_CHITIET_PRODUCT_CHUSHOP' });
+                                                            }} />
+                                                            <Button style={{ marginLeft: 25 }} size='large' type="primary" icon={item.isLock ? <UnlockOutlined /> : <LockOutlined />} onClick={() => {
+                                                                if (item.isLock) {
+                                                                    MoKhoaProduct(item._id);
+                                                                } else {
+                                                                    KhoaProduct(item._id);
+                                                                }
+                                                            }} />
+                                                            <Popconfirm title="Bạn có chắc chắn muốn xóa" okText="Có" cancelText="Không" onConfirm={() => {
+                                                                XoaProduct(item._id);
+                                                            }}>
+                                                                <Button style={{ marginLeft: 25 }} size='large' type="danger" icon={<DeleteOutlined />} />
+                                                            </Popconfirm>
+
+                                                        </center>
+                                                    </td>
                                                 </tr>
                                             })
                                         )
@@ -202,23 +267,29 @@ export default function BanHang_DanhSachSanPham() {
                                     </Spinner>
                                 )
                             }
-                            <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
+                            <Pagination defaultPageSize={1} current={pageNow} total={tongSoTrang} onChange={(page) => {
                                 dispatch({ type: 'SPINNER_DATABASE' });
-                                if (trangThaiOption === 0) {
-                                    LayDataProductTheoIDShop_TheoTrang(page - 1, shopID);
+                                setPageNow(page)
+                                if (dataSearch === '') {
+                                    if (trangThaiOption === 0) {
+                                        LayDataProductTheoIDShop_TheoTrang(page - 1, shopID);
+                                    }
+                                    if (trangThaiOption === 1) {
+                                        LayDataProductTheoIDShop_DaDuyet_TheoTrang(page - 1, shopID);
+                                    }
+                                    if (trangThaiOption === 2) {
+                                        LayDataProductTheoIDShop_ChuaDuyet_TheoTrang(page - 1, shopID);
+                                    }
+                                    if (trangThaiOption === 3) {
+                                        LayDataProductTheoIDShop_DaKhoa_TheoTrang(page - 1, shopID);
+                                    }
+                                    if (trangThaiOption === 4) {
+                                        LayDataProductTheoIDShop_ChuaKhoa_TheoTrang(page - 1, shopID);
+                                    }
+                                } else {
+                                    LayDataProductSearch(dataSearch, page - 1, shopID);
                                 }
-                                if (trangThaiOption === 1) {
-                                    LayDataProductTheoIDShop_DaDuyet_TheoTrang(page - 1, shopID);
-                                }
-                                if (trangThaiOption === 2) {
-                                    LayDataProductTheoIDShop_ChuaDuyet_TheoTrang(page - 1, shopID);
-                                }
-                                if (trangThaiOption === 3) {
-                                    LayDataProductTheoIDShop_DaKhoa_TheoTrang(page - 1, shopID);
-                                }
-                                if (trangThaiOption === 4) {
-                                    LayDataProductTheoIDShop_ChuaKhoa_TheoTrang(page - 1, shopID);
-                                }
+
                             }}>
                             </Pagination>
                         </div>

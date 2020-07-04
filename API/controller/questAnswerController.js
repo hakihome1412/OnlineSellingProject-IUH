@@ -229,7 +229,6 @@ module.exports = {
 
     SuaCauHoi: async function (req, res) {
         const answer = req.body.answer;
-        const isAccept = req.body.isAccept;
         const id = req.body._id;
 
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -241,7 +240,6 @@ module.exports = {
             $set:
             {
                 answer: answer,
-                isAccept: isAccept,
                 ngayTraLoi: new Date()
             }
         });

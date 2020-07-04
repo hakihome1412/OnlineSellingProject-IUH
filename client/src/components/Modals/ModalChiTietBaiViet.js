@@ -35,8 +35,7 @@ export default function ModalChiTietBaiViet() {
     const [baiVietSua, setBaiVietSua] = useState({
         tieuDe: '',
         img: '',
-        content: '',
-        isLock: ''
+        content: ''
     });
 
     const handleChangeIMG = (e) => {
@@ -96,7 +95,7 @@ export default function ModalChiTietBaiViet() {
     }
 
     function KiemTraDuLieuNhap() {
-        if (baiVietSua.tieuDe === '' || baiVietSua.img === '') {
+        if (baiVietSua.tieuDe.trim().length === 0 || baiVietSua.img === '') {
             setStatusMessageError(0);
         } else {
             SuaBaiViet(baiVietNow._id);
@@ -112,8 +111,7 @@ export default function ModalChiTietBaiViet() {
                 _id: baiVietID,
                 tieuDe: baiVietSua.tieuDe,
                 img: baiVietSua.img,
-                content: baiVietSua.content,
-                isLock: baiVietSua.isLock,
+                content: baiVietSua.content
             });
 
             if (resData.data.status === 'success') {
@@ -136,29 +134,6 @@ export default function ModalChiTietBaiViet() {
         } else {
             dispatch({ type: 'CLOSE_CHITIET_BAIVIET' });
             dispatch({ type: 'RELOAD_DATABASE' });
-        }
-    }
-
-    async function XoaBaiViet(baiVietID) {
-        setSpinnerXoaBaiViet(1);
-        let resData = await axios.put('hethong/baiviet-xoa', {
-            id: baiVietID
-        });
-
-        if (resData.data.status === 'success') {
-            setStatusSua(0);
-            setDisableOptions(false);
-            setSpinnerXoaBaiViet(0);
-            dispatch({ type: 'RELOAD_DATABASE' });
-            dispatch({ type: 'CLOSE_CHITIET_BAIVIET' });
-            message.success("Xóa thành công");
-        } else {
-            setStatusSua(0);
-            setDisableOptions(false);
-            setSpinnerXoaBaiViet(0);
-            dispatch({ type: 'NO_RELOAD_DATABASE' });
-            dispatch({ type: 'CLOSE_CHITIET_BAIVIET' });
-            message.error("Xóa thất bại");
         }
     }
 
@@ -203,8 +178,6 @@ export default function ModalChiTietBaiViet() {
             setShowButtonHuy(false)
         }
     }, [statusSua])
-
-    console.log(baiVietNow)
 
     return (
         <Modal show={showChiTietBaiViet} size="lg" animation={false} onHide={() => {
@@ -306,28 +279,10 @@ export default function ModalChiTietBaiViet() {
 
                         <Form.Item
                             label="Trạng thái khóa">
-                            <Select disabled={!disableOptions} defaultValue={baiVietNow.isLock === false ? "nolock" : "lock"} onChange={(value) => {
-                                setBaiVietSua({
-                                    ...baiVietSua,
-                                    isLock: value === "lock" ? true : false
-                                });
-                            }}>
+                            <Select disabled={true} defaultValue={baiVietNow.isLock === false ? "nolock" : "lock"}>
                                 <Option value="lock">Có</Option>
                                 <Option value="nolock">Không</Option>
                             </Select>
-                        </Form.Item>
-
-                        <Form.Item>
-                            <Button variant="primary" style={{ width: 300, height: 50, marginLeft: '30%' }} disabled={disableOptions} onClick={() => {
-                                XoaBaiViet(baiVietNow._id);
-                            }}>
-                                {
-                                    spinnerXoaBaiViet === 1 ? (
-                                        <Spinner animation="border" role="status">
-                                            <span className="sr-only">Loading...</span>
-                                        </Spinner>) : "Xóa"
-                                }
-                            </Button>
                         </Form.Item>
 
                         <Form.Item>
@@ -348,8 +303,7 @@ export default function ModalChiTietBaiViet() {
                                         setBaiVietSua({
                                             tieuDe: baiVietNow.tieuDe,
                                             img: baiVietNow.img,
-                                            content: baiVietNow.content,
-                                            isLock: baiVietNow.isLock
+                                            content: baiVietNow.content
                                         });
                                     }
                                 }}>

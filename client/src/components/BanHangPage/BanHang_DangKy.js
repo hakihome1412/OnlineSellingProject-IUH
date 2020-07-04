@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Menu, Dropdown, Tabs, Form, Input, message } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, Switch, Route, useRouteMatch } from 'react-router-dom';
+import { Menu, Dropdown, Form, Input, message } from 'antd';
+import { useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import { storage } from "../../firebase/firebase";
 import { DownOutlined } from '@ant-design/icons';
 import { Button } from 'react-bootstrap';
@@ -23,8 +23,6 @@ export default function BanHang_DangKy() {
         ngayTao: new Date()
     })
     const [dataEmail, setDataEmail] = useState('');
-
-    let history = useHistory();
 
     const layout = {
         labelCol: {
@@ -92,8 +90,10 @@ export default function BanHang_DangKy() {
                         storage.ref('images').child(listFile[index].name).getDownloadURL()
                             .then(fireBaseUrl => {
                                 // setImageAsUrl(prevObject => ({ ...prevObject, imageAsUrl: fireBaseUrl }))
-                                listUrl.push(fireBaseUrl);
-                                setCountAnhDaUploadThanhCong_Logo(countPrev => countPrev + 1);
+                                setDataTaoShop({
+                                    ...dataTaoShop,
+                                    logoShop: fireBaseUrl
+                                })
                             })
                     })
             }
@@ -102,54 +102,37 @@ export default function BanHang_DangKy() {
     }
 
     function KiemTraDuLieuNhap() {
-        var reg = /^[a-zA-Z0-9- ]*$/;
-        if (dataTaoShop.ten === '' || dataTaoShop.ten.trim() === '') {
+        if (dataTaoShop.ten.trim().length === 0) {
             message.error('Tên gian hàng không hợp lệ');
         } else {
-            if (dataTaoShop.ten.match(reg)) {
-                TaoShop();
-            } else {
-                message.error('Tên gian hàng không hợp lệ');
-            }
+            TaoShop();
         }
 
-    }
-
-    async function LayDataUserTheoIDUser(userID) {
-        let resData = await axios.get('hethong/users-item?idUser=' + userID);
-        //alert(JSON.stringify(resData.data));
-        //setDataCarousel(resData.data.status);
-        if (resData.data.status === 'success') {
-            history.push('/banhang/' + resData.data.data.thongTinShop.idShop + '/trangchu');
-        } else {
-            alert("Lấy data thất bại");
-        }
     }
 
     async function LayEmailTheoIDUser(userID) {
         let resData = await axios.get('hethong/users-item?idUser=' + userID);
-        //alert(JSON.stringify(resData.data));
-        //setDataCarousel(resData.data.status);
         if (resData.data.status === 'success') {
             setDataEmail(resData.data.data.email);
         } else {
-            alert("Lấy email thất bại");
+            message.error("Lấy email thất bại");
         }
     }
 
     async function TaoShop() {
         let resData = await axios.put('hethong/users-taoshop', {
             _id: userID,
-            ten: dataTaoShop.ten,
+            ten: dataTaoShop.ten.trim(),
             diaChi: dataTaoShop.diaChi,
             logoShop: dataTaoShop.logoShop,
             ngayTao: dataTaoShop.ngayTao,
             moTa: dataTaoShop.moTa
         });
         if (resData.data.status === 'success') {
-            LayDataUserTheoIDUser(userID);
-            message.success('Đăng ký gian hàng thành công');
-
+            message.success('Đăng ký gian hàng thành công. Chờ duyệt nhé');
+            setTimeout(() => {
+                window.location.pathname = '/';
+            }, 2000);
         } else {
             message.error(resData.data.message);
         }
@@ -259,12 +242,6 @@ export default function BanHang_DangKy() {
 
                                 <Form.Item {...tailLayout}>
                                     <Button type="primary" style={{ width: 300 }}
-                                        onMouseOver={() => {
-                                            setDataTaoShop({
-                                                ...dataTaoShop,
-                                                logoShop: imageAsUrl_Logo[0]
-                                            })
-                                        }}
                                         onClick={() => {
                                             KiemTraDuLieuNhap();
                                         }}>

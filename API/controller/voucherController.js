@@ -27,6 +27,80 @@ module.exports = {
         });
     },
 
+    LayDanhSachVoucher_Search_TheoTrang: async function (req, res) {
+        const page = req.params.page;
+        const search = BoDau(req.query.search);
+
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colVoucher = db.collection('VOUCHERS');
+        let allVoucher = await colVoucher.find({
+            idShow: {
+                '$regex': search,
+                '$options': '$i'
+            }
+        }).toArray();
+
+        let arrVoucher = await colVoucher.find({
+            idShow: {
+                '$regex': search,
+                '$options': '$i'
+            }
+        }).sort({ _id: -1 }).limit(soItemMoiPageAdmin).skip(soItemMoiPageAdmin * page).toArray();
+        let soTrang = Math.ceil(parseInt(allVoucher.length) / soItemMoiPageAdmin);
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrVoucher,
+            soTrang: soTrang
+        });
+    },
+
+    LayDanhSachVoucher_ChuaKhoa_TheoTrang: async function (req, res) {
+        var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
+        const page = req.params.page;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colVoucher = db.collection('VOUCHERS');
+        let allVoucher = await colVoucher.find({ isLock: false }).toArray();
+        let soTrang = Math.ceil(parseInt(allVoucher.length) / SoItemMoiPageAdmin);
+        let arrVoucher = await colVoucher.find({ isLock: false }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrVoucher,
+            soTrang: soTrang
+        });
+    },
+
+    LayDanhSachVoucher_DaKhoa_TheoTrang: async function (req, res) {
+        var SoItemMoiPageAdmin = parseInt(soItemMoiPageAdmin);
+        const page = req.params.page;
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colVoucher = db.collection('VOUCHERS');
+        let allVoucher = await colVoucher.find({ isLock: true }).toArray();
+        let soTrang = Math.ceil(parseInt(allVoucher.length) / SoItemMoiPageAdmin);
+        let arrVoucher = await colVoucher.find({ isLock: true }).sort({ _id: -1 }).limit(SoItemMoiPageAdmin).skip(SoItemMoiPageAdmin * page).toArray();
+        client.close();
+
+        res.status(200).json({
+            status: 'success',
+            data: arrVoucher,
+            soTrang: soTrang
+        });
+    },
+
     LayDanhSachVoucherAll: async function (req, res) {
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 

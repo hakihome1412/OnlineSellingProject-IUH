@@ -1,8 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Button, Form, Row, Col, Table, Spinner, Image } from 'react-bootstrap';
-import { Pagination, Input, Select, message } from 'antd';
+import { Form, Row, Col, Table, Spinner } from 'react-bootstrap';
+import { Pagination, Input, Select, message, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
+import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
 
 export default function QuanLyNguoiDungComponent() {
     const dispatch = useDispatch();
@@ -13,12 +14,13 @@ export default function QuanLyNguoiDungComponent() {
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [dataSearch, setDataSearch] = useState('');
     const [trangThaiOption, setTrangThaiOption] = useState(0);
+    const [pageNow, setPageNow] = useState(1);
+
 
     function hamChuyenDoiNgay(date) {
         var strDate = '';
-        var now = new Date();
         var ngay = date.getDate().toString();
-        var thang = (date.getMonth()+1).toString();
+        var thang = (date.getMonth() + 1).toString();
         var nam = date.getFullYear().toString();
 
         strDate = ngay + '/' + thang + '/' + nam;
@@ -100,26 +102,25 @@ export default function QuanLyNguoiDungComponent() {
     }
 
     useEffect(() => {
-        LayDataUserTheoTrang(0);
+        LayDataUserTheoTrang(pageNow - 1);
     }, []);
 
     useEffect(() => {
         if (reloadDatabaseReducer) {
-            LayDataUserTheoTrang(0);
+            LayDataUserTheoTrang(pageNow - 1);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
-            setTrangThaiOption(0);
         }
     }, [reloadDatabaseReducer]);
 
     useEffect(() => {
         if (trangThaiOption === 0) {
-            LayDataUserTheoTrang(0);
+            LayDataUserTheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 1) {
-            LayDataUser_ChuaKhoa_TheoTrang(0);
+            LayDataUser_ChuaKhoa_TheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 2) {
-            LayDataUser_DaKhoa_TheoTrang(0);
+            LayDataUser_DaKhoa_TheoTrang(pageNow - 1);
         }
     }, [trangThaiOption])
 
@@ -135,7 +136,8 @@ export default function QuanLyNguoiDungComponent() {
                                 }}></Input>
                             </Col>
                             <Col>
-                                <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
+                                    setPageNow(1);
                                     LayDanhSachUserSearch(0);
                                 }}>
                                     <i className="fa fa-search"></i> &nbsp; Tìm kiếm
@@ -164,6 +166,7 @@ export default function QuanLyNguoiDungComponent() {
                                 <th>Giới tính</th>
                                 <th>Ngày sinh</th>
                                 <th>Trạng thái khóa</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -177,28 +180,18 @@ export default function QuanLyNguoiDungComponent() {
                                             <td>{item.cmnd}</td>
                                             <td>{item.gioiTinh === 0 ? 'Nữ' : 'Nam'}</td>
                                             <td>{hamChuyenDoiNgay(new Date(item.ngaySinh))}</td>
-                                            <td>{item.isLock === false ?
-                                                (
-                                                    <Fragment>
-                                                        <center>
-                                                            <strong>Không</strong>
-                                                            <br></br>
-                                                            <Button onClick={() => {
-                                                                KhoaUser(item._id);
-                                                            }}>Khóa</Button>
-                                                        </center>
-                                                    </Fragment>
-                                                ) : (
-                                                    <Fragment>
-                                                        <center>
-                                                            <strong>Có</strong>
-                                                            <br></br>
-                                                            <Button onClick={() => {
-                                                                MoKhoaUser(item._id);
-                                                            }}>Mở khóa</Button>
-                                                        </center>
-                                                    </Fragment>
-                                                )}</td>
+                                            <td style={{ width: 150 }}><span style={{ color: item.thongTinShop.isLock === false ? 'red' : 'blue' }}><strong>{item.thongTinShop.isLock === false ? 'Chưa khóa' : 'Đã khóa'}</strong></span></td>
+                                            <td style={{ width: 100, paddingTop: 15 }}>
+                                                <center>
+                                                    <Button size='large' type="primary" icon={item.isLock ? <LockOutlined /> : <UnlockOutlined />} onClick={() => {
+                                                        if (item.isLock) {
+                                                            MoKhoaUser(item._id);
+                                                        } else {
+                                                            KhoaUser(item._id);
+                                                        }
+                                                    }} />
+                                                </center>
+                                            </td>
                                         </tr>
                                     })
                                 )
@@ -212,17 +205,23 @@ export default function QuanLyNguoiDungComponent() {
                             </Spinner>
                         )
                     }
-                    <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
+                    <Pagination defaultPageSize={1} current={pageNow} total={tongSoTrang} onChange={(page) => {
                         dispatch({ type: 'SPINNER_DATABASE' });
-                        if (trangThaiOption === 0) {
-                            LayDataUserTheoTrang(page - 1);
+                        setPageNow(page);
+                        if (dataSearch === '') {
+                            if (trangThaiOption === 0) {
+                                LayDataUserTheoTrang(page - 1);
+                            }
+                            if (trangThaiOption === 1) {
+                                LayDataUser_ChuaKhoa_TheoTrang(page - 1);
+                            }
+                            if (trangThaiOption === 2) {
+                                LayDataUser_DaKhoa_TheoTrang(page - 1);
+                            }
+                        } else {
+                            LayDanhSachUserSearch(page - 1);
                         }
-                        if (trangThaiOption === 1) {
-                            LayDataUser_ChuaKhoa_TheoTrang(page - 1);
-                        }
-                        if (trangThaiOption === 2) {
-                            LayDataUser_DaKhoa_TheoTrang(page - 1);
-                        }
+
                     }}>
                     </Pagination>
                 </div>

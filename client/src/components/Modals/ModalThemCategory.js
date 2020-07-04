@@ -65,7 +65,7 @@ export default function ModalThemCategory() {
     }
 
     function KiemTraDuLieuNhap(data) {
-        if (data.ten === '') {
+        if (data.ten.trim().length === 0) {
             setStatusMessageError(0);
         } else {
             ThemCategory()
@@ -129,7 +129,7 @@ export default function ModalThemCategory() {
                 <Form.Item
                     label="Tên"
                     name="ten"
-                    rules={[{ required: true, message: 'Vui lòng nhập tên Category ' }]}>
+                    rules={[{ required: true, message: 'Vui lòng nhập tên danh mục cho sản phẩm' }]}>
                     <Input onChange={(e) => {
                         setDataThem({
                             ...dataThem,

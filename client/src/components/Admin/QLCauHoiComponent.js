@@ -1,9 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
-import { Pagination, Input, Select, message } from 'antd';
+import { Form, Row, Col, Table, Spinner } from 'react-bootstrap';
+import { Pagination, Input, Select, message, Button } from 'antd';
 import { ModalChiTietCauHoi } from '../Modals/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
+import { CheckOutlined, EditOutlined } from '@ant-design/icons';
 
 export default function QLCauHoiComponent() {
     const dispatch = useDispatch();
@@ -14,7 +15,8 @@ export default function QLCauHoiComponent() {
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [dataSearch, setDataSearch] = useState('');
     const [trangThaiOption, setTrangThaiOption] = useState(0);
-    const [statusAcceptOrNoAccept, setStatusAcceptOrNoAccept] = useState(false);
+    const [pageNow, setPageNow] = useState(1);
+    const [traLoi, setTraLoi] = useState(false);
 
     function hamChuyenDoiNgay(date) {
         var strDate = '';
@@ -74,50 +76,32 @@ export default function QLCauHoiComponent() {
         }
     }
 
-    async function DuyetCauHoi(cauHoiID) {
-        dispatch({ type: 'SPINNER_DATABASE' });
-        let resData = await axios.put('hethong/questanswer-duyet', {
-            _id: cauHoiID
-        });
-        if (resData.data.status === 'success') {
-
-            dispatch({ type: 'RELOAD_DATABASE' });
-            setStatusAcceptOrNoAccept(false);
-            dispatch({ type: 'SHOW_CHITIET_CAUHOI' });
-        } else {
-            message.error("Duyệt câu hỏi thất bại");
-            dispatch({ type: 'NO_RELOAD_DATABASE' });
-            setStatusAcceptOrNoAccept(false);
-        }
-    }
-
     useEffect(() => {
-        LayDataCauHoiTheoTrang(0);
+        LayDataCauHoiTheoTrang(pageNow - 1);
     }, []);
 
     useEffect(() => {
         if (reloadDatabaseReducer) {
-            LayDataCauHoiTheoTrang(0);
+            LayDataCauHoiTheoTrang(pageNow - 1);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
-            setTrangThaiOption(0);
         }
     }, [reloadDatabaseReducer]);
 
     useEffect(() => {
         if (trangThaiOption === 0) {
-            LayDataCauHoiTheoTrang(0);
+            LayDataCauHoiTheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 1) {
-            LayDataCauHoi_ChuaDuyet_TheoTrang(0);
+            LayDataCauHoi_ChuaDuyet_TheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 2) {
-            LayDataCauHoi_DaDuyet_TheoTrang(0);
+            LayDataCauHoi_DaDuyet_TheoTrang(pageNow - 1);
         }
     }, [trangThaiOption])
 
     return (
         <Fragment>
-            <ModalChiTietCauHoi></ModalChiTietCauHoi>
+            <ModalChiTietCauHoi traLoi={traLoi}></ModalChiTietCauHoi>
             <div className="col-sm-10" style={{ padding: 20 }}>
                 <div className="col" style={{ width: '100%' }}>
                     <Form>
@@ -128,7 +112,8 @@ export default function QLCauHoiComponent() {
                                 }}></Input>
                             </Col>
                             <Col>
-                                <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
+                                    setPageNow(1);
                                     LayDanhSachCauHoiSearch(0);
                                 }}>
                                     <i className="fa fa-search"></i> &nbsp; Tìm kiếm
@@ -153,7 +138,8 @@ export default function QLCauHoiComponent() {
                                 <th>ID sản phẩm</th>
                                 <th>Câu hỏi</th>
                                 <th>Ngày tạo</th>
-                                <th><center>Trạng thái duyệt</center></th>
+                                <th>Trạng thái duyệt</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -161,32 +147,34 @@ export default function QLCauHoiComponent() {
                                 setSpinnerReducer === 0 && (
                                     dataCauHoi.map((item, i) => {
                                         return <tr key={item._id} onClick={(e) => {
-                                            if (statusAcceptOrNoAccept === false) {
-                                                dispatch({ type: 'SHOW_CHITIET_CAUHOI' });
-                                            }
                                             dispatch({ type: 'OBJECT_ID_NOW', id: item._id });
                                         }}>
                                             <td>{item.idProduct}</td>
                                             <td>{item.question}</td>
                                             <td>{hamChuyenDoiNgay(new Date(item.ngayTao))}</td>
-                                            <td>{item.isAccept === false ?
-                                                (
-                                                    <Fragment>
-                                                        <center>
-                                                            <strong style={{ color: 'red' }}>Chưa duyệt</strong>
-                                                            <br></br>
-                                                            <Button onClick={() => {
-                                                                DuyetCauHoi(item._id);
-                                                            }}
-                                                                onMouseOver={() => {
-                                                                    setStatusAcceptOrNoAccept(true);
+                                            <td><span style={{ color: item.isAccept === false ? 'red' : 'blue' }}><strong>{item.isAccept === false ? 'Chưa duyệt' : 'Đã duyệt'}</strong></span></td>
+                                            <td style={{ width: 200, paddingTop: 10 }}>
+                                                <center>
+                                                    <Button type="default" icon={<EditOutlined />} size='large'
+                                                        onClick={() => {
+                                                            dispatch({ type: 'SHOW_CHITIET_CAUHOI' });
+                                                        }}
+                                                        onMouseOver={() => {
+                                                            setTraLoi(false);
+                                                        }} />
+                                                    {
+                                                        item.isAccept === false && (
+                                                            <Button style={{ marginLeft: 25 }} size='large' type="primary" icon={<CheckOutlined />}
+                                                                onClick={() => {
+                                                                    dispatch({ type: 'SHOW_CHITIET_CAUHOI' });
                                                                 }}
-                                                                onMouseLeave={() => {
-                                                                    setStatusAcceptOrNoAccept(false);
-                                                                }}>Duyệt</Button>
-                                                        </center>
-                                                    </Fragment>
-                                                ) : <center><span style={{ color: 'blue', fontWeight: 'bold' }}>Đã duyệt</span></center>}</td>
+                                                                onMouseOver={() => {
+                                                                    setTraLoi(true);
+                                                                }} />
+                                                        )
+                                                    }
+                                                </center>
+                                            </td>
                                         </tr>
                                     })
                                 )
@@ -200,17 +188,23 @@ export default function QLCauHoiComponent() {
                             </Spinner>
                         )
                     }
-                    <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
+                    <Pagination defaultPageSize={1} current={pageNow} total={tongSoTrang} onChange={(page) => {
                         dispatch({ type: 'SPINNER_DATABASE' });
-                        if (trangThaiOption === 0) {
-                            LayDataCauHoiTheoTrang(page - 1);
+                        setPageNow(page);
+                        if (dataSearch === '') {
+                            if (trangThaiOption === 0) {
+                                LayDataCauHoiTheoTrang(page - 1);
+                            }
+                            if (trangThaiOption === 1) {
+                                LayDataCauHoi_ChuaDuyet_TheoTrang(page - 1);
+                            }
+                            if (trangThaiOption === 2) {
+                                LayDataCauHoi_DaDuyet_TheoTrang(page - 1);
+                            }
+                        } else {
+                            LayDanhSachCauHoiSearch(page - 1);
                         }
-                        if (trangThaiOption === 1) {
-                            LayDataCauHoi_ChuaDuyet_TheoTrang(page - 1);
-                        }
-                        if (trangThaiOption === 2) {
-                            LayDataCauHoi_DaDuyet_TheoTrang(page - 1);
-                        }
+
                     }}>
                     </Pagination>
                 </div>

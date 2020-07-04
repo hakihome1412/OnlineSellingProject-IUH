@@ -138,7 +138,7 @@ export default function TimKiem() {
                             }
                         </div>
                     </div>
-                    <hr style={{ width: 240 }}></hr>
+                    <hr></hr>
                     <div className="danhgia-sidebar">
                         <h5>ĐÁNH GIÁ</h5>
                         <div className="danhgia-5sao-sidebar">
@@ -189,7 +189,7 @@ export default function TimKiem() {
 
                         </div>
                     </div>
-                    <hr style={{ width: 240 }}></hr>
+                    <hr></hr>
                     <div className="thuonghieu-sidebar">
                         <h5>GIÁ</h5>
                         <div className='col'>
@@ -268,9 +268,9 @@ export default function TimKiem() {
                 <div className="col-sm-9">
                     <div className="row maincontent">
                         <div className="row showitems-maincontent">
-                            <div className='col'>
-                                <p style={{ fontSize: 24 }}>Kết quả tìm kiếm cho '{dataSearch}': <span style={{ color: 'silver' }}>{countAllProduct} kết quả</span></p>
-                                <div className='row'>
+                            <div className='col' style={{ padding: 30 }}>
+                                <p style={{ fontSize: 24, lineHeight: 1 }}>Kết quả tìm kiếm cho '{dataSearch}': <span style={{ color: 'silver' }}>{countAllProduct} kết quả</span></p>
+                                <div className='row' style={{ marginLeft: 5 }}>
                                     <Button variant={optionOrder === 'newest' ? 'warning' : 'primary'} onClick={() => {
                                         setQuery({
                                             ...query,
@@ -317,7 +317,7 @@ export default function TimKiem() {
                                     </Button>
                                 </div>
                                 <hr></hr>
-                                <div className='row'>
+                                <div className='row' style={{ padding: 10 }}>
                                     {
                                         dataProduct.length === 0 && (
                                             <Result

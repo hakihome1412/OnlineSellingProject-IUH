@@ -264,7 +264,7 @@ class QuillEditor extends React.Component {
 
     render() {
         return (
-            <div style={{ height: 500 }}>
+            <div style={{ height: 450 }}>
                 <div id="toolbar">
                     <select className="ql-header" defaultValue={""} onChange={e => e.persist()}>
                         <option value="1" />

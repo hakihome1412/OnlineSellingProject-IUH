@@ -331,7 +331,7 @@ export default function BanHang_TaoMoiSanPham(props) {
                     size4: dataPhanLoai.size.size4,
                 }
             },
-            ten: dataTaoMoiSanPham.ten,
+            ten: dataTaoMoiSanPham.ten.trim(),
             img: {
                 chinh: dataTaoMoiSanPham.img.chinh,
                 phu: dataTaoMoiSanPham.img.phu,

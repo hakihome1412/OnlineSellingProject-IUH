@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Image, Spinner, Button } from 'react-bootstrap';
-import { Form, Input, Select, Popconfirm, message } from 'antd';
+import { Modal, Spinner, Button } from 'react-bootstrap';
+import { Form, Input, Select, message } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
-import { storage } from '../../firebase/firebase';
 
 export default function ModalChiTietCategory() {
     const { Option } = Select;
@@ -15,7 +14,6 @@ export default function ModalChiTietCategory() {
     const [showButtonHuy, setShowButtonHuy] = useState(false);
     const [disableOptions, setDisableOptions] = useState(false);
     const [statusSua, setStatusSua] = useState(0);
-    const [spinnerXoaCategory, setSpinnerXoaCategory] = useState(-1);
     const [spinnerSuaCategory, setSpinnerSuaCategory] = useState(-1);
     const [cateogryNow, setCategoryNow] = useState({
         _id: '',
@@ -26,12 +24,11 @@ export default function ModalChiTietCategory() {
     });
     const [categorySua, setCategorySua] = useState({
         ten: '',
-        icon: '',
-        isLock: ''
+        icon: ''
     });
 
     function KiemTraDuLieuNhap() {
-        if (categorySua.ten === '') {
+        if (categorySua.ten.trim().length === 0) {
             setStatusMessageError(0);
         } else {
             SuaCategory(cateogryNow._id);
@@ -57,8 +54,7 @@ export default function ModalChiTietCategory() {
             let resData = await axios.put('hethong/categorys-sua', {
                 _id: categoryID,
                 ten: categorySua.ten,
-                icon: categorySua.icon,
-                isLock: categorySua.isLock
+                icon: categorySua.icon
             });
 
             if (resData.data.status === 'success') {
@@ -86,28 +82,6 @@ export default function ModalChiTietCategory() {
         }
     }
 
-    async function XoaCategory(categoryID) {
-        setSpinnerXoaCategory(1);
-        let resData = await axios.put('hethong/categorys-xoa', {
-            id: categoryID
-        });
-
-        if (resData.data.status === 'success') {
-            setStatusSua(0);
-            setDisableOptions(false);
-            setSpinnerXoaCategory(0);
-            dispatch({ type: 'RELOAD_DATABASE' });
-            dispatch({ type: 'CLOSE_CHITIET_CATEGORY' });
-            message.success("Xóa thành công");
-        } else {
-            setStatusSua(0);
-            setDisableOptions(false);
-            setSpinnerXoaCategory(0);
-            dispatch({ type: 'NO_RELOAD_DATABASE' });
-            dispatch({ type: 'CLOSE_CHITIET_CATEGORY' });
-            message.error("Xóa thất bại");
-        }
-    }
 
     async function LayCategoryTheoID(categoryID) {
         dispatch({ type: 'SPINNER_CHITIETCATEGORY' });
@@ -175,8 +149,7 @@ export default function ModalChiTietCategory() {
 
                         <Form.Item
                             label="Icon"
-                            name="icon"
-                            rrules={[{ required: true, message: 'Vui lòng nhập đường link class của i cho icon ' }]}>
+                            name="icon">
                             <Input disabled={!disableOptions} defaultValue={cateogryNow.icon} onChange={(e) => {
                                 setCategorySua({
                                     ...categorySua,
@@ -193,28 +166,10 @@ export default function ModalChiTietCategory() {
 
                         <Form.Item
                             label="Trạng thái khóa">
-                            <Select disabled={!disableOptions} defaultValue={cateogryNow.isLock === false ? "nolock" : "lock"} onChange={(value) => {
-                                setCategorySua({
-                                    ...categorySua,
-                                    isLock: value === "lock" ? true : false
-                                });
-                            }}>
+                            <Select disabled={true} defaultValue={cateogryNow.isLock === false ? "nolock" : "lock"}>
                                 <Option key="lock">Có</Option>
                                 <Option key="nolock">Không</Option>
                             </Select>
-                        </Form.Item>
-
-                        <Form.Item>
-                            <Button variant="primary" style={{ width: 300, height: 50, marginLeft: '30%' }} disabled={disableOptions} onClick={() => {
-                                XoaCategory(cateogryNow._id);
-                            }}>
-                                {
-                                    spinnerXoaCategory === 1 ? (
-                                        <Spinner animation="border" role="status">
-                                            <span className="sr-only">Loading...</span>
-                                        </Spinner>) : "Xóa"
-                                }
-                            </Button>
                         </Form.Item>
 
                         <Form.Item>
@@ -233,8 +188,7 @@ export default function ModalChiTietCategory() {
                                 if (statusSua === 0) {
                                     setCategorySua({
                                         ten: cateogryNow.ten,
-                                        icon: cateogryNow.icon,
-                                        isLock: cateogryNow.isLock
+                                        icon: cateogryNow.icon
                                     });
                                 }
                             }}>

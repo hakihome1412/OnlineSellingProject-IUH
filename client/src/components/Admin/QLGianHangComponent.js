@@ -1,8 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Button, Form, Row, Col, Table, Spinner, Image } from 'react-bootstrap';
-import { Pagination, Input, Select, message } from 'antd';
+import { Form, Row, Col, Table, Spinner, Image } from 'react-bootstrap';
+import { Pagination, Input, Select, message, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
+import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
 
 export default function QLGianHangComponent() {
     const dispatch = useDispatch();
@@ -13,12 +14,12 @@ export default function QLGianHangComponent() {
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [dataSearch, setDataSearch] = useState('');
     const [trangThaiOption, setTrangThaiOption] = useState(0);
+    const [pageNow, setPageNow] = useState(1);
 
     function hamChuyenDoiNgay(date) {
         var strDate = '';
-        var now = new Date();
         var ngay = date.getDate().toString();
-        var thang = (date.getMonth()+1).toString();
+        var thang = (date.getMonth() + 1).toString();
         var nam = date.getFullYear().toString();
 
         strDate = ngay + '/' + thang + '/' + nam;
@@ -100,26 +101,25 @@ export default function QLGianHangComponent() {
     }
 
     useEffect(() => {
-        LayDataShopTheoTrang(0);
+        LayDataShopTheoTrang(pageNow - 1);
     }, []);
 
     useEffect(() => {
         if (reloadDatabaseReducer) {
             LayDataShopTheoTrang(0);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
-            setTrangThaiOption(0);
         }
     }, [reloadDatabaseReducer]);
 
     useEffect(() => {
         if (trangThaiOption === 0) {
-            LayDataShopTheoTrang(0);
+            LayDataShopTheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 1) {
-            LayDataShop_ChuaKhoa_TheoTrang(0);
+            LayDataShop_ChuaKhoa_TheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 2) {
-            LayDataShop_DaKhoa_TheoTrang(0);
+            LayDataShop_DaKhoa_TheoTrang(pageNow - 1);
         }
     }, [trangThaiOption])
 
@@ -135,7 +135,8 @@ export default function QLGianHangComponent() {
                                 }}></Input>
                             </Col>
                             <Col>
-                                <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
+                                    setPageNow(1);
                                     LayDanhSachGianHangSearch(0);
                                 }}>
                                     <i className="fa fa-search"></i> &nbsp; Tìm kiếm
@@ -144,6 +145,7 @@ export default function QLGianHangComponent() {
                             <Col>
                                 <Select style={{ width: 300 }} size='large' defaultValue={0} onChange={(value) => {
                                     setTrangThaiOption(value);
+                                    setPageNow(1);
                                 }}>
                                     <Option value={0}>Tất cả</Option>
                                     <Option value={1}>Chưa khóa</Option>
@@ -164,6 +166,7 @@ export default function QLGianHangComponent() {
                                 <th>Mô tả gian hàng</th>
                                 <th>Ngày tạo</th>
                                 <th>Trạng thái khóa</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -173,32 +176,22 @@ export default function QLGianHangComponent() {
                                         return <tr key={i}>
                                             <td>{item.thongTinShop.idShop}</td>
                                             <td>{item.thongTinShop.ten}</td>
-                                            <td><Image src={item.thongTinShop.logoShop} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>
+                                            <td><Image src={item.thongTinShop.logoShop === '' ? "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" : item.thongTinShop.logoShop} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>
                                             <td>{item.thongTinShop.diaChi}</td>
                                             <td>{item.thongTinShop.moTa}</td>
                                             <td>{hamChuyenDoiNgay(new Date(item.thongTinShop.ngayTao))}</td>
-                                            <td>{item.thongTinShop.isLock === false ?
-                                                (
-                                                    <Fragment>
-                                                        <center>
-                                                            <strong>Không</strong>
-                                                            <br></br>
-                                                            <Button onClick={() => {
-                                                                KhoaShop(item.thongTinShop.idShop);
-                                                            }}>Khóa</Button>
-                                                        </center>
-                                                    </Fragment>
-                                                ) : (
-                                                    <Fragment>
-                                                        <center>
-                                                            <strong>Có</strong>
-                                                            <br></br>
-                                                            <Button onClick={() => {
-                                                                MoKhoaShop(item.thongTinShop.idShop);
-                                                            }}>Mở khóa</Button>
-                                                        </center>
-                                                    </Fragment>
-                                                )}</td>
+                                            <td style={{ width: 150 }}><span style={{ color: item.thongTinShop.isLock === false ? 'red' : 'blue' }}><strong>{item.thongTinShop.isLock === false ? 'Chưa khóa' : 'Đã khóa'}</strong></span></td>
+                                            <td style={{ width: 100, paddingTop: 45 }}>
+                                                <center>
+                                                    <Button size='large' type="primary" icon={item.thongTinShop.isLock ? <UnlockOutlined /> : <LockOutlined />} onClick={() => {
+                                                        if (item.thongTinShop.isLock) {
+                                                            MoKhoaShop(item.thongTinShop.idShop);
+                                                        } else {
+                                                            KhoaShop(item.thongTinShop.idShop);
+                                                        }
+                                                    }} />
+                                                </center>
+                                            </td>
                                         </tr>
                                     })
                                 )
@@ -212,17 +205,23 @@ export default function QLGianHangComponent() {
                             </Spinner>
                         )
                     }
-                    <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
+                    <Pagination defaultPageSize={1} current={pageNow} total={tongSoTrang} onChange={(page) => {
                         dispatch({ type: 'SPINNER_DATABASE' });
-                        if (trangThaiOption === 0) {
-                            LayDataShopTheoTrang(page - 1);
+                        setPageNow(page);
+                        if (dataSearch === '') {
+                            if (trangThaiOption === 0) {
+                                LayDataShopTheoTrang(page - 1);
+                            }
+                            if (trangThaiOption === 1) {
+                                LayDataShop_ChuaKhoa_TheoTrang(page - 1);
+                            }
+                            if (trangThaiOption === 2) {
+                                LayDataShop_DaKhoa_TheoTrang(page - 1);
+                            }
+                        } else {
+                            LayDanhSachGianHangSearch(page - 1);
                         }
-                        if (trangThaiOption === 1) {
-                            LayDataShop_ChuaKhoa_TheoTrang(page - 1);
-                        }
-                        if (trangThaiOption === 2) {
-                            LayDataShop_DaKhoa_TheoTrang(page - 1);
-                        }
+
                     }}>
                     </Pagination>
                 </div>

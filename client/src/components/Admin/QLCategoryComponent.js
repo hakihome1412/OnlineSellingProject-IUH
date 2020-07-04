@@ -1,9 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
-import { Pagination, Input, Select, message } from 'antd';
+import { Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
+import { Pagination, Input, Select, message, Popconfirm, Button } from 'antd';
 import { ModalThemCategory, ModalChiTietCategory } from '../Modals/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
+import { DeleteOutlined, EditOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons';
 
 export default function QLCategoryComponent() {
     const dispatch = useDispatch();
@@ -14,6 +15,17 @@ export default function QLCategoryComponent() {
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [dataSearch, setDataSearch] = useState('');
     const [trangThaiOption, setTrangThaiOption] = useState(0);
+    const [pageNow, setPageNow] = useState(1);
+
+    function hamChuyenDoiNgay(date) {
+        var strDate = '';
+        var ngay = date.getDate().toString();
+        var thang = (date.getMonth() + 1).toString();
+        var nam = date.getFullYear().toString();
+
+        strDate = ngay + '/' + thang + '/' + nam;
+        return strDate;
+    }
 
     async function LayDataCategoryTheoTrang(page) {
         dispatch({ type: 'SPINNER_DATABASE' });
@@ -69,27 +81,66 @@ export default function QLCategoryComponent() {
         }
     }
 
+    async function KhoaDanhMuc(id) {
+        let res = await axios.put('hethong/categorys-khoa', {
+            id: id
+        })
+
+        if (res.data.status === 'success') {
+            message.success('Đã khóa thành công');
+            dispatch({ type: 'RELOAD_DATABASE' });
+        } else {
+            message.error('Khóa thất bại !');
+        }
+    }
+
+    async function MoKhoaDanhMuc(id) {
+        let res = await axios.put('hethong/categorys-mokhoa', {
+            id: id
+        })
+
+        if (res.data.status === 'success') {
+            message.success('Mở khóa thành công');
+            dispatch({ type: 'RELOAD_DATABASE' });
+        } else {
+            message.error('Mở khóa thất bại !');
+        }
+    }
+
+    async function XoaDanhMuc(id) {
+        let resData = await axios.put('hethong/categorys-xoa', {
+            id: id
+        });
+
+        if (resData.data.status === 'success') {
+            dispatch({ type: 'RELOAD_DATABASE' });
+            message.success("Xóa thành công");
+        } else {
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
+            message.error("Xóa thất bại");
+        }
+    }
+
     useEffect(() => {
-        LayDataCategoryTheoTrang(0);
+        LayDataCategoryTheoTrang(pageNow - 1);
     }, []);
 
     useEffect(() => {
         if (reloadDatabaseReducer) {
-            LayDataCategoryTheoTrang(0);
+            LayDataCategoryTheoTrang(pageNow - 1);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
-            setTrangThaiOption(0);
         }
     }, [reloadDatabaseReducer]);
 
     useEffect(() => {
         if (trangThaiOption === 0) {
-            LayDataCategoryTheoTrang(0);
+            LayDataCategoryTheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 1) {
-            LayDataCategory_ChuaKhoa_TheoTrang(0);
+            LayDataCategory_ChuaKhoa_TheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 2) {
-            LayDataCategory_DaKhoa_TheoTrang(0);
+            LayDataCategory_DaKhoa_TheoTrang(pageNow - 1);
         }
     }, [trangThaiOption])
 
@@ -107,7 +158,8 @@ export default function QLCategoryComponent() {
                                 }}></Input>
                             </Col>
                             <Col>
-                                <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
+                                    setPageNow(1);
                                     LayDanhSachCategorySearch(0);
                                 }}>
                                     <i className="fa fa-search"></i> &nbsp; Tìm kiếm
@@ -123,7 +175,7 @@ export default function QLCategoryComponent() {
                                 </Select>
                             </Col>
                             <Col>
-                                <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
                                     dispatch({ type: 'SHOW_THEM_CATEGORY' });
                                 }}>
                                     Thêm mới +
@@ -139,7 +191,9 @@ export default function QLCategoryComponent() {
                                 <th>ID</th>
                                 <th>Tên</th>
                                 <th>Icon</th>
+                                <th>Ngày tạo</th>
                                 <th>Trạng thái khóa</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -147,7 +201,6 @@ export default function QLCategoryComponent() {
                                 setSpinnerReducer === 0 && (
                                     dataCategory.map((item, i) => {
                                         return <tr key={item._id} onClick={(e) => {
-                                            dispatch({ type: 'SHOW_CHITIET_CATEGORY' });
                                             dispatch({ type: 'OBJECT_ID_NOW', id: item._id });
                                         }}>
                                             <td>{item.idShow}</td>
@@ -155,7 +208,27 @@ export default function QLCategoryComponent() {
                                             {
                                                 item.icon.length === 0 ? <td>Không</td> : <td><i className={item.icon}></i></td>
                                             }
-                                            <td>{item.isLock === false ? "Không" : "Có"}</td>
+                                            <td>{hamChuyenDoiNgay(new Date(item.ngayTao))}</td>
+                                            <td><span style={{ color: item.isLock === false ? 'red' : 'blue' }}><strong>{item.isLock === false ? 'Chưa khóa' : 'Đã khóa'}</strong></span></td>
+                                            <td style={{ width: 200, paddingTop: 10 }}>
+                                                <center>
+                                                    <Button type="default" icon={<EditOutlined />} size='large' onClick={() => {
+                                                        dispatch({ type: 'SHOW_CHITIET_CATEGORY' });
+                                                    }} />
+                                                    <Button style={{ marginLeft: 25 }} size='large' type="primary" icon={item.isLock ? <UnlockOutlined /> : <LockOutlined />} onClick={() => {
+                                                        if (item.isLock) {
+                                                            MoKhoaDanhMuc(item._id);
+                                                        } else {
+                                                            KhoaDanhMuc(item._id);
+                                                        }
+                                                    }} />
+                                                    <Popconfirm title="Bạn có chắc chắn muốn xóa" okText="Có" cancelText="Không" onConfirm={() => {
+                                                        XoaDanhMuc(item._id);
+                                                    }}>
+                                                        <Button style={{ marginLeft: 25 }} size='large' type="danger" icon={<DeleteOutlined />} />
+                                                    </Popconfirm>
+                                                </center>
+                                            </td>
                                         </tr>
                                     })
                                 )
@@ -169,17 +242,23 @@ export default function QLCategoryComponent() {
                             </Spinner>
                         )
                     }
-                    <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
+                    <Pagination defaultPageSize={1} current={pageNow} total={tongSoTrang} onChange={(page) => {
                         dispatch({ type: 'SPINNER_DATABASE' });
-                        if (trangThaiOption === 0) {
-                            LayDataCategoryTheoTrang(page - 1);
+                        setPageNow(page);
+                        if (dataSearch === '') {
+                            if (trangThaiOption === 0) {
+                                LayDataCategoryTheoTrang(page - 1);
+                            }
+                            if (trangThaiOption === 1) {
+                                LayDataCategory_ChuaKhoa_TheoTrang(page - 1);
+                            }
+                            if (trangThaiOption === 2) {
+                                LayDataCategory_DaKhoa_TheoTrang(page - 1);
+                            }
+                        } else {
+                            LayDanhSachCategorySearch(page - 1);
                         }
-                        if (trangThaiOption === 1) {
-                            LayDataCategory_ChuaKhoa_TheoTrang(page - 1);
-                        }
-                        if (trangThaiOption === 2) {
-                            LayDataCategory_DaKhoa_TheoTrang(page - 1);
-                        }
+
                     }}>
                     </Pagination>
                 </div>

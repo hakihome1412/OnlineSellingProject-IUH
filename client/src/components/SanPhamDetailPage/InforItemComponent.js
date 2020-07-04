@@ -299,7 +299,7 @@ export default function InforItemComponent(props) {
                                         {dataSize.map((item, i) => {
                                             return <label key={i}>
                                                 <input type='radio' name='color' className='radio-color' value={i}></input>
-                                                <div className='phanloai' style={{ width: 60, height: 30, backgroundColor: changeDivSize === i ? "orange" : "blue", borderRadius: 5, marginLeft: 10, textAlign: 'center', color: 'white' }} onClick={(e) => {
+                                                <div className='phanloai' style={{ width: 60, height: 30, backgroundColor: changeDivSize === i ? "orange" : "blue", borderRadius: 5, color: 'white' }} onClick={(e) => {
                                                     setChangeDivSize(i);
                                                     setThongTinMuaSanPham({
                                                         ...thongTinMuaSanPham,

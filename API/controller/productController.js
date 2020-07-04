@@ -769,6 +769,17 @@ module.exports = {
             giaCuoiCung = req.body.gia * (100 - req.body.giaTriGiamGia) / 100;
         }
 
+        const arrMoTaClient = req.body.moTaNganGon;
+        var arrMoTaNganGon = [];
+
+        for (let index = 0; index < arrMoTaClient.length; index++) {
+            if (arrMoTaClient[index] !== null) {
+                arrMoTaNganGon.push(arrMoTaClient[index]);
+            }
+
+        }
+
+
         let productThem = {
             idShow: 'PRODU-' + ids.generate().toUpperCase(),
             ten: req.body.ten,
@@ -781,7 +792,7 @@ module.exports = {
             gia: req.body.gia,
             noiSanXuat: req.body.noiSanXuat,
             moTa: req.body.moTa,
-            moTaNganGon: req.body.moTaNganGon,
+            moTaNganGon: arrMoTaNganGon,
             soSao: req.body.soSao,
             giaTriGiamGia: req.body.giaTriGiamGia,
             giaCuoiCung: giaCuoiCung,
@@ -830,8 +841,6 @@ module.exports = {
         dataPhanLoaiSize.push(phanLoaiThem.size.size3);
         dataPhanLoaiSize.push(phanLoaiThem.size.size4);
 
-        console.log(dataPhanLoaiMauSac);
-        console.log(dataPhanLoaiSize);
         var countMauSac1 = 0;
         var countSize1 = 0;
 
@@ -1124,76 +1133,6 @@ module.exports = {
             message: 'Sửa thành công'
         });
 
-    },
-
-    SuaProduct_Admin: async function (req, res) {
-        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-        let productSua = {
-            _id: ObjectId(req.body._id),
-            ten: req.body.ten,
-            img: {
-                chinh: req.body.img.chinh,
-                phu: req.body.img.phu,
-                moTaChiTiet: req.body.img.moTaChiTiet
-            },
-            gia: req.body.gia,
-            noiSanXuat: req.body.noiSanXuat,
-            moTa: req.body.moTa,
-            moTaNganGon: req.body.moTaNganGon,
-            soSao: req.body.soSao,
-            giaTriGiamGia: req.body.giaTriGiamGia,
-            soLuong: req.body.soLuong,
-            thongTinBaoHanh: {
-                baoHanh: req.body.thongTinBaoHanh.baoHanh,
-                loaiBaoHanh: req.body.thongTinBaoHanh.loaiBaoHanh,
-                thoiGianBaoHanh: req.body.thongTinBaoHanh.thoiGianBaoHanh,
-                donViBaoHanh: req.body.thongTinBaoHanh.donViBaoHanh
-            },
-            idBrand: req.body.idBrand,
-            idCategory: req.body.idCategory,
-            isLock: req.body.isLock,
-            isAccept: req.body.isAccept
-        }
-
-        await client.connect();
-        console.log("Connected correctly to server");
-        const db = client.db(DbName);
-        const colProduct = db.collection('PRODUCTS');
-        let result = await colProduct.updateOne({ _id: ObjectId(productSua._id) },
-            {
-                $set:
-                {
-                    ten: productSua.ten,
-                    img: {
-                        chinh: productSua.img.chinh,
-                        phu: productSua.img.phu,
-                        moTaChiTiet: productSua.img.moTaChiTiet
-                    },
-                    gia: productSua.gia,
-                    noiSanXuat: productSua.noiSanXuat,
-                    moTa: productSua.moTa,
-                    moTaNganGon: productSua.moTaNganGon,
-                    soSao: productSua.soSao,
-                    giaTriGiamGia: productSua.giaTriGiamGia,
-                    soLuong: productSua.soLuong,
-                    thongTinBaoHanh: {
-                        baoHanh: productSua.thongTinBaoHanh.baoHanh,
-                        loaiBaoHanh: productSua.thongTinBaoHanh.loaiBaoHanh,
-                        thoiGianBaoHanh: productSua.thongTinBaoHanh.thoiGianBaoHanh,
-                        donViBaoHanh: productSua.thongTinBaoHanh.donViBaoHanh
-                    },
-                    idBrand: productSua.idBrand,
-                    idCategory: productSua.idCategory,
-                    isLock: productSua.isLock,
-                    isAccept: productSua.isAccept
-                }
-            });
-        client.close();
-
-        res.status(200).json({
-            status: 'success',
-            message: 'Sửa thành công'
-        });
     },
 
     KiemTraKho: async function (req, res) {

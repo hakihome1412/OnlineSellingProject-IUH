@@ -1,9 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
-import { Pagination, Input, Select, message } from 'antd';
+import { Form, Row, Col, Table, Spinner } from 'react-bootstrap';
+import { Pagination, Input, Select, message, Button } from 'antd';
 import { ModalThemVoucher } from '../Modals/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
+import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
 
 export default function QLMaGiamGiaComponent() {
     const dispatch = useDispatch();
@@ -14,7 +15,7 @@ export default function QLMaGiamGiaComponent() {
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [dataSearch, setDataSearch] = useState('');
     const [trangThaiOption, setTrangThaiOption] = useState(0);
-    const [statusLockOrNoLock, setStatusLockOrNoLock] = useState(false);
+    const [pageNow, setPageNow] = useState(1);
 
     function format_curency(a) {
         a = a.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
@@ -45,7 +46,7 @@ export default function QLMaGiamGiaComponent() {
 
     async function LayDanhSachVoucherSearch(page) {
         dispatch({ type: 'SPINNER_DATABASE' });
-        let resData = await axios.get('hethong/vouchers-admin-search/' + page + '?search=' + dataSearch);
+        let resData = await axios.get('hethong/vouchers-search/' + page + '?search=' + dataSearch);
         if (resData.data.status === 'success') {
             setDataVoucher(resData.data.data);
             setTongSoTrang(resData.data.soTrang);
@@ -87,11 +88,9 @@ export default function QLMaGiamGiaComponent() {
         if (resData.data.status === 'success') {
             message.success("Khóa thành công");
             dispatch({ type: 'RELOAD_DATABASE' })
-            setStatusLockOrNoLock(false);
         } else {
             message.error("Khóa thất bại");
             dispatch({ type: 'NO_RELOAD_DATABASE' })
-            setStatusLockOrNoLock(false);
         }
     }
 
@@ -103,35 +102,34 @@ export default function QLMaGiamGiaComponent() {
         if (resData.data.status === 'success') {
             message.success("Mở khóa thành công");
             dispatch({ type: 'RELOAD_DATABASE' })
-            setStatusLockOrNoLock(false);
+
         } else {
             message.error("Mở khóa thất bại");
             dispatch({ type: 'NO_RELOAD_DATABASE' })
-            setStatusLockOrNoLock(false);
+
         }
     }
 
     useEffect(() => {
-        LayDataVoucherTheoTrang(0);
+        LayDataVoucherTheoTrang(pageNow - 1);
     }, []);
 
     useEffect(() => {
         if (reloadDatabaseReducer) {
-            LayDataVoucherTheoTrang(0);
+            LayDataVoucherTheoTrang(pageNow - 1);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
-            setTrangThaiOption(0);
         }
     }, [reloadDatabaseReducer]);
 
     useEffect(() => {
         if (trangThaiOption === 0) {
-            LayDataVoucherTheoTrang(0);
+            LayDataVoucherTheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 1) {
-            LayDataVoucher_ChuaKhoa_TheoTrang(0);
+            LayDataVoucher_ChuaKhoa_TheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 2) {
-            LayDataVoucher_DaKhoa_TheoTrang(0);
+            LayDataVoucher_DaKhoa_TheoTrang(pageNow - 1);
         }
     }, [trangThaiOption])
 
@@ -143,13 +141,14 @@ export default function QLMaGiamGiaComponent() {
                     <Form>
                         <Row>
                             <Col>
-                                <Input size='large' placeholder='Tìm theo ID sản phẩm' onChange={(e) => {
+                                <Input size='large' placeholder='Tìm theo ID voucher' onChange={(e) => {
                                     setDataSearch(e.target.value);
                                 }}></Input>
                             </Col>
                             <Col>
-                                <Button variant="primary" style={{ width: 200 }} onClick={() => {
-                                    LayDataVoucherTheoTrang(0);
+                                <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
+                                    setPageNow(1);
+                                    LayDanhSachVoucherSearch(0);
                                 }}>
                                     <i className="fa fa-search"></i> &nbsp; Tìm kiếm
                                         </Button>
@@ -159,12 +158,12 @@ export default function QLMaGiamGiaComponent() {
                                     setTrangThaiOption(value);
                                 }}>
                                     <Option value={0}>Tất cả</Option>
-                                    <Option value={1}>Chưa duyệt</Option>
-                                    <Option value={2}>Đã duyệt</Option>
+                                    <Option value={1}>Chưa khóa</Option>
+                                    <Option value={2}>Đã khóa</Option>
                                 </Select>
                             </Col>
                             <Col>
-                                <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
                                     dispatch({ type: 'SHOW_THEM_VOUCHER' });
                                 }}>
                                     Thêm mới +
@@ -184,7 +183,8 @@ export default function QLMaGiamGiaComponent() {
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>
                                 <th>Ngày tạo</th>
-                                <th><center>Trạng thái khóa</center></th>
+                                <th>Trạng thái khóa</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -192,9 +192,6 @@ export default function QLMaGiamGiaComponent() {
                                 setSpinnerReducer === 0 && (
                                     dataVoucher.map((item, i) => {
                                         return <tr key={item._id} onClick={(e) => {
-                                            if (statusLockOrNoLock === false) {
-                                                dispatch({ type: 'SHOW_CHITIET_VOUCHER' });
-                                            }
                                             dispatch({ type: 'OBJECT_ID_NOW', id: item._id });
                                         }}>
                                             <td>{item.idShow}</td>
@@ -213,40 +210,18 @@ export default function QLMaGiamGiaComponent() {
                                             <td>{hamChuyenDoiNgay(new Date(item.ngayBatDau))}</td>
                                             <td>{hamChuyenDoiNgay(new Date(item.ngayKetThuc))}</td>
                                             <td>{hamChuyenDoiNgay(new Date(item.ngayTao))}</td>
-                                            <td>{item.isLock === false ?
-                                                (
-                                                    <Fragment>
-                                                        <center>
-                                                            <strong>Không</strong>
-                                                            <br></br>
-                                                            <Button onClick={() => {
-                                                                KhoaVoucher(item._id);
-                                                            }}
-                                                                onMouseOver={() => {
-                                                                    setStatusLockOrNoLock(true);
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setStatusLockOrNoLock(false);
-                                                                }}>Khóa</Button>
-                                                        </center>
-                                                    </Fragment>
-                                                ) : (
-                                                    <Fragment>
-                                                        <center>
-                                                            <strong>Có</strong>
-                                                            <br></br>
-                                                            <Button onClick={() => {
-                                                                MoKhoaVoucher(item._id);
-                                                            }}
-                                                                onMouseOver={() => {
-                                                                    setStatusLockOrNoLock(true);
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setStatusLockOrNoLock(false);
-                                                                }}>Mở khóa</Button>
-                                                        </center>
-                                                    </Fragment>
-                                                )}</td>
+                                            <td style={{ width: 150 }}><span style={{ color: item.isLock === false ? 'red' : 'blue' }}><strong>{item.isLock === false ? 'Chưa khóa' : 'Đã khóa'}</strong></span></td>
+                                            <td style={{ width: 100, paddingTop: 15 }}>
+                                                <center>
+                                                    <Button size='large' type="primary" icon={item.isLock ? <UnlockOutlined /> : <LockOutlined />} onClick={() => {
+                                                        if (item.isLock) {
+                                                            MoKhoaVoucher(item._id);
+                                                        } else {
+                                                            KhoaVoucher(item._id);
+                                                        }
+                                                    }} />
+                                                </center>
+                                            </td>
                                         </tr>
                                     })
                                 )
@@ -260,17 +235,22 @@ export default function QLMaGiamGiaComponent() {
                             </Spinner>
                         )
                     }
-                    <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
+                    <Pagination defaultPageSize={1} current={pageNow} total={tongSoTrang} onChange={(page) => {
                         dispatch({ type: 'SPINNER_DATABASE' });
-                        if (trangThaiOption === 0) {
-                            LayDataVoucherTheoTrang(page - 1);
+                        if (dataSearch === '') {
+                            if (trangThaiOption === 0) {
+                                LayDataVoucherTheoTrang(page - 1);
+                            }
+                            if (trangThaiOption === 1) {
+                                LayDataVoucher_ChuaKhoa_TheoTrang(page - 1);
+                            }
+                            if (trangThaiOption === 2) {
+                                LayDataVoucher_DaKhoa_TheoTrang(page - 1);
+                            }
+                        } else {
+                            LayDanhSachVoucherSearch(page - 1);
                         }
-                        if (trangThaiOption === 1) {
-                            LayDataVoucher_ChuaKhoa_TheoTrang(page - 1);
-                        }
-                        if (trangThaiOption === 2) {
-                            LayDataVoucher_DaKhoa_TheoTrang(page - 1);
-                        }
+
                     }}>
                     </Pagination>
                 </div>

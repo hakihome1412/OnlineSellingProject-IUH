@@ -1,20 +1,31 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
-import { Pagination, Select, Input, message } from 'antd';
+import { Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
+import { Pagination, Select, Input, message, Button, Popconfirm } from 'antd';
 import { ModalThemBaiViet, ModalChiTietBaiViet } from '../Modals/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
+import { DeleteOutlined, EditOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons';
 
 export default function QLBaiVietComponent() {
     const dispatch = useDispatch();
     const { Option } = Select;
     const setSpinnerReducer = useSelector(state => state.setSpinner);
     const reloadDatabaseReducer = useSelector(state => state.reloadDatabase);
+    const [pageNow, setPageNow] = useState(1);
     const [dataBaiViet, setDataBaiViet] = useState([]);
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [dataSearch, setDataSearch] = useState('');
     const [trangThaiOption, setTrangThaiOption] = useState(0);
-    const [statusLockOrNoLock, setStatusLockOrNoLock] = useState(false);
+
+    function hamChuyenDoiNgay(date) {
+        var strDate = '';
+        var ngay = date.getDate().toString();
+        var thang = (date.getMonth() + 1).toString();
+        var nam = date.getFullYear().toString();
+
+        strDate = ngay + '/' + thang + '/' + nam;
+        return strDate;
+    }
 
     async function LayDataBaiViet_TheoTrang(page) {
         dispatch({ type: 'SPINNER_DATABASE' });
@@ -79,10 +90,8 @@ export default function QLBaiVietComponent() {
         if (res.data.status === 'success') {
             message.success('Đã khóa thành công');
             dispatch({ type: 'RELOAD_DATABASE' });
-            setStatusLockOrNoLock(false);
         } else {
             message.error('Khóa thất bại !');
-            setStatusLockOrNoLock(false);
         }
     }
 
@@ -94,35 +103,46 @@ export default function QLBaiVietComponent() {
         if (res.data.status === 'success') {
             message.success('Mở khóa thành công');
             dispatch({ type: 'RELOAD_DATABASE' });
-            setStatusLockOrNoLock(false);
         } else {
             message.error('Mở khóa thất bại !');
-            setStatusLockOrNoLock(false);
+        }
+    }
+
+    async function XoaBaiViet(baiVietID) {
+        let resData = await axios.put('hethong/baiviet-xoa', {
+            id: baiVietID
+        });
+
+        if (resData.data.status === 'success') {
+            dispatch({ type: 'RELOAD_DATABASE' });
+            message.success("Xóa thành công");
+        } else {
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
+            message.error("Xóa thất bại");
         }
     }
 
 
     useEffect(() => {
-        LayDataBaiViet_TheoTrang(0);
+        LayDataBaiViet_TheoTrang(pageNow - 1);
     }, [])
 
     useEffect(() => {
         if (trangThaiOption === 0) {
-            LayDataBaiViet_TheoTrang(0);
+            LayDataBaiViet_TheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 1) {
-            LayDataBaiViet_ChuaKhoa_TheoTrang(0);
+            LayDataBaiViet_ChuaKhoa_TheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 2) {
-            LayDataBaiViet_DaKhoa_TheoTrang(0);
+            LayDataBaiViet_DaKhoa_TheoTrang(pageNow - 1);
         }
     }, [trangThaiOption])
 
     useEffect(() => {
         if (reloadDatabaseReducer) {
-            LayDataBaiViet_TheoTrang(0);
+            LayDataBaiViet_TheoTrang(pageNow - 1);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
-            setTrangThaiOption(0);
         }
     }, [reloadDatabaseReducer]);
 
@@ -135,12 +155,13 @@ export default function QLBaiVietComponent() {
                     <Form>
                         <Row>
                             <Col>
-                                <Input size='large' placeholder='Tìm theo ID hoặc Tên thương hiệu' onChange={(e) => {
+                                <Input size='large' placeholder='Tìm theo ID hoặc Tiêu đề bài viết' onChange={(e) => {
                                     setDataSearch(e.target.value);
                                 }}></Input>
                             </Col>
                             <Col>
-                                <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
+                                    setPageNow(1);
                                     LayDanhSachBaiVietSearch(0);
                                 }}>
                                     <i className="fa fa-search"></i> &nbsp; Tìm kiếm
@@ -156,7 +177,7 @@ export default function QLBaiVietComponent() {
                                 </Select>
                             </Col>
                             <Col>
-                                <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
                                     dispatch({ type: 'SHOW_THEM_BAIVIET' });
                                 }}>
                                     Thêm mới +
@@ -173,7 +194,9 @@ export default function QLBaiVietComponent() {
                                 <th>Tiêu đề</th>
                                 <th>Hình ảnh</th>
                                 <th>Loại bài viết</th>
+                                <th>Ngày tạo</th>
                                 <th>Trạng thái khóa</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -182,48 +205,32 @@ export default function QLBaiVietComponent() {
                                     dataBaiViet.map((item, i) => {
                                         return <tr key={item._id} onClick={(e) => {
                                             dispatch({ type: 'OBJECT_ID_NOW', id: item._id });
-                                            if (statusLockOrNoLock === false) {
-                                                dispatch({ type: 'SHOW_CHITIET_BAIVIET' });
-                                            }
                                         }}>
                                             <td>{item.idShow}</td>
-                                            <td>{item.tieuDe}</td>
-                                            <td><Image src={item.img} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>
+                                            <td style={{ width: 400 }}>{item.tieuDe}</td>
+                                            <td style={{ width: 250 }}><Image src={item.img} style={{ width: 200, height: 100 }}></Image></td>
                                             <td>{item.loaiBaiViet === 0 ? "Chương trình/sự kiện" : "Giới thiệu"}</td>
-                                            <td>{item.isLock === false ?
-                                                (
-                                                    <Fragment>
-                                                        <center>
-                                                            <strong>Không</strong>
-                                                            <br></br>
-                                                            <Button onClick={() => {
-                                                                KhoaBaiViet(item._id);
-                                                            }}
-                                                                onMouseOver={() => {
-                                                                    setStatusLockOrNoLock(true);
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setStatusLockOrNoLock(false);
-                                                                }}>Khóa</Button>
-                                                        </center>
-                                                    </Fragment>
-                                                ) : (
-                                                    <Fragment>
-                                                        <center>
-                                                            <strong>Có</strong>
-                                                            <br></br>
-                                                            <Button onClick={() => {
-                                                                MoKhoaBaiViet(item._id);
-                                                            }}
-                                                                onMouseOver={() => {
-                                                                    setStatusLockOrNoLock(true);
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setStatusLockOrNoLock(false);
-                                                                }}>Mở khóa</Button>
-                                                        </center>
-                                                    </Fragment>
-                                                )}</td>
+                                            <td>{hamChuyenDoiNgay(new Date(item.ngayTao))}</td>
+                                            <td><span style={{ color: item.isLock === false ? 'red' : 'blue' }}><strong>{item.isLock === false ? 'Chưa khóa' : 'Đã khóa'}</strong></span></td>
+                                            <td style={{ width: 200, paddingTop: 45 }}>
+                                                <center>
+                                                    <Button type="default" icon={<EditOutlined />} size='large' onClick={() => {
+                                                        dispatch({ type: 'SHOW_CHITIET_BAIVIET' });
+                                                    }} />
+                                                    <Button style={{ marginLeft: 25 }} size='large' type="primary" icon={item.isLock ? <UnlockOutlined /> : <LockOutlined />} onClick={() => {
+                                                        if (item.isLock) {
+                                                            MoKhoaBaiViet(item._id);
+                                                        } else {
+                                                            KhoaBaiViet(item._id);
+                                                        }
+                                                    }} />
+                                                    <Popconfirm title="Bạn có chắc chắn muốn xóa" okText="Có" cancelText="Không" onConfirm={() => {
+                                                        XoaBaiViet(item._id);
+                                                    }}>
+                                                        <Button style={{ marginLeft: 25 }} size='large' type="danger" icon={<DeleteOutlined />} />
+                                                    </Popconfirm>
+                                                </center>
+                                            </td>
                                         </tr>
                                     })
                                 )
@@ -237,17 +244,23 @@ export default function QLBaiVietComponent() {
                             </Spinner>
                         )
                     }
-                    <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
+                    <Pagination defaultPageSize={1} current={pageNow} total={tongSoTrang} onChange={(page) => {
                         dispatch({ type: 'SPINNER_DATABASE' });
-                        if (trangThaiOption === 0) {
-                            LayDataBaiViet_TheoTrang(page - 1);
+                        setPageNow(page);
+                        if (dataSearch === '') {
+                            if (trangThaiOption === 0) {
+                                LayDataBaiViet_TheoTrang(page - 1);
+                            }
+                            if (trangThaiOption === 1) {
+                                LayDataBaiViet_ChuaKhoa_TheoTrang(page - 1);
+                            }
+                            if (trangThaiOption === 2) {
+                                LayDataBaiViet_DaKhoa_TheoTrang(page - 1);
+                            }
+                        } else {
+                            LayDanhSachBaiVietSearch(page - 1);
                         }
-                        if (trangThaiOption === 1) {
-                            LayDataBaiViet_ChuaKhoa_TheoTrang(page - 1);
-                        }
-                        if (trangThaiOption === 2) {
-                            LayDataBaiViet_DaKhoa_TheoTrang(page - 1);
-                        }
+
                     }}>
                     </Pagination>
                 </div>

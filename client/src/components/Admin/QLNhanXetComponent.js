@@ -1,9 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
-import { Pagination, Input, Select, message } from 'antd';
+import { Form, Row, Col, Table, Spinner } from 'react-bootstrap';
+import { Pagination, Input, Select, message, Button } from 'antd';
 import { ModalChiTietNhanXet } from '../Modals/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
+import { CheckOutlined, EditOutlined } from '@ant-design/icons';
 
 export default function QLNhanXetComponent() {
     const dispatch = useDispatch();
@@ -14,7 +15,8 @@ export default function QLNhanXetComponent() {
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [dataSearch, setDataSearch] = useState('');
     const [trangThaiOption, setTrangThaiOption] = useState(0);
-    const [statusAcceptOrNoAccept, setStatusAcceptOrNoAccept] = useState(false);
+    const [pageNow, setPageNow] = useState(1);
+    const [traLoi, setTraLoi] = useState(false);
 
     function hamChuyenDoiNgay(date) {
         var strDate = '';
@@ -81,44 +83,40 @@ export default function QLNhanXetComponent() {
             idProduct: idProduct,
         });
         if (resData.data.status === 'success') {
-
             dispatch({ type: 'RELOAD_DATABASE' });
-            setStatusAcceptOrNoAccept(false);
             dispatch({ type: 'SHOW_CHITIET_COMMENT' });
         } else {
             message.error("Duyệt nhận xét thất bại");
             dispatch({ type: 'NO_RELOAD_DATABASE' });
-            setStatusAcceptOrNoAccept(false);
         }
     }
 
     useEffect(() => {
-        LayDataCommentTheoTrang(0);
+        LayDataCommentTheoTrang(pageNow - 1);
     }, []);
 
     useEffect(() => {
         if (reloadDatabaseReducer) {
-            LayDataCommentTheoTrang(0);
+            LayDataCommentTheoTrang(pageNow - 1);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
-            setTrangThaiOption(0);
         }
     }, [reloadDatabaseReducer]);
 
     useEffect(() => {
         if (trangThaiOption === 0) {
-            LayDataCommentTheoTrang(0);
+            LayDataCommentTheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 1) {
-            LayDataComment_ChuaDuyet_TheoTrang(0);
+            LayDataComment_ChuaDuyet_TheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 2) {
-            LayDataComment_DaDuyet_TheoTrang(0);
+            LayDataComment_DaDuyet_TheoTrang(pageNow - 1);
         }
     }, [trangThaiOption])
 
     return (
         <Fragment>
-            <ModalChiTietNhanXet></ModalChiTietNhanXet>
+            <ModalChiTietNhanXet traLoi={traLoi}></ModalChiTietNhanXet>
             <div className="col-sm-10" style={{ padding: 20 }}>
                 <div className="col" style={{ width: '100%' }}>
                     <Form>
@@ -129,7 +127,7 @@ export default function QLNhanXetComponent() {
                                 }}></Input>
                             </Col>
                             <Col>
-                                <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
                                     LayDanhSachCommentSearch(0);
                                 }}>
                                     <i className="fa fa-search"></i> &nbsp; Tìm kiếm
@@ -155,7 +153,8 @@ export default function QLNhanXetComponent() {
                                 <th>Tiêu đề</th>
                                 <th>Số sao</th>
                                 <th>Ngày tạo</th>
-                                <th><center>Trạng thái duyệt</center></th>
+                                <th>Trạng thái duyệt</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -163,33 +162,37 @@ export default function QLNhanXetComponent() {
                                 setSpinnerReducer === 0 && (
                                     dataComment.map((item, i) => {
                                         return <tr key={item._id} onClick={(e) => {
-                                            if (statusAcceptOrNoAccept === false) {
-                                                dispatch({ type: 'SHOW_CHITIET_COMMENT' });
-                                            }
                                             dispatch({ type: 'OBJECT_ID_NOW', id: item._id });
+
                                         }}>
                                             <td>{item.idProduct}</td>
                                             <td>{item.tieuDe}</td>
                                             <td>{item.soSao}</td>
                                             <td>{hamChuyenDoiNgay(new Date(item.ngayTao))}</td>
-                                            <td>{item.isAccept === false ?
-                                                (
-                                                    <Fragment>
-                                                        <center>
-                                                            <strong style={{ color: 'red' }}>Chưa duyệt</strong>
-                                                            <br></br>
-                                                            <Button onClick={() => {
-                                                                DuyetComment(item._id, item.idProduct);
-                                                            }}
-                                                                onMouseOver={() => {
-                                                                    setStatusAcceptOrNoAccept(true);
+                                            <td><span style={{ color: item.isAccept === false ? 'red' : 'blue' }}><strong>{item.isAccept === false ? 'Chưa duyệt' : 'Đã duyệt'}</strong></span></td>
+                                            <td style={{ width: 200, paddingTop: 10 }}>
+                                                <center>
+                                                    <Button type="default" icon={<EditOutlined />} size='large'
+                                                        onClick={() => {
+                                                            dispatch({ type: 'SHOW_CHITIET_COMMENT' });
+                                                        }}
+                                                        onMouseOver={() => {
+                                                            setTraLoi(false);
+                                                        }} />
+                                                    {
+                                                        item.isAccept === false && (
+                                                            <Button style={{ marginLeft: 25 }} size='large' type="primary" icon={<CheckOutlined />}
+                                                                onClick={() => {
+                                                                    dispatch({ type: 'SHOW_CHITIET_COMMENT' });
+                                                                    DuyetComment(item._id);
                                                                 }}
-                                                                onMouseLeave={() => {
-                                                                    setStatusAcceptOrNoAccept(false);
-                                                                }}>Duyệt</Button>
-                                                        </center>
-                                                    </Fragment>
-                                                ) : <center><span style={{ color: 'blue', fontWeight: 'bold' }}>Đã duyệt</span></center>}</td>
+                                                                onMouseOver={() => {
+                                                                    setTraLoi(true);
+                                                                }} />
+                                                        )
+                                                    }
+                                                </center>
+                                            </td>
                                         </tr>
                                     })
                                 )
@@ -203,17 +206,23 @@ export default function QLNhanXetComponent() {
                             </Spinner>
                         )
                     }
-                    <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
+                    <Pagination defaultPageSize={1} current={pageNow} total={tongSoTrang} onChange={(page) => {
                         dispatch({ type: 'SPINNER_DATABASE' });
-                        if (trangThaiOption === 0) {
-                            LayDataCommentTheoTrang(page - 1);
+                        setPageNow(page);
+                        if (dataSearch === '') {
+                            if (trangThaiOption === 0) {
+                                LayDataCommentTheoTrang(page - 1);
+                            }
+                            if (trangThaiOption === 1) {
+                                LayDataComment_ChuaDuyet_TheoTrang(page - 1);
+                            }
+                            if (trangThaiOption === 2) {
+                                LayDataComment_DaDuyet_TheoTrang(page - 1);
+                            }
+                        } else {
+                            LayDanhSachCommentSearch(page - 1);
                         }
-                        if (trangThaiOption === 1) {
-                            LayDataComment_ChuaDuyet_TheoTrang(page - 1);
-                        }
-                        if (trangThaiOption === 2) {
-                            LayDataComment_DaDuyet_TheoTrang(page - 1);
-                        }
+
                     }}>
                     </Pagination>
                 </div>

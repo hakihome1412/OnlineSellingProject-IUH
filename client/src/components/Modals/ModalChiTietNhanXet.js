@@ -4,7 +4,8 @@ import { Form, Input, Select, message } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
 
-export default function ModalChiTietNhanXet() {
+export default function ModalChiTietNhanXet(props) {
+    const traLoi = props.traLoi;
     const { Option } = Select;
     const dispatch = useDispatch();
     const showChiTietNhanXet = useSelector(state => state.showChiTietNhanXet);
@@ -26,8 +27,7 @@ export default function ModalChiTietNhanXet() {
         isAccept: '',
     });
     const [nhanXetSua, setNhanXetSua] = useState({
-        traLoi: '',
-        isAccept: ''
+        traLoi: ''
     });
 
     function hamChuyenDoiNgay(date) {
@@ -46,8 +46,7 @@ export default function ModalChiTietNhanXet() {
         if (statusSua === 1) {
             let resData = await axios.put('hethong/comments-sua', {
                 _id: nhanXetID,
-                traLoi: nhanXetSua.traLoi,
-                isAccept: nhanXetSua.isAccept
+                traLoi: nhanXetSua.traLoi
             });
 
             if (resData.data.status === 'success') {
@@ -112,7 +111,13 @@ export default function ModalChiTietNhanXet() {
         }}
             onShow={() => {
                 setDisableOptions(false);
-                setStatusSua(0);
+                if (traLoi) {
+                    setStatusSua(1);
+                    setDisableOptions(true);
+                } else {
+                    setStatusSua(0);
+                    setDisableOptions(false);
+                }
                 LayNhanXetTheoID(objectIDDuocChonReducer);
             }}>
             {
@@ -180,19 +185,6 @@ export default function ModalChiTietNhanXet() {
                             <Input disabled={true} defaultValue={nhanXetNow.ngayTraLoi === '' ? 'Chưa xác định' : hamChuyenDoiNgay(new Date(nhanXetNow.ngayTraLoi))} />
                         </Form.Item>
 
-                        <Form.Item
-                            label="Trạng thái duyệt">
-                            <Select disabled={!disableOptions} defaultValue={nhanXetNow.isAccept === false ? "noaccept" : "accept"} onChange={(value) => {
-                                setNhanXetSua({
-                                    ...nhanXetSua,
-                                    isAccept: value === "accept" ? true : false
-                                });
-                            }}>
-                                <Option value="accept">Có</Option>
-                                <Option value="noaccept">Không</Option>
-                            </Select>
-                        </Form.Item>
-
                         <Form.Item>
                             <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }}
                                 onClick={() => {
@@ -204,8 +196,7 @@ export default function ModalChiTietNhanXet() {
                                     }
                                     if (statusSua === 0) {
                                         setNhanXetSua({
-                                            traLoi: nhanXetNow.traLoi,
-                                            isAccept: nhanXetNow.isAccept
+                                            traLoi: nhanXetNow.traLoi
                                         });
                                     }
                                 }}>

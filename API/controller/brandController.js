@@ -262,8 +262,8 @@ module.exports = {
         let brandSua = {
             _id: ObjectId(req.body._id),
             ten: req.body.ten,
-            img: req.body.img,
-            isLock: req.body.isLock
+            xuatXu: req.body.xuatXu,
+            img: req.body.img
         }
 
         await client.connect();
@@ -275,8 +275,8 @@ module.exports = {
                 $set:
                 {
                     ten: brandSua.ten,
-                    img: brandSua.img,
-                    isLock: brandSua.isLock
+                    xuatXu: brandSua.xuatXu,
+                    img: brandSua.img
                 }
             });
         client.close();

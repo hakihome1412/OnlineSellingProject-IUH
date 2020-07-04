@@ -65,7 +65,7 @@ export default function ModalThemBrand() {
     }
 
     function KiemTraDuLieuNhap(data) {
-        if (data.ten === '' || data.xuatXu === '') {
+        if (data.ten.trim().length === 0 || data.xuatXu.trim().length === 0) {
             setStatusMessageError(0);
         } else {
             ThemBrand()

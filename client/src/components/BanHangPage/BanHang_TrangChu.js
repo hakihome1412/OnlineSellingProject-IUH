@@ -295,7 +295,7 @@ export default function BanHang_TrangChu(props) {
                     <div className='row' style={{ backgroundColor: '#F8F9FA', paddingTop: 20 }}>
                         <div className='col-sm-3'>
                             <div className='col'>
-                                <img alt='ảnh logo' src={dataUser.thongTinShop.logoShop} width='350' height='350'></img>
+                                <img alt='ảnh logo' src={dataUser.thongTinShop.logoShop === '' ? "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" : dataUser.thongTinShop.logoShop} width='350' height='350'></img>
                                 <br></br>
                                 <br></br>
                                 <h5>{dataUser.thongTinShop.ten}</h5>
@@ -361,7 +361,7 @@ export default function BanHang_TrangChu(props) {
                                 {
                                     imageAsUrl_Carousel.length > 0 && (
                                         imageAsUrl_Carousel.map((src, i) => {
-                                            return <img key={i} src={src} height='50' width='150' />
+                                            return <img key={i} alt='ảnh' src={src} height='50' width='150' />
                                         })
                                     )
                                 }
@@ -376,13 +376,13 @@ export default function BanHang_TrangChu(props) {
                                 <div className='col-sm-6'>
                                     {
                                         dataUser.thongTinShop.img.banner1 === '' && (
-                                            <img className="d-block w-100" src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='150' />
+                                            <img alt='ảnh' className="d-block w-100" src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='150' />
                                         )
                                     }
 
                                     {
                                         dataUser.thongTinShop.img.banner1 !== '' && (
-                                            <img className="d-block w-100" src={dataUser.thongTinShop.img.banner1} height='150' />
+                                            <img alt='ảnh' className="d-block w-100" src={dataUser.thongTinShop.img.banner1} height='150' />
                                         )
                                     }
 
@@ -399,14 +399,14 @@ export default function BanHang_TrangChu(props) {
                                     <br></br>
                                     {
                                         imageAsUrl_Banner1.length === 0 && (
-                                            <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='50' width='150' />
+                                            <img alt='ảnh' src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='50' width='150' />
                                         )
                                     }
 
                                     {
                                         imageAsUrl_Banner1.length > 0 && (
                                             imageAsUrl_Banner1.map((src, i) => {
-                                                return <img key={i} src={src} height='50' width='150' />
+                                                return <img alt='ảnh' key={i} src={src} height='50' width='150' />
                                             })
                                         )
                                     }
@@ -414,13 +414,13 @@ export default function BanHang_TrangChu(props) {
                                 <div className='col-sm-6'>
                                     {
                                         dataUser.thongTinShop.img.banner2 === '' && (
-                                            <img className="d-block w-100" src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='150' />
+                                            <img alt='ảnh' className="d-block w-100" src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='150' />
                                         )
                                     }
 
                                     {
                                         dataUser.thongTinShop.img.banner2 !== '' && (
-                                            <img className="d-block w-100" src={dataUser.thongTinShop.img.banner2} height='150' />
+                                            <img alt='ảnh' className="d-block w-100" src={dataUser.thongTinShop.img.banner2} height='150' />
                                         )
                                     }
 
@@ -437,14 +437,14 @@ export default function BanHang_TrangChu(props) {
                                     <br></br>
                                     {
                                         imageAsUrl_Banner2.length === 0 && (
-                                            <img src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='50' width='150' />
+                                            <img alt='ảnh' src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" height='50' width='150' />
                                         )
                                     }
 
                                     {
                                         imageAsUrl_Banner2.length > 0 && (
                                             imageAsUrl_Banner2.map((src, i) => {
-                                                return <img key={i} src={src} height='50' width='150' />
+                                                return <img alt='ảnh' key={i} src={src} height='50' width='150' />
                                             })
                                         )
                                     }

@@ -27,13 +27,13 @@ export default function ModalThemMaGiamGia() {
 
     function KiemTraDuLieuNhap(data) {
         var regNum = /^\d+$/;
-        if (data.idShow === '' || data.ten === '' || data.giaTriGiam === '' || data.ngayBatDau === '' || data.ngayKetThuc === '') {
+        if (data.idShow.trim().length === 0 || data.ten.trim().length === 0 || data.giaTriGiam === '' || data.ngayBatDau === '' || data.ngayKetThuc === '') {
             setStatusMessageError(0);
         } else {
             if (!regNum.test(data.giaTriGiam)) {
                 setStatusMessageError(1);
             } else {
-                ThemMaGiamGia()
+                ThemMaGiamGia();
                 setStatusMessageError(-1);
             }
         }

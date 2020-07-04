@@ -375,7 +375,6 @@ module.exports = {
 
     SuaComment: async function (req, res) {
         const traLoi = req.body.traLoi;
-        const isAccept = req.body.isAccept;
         const id = req.body._id;
 
         const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -387,7 +386,6 @@ module.exports = {
             $set:
             {
                 traLoi: traLoi,
-                isAccept: isAccept,
                 ngayTraLoi: new Date()
             }
         });

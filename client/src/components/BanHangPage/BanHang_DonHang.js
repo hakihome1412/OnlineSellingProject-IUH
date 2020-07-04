@@ -1,16 +1,16 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Tabs, Pagination, Select, Input, message } from 'antd';
+import { Tabs, Pagination, Select, Input, message, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Form, Row, Col, Table, Spinner } from 'react-bootstrap';
+import { Form, Row, Col, Table, Spinner } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { useCookies } from 'react-cookie';
 import { ModalChiTietDonHang_ChuShop } from '../Modals/index';
+import { CheckOutlined, EditOutlined } from '@ant-design/icons';
 
 
 export default function BanHang_DonHang() {
     const [cookies, setCookie] = useCookies();
     const [shopID, setShopID] = useState(cookies.shopID);
-    const [controlModalShow, setControlModalShow] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
     const dispatch = useDispatch();
     const { TabPane } = Tabs;
@@ -38,7 +38,6 @@ export default function BanHang_DonHang() {
 
     function hamChuyenDoiNgay(date) {
         var strDate = '';
-        var now = new Date();
         var ngay = date.getDate().toString();
         var thang = (date.getMonth() + 1).toString();
         var nam = date.getFullYear().toString();
@@ -55,7 +54,7 @@ export default function BanHang_DonHang() {
             setTongSoTrang(resData.data.soTrang);
             dispatch({ type: 'NO_SPINNER_DATABASE' });
         } else {
-            alert("Lấy data thất bại");
+            message.error("Lấy data thất bại");
         }
     }
 
@@ -157,10 +156,8 @@ export default function BanHang_DonHang() {
 
         if (result.data.status === 'success') {
             CapNhatLichSu(id, 1);
-            setControlModalShow(1);
         } else {
             message.error('Sửa trạng thái thất bại');
-            setControlModalShow(1);
         }
     }
 
@@ -279,7 +276,7 @@ export default function BanHang_DonHang() {
                                         }}></Input>
                                     </Col>
                                     <Col>
-                                        <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                        <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
                                             console.log(dataChiTietDonHang)
                                         }}>
                                             <i className="fa fa-search"></i> &nbsp; Tìm kiếm
@@ -308,49 +305,31 @@ export default function BanHang_DonHang() {
                                         <th>ID Đơn hàng</th>
                                         <th>ID Chi tiết</th>
                                         <th>Tên sản phẩm</th>
-                                        <th>Màu sắc</th>
-                                        <th>Size</th>
-                                        <th>Số lượng</th>
                                         <th>Tổng tiền</th>
                                         <th>Ngày đặt</th>
                                         <th>Trạng thái</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
                                         setSpinnerReducer === 0 && (
                                             dataChiTietDonHang.map((item, i) => {
-                                                return <tr key={i} onClick={() => {
-                                                    if (controlModalShow === 1) {
-                                                        LayDataDonHang(item.idOrder, item.idShow);
-                                                    }
-                                                }}>
+                                                return <tr key={i}>
                                                     <td>{item.idOrder}</td>
                                                     <td>{item.idShow}</td>
                                                     <td style={{ width: 400 }}>{item.ten}</td>
-                                                    <td>{item.mauSac === '' ? 'Không có' : item.mauSac}</td>
-                                                    <td>{item.size === '' ? 'Không có' : item.size}</td>
-                                                    <td>{item.soLuong}</td>
                                                     <td>{format_curency(item.thanhTien.toString())}</td>
                                                     <td>{hamChuyenDoiNgay(new Date(item.ngayTao))}</td>
                                                     <td>
                                                         {
                                                             item.trangThai === 0 && (
-                                                                <Button style={{ width: 200, height: 40 }}
-                                                                    onMouseOver={() => {
-                                                                        setControlModalShow(0);
-                                                                    }}
-                                                                    onMouseLeave={() => {
-                                                                        setControlModalShow(1);
-                                                                    }}
-                                                                    onClick={() => {
-                                                                        SuaTrangThaiThanh_DaDuyet(item.idShow);
-                                                                    }}>Duyệt</Button>
+                                                                <span style={{ color: 'red' }}><strong>Chưa duyệt</strong></span>
                                                             )
                                                         }
                                                         {
                                                             item.trangThai === 1 && (
-                                                                <span style={{ color: 'red' }}><strong>Đã duyệt</strong></span>
+                                                                <span style={{ color: 'blue' }}><strong>Đã duyệt</strong></span>
                                                             )
                                                         }
                                                         {
@@ -373,6 +352,21 @@ export default function BanHang_DonHang() {
                                                                 <span style={{ color: 'black' }}><strong>Hủy</strong></span>
                                                             )
                                                         }
+                                                    </td>
+                                                    <td style={{ width: 200, paddingTop: 10 }}>
+                                                        <center>
+                                                            <Button type="default" icon={<EditOutlined />} size='large' onClick={() => {
+                                                                LayDataDonHang(item.idOrder, item.idShow);
+                                                            }} />
+                                                            {
+                                                                item.trangThai === 0 && (
+                                                                    <Button style={{ marginLeft: 25 }} size='large' type="primary" icon={<CheckOutlined />}
+                                                                        onClick={() => {
+                                                                            SuaTrangThaiThanh_DaDuyet(item.idShow);
+                                                                        }} />
+                                                                )
+                                                            }
+                                                        </center>
                                                     </td>
                                                 </tr>
                                             })

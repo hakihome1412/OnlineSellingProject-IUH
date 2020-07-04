@@ -26,7 +26,6 @@ export default function ModalChiTietProduct_ChuShop() {
     const [imageAsFile_Phu, setImageAsFile_Phu] = useState([]);
     const [firstTime3, setFirstTime3] = useState(true);
     const [firstTime4, setFirstTime4] = useState(true);
-    const [spinnerXoaProduct, setSpinnerXoaProduct] = useState(-1);
     const [spinnerSuaProduct, setSpinnerSuaProduct] = useState(-1);
     const [productNow, setProductNow] = useState({
         _id: '',
@@ -265,28 +264,7 @@ export default function ModalChiTietProduct_ChuShop() {
         }
     }
 
-    async function XoaProduct(productID) {
-        setSpinnerXoaProduct(1);
-        let resData = await axios.put('hethong/products-xoa', {
-            id: productID
-        });
-
-        if (resData.data.status === 'success') {
-            setStatusSua(0);
-            setDisableOptions(false);
-            setSpinnerXoaProduct(0);
-            dispatch({ type: 'RELOAD_DATABASE' });
-            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_CHUSHOP' });
-            message.success("Xóa thành công");
-        } else {
-            setStatusSua(0);
-            setDisableOptions(false);
-            setSpinnerXoaProduct(0);
-            dispatch({ type: 'NO_RELOAD_DATABASE' });
-            message.error("Xóa thất bại");
-            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_CHUSHOP' });
-        }
-    }
+   
 
     async function LayProductTheoID(productID) {
         setSpinnerChiTietProduct(true);
@@ -769,30 +747,7 @@ export default function ModalChiTietProduct_ChuShop() {
                         </Form.Item>
 
                         <Form.Item
-                            name="trangthaikhoa"
-                            label="Trạng thái khóa">
-                            <Select disabled={!disableOptions} defaultValue={productNow.isLock === false ? "nolock" : "lock"} onChange={(value) => {
-                                setProductSua({
-                                    ...productSua,
-                                    isLock: value === "lock" ? true : false
-                                });
-                            }}>
-                                <Option key="lock">Có</Option>
-                                <Option key="nolock">Không</Option>
-                            </Select>
-                        </Form.Item>
-
-                        <Form.Item
-                            name="trangthaiduyet"
-                            label="Trạng thái duyệt">
-                            <Select disabled={true} defaultValue={productNow.isAccept === false ? "noaccept" : "accept"}>
-                                <Option key="accept">Đã duyệt</Option>
-                                <Option key="noaccept">Chưa duyệt</Option>
-                            </Select>
-                        </Form.Item>
-
-                        <Form.Item
-                            name="button1">
+                            name="button2">
                             {
                                 statusMessageError === 0 && (
                                     <p style={{ color: 'red', lineHeight: 1.5 }}>Thông tin tạo mới sản phẩm không hợp lệ. Vui lòng kiểm tra lại</p>
@@ -816,21 +771,6 @@ export default function ModalChiTietProduct_ChuShop() {
                                     <p style={{ color: 'red', lineHeight: 1.5 }}>Giá trị số lượng sản phẩm không hợp lệ</p>
                                 )
                             }
-                            <Button variant="primary" style={{ width: 300, height: 50, marginLeft: '30%' }} disabled={disableOptions} onClick={() => {
-                                XoaProduct(productNow._id);
-                            }}>
-                                {
-                                    spinnerXoaProduct === 1 ? (
-                                        <Spinner animation="border" role="status">
-                                            <span className="sr-only">Loading...</span>
-                                        </Spinner>) : "Xóa"
-                                }
-                            </Button>
-                        </Form.Item>
-
-                        <Form.Item
-                            name="button2">
-
                             <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
                                 if (statusSua === 0) {
                                     setStatusSua(1);
@@ -892,11 +832,6 @@ export default function ModalChiTietProduct_ChuShop() {
                     </Form>
                 )
             }
-            {/* <Button onClick={() => {
-                console.log(productNow);
-            }}>
-                test
-            </Button> */}
         </Modal>
     )
 }

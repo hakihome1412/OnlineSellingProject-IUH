@@ -71,7 +71,10 @@ router.put('/brands-mokhoa', brandController.MoKhoaBrand);
 
 // Phần xử lý Database VOUCHER
 router.get('/vouchers', voucherController.LayDanhSachVoucherAll);
+router.get('/vouchers-search/:page', voucherController.LayDanhSachVoucher_Search_TheoTrang);
 router.get('/vouchers-admin/:page', voucherController.LayDanhSachVoucherTheoTrang);
+router.get('/vouchers-admin-chuakhoa/:page', voucherController.LayDanhSachVoucher_ChuaKhoa_TheoTrang);
+router.get('/vouchers-admin-dakhoa/:page', voucherController.LayDanhSachVoucher_DaKhoa_TheoTrang);
 router.get('/vouchers-item', voucherController.LayVoucherTheoID);
 router.get('/vouchers-item-show', voucherController.LayVoucherTheoIDShow);
 router.post('/vouchers-them', voucherController.ThemVoucher)
@@ -141,7 +144,6 @@ router.put('/products-duyetsanpham', productController.DuyetSanPham);
 router.put('/products-khoasanpham', productController.KhoaSanPham);
 router.put('/products-mokhoasanpham', productController.MoKhoaSanPham);
 router.put('/products-sua-chushop', productController.SuaProduct_ChuShop);
-router.put('/products-sua-admin', productController.SuaProduct_Admin);
 router.put('/products-capnhatsoluong', productController.CapNhatSoLuong);
 router.put('/products-capnhatgiatrigiamgia', productController.CapNhatGiaTriGiamGia);
 router.put('/products-capnhatnguoixem', productController.CapNhatNguoiXem);

@@ -87,7 +87,7 @@ export default function ModalThemBaiViet() {
     }
 
     function KiemTraDuLieuNhap(data) {
-        if (data.tieuDe === '' || data.img === '' || data.loaiBaiViet === -1) {
+        if (data.tieuDe.trim().length === 0 || data.img === '' || data.loaiBaiViet === -1 || data.content.trim().length === 0) {
             setStatusMessageError(0);
         } else {
             ThemBaiViet()
@@ -258,8 +258,7 @@ export default function ModalThemBaiViet() {
                     <QuillEditor
                         placeholder={"Nhập nội dung"}
                         onEditorChange={onEditorChange}
-                        onFilesChange={onFilesChange}
-                    />
+                        onFilesChange={onFilesChange} />
 
                 </Form.Item>
 

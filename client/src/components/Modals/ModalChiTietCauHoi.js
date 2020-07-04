@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Spinner, Button } from 'react-bootstrap';
-import { Form, Input, Select, message } from 'antd';
+import { Form, Input, message } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
-import { storage } from '../../firebase/firebase';
 
-export default function ModalChiTietCauHoi() {
-    const { Option } = Select;
+
+export default function ModalChiTietCauHoi(props) {
+    const traLoi = props.traLoi;
     const dispatch = useDispatch();
     const showChiTietCauHoi = useSelector(state => state.showChiTietCauHoi);
     const [spinnerChiTietCauHoi, setSpinnerChiTietCauHoi] = useState(false);
@@ -15,6 +15,7 @@ export default function ModalChiTietCauHoi() {
     const [disableOptions, setDisableOptions] = useState(false);
     const [statusSua, setStatusSua] = useState(0);
     const [spinnerSuaCauHoi, setSpinnerSuaCauHoi] = useState(-1);
+    const [statusError, setStatusError] = useState(-1);
     const [cauHoiNow, setCauHoiNow] = useState({
         _id: '',
         idProduct: '',
@@ -26,8 +27,7 @@ export default function ModalChiTietCauHoi() {
         isAccept: '',
     });
     const [cauHoiSua, setCauHoiSua] = useState({
-        answer: '',
-        isAccept: ''
+        answer: ''
     });
 
     function hamChuyenDoiNgay(date) {
@@ -46,8 +46,7 @@ export default function ModalChiTietCauHoi() {
         if (statusSua === 1) {
             let resData = await axios.put('hethong/questanswer-sua', {
                 _id: cauHoiID,
-                answer: cauHoiSua.answer,
-                isAccept: cauHoiSua.isAccept
+                answer: cauHoiSua.answer
             });
 
             if (resData.data.status === 'success') {
@@ -95,6 +94,19 @@ export default function ModalChiTietCauHoi() {
         }
     }
 
+    async function DuyetCauHoi(cauHoiID) {
+        dispatch({ type: 'SPINNER_DATABASE' });
+        let resData = await axios.put('hethong/questanswer-duyet', {
+            _id: cauHoiID
+        });
+        if (resData.data.status === 'success') {
+            dispatch({ type: 'RELOAD_DATABASE' });
+        } else {
+            message.error("Duyệt câu hỏi thất bại");
+            dispatch({ type: 'NO_RELOAD_DATABASE' });
+        }
+    }
+
 
     useEffect(() => {
         if (statusSua === 1) {
@@ -104,15 +116,20 @@ export default function ModalChiTietCauHoi() {
         }
     }, [statusSua])
 
-
     return (
         <Modal show={showChiTietCauHoi} size="lg" animation={false} onHide={() => {
             dispatch({ type: 'CLOSE_CHITIET_CAUHOI' });
         }}
             onShow={() => {
                 setDisableOptions(false);
-                setStatusSua(0);
                 LayCauHoiTheoID(objectIDDuocChonReducer);
+                if (traLoi) {
+                    setStatusSua(1);
+                    setDisableOptions(true);
+                } else {
+                    setStatusSua(0);
+                    setDisableOptions(false);
+                }
             }}>
             {
                 spinnerChiTietCauHoi === true && (
@@ -166,27 +183,38 @@ export default function ModalChiTietCauHoi() {
                             <Input disabled={true} defaultValue={cauHoiNow.ngayTraLoi === '' ? 'Chưa xác định' : hamChuyenDoiNgay(new Date(cauHoiNow.ngayTraLoi))} />
                         </Form.Item>
 
-                        <Form.Item
-                            label="Trạng thái duyệt">
-                            <Select disabled={!disableOptions} defaultValue={cauHoiNow.isAccept === false ? "noaccept" : "accept"} onChange={(value) => {
-                                setCauHoiSua({
-                                    ...cauHoiSua,
-                                    isAccept: value === "accept" ? true : false
-                                });
-                            }}>
-                                <Option value="accept">Có</Option>
-                                <Option value="noaccept">Không</Option>
-                            </Select>
-                        </Form.Item>
-
                         <Form.Item>
+                            {
+                                statusError === 0 && (
+                                    <p style={{ color: 'red', lineHeight: 1.5 }}>Nhập phần Trả lời trước khi lưu để được duyệt</p>
+                                )
+                            }
+                            {
+                                statusError === 1 && (
+                                    <p style={{ color: 'red', lineHeight: 1.5 }}>Phần trả lời không hợp lệ. Vui lòng kiểm tra lại</p>
+                                )
+                            }
                             <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }}
                                 onClick={() => {
+
                                     if (statusSua === 0) {
                                         setStatusSua(1);
                                         setDisableOptions(true);
                                     } else {
-                                        SuaCauHoi(cauHoiNow._id);
+                                        if (traLoi) {
+                                            if (cauHoiSua.answer.trim().length === 0) {
+                                                setStatusError(0); //Lỗi không cho duyệt khi chưa trả lời
+                                            } else {
+                                                SuaCauHoi(cauHoiNow._id);
+                                                DuyetCauHoi(cauHoiNow._id);
+                                            }
+                                        } else {
+                                            if (cauHoiSua.answer.trim().length !== 0) {
+                                                setStatusError(1); //Câu trả lời không được rỗng
+                                            } else {
+                                                SuaCauHoi(cauHoiNow._id);
+                                            }
+                                        }
                                     }
                                     if (statusSua === 0) {
                                         setCauHoiSua({

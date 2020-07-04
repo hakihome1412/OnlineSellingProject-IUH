@@ -253,7 +253,7 @@ module.exports = {
 
 
             if (countResultThemChiTiet === countGioHang) {
-
+                client.close();
                 var html = '<h2>DANH SÁCH SẢN PHẨM</h2>';
 
                 for (let index = 0; index < arrChiTietGioHang.length; index++) {
@@ -275,7 +275,7 @@ module.exports = {
                 <p><b>Tên : </b>${donHangThem.thongTinNguoiMua.ten}</p>
                 <p><b>Địa chỉ nhà: </b>${donHangThem.thongTinNguoiMua.diaChi}</p>
                 <p><b>Điện thoại: </b>${donHangThem.thongTinNguoiMua.sdt}</p>
-                <p><b>Email: </b>huynhphuchuy1412@gmail.com</p>
+                <p><b>Email: </b>${emailNhan}</p>
                 <br></br>
                 <h3>Cám ơn bạn đã mua hàng tại TiemDo.</h3>
                 `
@@ -301,12 +301,13 @@ module.exports = {
                 })
             }
         } else {
+            client.close();
             res.status(200).json({
                 status: 'fail',
                 message: 'Thêm đơn hàng thất bại !'
             })
         }
-        client.close();
+
     }
 }
 

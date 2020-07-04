@@ -314,8 +314,7 @@ module.exports = {
             tieuDe: req.body.tieuDe,
             lowerTieuDe: BoDau(req.body.tieuDe),
             img: req.body.img,
-            content: req.body.content,
-            isLock: req.body.isLock
+            content: req.body.content
         }
 
         await client.connect();
@@ -329,8 +328,7 @@ module.exports = {
                     tieuDe: baiVietSua.tieuDe,
                     lowerTieuDe: baiVietSua.lowerTieuDe,
                     img: baiVietSua.img,
-                    content: baiVietSua.content,
-                    isLock: baiVietSua.isLock
+                    content: baiVietSua.content
                 }
             });
         client.close();

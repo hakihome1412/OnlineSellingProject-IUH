@@ -567,7 +567,8 @@ module.exports = {
                                 carousel: [],
                                 banner1: '',
                                 banner2: ''
-                            }
+                            },
+                            isLock: true
                         },
                         vaiTro: 1
                     }

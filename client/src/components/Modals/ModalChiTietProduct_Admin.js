@@ -1,9 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Modal, Image, Spinner, Button } from 'react-bootstrap';
+import { Modal, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Select, message } from 'antd';
 import { axios } from '../../config/constant';
-import { storage } from "../../firebase/firebase";
 
 export default function ModalChiTietProduct_Admin() {
     const { Option } = Select;
@@ -11,22 +10,10 @@ export default function ModalChiTietProduct_Admin() {
     const showChiTietProductAdmin = useSelector(state => state.showChiTietProductAdmin);
     const [spinnerChiTietProduct, setSpinnerChiTietProduct] = useState(false);
     const objectIDDuocChonReducer = useSelector(state => state.objectIDDuocChon);
-    const [disableOptions, setDisableOptions] = useState(false);
-    const [statusSua, setStatusSua] = useState(0);
-    const [showButtonHuy, setShowButtonHuy] = useState(false);
     const [dataCategory, setDataCategory] = useState([]);
     const [dataCountries, setDataCountries] = useState([]);
     const [dataBrand, setDataBrand] = useState([]);
-    const [countAnhDaUploadThanhCong_Chinh, setCountAnhDaUploadThanhCong_Chinh] = useState(0);
-    const [countAnhDaUploadThanhCong_Phu, setCountAnhDaUploadThanhCong_Phu] = useState(0);
-    const [imageAsUrl_Chinh, setImageAsUrl_Chinh] = useState([]);
-    const [imageAsUrl_Phu, setImageAsUrl_Phu] = useState([]);
-    const [imageAsFile_Chinh, setImageAsFile_Chinh] = useState([]);
-    const [imageAsFile_Phu, setImageAsFile_Phu] = useState([]);
-    const [firstTime3, setFirstTime3] = useState(true);
-    const [firstTime4, setFirstTime4] = useState(true);
-    const [spinnerXoaProduct, setSpinnerXoaProduct] = useState(-1);
-    const [spinnerSuaProduct, setSpinnerSuaProduct] = useState(-1);
+
     const [productNow, setProductNow] = useState({
         _id: '',
         ten: '',
@@ -54,217 +41,15 @@ export default function ModalChiTietProduct_Admin() {
         isLock: false,
         isAccept: false
     });
-    const [productSua, setProductSua] = useState({
-        ten: '',
-        img: {
-            chinh: '',
-            phu: [],
-            moTaChiTiet: []
-        },
-        gia: '',
-        noiSanXuat: '',
-        moTa: '',
-        moTaNganGon: [],
-        soSao: 0,
-        giaTriGiamGia: 0,
-        soLuong: '',
-        thongTinBaoHanh: {
-            baoHanh: true,
-            loaiBaoHanh: '',
-            thoiGianBaoHanh: '',
-            donViBaoHanh: ''
-        },
-        idBrand: '',
-        idCategory: '',
-        isLock: '',
-        isAccept: ''
-    });
-
-    const handleChangeIMG_Chinh = (e) => {
-        var soLuongFile = e.target.files.length;
-        var listFile = [];
-        var listUrl = [];
-        for (let index = 0; index < soLuongFile; index++) {
-            listFile.push(e.target.files[index]);
-        }
-
-        setImageAsFile_Chinh(listFile);
-
-        if (listFile.length === 0) {
-            console.log('Không có file nào được upload');
-        } else {
-            for (let index = 0; index < soLuongFile; index++) {
-                console.log('start of upload');
-                // async magic goes here...
-                if (listFile[index] === '') {
-                    console.error(`not an image, the image file is a ${typeof (listFile[index])}`);
-                }
-                const uploadTask = storage.ref(`/images/${listFile[index].name}`).put(listFile[index]);
-                uploadTask.on('state_changed',
-                    (snapShot) => {
-                        //takes a snap shot of the process as it is happening
-                        console.log(snapShot);
-                    }, (err) => {
-                        //catches the errors
-                        console.log(err)
-                    }, () => {
-                        // gets the functions from storage refences the image storage in firebase by the children
-                        // gets the download url then sets the image from firebase as the value for the imgUrl key:
-                        storage.ref('images').child(listFile[index].name).getDownloadURL()
-                            .then(fireBaseUrl => {
-                                // setImageAsUrl(prevObject => ({ ...prevObject, imageAsUrl: fireBaseUrl }))
-                                listUrl.push(fireBaseUrl);
-                                setCountAnhDaUploadThanhCong_Chinh(countPrev => countPrev + 1);
-                            })
-                    })
-            }
-        }
-        setImageAsUrl_Chinh(listUrl);
-        setProductSua({
-            ...productSua,
-            img: {
-                ...productSua.img,
-                chinh: listUrl[0]
-            }
-        });
-    }
-
-    const handleChangeIMG_Phu = (e) => {
-        var soLuongFile = e.target.files.length;
-        var listFile = [];
-        var listUrl = [];
-        for (let index = 0; index < soLuongFile; index++) {
-            listFile.push(e.target.files[index]);
-        }
-
-        setImageAsFile_Phu(listFile);
-
-        if (listFile.length === 0) {
-            console.log('Không có file nào được upload');
-        } else {
-            for (let index = 0; index < soLuongFile; index++) {
-                console.log('start of upload');
-                // async magic goes here...
-                if (listFile[index] === '') {
-                    console.error(`not an image, the image file is a ${typeof (listFile[index])}`);
-                }
-                const uploadTask = storage.ref(`/images/${listFile[index].name}`).put(listFile[index]);
-                uploadTask.on('state_changed',
-                    (snapShot) => {
-                        //takes a snap shot of the process as it is happening
-                        console.log(snapShot);
-                    }, (err) => {
-                        //catches the errors
-                        console.log(err)
-                    }, () => {
-                        // gets the functions from storage refences the image storage in firebase by the children
-                        // gets the download url then sets the image from firebase as the value for the imgUrl key:
-                        storage.ref('images').child(listFile[index].name).getDownloadURL()
-                            .then(fireBaseUrl => {
-                                // setImageAsUrl(prevObject => ({ ...prevObject, imageAsUrl: fireBaseUrl }))
-                                listUrl.push(fireBaseUrl);
-                                setCountAnhDaUploadThanhCong_Phu(countPrev => countPrev + 1);
-                            })
-                    })
-            }
-        }
-        setImageAsUrl_Phu(listUrl);
-        setProductSua({
-            ...productSua,
-            img: {
-                ...productSua.img,
-                phu: listUrl
-            }
-        });
-    }
 
     function hamChuyenDoiNgay(date) {
         var strDate = '';
-        var now = new Date();
         var ngay = date.getDate().toString();
-        var thang = (date.getMonth()+1).toString();
+        var thang = (date.getMonth() + 1).toString();
         var nam = date.getFullYear().toString();
 
         strDate = ngay + '/' + thang + '/' + nam;
         return strDate;
-    }
-
-    async function SuaProduct(productID) {
-        //dispatch({ type: 'SPINNER_SUACAROUSEL' });
-        setSpinnerSuaProduct(1);
-        setDisableOptions(false);
-        if (statusSua === 1) {
-            let resData = await axios.put('hethong/products-sua-admin', {
-                _id: productID,
-                ten: productSua.ten,
-                img: {
-                    chinh: productSua.img.chinh,
-                    phu: productSua.img.phu,
-                    moTaChiTiet: productSua.img.moTaChiTiet
-                },
-                gia: productSua.gia,
-                noiSanXuat: productSua.noiSanXuat,
-                moTa: productSua.moTa,
-                moTaNganGon: productSua.moTaNganGon,
-                soSao: productSua.soSao,
-                giaTriGiamGia: productSua.giaTriGiamGia,
-                soLuong: productSua.soLuong,
-                thongTinBaoHanh: {
-                    baoHanh: productSua.thongTinBaoHanh.baoHanh,
-                    loaiBaoHanh: productSua.thongTinBaoHanh.loaiBaoHanh,
-                    thoiGianBaoHanh: productSua.thongTinBaoHanh.thoiGianBaoHanh,
-                    donViBaoHanh: productSua.thongTinBaoHanh.donViBaoHanh
-                },
-                idBrand: productSua.idBrand,
-                idCategory: productSua.idCategory,
-                isLock: productSua.isLock,
-                isAccept: productSua.isAccept
-            });
-
-            if (resData.data.status === 'success') {
-                dispatch({ type: 'RELOAD_DATABASE' });
-                setStatusSua(0);
-                setSpinnerSuaProduct(-1);
-                message.success("Sửa thông tin sản phẩm thành công");
-                setDisableOptions(false);
-                dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
-            }
-            else {
-                setSpinnerSuaProduct(-1);
-                setStatusSua(0);
-                setDisableOptions(true);
-                dispatch({ type: 'NO_RELOAD_DATABASE' });
-                message.error("Sửa thông tin sản phẩm thất bại");
-                dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
-            }
-
-        } else {
-            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
-            dispatch({ type: 'NO_RELOAD_DATABASE' });
-        }
-    }
-
-    async function XoaProduct(productID) {
-        setSpinnerXoaProduct(1);
-        let resData = await axios.put('hethong/products-xoa', {
-            id: productID
-        });
-
-        if (resData.data.status === 'success') {
-            setStatusSua(0);
-            setDisableOptions(false);
-            setSpinnerXoaProduct(0);
-            dispatch({ type: 'RELOAD_DATABASE' });
-            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
-            message.success("Xóa sản phẩm thành công");
-        } else {
-            setStatusSua(0);
-            setDisableOptions(false);
-            setSpinnerXoaProduct(0);
-            dispatch({ type: 'NO_RELOAD_DATABASE' });
-            message.error("Xóa sản phẩm thất bại");
-            dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
-        }
     }
 
     async function LayProductTheoID(productID) {
@@ -342,47 +127,12 @@ export default function ModalChiTietProduct_Admin() {
         LayDataCountriesAll();
     }, [])
 
-
-    useEffect(() => {
-        if (firstTime3 === false) {
-            if (imageAsFile_Chinh.length === 0) {
-                message.error('Vui lòng chọn ảnh chính cho sản phẩm')
-            } else {
-                if (countAnhDaUploadThanhCong_Chinh === imageAsFile_Chinh.length) {
-                    message.success('Upload ảnh chính cho sản phẩm thành công');
-                }
-            }
-        }
-    }, [countAnhDaUploadThanhCong_Chinh])
-
-    useEffect(() => {
-        if (firstTime4 === false) {
-            if (imageAsFile_Phu.length === 0) {
-                message.error('Vui lòng chọn ảnh phụ cho sản phẩm')
-            } else {
-                if (countAnhDaUploadThanhCong_Phu === imageAsFile_Phu.length) {
-                    message.success('Upload các ảnh phụ cho sản phẩm thành công');
-                }
-            }
-        }
-    }, [countAnhDaUploadThanhCong_Phu])
-
-    useEffect(() => {
-        if (statusSua === 1) {
-            setShowButtonHuy(true)
-        } else {
-            setShowButtonHuy(false)
-        }
-    }, [statusSua])
-
     return (
         <Modal show={showChiTietProductAdmin} size="lg" animation={false} onHide={() => {
             dispatch({ type: 'CLOSE_CHITIET_PRODUCT_ADMIN' });
         }}
             onShow={() => {
                 LayProductTheoID(objectIDDuocChonReducer);
-                setStatusSua(0);
-                setDisableOptions(false);
             }}>
 
             {
@@ -401,34 +151,19 @@ export default function ModalChiTietProduct_Admin() {
                         style={{ padding: 40 }}>
                         <Form.Item
                             label="Tên sản phẩm"
-                            name="ten"
-                            rules={[{ required: true, message: 'Vui lòng nhập tên sản phẩm ' }]}>
-                            <Input disabled={true} defaultValue={productNow.ten} onChange={(e) => {
-                                setProductSua({
-                                    ...productSua,
-                                    ten: e.target.value
-                                })
-                            }} />
+                            name="ten">
+                            <Input disabled={true} defaultValue={productNow.ten} />
                         </Form.Item>
 
                         <Form.Item
                             label="Danh mục"
-                            name="danhmuc"
-                            rules={[{ required: true, message: 'Vui lòng chọn danh mục' }]}
-                        >
+                            name="danhmuc">
                             <Select
                                 disabled={true}
                                 defaultValue={productNow.idCategory}
                                 mode="multiple"
                                 style={{ width: '100%' }}
-                                placeholder="Chọn danh mục , nhiều nhất 3 lựa chọn"
-                                onChange={(value) => {
-                                    setProductSua({
-                                        ...productSua,
-                                        idCategory: value
-                                    })
-                                }}
-                            >
+                                placeholder="Chọn danh mục , nhiều nhất 3 lựa chọn">
                                 {
                                     dataCategory.map((item, i) => {
                                         return <Option key={item._id} value={item._id}>
@@ -441,26 +176,12 @@ export default function ModalChiTietProduct_Admin() {
 
                         <Form.Item
                             label="Thương hiệu"
-                            name="thuonghieu"
-                            rules={[{ required: true, message: 'Vui lòng chọn thương hiệu' }]}
-                        >
+                            name="thuonghieu">
                             <Select
                                 disabled={true}
                                 defaultValue={productNow.idBrand}
-                                showSearch
-                                optionFilterProp="children"
-                                filterOption={(input, option) =>
-                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                }
                                 style={{ width: '100%' }}
-                                placeholder="Chọn thương hiệu"
-                                onChange={(value) => {
-                                    setProductSua({
-                                        ...productSua,
-                                        idBrand: value
-                                    })
-                                }}
-                            >
+                                placeholder="Chọn thương hiệu">
                                 {
                                     dataBrand.map((item, i) => {
                                         return <Option key={item._id} value={item._id}>
@@ -480,14 +201,7 @@ export default function ModalChiTietProduct_Admin() {
                                 disabled={true}
                                 defaultValue={productNow.noiSanXuat}
                                 style={{ width: '100%' }}
-                                placeholder="Chọn nơi sản xuất"
-                                onChange={(value) => {
-                                    setProductSua({
-                                        ...productSua,
-                                        noiSanXuat: value
-                                    })
-                                }}
-                            >
+                                placeholder="Chọn nơi sản xuất">
                                 {
                                     dataCountries.map((item, i) => {
                                         return <Option key={item._id} value={item.name}>
@@ -500,50 +214,27 @@ export default function ModalChiTietProduct_Admin() {
 
                         <Form.Item
                             label="Đặc điểm nổi bật"
-                            name="dacdiemnoibat"
-                            rules={[{ required: true }]}
-                        >
+                            name="dacdiemnoibat">
                             {
                                 productNow.moTaNganGon.map((item, i) => {
-                                    return <Input disabled={true} defaultValue={item} onChange={(e) => {
-                                        productNow.moTaNganGon[i] = e.target.value;
-                                        var newArray = productNow.moTaNganGon;
-                                        setProductSua({
-                                            ...productSua,
-                                            moTaNganGon: newArray
-                                        })
-                                    }} />
+                                    return <Input disabled={true} defaultValue={item} />
                                 })
                             }
                         </Form.Item>
 
                         <Form.Item
                             label="Mô tả chi tiết"
-                            name="motachitiet"
-                            rules={[{ required: true }]}
-                        >
-                            <textarea style={{ width: '100%' }} disabled={true} rows="4" cols="50" defaultValue={productNow.moTa} onChange={(e) => {
-                                setProductSua({
-                                    ...productSua,
-                                    moTa: e.target.value
-                                });
-                            }}>
+                            name="motachitiet">
+                            <textarea style={{ width: '100%' }} disabled={true} rows="4" cols="50" defaultValue={productNow.moTa}>
                             </textarea>
                         </Form.Item>
 
                         <Form.Item
                             label="Giá gốc"
-                            name="giagoc"
-                            rules={[{ required: true, message: 'Vui lòng nhập giá gốc sản phẩm' }]}>
+                            name="giagoc">
                             <Input
                                 disabled={true}
-                                defaultValue={productNow.gia.toString()}
-                                onChange={(e) => {
-                                    setProductSua({
-                                        ...productSua,
-                                        gia: parseInt(e.target.value)
-                                    })
-                                }}></Input>
+                                defaultValue={productNow.gia.toString()}></Input>
                         </Form.Item>
 
                         <Form.Item
@@ -551,93 +242,32 @@ export default function ModalChiTietProduct_Admin() {
                             name="giatrigiam">
                             <Input
                                 disabled={true}
-                                defaultValue={productNow.giaTriGiamGia.toString()}
-                                onChange={(e) => {
-                                    setProductSua({
-                                        ...productSua,
-                                        giaTriGiamGia: parseInt(e.target.value)
-                                    })
-                                }}></Input>(Nếu giá trị nhập nhỏ hơn 100 thì hệ thống sẽ tự động giảm theo %)
+                                defaultValue={productNow.giaTriGiamGia.toString()}>
+                            </Input>(Nếu giá trị nhập nhỏ hơn 100 thì hệ thống sẽ tự động giảm theo %)
                         </Form.Item>
 
                         <Form.Item
-                            label="Ảnh chính cho sản phẩm"
-                            name="anhchinh"
-                            rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
-                            <input type='file'
-                                disabled={true}
-                                onChange={(e) => {
-                                    handleChangeIMG_Chinh(e);
-                                    setCountAnhDaUploadThanhCong_Chinh(0);
-                                    setFirstTime3(false);
-                                }}>
-                            </input>
+                            name='anhchinh'
+                            label="Ảnh chính">
+                            <img style={{ marginLeft: 20 }} src={productNow.img.chinh} alt={'ảnh'} width='200' height='150'></img>
                         </Form.Item>
 
                         <Form.Item
-                            name='showanhchinh'
-                            label="Show ảnh chính">
+                            name='anhphu'
+                            label="Ảnh phụ">
                             {
-                                statusSua === 0 && (
-                                    <img style={{ marginLeft: 20 }} src={productNow.img.chinh} alt={'ảnh'} width='200' height='150'></img>
-                                )
-                            }
-                            {
-                                statusSua === 1 && (
-                                    imageAsUrl_Chinh.map((src, i) => {
-                                        return <img key={i} style={{ marginLeft: 20 }} src={src} alt={'ảnh ' + i} width='200' height='150'></img>
-                                    })
-                                )
-                            }
-                        </Form.Item>
-
-                        <Form.Item
-                            label="Ảnh phụ cho sản phẩm"
-                            name="anhphu"
-                            rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
-                            <input type='file'
-                                disabled={true}
-                                multiple
-                                onChange={(e) => {
-                                    handleChangeIMG_Phu(e);
-                                    setCountAnhDaUploadThanhCong_Phu(0);
-                                    setFirstTime4(false);
-                                }}>
-                            </input>
-                        </Form.Item>
-
-                        <Form.Item
-                            name='showanhphu'
-                            label="Show các ảnh phụ">
-                            {
-                                statusSua === 0 && (
-                                    productNow.img.phu.map((src, i) => {
-                                        return <img key={i} style={{ marginLeft: 20 }} src={src} alt={'ảnh ' + i} width='200' height='150'></img>
-                                    })
-                                )
-                            }
-                            {
-                                statusSua === 1 && (
-                                    imageAsUrl_Phu.map((src, i) => {
-                                        return <img key={i} style={{ marginLeft: 20 }} src={src} alt={'ảnh ' + i} width='200' height='150'></img>
-                                    })
-                                )
+                                productNow.img.phu.map((src, i) => {
+                                    return <img key={i} style={{ marginLeft: 20 }} src={src} alt={'ảnh ' + i} width='200' height='150'></img>
+                                })
                             }
                         </Form.Item>
 
                         <Form.Item
                             label="Số lượng sản phẩm"
-                            name="soluong"
-                            rules={[{ required: true, message: 'Vui lòng nhập số lượng sản phẩm' }]}>
+                            name="soluong">
                             <Input
                                 disabled={true}
-                                defaultValue={productNow.soLuong.toString()}
-                                onChange={(e) => {
-                                    setProductSua({
-                                        ...productSua,
-                                        soLuong: parseInt(e.target.value)
-                                    })
-                                }}></Input>
+                                defaultValue={productNow.soLuong.toString()}></Input>
                         </Form.Item>
 
                         <Form.Item
@@ -656,38 +286,20 @@ export default function ModalChiTietProduct_Admin() {
                                 <Fragment>
                                     <Form.Item
                                         label="Thời gian bảo hành"
-                                        name="thoigianbaohanh"
-                                        rules={[{ required: true, message: 'Vui lòng nhập thời gian bảo hành' }]}>
+                                        name="thoigianbaohanh">
                                         <Input
                                             disabled={true}
-                                            defaultValue={productNow.thongTinBaoHanh.thoiGianBaoHanh.toString()}
-                                            onChange={(e) => {
-                                                setProductSua({
-                                                    ...productSua,
-                                                    thongTinBaoHanh: {
-                                                        ...productSua.thongTinBaoHanh,
-                                                        thoiGianBaoHanh: parseInt(e.target.value)
-                                                    }
-                                                })
-                                            }}></Input>
+                                            defaultValue={productNow.thongTinBaoHanh.thoiGianBaoHanh.toString()}>
+
+                                        </Input>
                                     </Form.Item>
 
                                     <Form.Item
                                         label="Đơn vị thời gian bảo hành"
-                                        name="donvibaohanh"
-                                        rules={[{ required: true, message: 'Vui lòng nhập đơn vị thời gian bảo hành' }]}>
+                                        name="donvibaohanh">
                                         <Select style={{ width: '100%' }}
                                             disabled={true}
-                                            defaultValue={productNow.thongTinBaoHanh.donViBaoHanh}
-                                            onChange={(value) => {
-                                                setProductSua({
-                                                    ...productSua,
-                                                    thongTinBaoHanh: {
-                                                        ...productSua.thongTinBaoHanh,
-                                                        donViBaoHanh: value
-                                                    }
-                                                })
-                                            }}>
+                                            defaultValue={productNow.thongTinBaoHanh.donViBaoHanh}>
                                             <Option value={0}>Tháng</Option>
                                             <Option value={1}>Năm</Option>
                                         </Select>
@@ -695,20 +307,10 @@ export default function ModalChiTietProduct_Admin() {
 
                                     <Form.Item
                                         label="Loại bảo hành"
-                                        name="loaibaohanh"
-                                        rules={[{ required: true, message: 'Vui lòng chọn loại bảo hành' }]}>
+                                        name="loaibaohanh">
                                         <Select style={{ width: '100%' }}
                                             disabled={true}
-                                            defaultValue={productNow.thongTinBaoHanh.loaiBaoHanh}
-                                            onChange={(value) => {
-                                                setProductSua({
-                                                    ...productSua,
-                                                    thongTinBaoHanh: {
-                                                        ...productSua.thongTinBaoHanh,
-                                                        loaiBaoHanh: value
-                                                    }
-                                                })
-                                            }}>
+                                            defaultValue={productNow.thongTinBaoHanh.loaiBaoHanh}>
                                             <Option value={0}>Bảo hành chính hãng</Option>
                                             <Option value={1}>Bảo hành bởi shop thông qua TiemDo</Option>
                                         </Select>
@@ -725,12 +327,7 @@ export default function ModalChiTietProduct_Admin() {
 
                         <Form.Item
                             label="Trạng thái khóa">
-                            <Select disabled={!disableOptions} defaultValue={productNow.isLock === false ? "nolock" : "lock"} onChange={(value) => {
-                                setProductSua({
-                                    ...productSua,
-                                    isLock: value === "lock" ? true : false
-                                });
-                            }}>
+                            <Select disabled={true} defaultValue={productNow.isLock === false ? "nolock" : "lock"}>
                                 <Option key="lock">Có</Option>
                                 <Option key="nolock">Không</Option>
                             </Select>
@@ -738,91 +335,11 @@ export default function ModalChiTietProduct_Admin() {
 
                         <Form.Item
                             label="Trạng thái duyệt">
-                            <Select disabled={!disableOptions} defaultValue={productNow.isAccept === true ? "accept" : "noaccept"} onChange={(value) => {
-                                setProductSua({
-                                    ...productSua,
-                                    isAccept: value === "accept" ? true : false
-                                });
-                            }}>
+                            <Select disabled={true} defaultValue={productNow.isAccept === true ? "accept" : "noaccept"}>
                                 <Option key="accept">Đã duyệt</Option>
                                 <Option key="noaccept">Chưa duyệt</Option>
                             </Select>
                         </Form.Item>
-
-                        <Form.Item>
-                            <Button variant="primary" style={{ width: 300, height: 50, marginLeft: '30%' }} disabled={disableOptions} onClick={() => {
-                                XoaProduct(productNow._id);
-                            }}>
-                                {
-                                    spinnerXoaProduct === 1 ? (
-                                        <Spinner animation="border" role="status">
-                                            <span className="sr-only">Loading...</span>
-                                        </Spinner>) : "Xóa"
-                                }
-                            </Button>
-                        </Form.Item>
-
-                        <Form.Item>
-                            <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
-                                if (statusSua === 0) {
-                                    setStatusSua(1);
-                                    setDisableOptions(true);
-                                }
-                                else {
-                                    SuaProduct(productNow._id);
-                                }
-
-                                if(statusSua === 0){
-                                    setProductSua({
-                                        ten: productNow.ten,
-                                        img: {
-                                            chinh: productNow.img.chinh,
-                                            phu: productNow.img.phu,
-                                            moTaChiTiet: productNow.img.moTaChiTiet
-                                        },
-                                        gia: productNow.gia,
-                                        noiSanXuat: productNow.noiSanXuat,
-                                        moTa: productNow.moTa,
-                                        moTaNganGon: productNow.moTaNganGon,
-                                        soSao: productNow.soSao,
-                                        giaTriGiamGia: productNow.giaTriGiamGia,
-                                        soLuong: productNow.soLuong,
-                                        thongTinBaoHanh: {
-                                            baoHanh: productNow.thongTinBaoHanh.baoHanh,
-                                            loaiBaoHanh: productNow.thongTinBaoHanh.loaiBaoHanh,
-                                            thoiGianBaoHanh: productNow.thongTinBaoHanh.thoiGianBaoHanh,
-                                            donViBaoHanh: productNow.thongTinBaoHanh.donViBaoHanh
-                                        },
-                                        idBrand: productNow.idBrand,
-                                        idCategory: productNow.idCategory,
-                                        isLock: productNow.isLock,
-                                        isAccept: productNow.isAccept
-                                    });
-                                }     
-                            }}>
-                                {
-                                    statusSua === 0 && spinnerSuaProduct === -1 ? "Sửa" : "Lưu"
-                                }
-                                {
-                                    spinnerSuaProduct === 1 && (
-                                        <Spinner animation="border" role="status" style={{ marginLeft: 40 }}>
-                                            <span className="sr-only">Loading...</span>
-                                        </Spinner>
-                                    )
-                                }
-                            </Button>
-                        </Form.Item>
-
-                        {
-                            showButtonHuy === true && (
-                                <Form.Item>
-                                    <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
-                                        setDisableOptions(false);
-                                        setStatusSua(0);
-                                    }}>Hủy</Button>
-                                </Form.Item>
-                            )
-                        }
                     </Form>
                 )
             }

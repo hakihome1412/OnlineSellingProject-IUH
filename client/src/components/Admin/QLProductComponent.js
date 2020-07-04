@@ -1,9 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
-import { Pagination, Input, Select, message } from 'antd';
+import { Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
+import { Pagination, Input, Select, message, Button, Popconfirm } from 'antd';
 import { ModalChiTietProduct_Admin } from '../Modals/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { axios } from '../../config/constant';
+import { EyeOutlined, LockOutlined, UnlockOutlined, CheckOutlined } from '@ant-design/icons';
 
 export default function QLProductComponent() {
     const dispatch = useDispatch();
@@ -14,8 +15,7 @@ export default function QLProductComponent() {
     const [tongSoTrang, setTongSoTrang] = useState(0);
     const [dataSearch, setDataSearch] = useState('');
     const [trangThaiOption, setTrangThaiOption] = useState(0);
-    const [statusLockOrNoLock, setStatusLockOrNoLock] = useState(false);
-    const [statusAccecptOrNoAccept, setStatusAccecptOrNoAccept] = useState(false);
+    const [pageNow, setPageNow] = useState(1);
 
     async function LayDataProductTheoTrang(page) {
         dispatch({ type: 'SPINNER_DATABASE' });
@@ -102,10 +102,8 @@ export default function QLProductComponent() {
             //alert(JSON.stringify(resData.data.data));
             dispatch({ type: 'RELOAD_DATABASE' });
             message.success('Duyệt sản phẩm thành công');
-            setStatusAccecptOrNoAccept(false);
         } else {
             message.error("Duyệt sản phẩm thất bại");
-            setStatusAccecptOrNoAccept(false);
         }
     }
 
@@ -119,10 +117,8 @@ export default function QLProductComponent() {
             //alert(JSON.stringify(resData.data.data));
             dispatch({ type: 'RELOAD_DATABASE' });
             message.success('Khóa sản phẩm thành công');
-            setStatusAccecptOrNoAccept(false);
         } else {
             message.error("Khóa sản phẩm thất bại !");
-            setStatusAccecptOrNoAccept(false);
         }
     }
 
@@ -136,10 +132,8 @@ export default function QLProductComponent() {
             //alert(JSON.stringify(resData.data.data));
             dispatch({ type: 'RELOAD_DATABASE' });
             message.success('Mở khóa sản phẩm thành công');
-            setStatusAccecptOrNoAccept(false);
         } else {
             message.error("Mở khóa sản phẩm thất bại !");
-            setStatusAccecptOrNoAccept(false);
         }
     }
 
@@ -161,32 +155,31 @@ export default function QLProductComponent() {
     }
 
     useEffect(() => {
-        LayDataProductTheoTrang(0);
+        LayDataProductTheoTrang(pageNow - 1);
     }, []);
 
     useEffect(() => {
         if (reloadDatabaseReducer) {
-            LayDataProductTheoTrang(0);
+            LayDataProductTheoTrang(pageNow - 1);
             dispatch({ type: 'NO_RELOAD_DATABASE' });
-            setTrangThaiOption(0);
         }
     }, [reloadDatabaseReducer]);
 
     useEffect(() => {
         if (trangThaiOption === 0) {
-            LayDataProductTheoTrang(0);
+            LayDataProductTheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 1) {
-            LayDataProduct_ChuaKhoa_TheoTrang(0);
+            LayDataProduct_ChuaKhoa_TheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 2) {
-            LayDataProduct_DaKhoa_TheoTrang(0);
+            LayDataProduct_DaKhoa_TheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 3) {
-            LayDataProduct_ChuaDuyet_TheoTrang(0);
+            LayDataProduct_ChuaDuyet_TheoTrang(pageNow - 1);
         }
         if (trangThaiOption === 4) {
-            LayDataProduct_DaDuyet_TheoTrang(0);
+            LayDataProduct_DaDuyet_TheoTrang(pageNow - 1);
         }
     }, [trangThaiOption])
 
@@ -203,7 +196,7 @@ export default function QLProductComponent() {
                                 }}></Input>
                             </Col>
                             <Col>
-                                <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
                                     LayDanhSachBrandSearch(0);
                                 }}>
                                     <i className="fa fa-search"></i> &nbsp; Tìm kiếm
@@ -212,6 +205,7 @@ export default function QLProductComponent() {
                             <Col>
                                 <Select style={{ width: 300 }} size='large' value={trangThaiOption} onChange={(value) => {
                                     setTrangThaiOption(value);
+                                    setPageNow(1);
                                 }}>
                                     <Option value={0}>Tất cả</Option>
                                     <Option value={1}>Chưa khóa</Option>
@@ -233,6 +227,7 @@ export default function QLProductComponent() {
                                 <th>Giá</th>
                                 <th>Trạng thái duyệt</th>
                                 <th>Trạng thái khóa</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -240,59 +235,35 @@ export default function QLProductComponent() {
                                 setSpinnerReducer === 0 && (
                                     dataProduct.map((item, i) => {
                                         return <tr key={item._id} onClick={(e) => {
-                                            if(statusAccecptOrNoAccept === false && statusLockOrNoLock === false){
-                                                dispatch({ type: 'SHOW_CHITIET_PRODUCT_ADMIN' });
-                                            }
                                             dispatch({ type: 'OBJECT_ID_NOW', id: item._id });
                                         }}>
                                             <td>{item.idShow}</td>
-                                            <td>{item.ten}</td>
+                                            <td style={{ width: 350 }}>{item.ten}</td>
                                             <td><Image src={item.img.chinh} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>
                                             <td>{format_curency(item.gia.toString())}</td>
-                                            <td><span style={{ color: item.isAccept === false ? 'red' : 'blue' }}><strong>{item.isAccept === false ?
-                                                <Button style={{ height: 40, width: 200, marginTop: 30 }} onClick={() => {
-                                                    DuyetSanPham(item._id);
-                                                }}
-                                                    onMouseOver={() => {
-                                                        setStatusAccecptOrNoAccept(true);
-                                                    }}
-                                                    onMouseLeave={() => {
-                                                        setStatusAccecptOrNoAccept(false);
-                                                    }}>Duyệt</Button> : 'Đã duyệt'}</strong></span></td>
-                                            <td>{item.isLock === false ?
-                                                (
-                                                    <Fragment>
-                                                        <center>
-                                                            <strong>Không</strong>
-                                                            <br></br>
-                                                            <Button onClick={() => {
-                                                                KhoaSanPham(item._id);
-                                                            }}
-                                                                onMouseOver={() => {
-                                                                    setStatusLockOrNoLock(true);
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setStatusLockOrNoLock(false);
-                                                                }}>Khóa</Button>
-                                                        </center>
-                                                    </Fragment>
-                                                ) : (
-                                                    <Fragment>
-                                                        <center>
-                                                            <strong>Có</strong>
-                                                            <br></br>
-                                                            <Button onClick={() => {
-                                                                MoKhoaSanPham(item._id);
-                                                            }}
-                                                                onMouseOver={() => {
-                                                                    setStatusLockOrNoLock(true);
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setStatusLockOrNoLock(false);
-                                                                }}>Mở khóa</Button>
-                                                        </center>
-                                                    </Fragment>
-                                                )}</td>
+                                            <td><span style={{ color: item.isAccept === false ? 'red' : 'blue' }}><strong>{item.isAccept === false ? 'Chưa duyệt' : 'Đã duyệt'}</strong></span></td>
+                                            <td><span style={{ color: item.isLock === false ? 'red' : 'blue' }}><strong>{item.isLock === false ? 'Chưa khóa' : 'Đã khóa'}</strong></span></td>
+                                            <td style={{ width: 200, paddingTop: 40 }}>
+                                                <center>
+                                                    <Button type="default" icon={<EyeOutlined />} size='large' onClick={() => {
+                                                        dispatch({ type: 'SHOW_CHITIET_PRODUCT_ADMIN' });
+                                                    }} />
+                                                    <Button style={{ marginLeft: 25 }} size='large' type="primary" icon={item.isLock ? <UnlockOutlined /> : <LockOutlined />}  onClick={() => {
+                                                        if (item.isLock) {
+                                                            MoKhoaSanPham(item._id);
+                                                        } else {
+                                                            KhoaSanPham(item._id);
+                                                        }
+                                                    }} />
+                                                    {
+                                                        item.isAccept === false && (
+                                                            <Button style={{ marginLeft: 25 }} size='large' type="primary" icon={<CheckOutlined />} onClick={() => {
+                                                                DuyetSanPham(item._id);
+                                                            }} />
+                                                        )
+                                                    }
+                                                </center>
+                                            </td>
                                         </tr>
                                     })
                                 )
@@ -306,8 +277,9 @@ export default function QLProductComponent() {
                             </Spinner>
                         )
                     }
-                    <Pagination defaultPageSize={1} defaultCurrent={1} total={tongSoTrang} onChange={(page) => {
+                    <Pagination defaultPageSize={1} current={pageNow} total={tongSoTrang} onChange={(page) => {
                         dispatch({ type: 'SPINNER_DATABASE' });
+                        setPageNow(page);
                         if (trangThaiOption === 0) {
                             LayDataProductTheoTrang(page - 1);
                         }

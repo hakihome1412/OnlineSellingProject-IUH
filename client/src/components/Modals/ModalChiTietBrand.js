@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Image, Spinner, Button } from 'react-bootstrap';
-import { Form, Input, Select, Popconfirm, message } from 'antd';
+import { Modal, Spinner, Button } from 'react-bootstrap';
+import { Form, Input, Select, message } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { axios } from '../../config/constant';
 import { storage } from '../../firebase/firebase';
@@ -19,7 +19,6 @@ export default function ModalChiTietBrand() {
     const [firstTime, setFirstTime] = useState(true);
     const [disableOptions, setDisableOptions] = useState(false);
     const [statusSua, setStatusSua] = useState(0);
-    const [spinnerXoaBrand, setSpinnerXoaBrand] = useState(-1);
     const [spinnerSuaBrand, setSpinnerSuaBrand] = useState(-1);
     const [brandNow, setBrandNow] = useState({
         _id: '',
@@ -32,8 +31,7 @@ export default function ModalChiTietBrand() {
     const [brandSua, setBrandSua] = useState({
         ten: '',
         xuatXu: '',
-        img: '',
-        isLock: ''
+        img: ''
     });
 
     const handleChangeIMG = (e) => {
@@ -84,7 +82,6 @@ export default function ModalChiTietBrand() {
 
     function hamChuyenDoiNgay(date) {
         var strDate = '';
-        var now = new Date();
         var ngay = date.getDate().toString();
         var thang = (date.getMonth() + 1).toString();
         var nam = date.getFullYear().toString();
@@ -94,7 +91,7 @@ export default function ModalChiTietBrand() {
     }
 
     function KiemTraDuLieuNhap() {
-        if (brandSua.ten === '' || brandSua.xuatXu === '') {
+        if (brandSua.ten.trim().length === 0 || brandSua.xuatXu.trim().length === 0) {
             setStatusMessageError(0);
         } else {
             SuaBrand(brandNow._id);
@@ -111,8 +108,7 @@ export default function ModalChiTietBrand() {
                 _id: brandID,
                 ten: brandSua.ten,
                 xuatXu: brandSua.xuatXu,
-                img: brandSua.img,
-                isLock: brandSua.isLock
+                img: brandSua.img
             });
 
             if (resData.data.status === 'success') {
@@ -136,29 +132,6 @@ export default function ModalChiTietBrand() {
         } else {
             dispatch({ type: 'CLOSE_CHITIET_BRAND' });
             dispatch({ type: 'RELOAD_DATABASE' });
-        }
-    }
-
-    async function XoaBrand(brandID) {
-        setSpinnerXoaBrand(1);
-        let resData = await axios.put('hethong/brands-xoa', {
-            id: brandID
-        });
-
-        if (resData.data.status === 'success') {
-            setStatusSua(0);
-            setDisableOptions(false);
-            setSpinnerXoaBrand(0);
-            dispatch({ type: 'RELOAD_DATABASE' });
-            dispatch({ type: 'CLOSE_CHITIET_BRAND' });
-            message.success("Xóa thành công");
-        } else {
-            setStatusSua(0);
-            setDisableOptions(false);
-            setSpinnerXoaBrand(0);
-            dispatch({ type: 'NO_RELOAD_DATABASE' });
-            dispatch({ type: 'CLOSE_CHITIET_BRAND' });
-            message.error("Xóa thất bại");
         }
     }
 
@@ -253,8 +226,7 @@ export default function ModalChiTietBrand() {
 
                         <Form.Item
                             label="Ảnh đại diện"
-                            name="anhchinh"
-                            rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
+                            name="anhchinh">
                             <input type='file'
                                 disabled={!disableOptions}
                                 onChange={(e) => {
@@ -270,7 +242,7 @@ export default function ModalChiTietBrand() {
                             label="Show ảnh đại diện">
                             {
                                 statusSua === 0 && (
-                                    <img style={{ marginLeft: 20 }} src={brandNow.img} alt={'ảnh'} width='200' height='150'></img>
+                                    <img style={{ marginLeft: 20 }} src={brandNow.img === '' ? "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" : brandNow.img} alt={'ảnh'} width='200' height='150'></img>
                                 )
                             }
                             {
@@ -290,28 +262,10 @@ export default function ModalChiTietBrand() {
 
                         <Form.Item
                             label="Trạng thái khóa">
-                            <Select disabled={!disableOptions} defaultValue={brandNow.isLock === false ? "nolock" : "lock"} onChange={(value) => {
-                                setBrandSua({
-                                    ...brandSua,
-                                    isLock: value === "lock" ? true : false
-                                });
-                            }}>
+                            <Select disabled={true} defaultValue={brandNow.isLock === false ? "nolock" : "lock"}>
                                 <Option key="lock">Có</Option>
                                 <Option key="nolock">Không</Option>
                             </Select>
-                        </Form.Item>
-
-                        <Form.Item>
-                            <Button variant="primary" style={{ width: 300, height: 50, marginLeft: '30%' }} disabled={disableOptions} onClick={() => {
-                                XoaBrand(brandNow._id);
-                            }}>
-                                {
-                                    spinnerXoaBrand === 1 ? (
-                                        <Spinner animation="border" role="status">
-                                            <span className="sr-only">Loading...</span>
-                                        </Spinner>) : "Xóa"
-                                }
-                            </Button>
                         </Form.Item>
 
                         <Form.Item>
@@ -331,8 +285,7 @@ export default function ModalChiTietBrand() {
                                     setBrandSua({
                                         ten: brandNow.ten,
                                         xuatXu: brandNow.xuatXu,
-                                        img: brandNow.img,
-                                        isLock: brandNow.isLock
+                                        img: brandNow.img
                                     });
                                 }
                             }}>
