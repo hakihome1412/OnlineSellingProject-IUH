@@ -3,14 +3,13 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import { message } from 'antd';
 import { axios } from '../../config/constant';
 import { useDispatch } from 'react-redux';
-import { useCookies } from 'react-cookie';
 
 export default function DangKyComponent() {
     const dataNgay = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
     const dataThang = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     const dataNam = [];
     const [statusMessageError, setStatusMessageError] = useState(-1);
-    const [cookies, setCookies] = useCookies();
+    const [tenLoi, setTenLoi] = useState('');
     const dispatch = useDispatch()
     let maxOffset = 120;
     let thisYear = (new Date()).getFullYear();
@@ -37,19 +36,35 @@ export default function DangKyComponent() {
     function KiemTraDuLieuNhap(data) {
         const regEmail = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         const regSDT = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
-        if (data.ten === '' || data.email === '' || data.sdt === '' || data.cmnd === '' || data.gioiTinh === '' || data.matKhau === '') {
+        const regPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
+        const dateNow = new Date();
+        const dateNow_SoSanh = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate());
+        var dateNgaySinh;
+        if (data.ten.trim().length === 0 || data.email === '' || data.sdt === '' || data.cmnd === '' || data.gioiTinh === '' || data.matKhau === '' || dataNgaySinh.ngay === 0 || dataNgaySinh.thang === -1 || dataNgaySinh.nam === 0) {
             setStatusMessageError(0);
         } else {
+            dateNgaySinh = new Date(dataNgaySinh.nam, dataNgaySinh.thang, dataNgaySinh.ngay);
             if (!regEmail.test(data.email)) {
                 setStatusMessageError(1);
             } else {
                 if (!regSDT.test(data.sdt)) {
                     setStatusMessageError(2);
                 } else {
-                    setStatusMessageError(-1);
-                    KhoiTaoTaiKhoan();
+                    if (dateNgaySinh > dateNow_SoSanh) {
+                        setStatusMessageError(3);
+                    } else {
+                        if (!regPass.test(data.matKhau)) {
+                            setStatusMessageError(4);
+                        } else {
+                            setStatusMessageError(-1);
+                            KhoiTaoTaiKhoan();
+                            setTenLoi("");
+                        }
+                    }
+
                 }
             }
+
         }
     }
 
@@ -83,6 +98,26 @@ export default function DangKyComponent() {
         setStatusMessageError(-1);
     }, [])
 
+    useEffect(() => {
+        if (statusMessageError !== -1) {
+            if (statusMessageError === 0) {
+                setTenLoi("Thông tin đăng ký tài khoản không hợp lệ. Vui lòng kiểm tra lại");
+            }
+            if (statusMessageError === 1) {
+                setTenLoi("Thông tin email không hợp lệ");
+            }
+            if (statusMessageError === 2) {
+                setTenLoi("Thông tin số điện thoại không hợp lệ");
+            }
+            if (statusMessageError === 3) {
+                setTenLoi("Ngày sinh phải nhỏ hơn ngày hiện tại");
+            }
+            if (statusMessageError === 4) {
+                setTenLoi("Mật khẩu không đúng định dạng");
+            }
+        }
+    }, [statusMessageError])
+
     return (
         <Fragment>
             <div className="row">
@@ -103,6 +138,7 @@ export default function DangKyComponent() {
                                     })
                                 }} />
                             </Col>
+
                         </Form.Group>
                         <Form.Group as={Row} controlId="formBasicSdt">
                             <Form.Label column sm={3}>SĐT</Form.Label>
@@ -222,29 +258,8 @@ export default function DangKyComponent() {
                         <Form.Group as={Row}>
                             <Form.Label column sm={3}></Form.Label>
                             <Col sm={9}>
-                                {
-                                    statusMessageError === 0 && (
-                                        <p style={{ color: 'red', lineHeight: 1.5 }}>Thông tin đăng ký tài khoản không hợp lệ. Vui lòng kiểm tra lại thông tin</p>
-                                    )
-                                }
 
-                                {
-                                    statusMessageError === 1 && (
-                                        <p style={{ color: 'red', lineHeight: 1.5 }}>Dữ liệu email không hợp lệ</p>
-                                    )
-                                }
-
-                                {
-                                    statusMessageError === 2 && (
-                                        <p style={{ color: 'red', lineHeight: 1.5 }}>Dữ liệu số điện thoại không hợp lệ</p>
-                                    )
-                                }
-
-                                {
-                                    statusMessageError === 3 && (
-                                        <p style={{ color: 'red', lineHeight: 1.5 }}>Email này đã tồn tại. Vui lòng chọn email khác</p>
-                                    )
-                                }
+                                <p style={{ color: 'red', lineHeight: 1.5 }}>{tenLoi}</p>
 
                                 <Button variant="danger" block onMouseOver={() => {
                                     setDataDangKy({

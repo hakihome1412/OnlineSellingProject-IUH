@@ -229,8 +229,8 @@ export default function BanHang_DanhSachSanPham() {
 
                                                     dispatch({ type: 'OBJECT_ID_NOW', id: item._id });
                                                 }}>
-                                                    <td>{item.idShow}</td>
-                                                    <td>{item.ten}</td>
+                                                    <td style={{ width: 150}}>{item.idShow}</td>
+                                                    <td style={{ width: 300}}>{item.ten}</td>
                                                     <td><Image src={item.img.chinh} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>
                                                     <td style={{ color: item.isLock === true ? 'blue' : 'red', fontWeight: 'bold' }}>{item.isLock === false ? "Chưa khóa" : "Đã khóa"}</td>
                                                     <td style={{ color: item.isAccept === true ? 'blue' : 'red', fontWeight: 'bold' }}>{item.isAccept === false ? "Chưa được Admin duyệt" : "Đã được Admin duyệt"}</td>

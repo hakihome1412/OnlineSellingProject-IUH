@@ -125,7 +125,7 @@ module.exports = {
         const db = client.db(DbName);
         const colPost = db.collection('POSTS');
 
-        let result = await colPost.find({ isDelete: false, isLock: false }).sort({ luotXem: -1 }).limit(18).toArray();
+        let result = await colPost.find({ isDelete: false, isLock: false }).sort({ _id: -1 }).limit(16).toArray();
         client.close();
 
         res.status(200).json({

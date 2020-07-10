@@ -24,7 +24,7 @@ export default function HotIndustry(props) {
                                                         e.preventDefault();
                                                         history.push('/timkiem?data=' + item.ten + '&order=newest');
                                                     }}>
-                                                        <div className='post' style={{ width: 200, height: 200, marginLeft: 20, backgroundColor: '#99CCFF', display: 'inline-block', borderRadius: 10, textAlign: 'center', padding: 20 }}>
+                                                        <div className='post' style={{ width: 200, height: 200, marginLeft: 20, marginTop: 5, backgroundColor: '#99CCFF', display: 'inline-block', borderRadius: 10, textAlign: 'center', padding: 20 }}>
                                                             <h5 style={{ marginTop: '35%', color: 'white' }}>{item.ten}</h5>
                                                         </div>
                                                     </Link>
@@ -50,7 +50,7 @@ export default function HotIndustry(props) {
                                                         e.preventDefault();
                                                         history.push('/timkiem?data=' + item.ten + '&order=newest');
                                                     }}>
-                                                        <div className='post' style={{ width: 200, height: 200, marginLeft: 20, backgroundColor: '#99CCFF', display: 'inline-block', borderRadius: 10, textAlign: 'center', padding: 20 }}>
+                                                        <div className='post' style={{ width: 200, height: 200, marginLeft: 20, marginTop: 5, backgroundColor: '#99CCFF', display: 'inline-block', borderRadius: 10, textAlign: 'center', padding: 20 }}>
                                                             <h5 style={{ marginTop: '35%', color: 'white' }}>{item.ten}</h5>
                                                         </div>
                                                     </Link>
@@ -76,7 +76,7 @@ export default function HotIndustry(props) {
                                                         e.preventDefault();
                                                         history.push('/timkiem?data=' + item.ten + '&order=newest');
                                                     }}>
-                                                        <div className='post' style={{ width: 200, height: 200, marginLeft: 20, backgroundColor: '#99CCFF', display: 'inline-block', borderRadius: 10, textAlign: 'center', padding: 20 }}>
+                                                        <div className='post' style={{ width: 200, height: 200, marginLeft: 20, marginTop: 5, backgroundColor: '#99CCFF', display: 'inline-block', borderRadius: 10, textAlign: 'center', padding: 20 }}>
                                                             <h5 style={{ marginTop: '35%', color: 'white' }}>{item.ten}</h5>
                                                         </div>
                                                     </Link>

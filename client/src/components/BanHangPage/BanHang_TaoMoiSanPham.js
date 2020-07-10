@@ -242,11 +242,11 @@ export default function BanHang_TaoMoiSanPham(props) {
 
     function KiemTraDuLieuNhap() {
         const regSo = /^[0-9\b]+$/;
-        if (dataTaoMoiSanPham.ten === '' || dataTaoMoiSanPham.idCategory === '' || dataTaoMoiSanPham.idBrand === '' || dataTaoMoiSanPham.noiSanXuat === ''
+        if (dataTaoMoiSanPham.ten.trim().length === 0 || dataTaoMoiSanPham.idCategory === '' || dataTaoMoiSanPham.idBrand === '' || dataTaoMoiSanPham.noiSanXuat === ''
             || dataTaoMoiSanPham.moTaNganGon.length === 0 || dataTaoMoiSanPham.img.chinh === '' || dataTaoMoiSanPham.gia === 0 || dataTaoMoiSanPham.soLuong === 0) {
             message.error('Thông tin tạo mới sản phẩm không hợp lệ. Vui lòng kiểm tra lại');
         } else {
-            if (!dataTaoMoiSanPham.gia.toString().match(regSo)) {
+            if (!dataTaoMoiSanPham.gia.toString().match(regSo) || parseInt(dataTaoMoiSanPham.gia) < 1000) {
                 message.error('Giá gốc không hợp lệ')
             } else {
                 if (!dataTaoMoiSanPham.giaTriGiamGia.toString().match(regSo)) {
@@ -255,8 +255,23 @@ export default function BanHang_TaoMoiSanPham(props) {
                     if (!dataTaoMoiSanPham.soLuong.toString().match(regSo)) {
                         message.error('Giá trị số lượng sản phẩm không hợp lệ')
                     } else {
-                        // message.success('ok')
-                        ThemSanPham();
+                        if (dataTaoMoiSanPham.thongTinBaoHanh.baoHanh) {
+                            if (parseInt(dataTaoMoiSanPham.thongTinBaoHanh.thoiGianBaoHanh) <= 0) {
+                                message.error('Thời gian bảo hành không hợp lệ');
+                            } else {
+                                if (dataTaoMoiSanPham.thongTinBaoHanh.donViBaoHanh === '') {
+                                    message.error('Đơn vị bảo hành không hợp lệ');
+                                } else {
+                                    if (dataTaoMoiSanPham.thongTinBaoHanh.loaiBaoHanh === '') {
+                                        message.error('Loại bảo hành không hợp lệ');
+                                    } else {
+                                        ThemSanPham();
+                                    }
+                                }
+                            }
+                        } else {
+                            ThemSanPham();
+                        }
                     }
                 }
             }
@@ -970,7 +985,7 @@ export default function BanHang_TaoMoiSanPham(props) {
                                             label="Thời gian bảo hành"
                                             name="thoigianbaohanh"
                                             rules={[{ required: true, message: 'Vui lòng nhập thời gian bảo hành' }]}>
-                                            <Input disabled={disableFieldBaoHanh}
+                                            <Input defaultValue={1} disabled={disableFieldBaoHanh}
                                                 onChange={(e) => {
                                                     setDataTaoMoiSanPham({
                                                         ...dataTaoMoiSanPham,

@@ -1146,16 +1146,62 @@ module.exports = {
         let result = await colProduct.findOne({ idShow: id });
         client.close()
         if (result.soLuongDaBan < result.soLuong) {
-            console.log('ok');
             res.status(200).json({
                 status: 'success',
                 message: 'Còn hàng'
             });
         } else {
-            console.log('no');
             res.status(200).json({
                 status: 'fail',
                 message: 'Hết hàng'
+            });
+        }
+    },
+
+    KiemTraSoLuongSanPhamMua: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        const id = req.query.id;
+        const soluong = req.query.quantity;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let result = await colProduct.findOne({ idShow: id });
+        client.close()
+        if ((result.soLuong - result.soLuongDaBan) >= soluong) {
+            res.status(200).json({
+                status: 'success',
+                message: 'Còn hàng'
+            });
+        } else {
+            res.status(200).json({
+                status: 'fail',
+                message: 'Kho hàng không đủ để đáp ứng số lượng yêu cầu'
+            });
+        }
+    },
+
+    KiemTraSoLuongSanPhamMua_TheoTen: async function (req, res) {
+        const client = new MongoClient(DbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        const ten = req.query.ten;
+        const soluong = req.query.quantity;
+
+        await client.connect();
+        console.log("Connected correctly to server");
+        const db = client.db(DbName);
+        const colProduct = db.collection('PRODUCTS');
+        let result = await colProduct.findOne({ ten: ten });
+        client.close()
+        if ((result.soLuong - result.soLuongDaBan) >= soluong) {
+            res.status(200).json({
+                status: 'success',
+                message: 'Còn hàng'
+            });
+        } else {
+            res.status(200).json({
+                status: 'fail',
+                message: 'Kho hàng không đủ để đáp ứng số lượng yêu cầu'
             });
         }
     },

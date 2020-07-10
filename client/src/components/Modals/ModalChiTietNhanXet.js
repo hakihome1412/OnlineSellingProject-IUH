@@ -202,7 +202,7 @@ export default function ModalChiTietNhanXet(props) {
                                 }}>
 
                                 {
-                                    statusSua === 0 && spinnerSuaNhanXet === -1 ? "Sửa" : "Lưu"
+                                    statusSua === 0 && spinnerSuaNhanXet === -1 ? "Trả lời" : "Lưu"
                                 }
                                 {
                                     spinnerSuaNhanXet === 1 && (

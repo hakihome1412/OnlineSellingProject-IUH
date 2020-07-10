@@ -134,6 +134,8 @@ router.get('/products-admin-daduyet/:page', productController.LayTatCaSanPham_Da
 router.get('/products-admin-chuakhoa/:page', productController.LayTatCaSanPham_ChuaKhoa_TheoTrang);
 router.get('/products-admin-dakhoa/:page', productController.LayTatCaSanPham_DaKhoa_TheoTrang);
 router.get('/products-kiemtrakho', productController.KiemTraKho);
+router.get('/products-kiemtrasoluongsanphammua', productController.KiemTraSoLuongSanPhamMua);
+router.get('/products-kiemtrasoluongsanphammua_theoten', productController.KiemTraSoLuongSanPhamMua_TheoTen);
 router.get('/products-daxem', productController.LayDataProductDaXem_TheoIDUser);
 router.get('/products-topmuoisanphambanchaynhat-theodoanhthu', productController.Top10SanPhamBanChayNhatTheoDoanhThu);
 router.get('/products-topmuoisanphambanchaynhat-theosanluong', productController.Top10SanPhamBanChayNhatTheoSanLuong);

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Tabs, Pagination, Select, Input, message } from 'antd';
+import { Tabs, Pagination, Select, Input, message, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
+import { Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { ModalCapNhatKho } from '../Modals/index';
 import { useCookies } from 'react-cookie';
+import { EditOutlined } from '@ant-design/icons';
 
 export default function BanHang_QuanLyTonKho() {
     const [cookies, setCookie] = useCookies();
@@ -14,7 +14,7 @@ export default function BanHang_QuanLyTonKho() {
     const { Option } = Select;
     const setSpinnerReducer = useSelector(state => state.setSpinner);
     const reloadDatabaseReducer = useSelector(state => state.reloadDatabase);
-    const [currentPage, setCurrentPage] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
     const dispatch = useDispatch();
     const [dataProduct, setDataProduct] = useState([]);
     const [tongSoTrang, setTongSoTrang] = useState(0);
@@ -108,7 +108,7 @@ export default function BanHang_QuanLyTonKho() {
                                         }}></Input>
                                     </Col>
                                     <Col>
-                                        <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                        <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
                                             LayDataProductSearch(dataSearch, 0, shopID);
                                         }}>
                                             <i className="fa fa-search"></i> &nbsp; Tìm kiếm
@@ -155,10 +155,12 @@ export default function BanHang_QuanLyTonKho() {
                                                     <td style={{ fontWeight: 'bold' }}>
                                                         {item.soLuongDaBan < item.soLuong ? (<span style={{ color: 'blue', fontWeight: 'bold' }}>Còn trong kho</span>) : (<span style={{ color: 'red', fontWeight: 'bold' }}>Đã bán hết</span>)}
                                                     </td>
-                                                    <td>
-                                                        <Button onClick={() => {
-                                                            dispatch({ type: 'SHOW_CAPNHATKHO' })
-                                                        }}>Cập nhật kho</Button>
+                                                    <td style={{ width: 200, paddingTop: 45 }}>
+                                                        <center>
+                                                            <Button type="default" icon={<EditOutlined />} size='large' onClick={() => {
+                                                                dispatch({ type: 'SHOW_CAPNHATKHO' })
+                                                            }} />
+                                                        </center>
                                                     </td>
                                                 </tr>
                                             })

@@ -22,13 +22,14 @@ export default function DangNhapComponent() {
 
     function KiemTraDuLieuNhap() {
         var regEmail = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-        if (taiKhoan.tenTaikhoan === '' || taiKhoan.matKhau === '') {
+        if (taiKhoan.tenTaikhoan.trim().length === 0 || taiKhoan.matKhau === '') {
             setStatusMessageError(0);
         } else {
             if (!regEmail.test(taiKhoan.tenTaikhoan)) {
                 setStatusMessageError(1);
             } else {
                 XuLyDangNhap();
+                setStatusMessageError(-1);
             }
         }
 

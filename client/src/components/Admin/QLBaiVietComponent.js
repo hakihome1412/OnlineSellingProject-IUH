@@ -209,7 +209,7 @@ export default function QLBaiVietComponent() {
                                             <td>{item.idShow}</td>
                                             <td style={{ width: 400 }}>{item.tieuDe}</td>
                                             <td style={{ width: 250 }}><Image src={item.img} style={{ width: 200, height: 100 }}></Image></td>
-                                            <td>{item.loaiBaiViet === 0 ? "Chương trình/sự kiện" : "Giới thiệu"}</td>
+                                            <td>{item.loaiBaiViet === 0 ? "Chương trình/sự kiện" : "Blog"}</td>
                                             <td>{hamChuyenDoiNgay(new Date(item.ngayTao))}</td>
                                             <td><span style={{ color: item.isLock === false ? 'red' : 'blue' }}><strong>{item.isLock === false ? 'Chưa khóa' : 'Đã khóa'}</strong></span></td>
                                             <td style={{ width: 200, paddingTop: 45 }}>

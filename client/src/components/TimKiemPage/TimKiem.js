@@ -240,6 +240,15 @@ export default function TimKiem() {
                                         price: dataGiaOption.giaDau + '%2C' + dataGiaOption.giaCuoi
                                     }, 'push');
                                 }
+
+                                if (dataGiaOption.giaDau === '' && dataGiaOption.giaCuoi === '') {
+                                    setQuery({
+                                        ...query,
+                                        price: undefined
+                                    }, 'push');
+                                }
+
+
                             }}>OK</Button>
                         </div>
                     </div>

@@ -88,15 +88,15 @@ export default function DonHangDetail(props) {
                                         <td style={{ width: 140 }}>{item.idShow}</td>
                                         <td style={{ width: 380 }}>{item.ten}</td>
                                         <td style={{ width: 140 }}>{format_curency(item.thanhTien.toString())} <u>đ</u></td>
-                                        <td style={{ width: 100 }}>
+                                        <td style={{ width: 200 }}>
                                             {
                                                 item.trangThai === 0 && (
-                                                    <span style={{ color: 'blue' }}><strong>Chờ tiếp nhận từ shop</strong></span>
+                                                    <span style={{ color: 'red' }}><strong>Chờ tiếp nhận từ shop</strong></span>
                                                 )
                                             }
                                             {
                                                 item.trangThai === 1 && (
-                                                    <span style={{ color: 'red' }}><strong>Shop đã tiếp nhận</strong></span>
+                                                    <span style={{ color: 'blue' }}><strong>Shop đã tiếp nhận</strong></span>
                                                 )
                                             }
                                             {
@@ -123,7 +123,7 @@ export default function DonHangDetail(props) {
                                                 )
                                             }
                                         </td>
-                                        <td>
+                                        <td style={{ width: 200 }}>
                                             <a href='/' onClick={(e) => {
                                                 e.preventDefault();
                                                 if (showChiTiet[i] === true) {

@@ -123,9 +123,11 @@ export default function ModalChiTietCauHoi(props) {
             onShow={() => {
                 setDisableOptions(false);
                 LayCauHoiTheoID(objectIDDuocChonReducer);
+                setStatusError(-1);
                 if (traLoi) {
                     setStatusSua(1);
                     setDisableOptions(true);
+
                 } else {
                     setStatusSua(0);
                     setDisableOptions(false);
@@ -209,7 +211,7 @@ export default function ModalChiTietCauHoi(props) {
                                                 DuyetCauHoi(cauHoiNow._id);
                                             }
                                         } else {
-                                            if (cauHoiSua.answer.trim().length !== 0) {
+                                            if (cauHoiSua.answer.trim().length === 0) {
                                                 setStatusError(1); //Câu trả lời không được rỗng
                                             } else {
                                                 SuaCauHoi(cauHoiNow._id);
@@ -225,7 +227,7 @@ export default function ModalChiTietCauHoi(props) {
                                 }}>
 
                                 {
-                                    statusSua === 0 && spinnerSuaCauHoi === -1 ? "Sửa" : "Lưu"
+                                    statusSua === 0 && spinnerSuaCauHoi === -1 ? "Trả lời" : "Lưu"
                                 }
                                 {
                                     spinnerSuaCauHoi === 1 && (
@@ -243,6 +245,7 @@ export default function ModalChiTietCauHoi(props) {
                                     <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
                                         setDisableOptions(false);
                                         setStatusSua(0);
+                                        setStatusError(-1);
                                     }}>Hủy</Button>
                                 </Form.Item>
                             )

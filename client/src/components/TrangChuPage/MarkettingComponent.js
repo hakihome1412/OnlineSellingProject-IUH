@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Nav, Carousel, Image } from 'react-bootstrap';
 import { Link, NavLink, useHistory } from 'react-router-dom';
+import { Tooltip } from 'antd';
 
 export default function MarkettingComponent(props) {
     const dataCategory = props.dataCategory;
@@ -60,47 +61,52 @@ export default function MarkettingComponent(props) {
                                         <Image style={{ width: '100%', height: 300 }} src={item.img} />
                                     </Link>
                                     <Carousel.Caption>
-                                        <h3 style={{ color: 'white', fontSize: 20 }}>{item.tieuDe}</h3>
+                                        <h3 style={{ color: '#FF6666', fontSize: 20 }}>{item.tieuDe}</h3>
                                     </Carousel.Caption>
-
-
                                 </Carousel.Item>
-
                             }
                         })}
                     </Carousel>
-                    {/* <br />
+                    <br />
                     {dataBaiViet.map((item, i) => {
+                        if (i > 5 && i < 8) {
+                            return <Tooltip title={item.tieuDe} placement={'right'} color={'orange'} key={i}>
+                                <Link key={item._id} to={'baiviet/' + item.idShow + '/' + to_slug(item.tieuDe)}>
+                                    <Image id="itemQuangCao" style={{ width: '48%', height: 150, marginLeft: 10 }} src={item.img} rounded />
+                                </Link>
+                            </Tooltip>
 
-                        return <Link key={item._id} to={'baiviet/' + item.idShow + '/' + to_slug(item.tieuDe)}>
-                            <Image id="itemQuangCao" style={{ width: '48%', height: 150, marginLeft: 10 }} src={item.img} rounded />
-                        </Link>
-
-                    })} */}
-                </div>
-                {/* <div className="col-sm-3">
-                    {dataBaiViet.map((item, i) => {
-
-                        return <div key={item._id} className="col" style={{ marginTop: 10 }}>
-                            <Link key={item._id} to={'baiviet/' + item.idShow + '/' + to_slug(item.tieuDe)}>
-                                <Image id="itemQuangCao" style={{ width: '100%', height: 108 }} src={item.img} rounded />
-                            </Link>
-                        </div>
-
+                        }
                     })}
-                </div> */}
+                </div>
+                <div className="col-sm-3">
+                    {dataBaiViet.map((item, i) => {
+                        if (i > 7 && i < 12) {
+                            return <div key={item._id} className="col" style={{ marginTop: 10 }}>
+                                <Tooltip title={item.tieuDe} placement={'right'} color={'orange'} key={i}>
+                                    <Link key={item._id} to={'baiviet/' + item.idShow + '/' + to_slug(item.tieuDe)}>
+                                        <Image id="itemQuangCao" style={{ width: '100%', height: 108 }} src={item.img} rounded />
+                                    </Link>
+                                </Tooltip>
+                            </div>
+                        }
+                    })}
+                </div>
             </div>
-            {/* <div className="row" style={{ marginTop: 20 }}>
+            <div className="row" style={{ marginTop: 20 }}>
                 {dataBaiViet.map((item, i) => {
-                    return <div className="col-sm-3" key={item._id}>
-                        <Link key={item._id} to={'baiviet/' + item.idShow + '/' + to_slug(item.tieuDe)}>
-                            <Image id="itemQuangCao" style={{ width: '100%', height: 150 }} src={item.img} rounded />
-                        </Link>
-                    </div>
+                    if (i > 11 && i < 16) {
+                        return <div className="col-sm-3" key={item._id}>
+                            <Tooltip title={item.tieuDe} placement={'right'} color={'orange'} key={i}>
+                                <Link key={item._id} to={'baiviet/' + item.idShow + '/' + to_slug(item.tieuDe)}>
+                                    <Image id="itemQuangCao" style={{ width: '100%', height: 150 }} src={item.img} rounded />
+                                </Link>
+                            </Tooltip>
 
+                        </div>
+                    }
                 })}
-
-            </div> */}
+            </div>
         </Fragment>
     )
 }

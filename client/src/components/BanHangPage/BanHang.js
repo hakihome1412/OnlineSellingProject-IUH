@@ -34,7 +34,9 @@ export default function BanHang() {
 
     const menu = (
         <Menu>
-            <Menu.Item >
+            <Menu.Item onClick={() => {
+                window.location.pathname = '/customer/account';
+            }}>
                 Đổi mật khẩu
           </Menu.Item>
             <Menu.Item onClick={() => {

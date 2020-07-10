@@ -31,7 +31,7 @@ export default function InforItemComponent(props) {
         khuyenMai: '',
         mauSac: '',
         size: '',
-        soLuong: '',
+        soLuong: 1,
         img: '',
         idShop: '',
         tenShop: '',
@@ -57,6 +57,15 @@ export default function InforItemComponent(props) {
             setHetHang(false);
         } else {
             setHetHang(true);
+        }
+    }
+
+    async function KiemTraSoLuongSanPhamMua(productID) {
+        let res = await axios.get('hethong/products-kiemtrasoluongsanphammua?id=' + productID + '&quantity=' + thongTinMuaSanPham.soLuong);
+        if (res.data.status === 'success') {
+            ThemVaoGioHang(thongTinMuaSanPham);
+        } else {
+            message.error(res.data.message);
         }
     }
 
@@ -144,7 +153,7 @@ export default function InforItemComponent(props) {
             khuyenMai: dataProduct.giaTriGiamGia,
             mauSac: '',
             size: '',
-            soLuong: '',
+            soLuong: 1,
             img: dataProduct.img.chinh,
             idShop: dataProduct.idShop,
             tenShop: '',
@@ -299,7 +308,7 @@ export default function InforItemComponent(props) {
                                         {dataSize.map((item, i) => {
                                             return <label key={i}>
                                                 <input type='radio' name='color' className='radio-color' value={i}></input>
-                                                <div className='phanloai' style={{ width: 60, height: 30, backgroundColor: changeDivSize === i ? "orange" : "blue", borderRadius: 5, color: 'white' }} onClick={(e) => {
+                                                <div className='phanloai' style={{ width: 60, height: 30, backgroundColor: changeDivSize === i ? "orange" : "blue", borderRadius: 5, marginLeft: 10, textAlign: 'center', color: 'white' }} onClick={(e) => {
                                                     setChangeDivSize(i);
                                                     setThongTinMuaSanPham({
                                                         ...thongTinMuaSanPham,
@@ -316,7 +325,7 @@ export default function InforItemComponent(props) {
                                 <div className="row">
                                     <div className="col-sm-3">
                                         <p>Số lượng:</p>
-                                        <InputNumber min={0} style={{ marginLeft: 10 }} defaultValue={0} onChange={(value) => {
+                                        <InputNumber min={1} style={{ marginLeft: 10 }} defaultValue={1} onChange={(value) => {
                                             setThongTinMuaSanPham({
                                                 ...thongTinMuaSanPham,
                                                 soLuong: value
@@ -333,52 +342,50 @@ export default function InforItemComponent(props) {
                                                 if (isAdmin) {
                                                     message.error('Admin không được thực hiện chức năng này');
                                                 } else {
-                                                    if (thongTinMuaSanPham.soLuong === '') {
-                                                        message.error('Vui lòng chọn số lượng')
-                                                    } else {
-                                                        if (dataColor.length > 0) {
-                                                            resultMau = true;
-                                                        }
-                                                        if (dataSize.length > 0) {
-                                                            resultSize = true;
-                                                        }
 
-                                                        //Sản phẩm không có cả 2 phân loại Màu Sắc và Size
-                                                        if (resultMau === false && resultSize === false) {
-                                                            ThemVaoGioHang(thongTinMuaSanPham);
-                                                        }
+                                                    if (dataColor.length > 0) {
+                                                        resultMau = true;
+                                                    }
+                                                    if (dataSize.length > 0) {
+                                                        resultSize = true;
+                                                    }
 
-                                                        //Sản phẩm có phân loại Màu Sắc mà không có phân loại Size
-                                                        if (resultMau === true && resultSize === false) {
-                                                            if (thongTinMuaSanPham.mauSac === '') {
-                                                                message.error('Vui lòng chọn màu sắc');
-                                                            } else {
-                                                                ThemVaoGioHang(thongTinMuaSanPham);
-                                                            }
-                                                        }
+                                                    //Sản phẩm không có cả 2 phân loại Màu Sắc và Size
+                                                    if (resultMau === false && resultSize === false) {
+                                                        KiemTraSoLuongSanPhamMua(dataProduct.idShow);
+                                                    }
 
-                                                        //Sản phẩm có phân loại Size mà không có phân loại Màu Sắc
-                                                        if (resultMau === false && resultSize === true) {
+                                                    //Sản phẩm có phân loại Màu Sắc mà không có phân loại Size
+                                                    if (resultMau === true && resultSize === false) {
+                                                        if (thongTinMuaSanPham.mauSac === '') {
+                                                            message.error('Vui lòng chọn màu sắc');
+                                                        } else {
+                                                            KiemTraSoLuongSanPhamMua(dataProduct.idShow);
+                                                        }
+                                                    }
+
+                                                    //Sản phẩm có phân loại Size mà không có phân loại Màu Sắc
+                                                    if (resultMau === false && resultSize === true) {
+                                                        if (thongTinMuaSanPham.size === '') {
+                                                            message.error('Vui lòng chọn size');
+                                                        } else {
+                                                            KiemTraSoLuongSanPhamMua(dataProduct.idShow);
+                                                        }
+                                                    }
+
+                                                    //Sản phẩm có cả 2 phân loại Màu Sắc và Size
+                                                    if (resultMau === true && resultSize === true) {
+                                                        if (thongTinMuaSanPham.mauSac === '') {
+                                                            message.error('Vui lòng chọn màu sắc');
+                                                        } else {
                                                             if (thongTinMuaSanPham.size === '') {
-                                                                message.error('Vui lòng chọn size');
-                                                            } else {
-                                                                ThemVaoGioHang(thongTinMuaSanPham);
-                                                            }
-                                                        }
-
-                                                        //Sản phẩm có cả 2 phân loại Màu Sắc và Size
-                                                        if (resultMau === true && resultSize === true) {
-                                                            if (thongTinMuaSanPham.mauSac === '') {
                                                                 message.error('Vui lòng chọn màu sắc');
                                                             } else {
-                                                                if (thongTinMuaSanPham.size === '') {
-                                                                    message.error('Vui lòng chọn màu sắc');
-                                                                } else {
-                                                                    ThemVaoGioHang(thongTinMuaSanPham);
-                                                                }
+                                                                KiemTraSoLuongSanPhamMua(dataProduct.idShow);
                                                             }
                                                         }
                                                     }
+
                                                 }
                                             }
                                         }}>

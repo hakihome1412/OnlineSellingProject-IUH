@@ -10,7 +10,7 @@ export default function CheckoutCartt() {
     const { Search } = Input;
     const [dataGioHang, setDataGioHang] = useState(JSON.parse(localStorage.getItem('dataGioHang')));
     const [dataGioHangNew, setDataGioHangNew] = useState([]);
-    const [dataVoucher, setDataVoucher] = useState('');
+    const [dataVoucher, setDataVoucher] = useState('undefined');
     const [cookie, setCookie] = useCookies();
     const dispatch = useDispatch();
     const statusThayDoiGioHang = useSelector(state => state.statusThayDoiGioHang);
@@ -73,7 +73,7 @@ export default function CheckoutCartt() {
 
     function tinhThanhTien(tienTamTinh, dataVoucher) {
         var tienGiam = 0;
-        if (dataVoucher === '') {
+        if (dataVoucher === 'undefined') {
             return tienTamTinh;
         } else {
             if (dataVoucher.loaiGiamGia === 0) {
@@ -120,7 +120,22 @@ export default function CheckoutCartt() {
             message.success(res.data.message);
         } else {
             message.error(res.data.message);
-            setDataVoucher('');
+            setDataVoucher('undefined');
+        }
+    }
+
+    async function KiemTraSoLuongSanPhamMua(tenSanPham, quantity, index) {
+        let res = await axios.get('hethong/products-kiemtrasoluongsanphammua_theoten?ten=' + tenSanPham + '&quantity=' + quantity);
+        if (res.data.status === 'success') {
+            dataGioHang[index].soLuong = quantity;
+            setDataGioHang([
+                ...dataGioHang
+            ]);
+            localStorage.setItem('dataGioHang', null);
+            localStorage.setItem('dataGioHang', JSON.stringify(dataGioHang));
+            dispatch({ type: 'THAY_DOI_GIO_HANG' });
+        } else {
+            message.error(res.data.message);
         }
     }
 
@@ -146,7 +161,13 @@ export default function CheckoutCartt() {
 
     useEffect(() => {
         getGioHangTheoIDUser();
-    }, [dataGioHang])
+    }, [dataGioHang]);
+
+    useEffect(() => {
+        if (dataGioHangNew.length === 0) {
+            setDataVoucher('undefined');
+        }
+    }, [dataGioHangNew])
 
 
     return (
@@ -201,13 +222,8 @@ export default function CheckoutCartt() {
                                     <div className='col'>
                                         <br></br>
                                         <InputNumber min={1} defaultValue={item.soLuong} onChange={(value) => {
-                                            dataGioHang[item.index].soLuong = value;
-                                            setDataGioHang([
-                                                ...dataGioHang
-                                            ]);
-                                            localStorage.setItem('dataGioHang', null);
-                                            localStorage.setItem('dataGioHang', JSON.stringify(dataGioHang));
-                                            dispatch({ type: 'THAY_DOI_GIO_HANG' });
+                                            KiemTraSoLuongSanPhamMua(item.ten, value, item.index);
+
                                         }} />
                                     </div>
                                 </div>
@@ -231,7 +247,7 @@ export default function CheckoutCartt() {
                         </div>
 
                         {
-                            dataVoucher !== '' && (
+                            dataVoucher !== 'undefined' && (
                                 <div className='row'>
                                     <div className='col-sm-6'>
                                         <span style={{ float: 'left', fontSize: 16 }}>Mã giảm giá</span>
@@ -260,7 +276,7 @@ export default function CheckoutCartt() {
                         </div>
                     </div>
                     <Link to='shipping' onClick={(e) => {
-                        if (dataGioHang.length === 0) {
+                        if (dataGioHangNew.length === 0) {
                             e.preventDefault();
                             message.error('Chưa có sản phẩm nào trong giỏ hàng');
                         } else {
@@ -279,7 +295,15 @@ export default function CheckoutCartt() {
                             enterButton="Kiểm tra"
                             size="large"
                             onSearch={(value) => {
-                                KiemTraVoucher(value);
+                                if (cookie.token === undefined) {
+                                    message.error("Vui lòng đăng nhập để sử dụng chức năng này");
+                                } else {
+                                    if (dataGioHangNew.length === 0) {
+                                        message.error('Chưa có sản phẩm nào trong giỏ hàng');
+                                    } else {
+                                        KiemTraVoucher(value);
+                                    }
+                                }
                             }}
                         />
                     </div>

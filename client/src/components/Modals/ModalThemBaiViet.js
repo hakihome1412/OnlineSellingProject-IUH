@@ -5,6 +5,7 @@ import { Form, Input, Button, Select, message } from 'antd';
 import { axios } from '../../config/constant';
 import { storage } from '../../firebase/firebase';
 import { QuillEditor } from '../allJS';
+import { da } from 'date-fns/locale';
 
 export default function ModalThemBaiViet() {
     const { Option } = Select;
@@ -17,11 +18,12 @@ export default function ModalThemBaiViet() {
     const showModalThemBaiViet = useSelector(state => state.showModalThemBaiViet);
     const [spinnerThemBaiViet, setSpinnerThemBaiViet] = useState(-1);
     const dispatch = useDispatch();
+    const [loaiBV, setloaiBV] = useState(0);
     const [dataThem, setDataThem] = useState({
         tieuDe: "",
         img: "",
         ngayTao: new Date(),
-        loaiBaiViet: -1,
+        loaiBaiViet: 0,
         idProducts: [],
         content: '',
         luotXem: 0,
@@ -39,12 +41,11 @@ export default function ModalThemBaiViet() {
     const onFilesChange = (files) => {
         setFiles(files)
     }
-    console.log(dataThem);
 
     const handleChange = (e) => {
         var soLuongFile = e.target.files.length;
         var listFile = [];
-        var listUrl = [];
+        var url;
         for (let index = 0; index < soLuongFile; index++) {
             listFile.push(e.target.files[index]);
         }
@@ -76,9 +77,9 @@ export default function ModalThemBaiViet() {
                                 // setImageAsUrl(prevObject => ({ ...prevObject, imageAsUrl: fireBaseUrl }))
                                 setDataThem({
                                     ...dataThem,
+                                    loaiBaiViet: loaiBV,
                                     img: fireBaseUrl
-                                })
-                                listUrl.push(fireBaseUrl);
+                                });
                                 setCountAnhDaUploadThanhCong(countPrev => countPrev + 1);
                             })
                     })
@@ -87,11 +88,21 @@ export default function ModalThemBaiViet() {
     }
 
     function KiemTraDuLieuNhap(data) {
-        if (data.tieuDe.trim().length === 0 || data.img === '' || data.loaiBaiViet === -1 || data.content.trim().length === 0) {
+        if (data.tieuDe.trim().length === 0 || data.img === '' || data.content.trim().length === 0) {
             setStatusMessageError(0);
         } else {
-            ThemBaiViet()
-            setStatusMessageError(-1);
+            if (data.loaiBaiViet === 0) {
+                if (data.idProducts.length === 0) {
+                    setStatusMessageError(1);
+                } else {
+                    ThemBaiViet()
+                    setStatusMessageError(-1);
+                }
+            } else {
+                ThemBaiViet()
+                setStatusMessageError(-1);
+            }
+
         }
     }
 
@@ -141,8 +152,7 @@ export default function ModalThemBaiViet() {
         }
     }, [countAnhDaUploadThanhCong])
 
-    console.log(dataThem);
-    console.log(dataProduct);
+    console.log(dataThem.loaiBaiViet)
 
     return (
         <Modal show={showModalThemBaiViet} size="lg" animation={false} onHide={() => {
@@ -158,13 +168,14 @@ export default function ModalThemBaiViet() {
                     tieuDe: "",
                     img: "",
                     ngayTao: new Date(),
-                    loaiBaiViet: -1,
+                    loaiBaiViet: 0,
                     idProducts: [],
                     content: '',
                     luotXem: 0,
                     isLock: false,
                     isDelete: false
                 })
+                setloaiBV(0);
             }}>
             <Form
                 name="basic"
@@ -187,7 +198,7 @@ export default function ModalThemBaiViet() {
                     label="Ảnh đại diện"
                     name="username"
                     rules={[{ required: true, message: 'Vui lòng chọn ảnh' }]}>
-                    <input type='file'
+                    <input type='file' accept="image/*"
                         onChange={(e) => {
                             handleChange(e);
                             setCountAnhDaUploadThanhCong(0);
@@ -206,20 +217,16 @@ export default function ModalThemBaiViet() {
                     label="Loại bài viết"
                     name="loaibaiviet"
                     rules={[{ required: true, message: 'Vui lòng chọn loại bài viết' }]}>
-                    <Select value={dataThem.loaiBaiViet} onChange={(value) => {
-                        setDataThem({
-                            ...dataThem,
-                            loaiBaiViet: value
-                        })
+                    <Select defaultValue={loaiBV} onChange={(value) => {
+                        setloaiBV(value);
                     }}>
-                        <Option value={-1}>Chọn loại bài viết</Option>
                         <Option value={0}>Bài viết về chương trình/sự kiện</Option>
-                        <Option value={1}>Bài viết giới thiệu</Option>
+                        <Option value={1}>Blog</Option>
                     </Select>
                 </Form.Item>
 
                 {
-                    dataThem.loaiBaiViet === 0 && (
+                    loaiBV === 0 && (
                         <Form.Item
                             label="Các sản phẩm liên quan đến chương trình/sự kiện"
                             name="sanphams"
@@ -268,9 +275,22 @@ export default function ModalThemBaiViet() {
                             <p style={{ color: 'red', lineHeight: 1.5 }}>Vui lòng nhập đủ dữ liệu cần thiết</p>
                         )
                     }
-                    <Button type="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
-                        KiemTraDuLieuNhap(dataThem);
-                    }}>
+
+                    {
+                        statusMessageError === 1 && (
+                            <p style={{ color: 'red', lineHeight: 1.5 }}>Vui lòng chọn sản phẩm cho chương trình/sự kiện</p>
+                        )
+                    }
+                    <Button type="primary" style={{ marginLeft: '30%', width: 300, height: 50 }}
+                        onMouseOver={() => {
+                            setDataThem({
+                                ...dataThem,
+                                loaiBaiViet: loaiBV
+                            });
+                        }}
+                        onClick={() => {
+                            KiemTraDuLieuNhap(dataThem);
+                        }}>
                         {
                             spinnerThemBaiViet === 1 ?
                                 <Spinner animation="border" role="status">

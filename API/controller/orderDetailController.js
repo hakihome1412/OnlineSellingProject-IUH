@@ -483,6 +483,7 @@ module.exports = {
         var arrDoanhThu = [];
         var arrChietKhau = [];
         var arrDoanhThuSauChietKhau = [];
+        var arrOrderDetail = [];
 
         for (let index = 0; index <= 7; index++) {
             var dateThem = new Date(firstday.getFullYear(), firstday.getMonth(), firstday.getDate() + index);
@@ -508,6 +509,7 @@ module.exports = {
                     arrDate[index1].getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                     doanhThu += result[index2].thanhTien;
                     chietKhau += result[index2].thanhTien * phanTramLoiNhuan / 100;
+                    arrOrderDetail.push(result[index2]);
                 }
             }
             arrDoanhThu.push(doanhThu);
@@ -528,6 +530,8 @@ module.exports = {
             dataDate: arrDateResult,
             dataDoanhThu: arrDoanhThu,
             dataChietKhau: arrChietKhau,
+            dataDoanhThuSauChietKhau: arrDoanhThuSauChietKhau,
+            data: arrOrderDetail,
             message: 'Tính lợi nhuận tuần này thành công'
         });
     },
@@ -726,6 +730,7 @@ module.exports = {
         var arrDoanhThu = [];
         var arrChietKhau = [];
         var arrDoanhThuSauChietKhau = [];
+        var arrOrderDetail = [];
 
 
         for (let index = 1; index <= soNgayTrongThang; index++) {
@@ -749,16 +754,13 @@ module.exports = {
                     arrDate[index1].getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                     doanhThu += result[index2].thanhTien;
                     chietKhau += result[index2].thanhTien * phanTramLoiNhuan / 100;
+                    arrOrderDetail.push(result[index2]);
                 }
             }
             arrDoanhThu.push(doanhThu);
             arrChietKhau.push(chietKhau);
             arrDoanhThuSauChietKhau.push(doanhThu - chietKhau);
         }
-
-        console.log(arrDoanhThu)
-        console.log(arrChietKhau)
-        console.log(arrDoanhThuSauChietKhau)
 
         var arrDateResult = [];
 
@@ -774,6 +776,7 @@ module.exports = {
             dataDoanhThu: arrDoanhThu,
             dataChietKhau: arrChietKhau,
             dataDoanhThuSauChietKhau: arrDoanhThuSauChietKhau,
+            data: arrOrderDetail,
             message: 'Tính lợi nhuận tháng này thành công'
         });
     },
@@ -937,6 +940,7 @@ module.exports = {
         var arrDoanhThu = [];
         var arrChietKhau = [];
         var arrDoanhThuSauChietKhau = [];
+        var arrOrderDetail = [];
 
         var thangThuNhat = new Date(curr.getFullYear(), curr.getMonth() - 1, 1);
         var thangThuHai = new Date(curr.getFullYear(), curr.getMonth() - 2, 1);
@@ -961,18 +965,21 @@ module.exports = {
                 thangThuNhat.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu1 += result[index2].thanhTien;
                 chietKhau1 += result[index2].thanhTien * phanTramLoiNhuan / 100;
+                arrOrderDetail.push(result[index2]);
             }
 
             if (thangThuHai.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuHai.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu2 += result[index2].thanhTien;
                 chietKhau2 += result[index2].thanhTien * phanTramLoiNhuan / 100;
+                arrOrderDetail.push(result[index2]);
             }
 
             if (thangThuBa.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuBa.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu3 += result[index2].thanhTien;
                 chietKhau3 += result[index2].thanhTien * phanTramLoiNhuan / 100;
+                arrOrderDetail.push(result[index2]);
             }
         }
 
@@ -995,6 +1002,7 @@ module.exports = {
             dataDoanhThu: arrDoanhThu,
             dataChietKhau: arrChietKhau,
             dataDoanhThuSauChietKhau: arrDoanhThuSauChietKhau,
+            data: arrOrderDetail,
             message: 'Tính lợi nhuận 3 tháng gần nhất thành công'
         });
     },
@@ -1177,6 +1185,7 @@ module.exports = {
         var arrDoanhThu = [];
         var arrChietKhau = [];
         var arrDoanhThuSauChietKhau = [];
+        var arrOrderDetail = [];
 
         var thangThuNhat = new Date(curr.getFullYear(), curr.getMonth() - 1, 1);
         var thangThuHai = new Date(curr.getFullYear(), curr.getMonth() - 2, 1);
@@ -1211,36 +1220,42 @@ module.exports = {
                 thangThuNhat.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu1 += result[index2].thanhTien;
                 chietKhau1 += result[index2].thanhTien * phanTramLoiNhuan / 100;
+                arrOrderDetail.push(result[index2]);
             }
 
             if (thangThuHai.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuHai.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu2 += result[index2].thanhTien;
                 chietKhau2 += result[index2].thanhTien * phanTramLoiNhuan / 100;
+                arrOrderDetail.push(result[index2]);
             }
 
             if (thangThuBa.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuBa.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu3 += result[index2].thanhTien;
                 chietKhau3 += result[index2].thanhTien * phanTramLoiNhuan / 100;
+                arrOrderDetail.push(result[index2]);
             }
 
             if (thangThuTu.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuTu.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu4 += result[index2].thanhTien;
                 chietKhau4 += result[index2].thanhTien * phanTramLoiNhuan / 100;
+                arrOrderDetail.push(result[index2]);
             }
 
             if (thangThuNam.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuNam.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu5 += result[index2].thanhTien;
                 chietKhau5 += result[index2].thanhTien * phanTramLoiNhuan / 100;
+                arrOrderDetail.push(result[index2]);
             }
 
             if (thangThuSau.getMonth() === result[index2].ngayHoanThanh.getMonth() &&
                 thangThuSau.getFullYear() === result[index2].ngayHoanThanh.getFullYear()) {
                 doanhThu6 += result[index2].thanhTien;
                 chietKhau6 += result[index2].thanhTien * phanTramLoiNhuan / 100;
+                arrOrderDetail.push(result[index2]);
             }
         }
 
@@ -1267,6 +1282,7 @@ module.exports = {
             dataDoanhThu: arrDoanhThu,
             dataChietKhau: arrChietKhau,
             dataDoanhThuSauChietKhau: arrDoanhThuSauChietKhau,
+            data: arrOrderDetail,
             message: 'Tính lợi nhuận 6 tháng gần nhất thành công'
         });
     },

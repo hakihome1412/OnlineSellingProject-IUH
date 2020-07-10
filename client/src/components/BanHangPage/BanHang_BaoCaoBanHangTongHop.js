@@ -1,13 +1,16 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Tabs, Radio, message } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { Table, Image, Spinner } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { useCookies } from 'react-cookie';
-import { Line, Bar, Pie } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
+import { Link } from 'react-router-dom';
 
 export default function BanHang_BaoCaoBanHangTongHop() {
     const { TabPane } = Tabs;
+    const [dataChiTietDonHang, setDataChiTietDonHang] = useState([]);
+    const [countDonHangShow, setCountDonHangShow] = useState(8);
+    const [donHangShowEnd, setDonHangShowEnd] = useState(false);
     const [optionValueType, setOptionValueType] = useState(0);
     const [optionValueTime, setOptionValueTime] = useState(0);
     const [chartData, setChartData] = useState({
@@ -23,10 +26,26 @@ export default function BanHang_BaoCaoBanHangTongHop() {
     });
     const [cookies, setCookie, removeCookie] = useCookies();
 
+    function hamChuyenDoiNgay(date) {
+        var strDate = '';
+        var ngay = date.getDate().toString();
+        var thang = (date.getMonth() + 1).toString();
+        var nam = date.getFullYear().toString();
+
+        strDate = ngay + '/' + thang + '/' + nam;
+        return strDate;
+    }
+
+    function format_curency(a) {
+        a = a.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+        return a;
+    }
+
     async function LayDataDoanhThuTuanNay(shopID) {
         let res = await axios.get('hethong/order-details-shop-tinhdataloinhuantuannay?idShop=' + shopID);
 
         if (res.data.status === 'success') {
+            setDataChiTietDonHang(res.data.data);
             var chartDataa = {
                 labels: res.data.dataDate,
                 datasets: [
@@ -61,6 +80,7 @@ export default function BanHang_BaoCaoBanHangTongHop() {
         let res = await axios.get('hethong/order-details-shop-tinhdataloinhuanthangnay?idShop=' + shopID);
 
         if (res.data.status === 'success') {
+            setDataChiTietDonHang(res.data.data);
             var chartDataa = {
                 labels: res.data.dataDate,
                 datasets: [
@@ -95,6 +115,7 @@ export default function BanHang_BaoCaoBanHangTongHop() {
         let res = await axios.get('hethong/order-details-shop-tinhdataloinhuan3thanggannhat?idShop=' + shopID);
 
         if (res.data.status === 'success') {
+            setDataChiTietDonHang(res.data.data);
             var chartDataa = {
                 labels: res.data.dataDate,
                 datasets: [
@@ -129,6 +150,7 @@ export default function BanHang_BaoCaoBanHangTongHop() {
         let res = await axios.get('hethong/order-details-shop-tinhdataloinhuan6thanggannhat?idShop=' + shopID);
 
         if (res.data.status === 'success') {
+            setDataChiTietDonHang(res.data.data);
             var chartDataa = {
                 labels: res.data.dataDate,
                 datasets: [
@@ -342,6 +364,8 @@ export default function BanHang_BaoCaoBanHangTongHop() {
     }, [])
 
     useEffect(() => {
+        setDonHangShowEnd(false);
+        setCountDonHangShow(8);
         if (optionValueTime === 0 && optionValueType === 0) {
             LayDataDoanhThuTuanNay(cookies.shopID);
         }
@@ -356,6 +380,7 @@ export default function BanHang_BaoCaoBanHangTongHop() {
 
         if (optionValueTime === 1 && optionValueType === 0) {
             LayDataDoanhThuThangNay(cookies.shopID);
+
         }
 
         if (optionValueTime === 1 && optionValueType === 1) {
@@ -392,6 +417,8 @@ export default function BanHang_BaoCaoBanHangTongHop() {
     }, [optionValueType])
 
     useEffect(() => {
+        setDonHangShowEnd(false);
+        setCountDonHangShow(8);
         if (optionValueTime === 0 && optionValueType === 0) {
             LayDataDoanhThuTuanNay(cookies.shopID);
         }
@@ -418,6 +445,7 @@ export default function BanHang_BaoCaoBanHangTongHop() {
 
         if (optionValueTime === 2 && optionValueType === 0) {
             LayDataDoanhThu3ThangGanNhat(cookies.shopID);
+
         }
 
         if (optionValueTime === 2 && optionValueType === 1) {
@@ -440,6 +468,16 @@ export default function BanHang_BaoCaoBanHangTongHop() {
             LayDataSoDonHang6ThangGanNhat(cookies.shopID);
         }
     }, [optionValueTime])
+
+    useEffect(() => {
+        if (countDonHangShow === 8) {
+            setDonHangShowEnd(false);
+        } else {
+            if (countDonHangShow >= dataChiTietDonHang.length && dataChiTietDonHang.length !== 0) {
+                setDonHangShowEnd(true);
+            }
+        }
+    }, [countDonHangShow])
 
     return (
         <Fragment>
@@ -530,16 +568,53 @@ export default function BanHang_BaoCaoBanHangTongHop() {
                                 }
                             }}></Bar>
                         </div>
-                        <br></br><br></br>
-                        <br></br><br></br>
-                        <div style={{ height: 600, width: 1200, marginLeft: 100 }}>
-                            <Pie data={chartData} options={{
-                                responsive: true,
-                                title: {
-                                    text: 'BIỂU ĐỒ TRÒN', display: true
-                                }
-                            }}></Pie>
-                        </div>
+                        {
+                            optionValueType === 0 && (
+                                <div className="col" style={{ width: '100%', marginTop: 40 }}>
+                                    <h4>CHI TIẾT DOANH THU</h4>
+                                    <Table bordered hover responsive>
+                                        <thead>
+                                            <tr>
+                                                <th>ID đơn hàng</th>
+                                                <th>ID gian hàng</th>
+                                                <th>Tên sản phẩm</th>
+                                                <th>Doanh thu</th>
+                                                <th>Ngày tạo</th>
+                                                <th>Ngày hoàn thành</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+
+                                                dataChiTietDonHang.map((item, i) => {
+                                                    if (i < countDonHangShow) {
+                                                        return <tr key={i}>
+                                                            <td>{item.idShow}</td>
+                                                            <td>{item.idShop}</td>
+                                                            <td style={{ width: 400 }}>{item.ten}</td>
+                                                            <td>{format_curency((item.thanhTien * 10 / 100).toString())}</td>
+                                                            <td>{hamChuyenDoiNgay(new Date(item.ngayTao))}</td>
+                                                            <td>{hamChuyenDoiNgay(new Date(item.ngayHoanThanh))}</td>
+                                                        </tr>
+                                                    }
+                                                })
+
+                                            }
+                                        </tbody>
+                                    </Table>
+                                    {
+                                        donHangShowEnd === false && (
+                                            <center>
+                                                <Link to='/' onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setCountDonHangShow(prev => prev + 8);
+                                                }}>Xem thêm</Link>
+                                            </center>
+                                        )
+                                    }
+                                </div>
+                            )
+                        }
 
                     </div>
                 </TabPane>

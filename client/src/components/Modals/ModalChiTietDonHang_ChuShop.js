@@ -167,8 +167,8 @@ export default function ModalChiTietDonHang_ChuShop(props) {
                                         trangThai: value
                                     })
                                 }}>
-                                    <Option value={0}><span style={{ color: 'blue' }}><strong>Chờ duyệt</strong></span></Option>
-                                    <Option value={1}><span style={{ color: 'red' }}><strong>Đã duyệt</strong></span></Option>
+                                    <Option value={0}><span style={{ color: 'red' }}><strong>Chờ duyệt</strong></span></Option>
+                                    <Option value={1}><span style={{ color: 'blue' }}><strong>Đã duyệt</strong></span></Option>
                                     <Option value={2}><span style={{ color: '#CC00FF' }}><strong>Đang vận chuyển</strong></span></Option>
                                     <Option value={3}><span style={{ color: '#006600' }}><strong>Khách đã nhận hàng</strong></span></Option>
                                     <Option value={4}><span style={{ color: 'green' }}><strong>Hoàn thành</strong></span></Option>
@@ -215,6 +215,11 @@ export default function ModalChiTietDonHang_ChuShop(props) {
                                         <p style={{ color: 'red', lineHeight: 1.5 }}>Không thể cập nhật lại trạng thái đã có từ trước đó</p>
                                     )
                                 }
+                                {
+                                    statusMessageError === 1 && (
+                                        <p style={{ color: 'red', lineHeight: 1.5 }}>Phải có ghi chú khi Hủy đơn hàng</p>
+                                    )
+                                }
                                 <Button variant="primary" style={{ marginLeft: '30%', width: 300, height: 50 }} onClick={() => {
                                     if (statusSua === 0) {
                                         setStatusSua(1);
@@ -223,8 +228,18 @@ export default function ModalChiTietDonHang_ChuShop(props) {
                                         if (chiTietSua.trangThai < chiTietNow.trangThai) {
                                             setStatusMessageError(0);
                                         } else {
-                                            setStatusMessageError(-1);
-                                            SuaChiTietDonHang(chiTietNow.idShow);
+                                            if (chiTietSua.trangThai === 5) {
+                                                if (chiTietSua.ghiChu.trim().length === 0) {
+                                                    setStatusMessageError(1);
+                                                } else {
+                                                    setStatusMessageError(-1);
+                                                    SuaChiTietDonHang(chiTietNow.idShow);
+                                                }
+                                            } else {
+                                                setStatusMessageError(-1);
+                                                SuaChiTietDonHang(chiTietNow.idShow);
+                                            }
+
                                         }
                                     }
                                     if (statusSua === 0) {
@@ -236,7 +251,7 @@ export default function ModalChiTietDonHang_ChuShop(props) {
 
                                 }}>
                                     {
-                                        statusSua === 0 && spinnerSuaChiTietDonHang === -1 ? "Sửa" : "Lưu"
+                                        statusSua === 0 && spinnerSuaChiTietDonHang === -1 ? "Cập nhật" : "Lưu"
                                     }
                                     {
                                         spinnerSuaChiTietDonHang === 1 && (

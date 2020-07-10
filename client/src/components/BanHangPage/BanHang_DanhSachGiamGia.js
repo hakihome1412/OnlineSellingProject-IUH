@@ -1,11 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Tabs, Pagination, Select, Input, message } from 'antd';
+import { Tabs, Pagination, Select, Input, message, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { Button, Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
+import { Form, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { ModalCapNhatGiaTriGiamGia } from '../Modals/index';
 import { useCookies } from 'react-cookie';
+import { EditOutlined } from '@ant-design/icons';
 
 export default function BanHang_DanhSachGiamGia() {
     const [cookies, setCookie] = useCookies();
@@ -104,7 +104,7 @@ export default function BanHang_DanhSachGiamGia() {
                                         }}></Input>
                                     </Col>
                                     <Col>
-                                        <Button variant="primary" style={{ width: 200 }} onClick={() => {
+                                        <Button type="primary" style={{ width: 200, height: 40 }} onClick={() => {
                                             LayDataProductSearch(dataSearch, 0, shopID);
                                         }}>
                                             <i className="fa fa-search"></i> &nbsp; Tìm kiếm
@@ -142,11 +142,12 @@ export default function BanHang_DanhSachGiamGia() {
                                                     <td style={{ width: 500 }}>{item.ten}</td>
                                                     <td><Image src={item.img.chinh} style={{ width: 200, height: 100, marginLeft: 30 }}></Image></td>
                                                     <td>{item.giaTriGiamGia < 100 ? item.giaTriGiamGia.toString() + '%' : format_curency(item.giaTriGiamGia.toString()) + ' đ'}</td>
-                                                    <td>
-                                                        <Button type="primary" style={{ marginLeft: '10%', height: 50, marginTop: 25 }} onClick={() => {
-                                                            dispatch({ type: 'OBJECT_ID_NOW', id: item._id });
-                                                            dispatch({ type: 'SHOW_CAPNHATGIATRIGIAM' });
-                                                        }}>Cập nhật giá trị giảm giá</Button>
+                                                    <td style={{ width: 200, paddingTop: 45 }}>
+                                                        <center>
+                                                            <Button type="default" icon={<EditOutlined />} size='large' onClick={() => {
+                                                                dispatch({ type: 'SHOW_CAPNHATGIATRIGIAM' });
+                                                            }} />
+                                                        </center>
                                                     </td>
                                                 </tr>
                                             })

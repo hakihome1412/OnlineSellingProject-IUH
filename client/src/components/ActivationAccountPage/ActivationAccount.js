@@ -60,6 +60,5 @@ export default function ActivationAccount(props) {
                 </div>
             </div>
         </Fragment>
-
     )
 }

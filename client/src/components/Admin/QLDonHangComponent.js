@@ -155,7 +155,6 @@ export default function QLDonHangComponent() {
                                                                     Xem chi tiết <i class="fa fa-angle-down"></i>
                                                                 </strong>)
                                                             }
-
                                                         </a>
                                                     </center>
                                                 </td>

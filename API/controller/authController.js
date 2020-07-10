@@ -103,8 +103,6 @@ module.exports = {
         const allUser = await colUser.find({ isDelete: false }).toArray();
         let trungTaiKhoan = await colUser.findOne({ email: userThem.email });
 
-        let result;
-
         if (trungTaiKhoan === null) {
             const token = jwt.sign(userThem, process.env.JWT_ACCOUNT_ACTIVATION, { expiresIn: '15m' });
 

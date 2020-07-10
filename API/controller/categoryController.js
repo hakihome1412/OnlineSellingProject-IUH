@@ -133,7 +133,7 @@ module.exports = {
         const colProducts = db.collection('PRODUCTS');
         const colCategory = db.collection('CATEGORY');
         let product = await colProducts.findOne({ _id: ObjectId(productID) });
-        let allCategory = await colCategory.find({}).toArray();
+        let allCategory = await colCategory.find({ isDelete: false}).toArray();
 
         if (product === null) {
             client.close();

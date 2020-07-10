@@ -237,6 +237,7 @@ export default function QLMaGiamGiaComponent() {
                     }
                     <Pagination defaultPageSize={1} current={pageNow} total={tongSoTrang} onChange={(page) => {
                         dispatch({ type: 'SPINNER_DATABASE' });
+                        setPageNow(page);
                         if (dataSearch === '') {
                             if (trangThaiOption === 0) {
                                 LayDataVoucherTheoTrang(page - 1);

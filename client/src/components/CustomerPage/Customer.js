@@ -15,7 +15,7 @@ export default function Customer() {
     }, [])
 
     return (
-        <div style={{ marginLeft: 325, width: 1300, marginTop: 50, backgroundColor: '#F8F9FA', padding: 10 }}>
+        <div className='container' style={{ marginTop: 50, backgroundColor: '#F8F9FA', padding: 10 }}>
             <div className='row'>
                 <div className='col-sm-3'>
                     <Menu

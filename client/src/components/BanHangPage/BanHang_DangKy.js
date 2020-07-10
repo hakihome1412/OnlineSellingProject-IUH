@@ -1,9 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Menu, Dropdown, Form, Input, message } from 'antd';
+import { Menu, Form, Input, message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { storage } from "../../firebase/firebase";
-import { DownOutlined } from '@ant-design/icons';
 import { Button } from 'react-bootstrap';
 import { axios } from '../../config/constant';
 import { useCookies } from 'react-cookie';
@@ -140,7 +139,7 @@ export default function BanHang_DangKy() {
 
     useEffect(() => {
         LayEmailTheoIDUser(userID);
-        dispatch({ type: 'CLOSE_HEADER' });
+        dispatch({ type: 'SHOW_HEADER' });
     }, [])
 
     useEffect(() => {
@@ -157,107 +156,107 @@ export default function BanHang_DangKy() {
 
     return (
         <Fragment>
-            <div className='col'>
-                <div className='row' style={{ float: 'right', marginRight: 20 }}>
-                    <Dropdown overlay={menu} placement="bottomCenter">
-                        <Button size='large' style={{ marginTop: 15 }}>
-                            <img alt="" src='/logoshop.png' width="30" height="30" /> &nbsp; {dataEmail} <DownOutlined />
-                        </Button>
-                    </Dropdown>
-                </div>
-                <div className='container' style={{ marginTop: 50 }}>
-                    <div className='col'>
-                        <center><h2>ĐĂNG KÝ GIAN HÀNG</h2></center>
-                        <div>
-                            <Form
-                                {...layout}
-                                name="basic"
-                                initialValues={{
-                                    remember: true,
-                                }}
-                            >
-                                <Form.Item
-                                    label="Tên gian hàng"
-                                    name="ten"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Vui lòng nhập tên gian hàng',
-                                        },
-                                    ]}
-                                >
-                                    <Input onChange={(e) => {
-                                        setDataTaoShop({
-                                            ...dataTaoShop,
-                                            ten: e.target.value
-                                        })
-                                    }} />
-                                </Form.Item>
 
-                                <Form.Item
-                                    label="Địa chỉ"
-                                    name="diachi"
-                                >
-                                    <Input onChange={(e) => {
-                                        setDataTaoShop({
-                                            ...dataTaoShop,
-                                            diaChi: e.target.value
-                                        })
-                                    }} />
-                                </Form.Item>
-
-                                <Form.Item
-                                    label="Mô tả"
-                                    name="mota"
-                                >
-                                    <Input onChange={(e) => {
-                                        setDataTaoShop({
-                                            ...dataTaoShop,
-                                            moTa: e.target.value
-                                        })
-                                    }} />
-                                </Form.Item>
-
-                                <Form.Item
-                                    label="Logo"
-                                    name="logo">
-                                    <input type='file'
-                                        onChange={(e) => {
-                                            handleChangeIMG_Logo(e);
-                                            setCountAnhDaUploadThanhCong_Logo(0);
-                                            setFirstTime1(false);
-                                        }}>
-                                    </input>
-                                </Form.Item>
-
-                                <Form.Item
-                                    name='showlogo'
-                                    label="Show ảnh logo">
+            <div className='container' style={{ marginTop: 50 }}>
+                <div className='col'>
+                    <center><h2>ĐĂNG KÝ GIAN HÀNG</h2></center>
+                    <div>
+                        <Form
+                            {...layout}
+                            name="basic"
+                            initialValues={{
+                                remember: true,
+                            }}
+                        >
+                            <Form.Item
+                                label="Tên gian hàng"
+                                name="ten"
+                                rules={[
                                     {
+                                        required: true,
+                                        message: 'Vui lòng nhập tên gian hàng',
+                                    },
+                                ]}
+                            >
+                                <Input onChange={(e) => {
+                                    setDataTaoShop({
+                                        ...dataTaoShop,
+                                        ten: e.target.value
+                                    })
+                                }} />
+                            </Form.Item>
+
+                            <Form.Item
+                                label="Địa chỉ"
+                                name="diachi"
+                            >
+                                <Input onChange={(e) => {
+                                    setDataTaoShop({
+                                        ...dataTaoShop,
+                                        diaChi: e.target.value
+                                    })
+                                }} />
+                            </Form.Item>
+
+                            <Form.Item
+                                label="Mô tả"
+                                name="mota"
+                            >
+                                <Input onChange={(e) => {
+                                    setDataTaoShop({
+                                        ...dataTaoShop,
+                                        moTa: e.target.value
+                                    })
+                                }} />
+                            </Form.Item>
+
+                            <Form.Item
+                                label="Logo"
+                                name="logo">
+                                <input type='file'
+                                    onChange={(e) => {
+                                        handleChangeIMG_Logo(e);
+                                        setCountAnhDaUploadThanhCong_Logo(0);
+                                        setFirstTime1(false);
+                                    }}>
+                                </input>
+                            </Form.Item>
+
+                            <Form.Item
+                                name='showlogo'
+                                label="Show ảnh logo">
+                                {
+                                    imageAsUrl_Logo.length === 0 && (
+                                        <img style={{ marginLeft: 20 }} src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg" alt={'ảnh '} width='200' height='150'></img>
+                                    )
+                                }
+                                {
+                                    imageAsUrl_Logo.length > 0 && (
                                         imageAsUrl_Logo.map((src, i) => {
                                             return <img key={i} style={{ marginLeft: 20 }} src={src} alt={'ảnh ' + i} width='200' height='150'></img>
                                         })
-                                    }
-                                </Form.Item>
+                                    )
+                                }
+                            </Form.Item>
 
-                                <Form.Item {...tailLayout}>
-                                    <Button type="primary" style={{ width: 300 }}
-                                        onClick={() => {
-                                            KiemTraDuLieuNhap();
-                                        }}>
-                                        Xác nhận
-                                                </Button>
-                                </Form.Item>
+                            <Form.Item {...tailLayout}>
+                                <Button type="primary" style={{ width: 300 }}
+                                    onClick={() => {
+                                        KiemTraDuLieuNhap();
+                                    }}>
+                                    Xác nhận
+                                </Button>
+                            </Form.Item>
 
-                                <Link to='/' style={{ marginLeft: '43%' }}>
-                                    Trở về Trang Chủ
+                            <Link to='/' style={{ marginLeft: '43%' }}>
+                                Trở về Trang Chủ
                                 </Link>
 
-                            </Form>
-                        </div>
+                        </Form>
                     </div>
                 </div>
             </div>
+
 
         </Fragment>
     )

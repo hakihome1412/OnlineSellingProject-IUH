@@ -25,7 +25,6 @@ export default function QLDoanhThuComponent() {
 
     function hamChuyenDoiNgay(date) {
         var strDate = '';
-        var now = new Date();
         var ngay = date.getDate().toString();
         var thang = (date.getMonth() + 1).toString();
         var nam = date.getFullYear().toString();
@@ -138,6 +137,8 @@ export default function QLDoanhThuComponent() {
 
 
     useEffect(() => {
+        setDonHangShowEnd(false);
+        setCountDonHangShow(8);
         if (optionValueTime === 0) {
             LayDataDoanhThuTuanNay();
         }
@@ -156,8 +157,12 @@ export default function QLDoanhThuComponent() {
     }, [optionValueTime])
 
     useEffect(() => {
-        if (countDonHangShow >= dataChiTietDonHang.length && dataChiTietDonHang.length !== 0) {
-            setDonHangShowEnd(true);
+        if (countDonHangShow === 8) {
+            setDonHangShowEnd(false);
+        } else {
+            if (countDonHangShow >= dataChiTietDonHang.length && dataChiTietDonHang.length !== 0) {
+                setDonHangShowEnd(true);
+            }
         }
     }, [countDonHangShow])
 
@@ -208,18 +213,6 @@ export default function QLDoanhThuComponent() {
                             }
                         }}></Line>
                     </div>
-
-                    <br></br><br></br>
-                    <br></br><br></br>
-                    <div style={{ height: 600, width: 1200, marginLeft: 100 }}>
-                        <Pie data={chartData} options={{
-                            responsive: true,
-                            title: {
-                                text: 'BIỂU ĐỒ TRÒN', display: true
-                            }
-                        }}></Pie>
-                    </div>
-
                     <div className="col" style={{ width: '100%', marginTop: 40 }}>
                         <h4>CHI TIẾT DOANH THU</h4>
                         <Table bordered hover responsive>
