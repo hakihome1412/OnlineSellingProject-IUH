@@ -229,4 +229,67 @@
   "nhomPhanLoai": 0,
   "tenPhanLoai": "Đỏ",
   "idProduct": "PRODU-E9416F"
+},{
+  "_id": {
+    "$oid": "5eef1872c93fbc4aa8dfa565"
+  },
+  "nhomPhanLoai": 0,
+  "tenPhanLoai": "Xanh",
+  "idProduct": "PRODU-09EAE9"
+},{
+  "_id": {
+    "$oid": "5eef1872c93fbc4aa8dfa566"
+  },
+  "nhomPhanLoai": 0,
+  "tenPhanLoai": "Xám",
+  "idProduct": "PRODU-09EAE9"
+},{
+  "_id": {
+    "$oid": "5ef77ad4896b744f7025e64f"
+  },
+  "nhomPhanLoai": 0,
+  "tenPhanLoai": "Trắng",
+  "idProduct": "PRODU-79EEEF"
+},{
+  "_id": {
+    "$oid": "5ef77ad4896b744f7025e650"
+  },
+  "nhomPhanLoai": 0,
+  "tenPhanLoai": "Đen",
+  "idProduct": "PRODU-79EEEF"
+},{
+  "_id": {
+    "$oid": "5ef77ad4896b744f7025e651"
+  },
+  "nhomPhanLoai": 0,
+  "tenPhanLoai": "Đỏ",
+  "idProduct": "PRODU-79EEEF"
+},{
+  "_id": {
+    "$oid": "5efc5db66ca57568bc5d4eef"
+  },
+  "nhomPhanLoai": 1,
+  "tenPhanLoai": "40",
+  "idProduct": "PRODU-840C1D"
+},{
+  "_id": {
+    "$oid": "5efc5db76ca57568bc5d4ef0"
+  },
+  "nhomPhanLoai": 1,
+  "tenPhanLoai": "41",
+  "idProduct": "PRODU-840C1D"
+},{
+  "_id": {
+    "$oid": "5efc5db76ca57568bc5d4ef1"
+  },
+  "nhomPhanLoai": 1,
+  "tenPhanLoai": "42",
+  "idProduct": "PRODU-840C1D"
+},{
+  "_id": {
+    "$oid": "5efc5db76ca57568bc5d4ef2"
+  },
+  "nhomPhanLoai": 1,
+  "tenPhanLoai": "43",
+  "idProduct": "PRODU-840C1D"
 }]

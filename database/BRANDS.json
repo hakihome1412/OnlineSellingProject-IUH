@@ -320,4 +320,88 @@
   },
   "isLock": false,
   "isDelete": false
+},{
+  "_id": {
+    "$oid": "5eef1742c93fbc4aa8dfa563"
+  },
+  "idShow": "BRAND-989A11",
+  "ten": "Nokia",
+  "lowerTen": "nokia",
+  "img": "",
+  "xuatXu": "American Samoa",
+  "ngayTao": {
+    "$date": "2020-06-21T08:16:02.488Z"
+  },
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ef779c9896b744f7025e64d"
+  },
+  "idShow": "BRAND-9E1CD9",
+  "ten": "HAFFLE",
+  "lowerTen": "haffle",
+  "img": "",
+  "xuatXu": "Anguilla",
+  "ngayTao": {
+    "$date": "2020-06-27T16:54:33.669Z"
+  },
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5efb133dbb6a3b3dcc3f752d"
+  },
+  "idShow": "BRAND-A88C1B",
+  "ten": "312312",
+  "lowerTen": "312312",
+  "img": "",
+  "xuatXu": "dasdasd",
+  "ngayTao": {
+    "$date": "2020-06-30T10:26:05.670Z"
+  },
+  "isLock": false,
+  "isDelete": true
+},{
+  "_id": {
+    "$oid": "5efb1e5a75889834d4f69af4"
+  },
+  "idShow": "BRAND-E2E29F",
+  "ten": "ILIFE",
+  "lowerTen": "ilife",
+  "img": "",
+  "xuatXu": "Algeria",
+  "ngayTao": {
+    "$date": "2020-06-30T11:13:30.167Z"
+  },
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5efc20bce5417547081c9527"
+  },
+  "idShow": "BRAND-320C3D",
+  "ten": "asdasd",
+  "lowerTen": "asdasd",
+  "img": "",
+  "xuatXu": "Việt Nam",
+  "ngayTao": {
+    "$date": "2020-07-01T05:35:56.344Z"
+  },
+  "isLock": false,
+  "isDelete": true
+},{
+  "_id": {
+    "$oid": "5f0023c770058d21f0bd3503"
+  },
+  "idShow": "BRAND-F93498",
+  "ten": "đụ má",
+  "lowerTen": "du ma",
+  "img": "",
+  "xuatXu": "American Samoa",
+  "ngayTao": {
+    "$date": "2020-07-04T06:37:59.645Z"
+  },
+  "isLock": true,
+  "isDelete": true
 }]

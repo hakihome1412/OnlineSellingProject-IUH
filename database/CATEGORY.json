@@ -96,7 +96,7 @@
   "idShow": "CATE-1AB5EA",
   "ten": "Giày",
   "lowerTen": "giay",
-  "icon": "fa fa-male",
+  "icon": "",
   "ngayTao": {
     "$date": "2020-04-25T04:59:30.783Z"
   },
@@ -336,4 +336,30 @@
   },
   "isLock": true,
   "isDelete": false
+},{
+  "_id": {
+    "$oid": "5efb081ebb6a3b3dcc3f752c"
+  },
+  "idShow": "CATE-56FFEB",
+  "ten": "dasdasd",
+  "lowerTen": "dasdasd",
+  "icon": "fa fa-female",
+  "ngayTao": {
+    "$date": "2020-06-30T09:38:38.557Z"
+  },
+  "isLock": true,
+  "isDelete": true
+},{
+  "_id": {
+    "$oid": "5efc259ae5417547081c9528"
+  },
+  "idShow": "CATE-1AEE99",
+  "ten": "fsdfsdfsdf",
+  "lowerTen": "fsdfsdfsdf",
+  "icon": "",
+  "ngayTao": {
+    "$date": "2020-07-01T05:56:42.193Z"
+  },
+  "isLock": true,
+  "isDelete": true
 }]

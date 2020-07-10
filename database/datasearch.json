@@ -4,10 +4,12 @@
   },
   "ten": "điện thoại",
   "lowerTen": "dien thoai",
-  "count": 81,
+  "count": 84,
   "idUser": [
     "5e9ab836699ae60b147a2822",
-    "5ebcf703cacdde1d8caeb469"
+    "5ebcf703cacdde1d8caeb469",
+    "5ef7703a896b744f7025e641",
+    "5efc7a5ea42d8e6b0cbc1739"
   ]
 },{
   "_id": {
@@ -177,8 +179,10 @@
   },
   "ten": "asd",
   "lowerTen": "asd",
-  "count": 7,
-  "idUser": []
+  "count": 9,
+  "idUser": [
+    "5e9ab836699ae60b147a2822"
+  ]
 },{
   "_id": {
     "$oid": "5ed556287f88c17a6477e97a"
@@ -201,8 +205,10 @@
   },
   "ten": "giay",
   "lowerTen": "giay",
-  "count": 2,
-  "idUser": []
+  "count": 3,
+  "idUser": [
+    "5e9ab836699ae60b147a2822"
+  ]
 },{
   "_id": {
     "$oid": "5ed68fb2ed8ce75110b47664"
@@ -399,9 +405,10 @@
   },
   "ten": "laptop",
   "lowerTen": "laptop",
-  "count": 1,
+  "count": 2,
   "idUser": [
-    "5e9ab836699ae60b147a2822"
+    "5e9ab836699ae60b147a2822",
+    "5e9ab673699ae60b147a2821"
   ]
 },{
   "_id": {
@@ -432,5 +439,45 @@
   "count": 1,
   "idUser": [
     "5e9ab836699ae60b147a2822"
+  ]
+},{
+  "_id": {
+    "$oid": "5ef77269896b744f7025e64b"
+  },
+  "ten": "tèo em",
+  "lowerTen": "teo em",
+  "count": 2,
+  "idUser": [
+    "5ef7703a896b744f7025e641"
+  ]
+},{
+  "_id": {
+    "$oid": "5efc7a77a42d8e6b0cbc173a"
+  },
+  "ten": "as",
+  "lowerTen": "as",
+  "count": 1,
+  "idUser": [
+    "5efc7a5ea42d8e6b0cbc1739"
+  ]
+},{
+  "_id": {
+    "$oid": "5efc7a83a42d8e6b0cbc173b"
+  },
+  "ten": "23",
+  "lowerTen": "23",
+  "count": 1,
+  "idUser": [
+    "5efc7a5ea42d8e6b0cbc1739"
+  ]
+},{
+  "_id": {
+    "$oid": "5efc7da1a42d8e6b0cbc1745"
+  },
+  "ten": "x",
+  "lowerTen": "x",
+  "count": 1,
+  "idUser": [
+    "5efc7a5ea42d8e6b0cbc1739"
   ]
 }]

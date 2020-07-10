@@ -41,7 +41,9 @@
   "idCategory": [
     "5ea3c3b2732b94643482550d"
   ],
-  "idUser": [],
+  "idUser": [
+    "5e9ab836699ae60b147a2822"
+  ],
   "idEvent": "",
   "isAccept": true,
   "isLock": false,
@@ -89,7 +91,11 @@
   "idCategory": [
     "5e9854d923f9944a9c8a5dbe"
   ],
-  "idUser": [],
+  "idUser": [
+    "5ef2fde1ce54cc5c1836a1fa",
+    "5e9ab673699ae60b147a2821",
+    "5e9ab836699ae60b147a2822"
+  ],
   "idEvent": "",
   "isAccept": true,
   "isLock": false,
@@ -139,7 +145,8 @@
     "5e98553923f9944a9c8a5dbf"
   ],
   "idUser": [
-    "5e9ab836699ae60b147a2822"
+    "5e9ab836699ae60b147a2822",
+    "5e9ab673699ae60b147a2821"
   ],
   "idEvent": "",
   "isAccept": true,
@@ -197,7 +204,9 @@
     "5ed7eb6e69beb1888c0bb3cb",
     "5ed7eb6169beb1888c0bb3ca"
   ],
-  "idUser": [],
+  "idUser": [
+    "5ef2fde1ce54cc5c1836a1fa"
+  ],
   "idEvent": "",
   "isAccept": true,
   "isLock": false,
@@ -252,7 +261,9 @@
     "5ed7eb5769beb1888c0bb3c9",
     "5ed7eb6e69beb1888c0bb3cb"
   ],
-  "idUser": [],
+  "idUser": [
+    "5ef2fde1ce54cc5c1836a1fa"
+  ],
   "idEvent": "",
   "isAccept": true,
   "isLock": false,
@@ -280,7 +291,7 @@
   "giaTriGiamGia": 10,
   "giaCuoiCung": 135000,
   "soLuong": 300,
-  "soLuongDaBan": 20,
+  "soLuongDaBan": 23,
   "luotXem": 0,
   "thongTinBaoHanh": {
     "baoHanh": true,
@@ -492,7 +503,9 @@
   "idCategory": [
     "5ec8da4a3d8f9e78b0a868fc"
   ],
-  "idUser": [],
+  "idUser": [
+    "5e9ab673699ae60b147a2821"
+  ],
   "idShop": "SHOP-D156AB",
   "idEvent": "",
   "isAccept": true,
@@ -634,7 +647,7 @@
   "giaTriGiamGia": 20,
   "giaCuoiCung": 719200,
   "soLuong": 100,
-  "soLuongDaBan": 5,
+  "soLuongDaBan": 7,
   "luotXem": 0,
   "thongTinBaoHanh": {
     "baoHanh": false,
@@ -649,7 +662,10 @@
   "idCategory": [
     "5e9854d923f9944a9c8a5dbe"
   ],
-  "idUser": [],
+  "idUser": [
+    "5e9ab836699ae60b147a2822",
+    "5ef2fde1ce54cc5c1836a1fa"
+  ],
   "idShop": "SHOP-D156AB",
   "idEvent": "",
   "isAccept": true,
@@ -702,7 +718,8 @@
     "5ec8d9ac3d8f9e78b0a868f9"
   ],
   "idUser": [
-    "5e9ab836699ae60b147a2822"
+    "5e9ab836699ae60b147a2822",
+    "5ef2fde1ce54cc5c1836a1fa"
   ],
   "idShop": "SHOP-ADDFFS",
   "idEvent": "",
@@ -736,7 +753,7 @@
   "giaTriGiamGia": 48,
   "giaCuoiCung": 1346800,
   "soLuong": 100,
-  "soLuongDaBan": 0,
+  "soLuongDaBan": 3,
   "thongTinBaoHanh": {
     "baoHanh": true,
     "loaiBaoHanh": 0,
@@ -751,7 +768,10 @@
     "5e9854d923f9944a9c8a5dbe"
   ],
   "idUser": [
-    "5e9ab836699ae60b147a2822"
+    "5e9ab836699ae60b147a2822",
+    "5ef2fde1ce54cc5c1836a1fa",
+    "5ef7703a896b744f7025e641",
+    "5efc7a5ea42d8e6b0cbc1739"
   ],
   "idShop": "SHOP-ADDFFS",
   "idEvent": "",
@@ -788,7 +808,7 @@
   "giaTriGiamGia": 15,
   "giaCuoiCung": 28891500,
   "soLuong": 10,
-  "soLuongDaBan": 1,
+  "soLuongDaBan": 5,
   "thongTinBaoHanh": {
     "baoHanh": true,
     "loaiBaoHanh": 0,
@@ -806,7 +826,10 @@
   ],
   "idUser": [
     "5e9ab836699ae60b147a2822",
-    "5ebcf703cacdde1d8caeb469"
+    "5ebcf703cacdde1d8caeb469",
+    "5ef2fde1ce54cc5c1836a1fa",
+    "5ef7703a896b744f7025e641",
+    "5e9ab673699ae60b147a2821"
   ],
   "idShop": "SHOP-ADDFFS",
   "idEvent": "",
@@ -843,11 +866,11 @@
     "SIM: 1 Nano SIM , 1 esim",
     "Mã Part: VN/A"
   ],
-  "soSao": 0,
+  "soSao": "5.0",
   "giaTriGiamGia": 9,
   "giaCuoiCung": 20010900,
   "soLuong": 10,
-  "soLuongDaBan": 3,
+  "soLuongDaBan": 7,
   "thongTinBaoHanh": {
     "baoHanh": true,
     "loaiBaoHanh": 0,
@@ -864,7 +887,10 @@
     "5ed7eb6e69beb1888c0bb3cb"
   ],
   "idUser": [
-    "5e9ab836699ae60b147a2822"
+    "5e9ab836699ae60b147a2822",
+    "5ef7703a896b744f7025e641",
+    "5efc7a5ea42d8e6b0cbc1739",
+    "5e9ab673699ae60b147a2821"
   ],
   "idShop": "SHOP-ADDFFS",
   "idEvent": "",
@@ -910,7 +936,7 @@
   "giaTriGiamGia": 25,
   "giaCuoiCung": 4500000,
   "soLuong": 20,
-  "soLuongDaBan": 2,
+  "soLuongDaBan": 11,
   "thongTinBaoHanh": {
     "baoHanh": true,
     "loaiBaoHanh": 0,
@@ -927,7 +953,10 @@
     "5ed7eb6e69beb1888c0bb3cb"
   ],
   "idUser": [
-    "5e9ab673699ae60b147a2821"
+    "5e9ab673699ae60b147a2821",
+    "5e9ab836699ae60b147a2822",
+    "5ef2fde1ce54cc5c1836a1fa",
+    "5efc7a5ea42d8e6b0cbc1739"
   ],
   "idShop": "SHOP-ADDFFS",
   "idEvent": "",
@@ -963,7 +992,7 @@
   "giaTriGiamGia": 21,
   "giaCuoiCung": 6786100,
   "soLuong": 200,
-  "soLuongDaBan": 0,
+  "soLuongDaBan": 2,
   "thongTinBaoHanh": {
     "baoHanh": true,
     "loaiBaoHanh": 0,
@@ -979,11 +1008,299 @@
     "5eecdfa0ffce8524909b244b"
   ],
   "idUser": [
+    "5e9ab673699ae60b147a2821",
+    "5e9ab836699ae60b147a2822",
+    "5ef2fde1ce54cc5c1836a1fa",
+    "5ef7703a896b744f7025e641"
+  ],
+  "idShop": "SHOP-ADDFFS",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5eef1872c93fbc4aa8dfa564"
+  },
+  "idShow": "PRODU-09EAE9",
+  "ten": "Điện Thoại Nokia 5.3 (64GB/3GB) - Hàng Chính Hãng",
+  "lowerTen": "dien thoai nokia 5.3 (64gb/3gb) - hang chinh hang",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanhchinh.PNG?alt=media&token=573880af-e4ce-4cdd-a995-cf24239b29dc",
+    "phu": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanhphu1.PNG?alt=media&token=57fdffe4-7a9c-4ba2-a6e2-a72a88484604",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanhphu2.PNG?alt=media&token=e3bc7d2a-112a-4bf3-921e-c35486f817db"
+    ]
+  },
+  "gia": 3990000,
+  "noiSanXuat": "Angola",
+  "moTa": "<h2><strong>Bắt kịp mọi khoảnh khắc</strong></h2><p>Có rất nhiều điều thú vị xảy ra trong cuộc sống xung quanh bạn mỗi ngày. Nokia hiểu điều đó và trang bị tới 4 camera để bạn lưu giữ mọi khoảnh khắc trên<strong>&nbsp;Điện Thoại Nokia 5.3 (64GB/3GB)</strong>. Camera chính với độ phân giải 13MP, khẩu độ lớn f/1.8, cho khả năng chụp đêm cực đỉnh. Ngoài ra, bạn còn có camera góc siêu rộng, camera chụp siêu cận cảnh macro và camera hỗ trợ chụp ảnh xóa phông. Tất cả tạo nên một thiết bị chụp hình chuyên nghiệp, mang đến những bức ảnh sắc nét đến từng chi tiết.</p><img src=\"https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanh.PNG?alt=media&amp;token=b087f008-673f-4c48-9c42-3d11c06ddb15\" alt=\"undefined\" width=\"100%\"><p><br></p>",
+  "moTaNganGon": [
+    "Điện thoại chính hãng, Nguyên seal, Mới 100%",
+    "Màn hình: IPS LCD, 6.55\", HD+",
+    "Hệ điều hành: Android 10",
+    "Camera sau: Chính 13 MP & Phụ 5 MP, 2 MP, 2 MP",
+    "Camera trước: 8MP",
+    "CPU: Snapdragon 665 8 nhân",
+    "RAM: 3 GB"
+  ],
+  "soSao": "5.0",
+  "giaTriGiamGia": 18,
+  "giaCuoiCung": 3271800,
+  "soLuong": 200,
+  "soLuongDaBan": 4,
+  "thongTinBaoHanh": {
+    "baoHanh": false,
+    "loaiBaoHanh": "",
+    "thoiGianBaoHanh": "",
+    "donViBaoHanh": ""
+  },
+  "ngayTao": {
+    "$date": "2020-06-21T08:14:04.281Z"
+  },
+  "idBrand": "5eef1742c93fbc4aa8dfa563",
+  "idCategory": [
+    "5e9823e723f9944a9c8a5dbd",
+    "5ed7eb6e69beb1888c0bb3cb"
+  ],
+  "idUser": [
+    "5e9ab836699ae60b147a2822",
+    "5e9ab673699ae60b147a2821",
+    "5ef2fde1ce54cc5c1836a1fa",
+    "5ef7703a896b744f7025e641",
+    "5efc7a5ea42d8e6b0cbc1739"
+  ],
+  "idShop": "SHOP-ADDFFS",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5ef77ad4896b744f7025e64e"
+  },
+  "idShow": "PRODU-79EEEF",
+  "ten": "Máy Lọc Không Khí Hafele CF-8116 - Hàng Chính Hãng",
+  "lowerTen": "may loc khong khi hafele cf-8116 - hang chinh hang",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanhsp.PNG?alt=media&token=070101fa-2e85-4e66-bd7e-43b317c6aca3",
+    "phu": []
+  },
+  "gia": 3990000,
+  "noiSanXuat": "Argentina",
+  "moTa": "<img src=\"https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanhspmota1.PNG?alt=media&amp;token=b8bdee8c-f907-4aa7-971f-6ebf51c72c9f\" alt=\"undefined\" width=\"100%\"><img src=\"https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanhspmota2.PNG?alt=media&amp;token=1bc64b5e-9353-4a5e-bc64-a514e5c77158\" alt=\"undefined\" width=\"100%\"><img src=\"https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanhspmota3.PNG?alt=media&amp;token=a8a6dfb5-307c-49f1-995a-a7948b22690d\" alt=\"undefined\" width=\"100%\"><p>Một nghiên cứu tại Mỹ cho thấy mức độ ô nhiễm trong nhà có thể cao gấp 8 lần so với ngoài trời do tác nhân như nấm mốc, bụi tích tụ trên nội thất, khói và mùi thải ra trong quá trình nấu nướng</p><p>Và không chỉ có bụi thông thường, bụi mịn hay bụi PM2.5 có kích thước chỉ bằng 1/30 sợi tóc được xem là tác nhân gây các bệnh về hô hấp, tim mạch và ung thư cũng nhiều khả&nbsp;năng hiện diện ngay trong tổ ấm của chúng ta.</p><p><br></p>",
+  "moTaNganGon": [
+    "Tốc độ hút: 200m3/h",
+    "Độ ồn: 30. 37.47.60 dB",
+    "Chất liệu nhựa ABS cao cấp",
+    "Kích thước phòng phù hợp: 20-25 m2",
+    "Tích hợp 4 mức tốc độ và 3 chế độ hẹn giờ (2,4,8 giờ)"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 30,
+  "giaCuoiCung": 2793000,
+  "soLuong": 100,
+  "soLuongDaBan": 3,
+  "thongTinBaoHanh": {
+    "baoHanh": false,
+    "loaiBaoHanh": "",
+    "thoiGianBaoHanh": "",
+    "donViBaoHanh": ""
+  },
+  "ngayTao": {
+    "$date": "2020-06-27T16:52:55.415Z"
+  },
+  "idBrand": "5ef779c9896b744f7025e64d",
+  "idCategory": [
+    "5e9854d923f9944a9c8a5dbe",
+    "5eecdf87ffce8524909b244a"
+  ],
+  "idUser": [
+    "5e9ab836699ae60b147a2822",
+    "5efc7a5ea42d8e6b0cbc1739",
     "5e9ab673699ae60b147a2821"
   ],
   "idShop": "SHOP-ADDFFS",
   "idEvent": "",
   "isAccept": true,
   "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5efb204a75889834d4f69af5"
+  },
+  "idShow": "PRODU-CFC64A",
+  "ten": "Robot hút bụi & lau sàn thông minh ILife V8s - Hàng Chính Hãng",
+  "lowerTen": "robot hut bui & lau san thong minh ilife v8s - hang chinh hang",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Frobotchinh.PNG?alt=media&token=d2b5766a-260a-4289-b71a-6d65c7340caf",
+    "phu": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Frobotphu1.PNG?alt=media&token=910bcf40-082b-4863-86f4-f23502c8abde",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Frobotphu2.PNG?alt=media&token=5a1d62b4-7026-4f7c-8203-105f6f789fff",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Frobotphu3.PNG?alt=media&token=2c1c3611-8441-4f82-83e7-0fbb922e4a3e"
+    ]
+  },
+  "gia": 8500000,
+  "noiSanXuat": "Christmas Island",
+  "moTa": "<h2><strong>1. Phím cơ &amp; màn hình LCD</strong></h2><p>V8s được thiết kế phím cơ và màn hình LCD với các biểu tượng đơn giản bên trên bề mặt thân máy giúp bạn dễ dàng nhận biết được các thông báo. Đồng thời, các phím cơ cũng cho phép bạn dễ dàng điều khiển trực tiếp mà không cần remote.</p><img src=\"https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Frobotmt1.PNG?alt=media&amp;token=7b1c8bbe-38cb-4c22-b1f9-897efe75dc2a\" alt=\"undefined\" width=\"100%\"><p><br></p><h2><strong>2. Hộc rác lớn &amp; tấm lọc hiệu suất cao</strong></h2><p>Hộc rác 750ml cho phép V8s có thể thực hiện nhiều tác vụ hơn mà không cần phải vệ sinh hộc rác thường xuyên.&nbsp;Ngoài ra, V8s còn được trang bị bộ lọc hiệu suất cao, lọc sạch bụi một các đáng kể, góp phần làm sạch không khí trong không gian nhà bạn.</p><img src=\"https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Frobotmt2.PNG?alt=media&amp;token=aa1fba1a-f502-4637-9ed5-64b5314890b7\" alt=\"undefined\" width=\"100%\"><p><br></p><h2><strong>3. Kết cấu sản phẩm hợp lý</strong></h2><p>Thiết kế cong tròn giúp V8s dễ dàng di chuyển qua các không gian hẹp trong bất kỳ ngôi nhà nào. Cũng do đó, robot có thể vệ sinh sạch sẽ mà không bỏ sót bất kỳ bụi bẩn hay mảnh vỡ nào bên dưới gầm bàn, giường, tủ,</p><img src=\"https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Frobotmt3.PNG?alt=media&amp;token=3fed38b2-09ed-4ab6-bfbe-2ef9843c1bbc\" alt=\"undefined\" width=\"100%\"><p><br></p><h2><strong>4. BÁNH XE RoadRover</strong></h2><p>Robot hút bụi thông minh V8s có thể di chuyển linh hoạt trên cả những bề mặt sàn không bằng phẳng. Bánh xe lớn RoadRover được thiết kế đặt biệt cho phép V8s có thể di chuyển dễ dàng qua các gờ cửa hay di chuyển từ sàn nhà lên bề mặt thảm ngay khi đang hoạt động.</p><img src=\"https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Frobotmt4.PNG?alt=media&amp;token=5729dbf5-400d-44d3-ac7f-95db34c04484\" alt=\"undefined\" width=\"100%\"><p><br></p><h2><strong>5.&nbsp;Vòi phun chống rối</strong></h2><p>Chức năng chống rối giúp tóc và các dây nhợ khác không bị quấn vào bánh xe. Điều này giúp robot hoạt động ổn định, dễ bảo dưỡng và vệ sinh. Đặc biệt phù hợp với những gia đình nuôi thú cưng như chó Husky, Alaska, mèo,</p><img src=\"https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Frobotmt5.PNG?alt=media&amp;token=448eb92c-3721-4847-8d61-5bd2865e7bde\" alt=\"undefined\" width=\"100%\"><p><br></p><h2><strong>6. Robot hoạt động ổn định</strong></h2><p>Được hỗ trợ bởi bộ cảm biến hoàn chỉnh và Bánh xe RoadRover, V8 có thể di chuyển&nbsp;trơn tru đi qua các loại sàn khác nhau: từ sàn gỗ, gạch đến thảm trải sàn.</p><h2><br></h2><p><br></p><p><br></p><p><br></p>",
+  "moTaNganGon": [
+    "Robot hút bụi thông minh ILife V8s được sản xuất theo tiêu chuẩn quốc tế",
+    "Sản phẩm có hộc bụi và hộc chứa nước lau sàn lớn",
+    "Thay đổi chế độ vệ sinh sàn đơn giản",
+    "Chế độ MAX cực mạnh giúp đánh tan vết bẩn cứng đầu",
+    "Chế độ ziczac giúp vệ sinh hiệu quả ngôi nhà của bạn",
+    "Chế độ lịch hẹn vệ sinh đa nhiệm: Bạn có thể lựa chọn bất kỳ giờ nào trong ngày vào bất kỳ ngày nào trong tuần",
+    "Hộc chứa nước 750ml được trang bị khăn lau cao cấp Microfiber",
+    "Tự động sạc pin",
+    "Tự động chống rơi",
+    "Tự động nhận biết vật cản"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 41,
+  "giaCuoiCung": 5015000,
+  "soLuong": 100,
+  "soLuongDaBan": 0,
+  "thongTinBaoHanh": {
+    "baoHanh": true,
+    "loaiBaoHanh": 0,
+    "thoiGianBaoHanh": 2,
+    "donViBaoHanh": 1
+  },
+  "ngayTao": {
+    "$date": "2020-06-30T11:12:44.230Z"
+  },
+  "idBrand": "5efb1e5a75889834d4f69af4",
+  "idCategory": [
+    "5e9854d923f9944a9c8a5dbe"
+  ],
+  "idUser": [
+    "5e9ab673699ae60b147a2821"
+  ],
+  "idShop": "SHOP-ADDFFS",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5efc5db66ca57568bc5d4eee"
+  },
+  "idShow": "PRODU-840C1D",
+  "ten": "Giày Thể Thao Nam Biti's Hunter X DSMH02800TRG",
+  "lowerTen": "giay the thao nam biti's hunter x dsmh02800trg",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fgiaychinh.PNG?alt=media&token=db20a06b-fcb4-434f-9d3c-9551db9f25d1",
+    "phu": [
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fgiayphu2.PNG?alt=media&token=12d0eceb-0c60-44a5-8bce-04af357f156d",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fgiayphu1.PNG?alt=media&token=9b1f4ba7-e48e-4a6e-bcb8-efc7136b6a8d",
+      "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fgiayphu3.PNG?alt=media&token=d8253c5b-774e-4948-a6c9-3ec9e9917317"
+    ]
+  },
+  "gia": 899000,
+  "noiSanXuat": "Costa Rica",
+  "moTa": "<p><strong>Giày Thể Thao Nam Biti's Hunter X DSMH02800TRG&nbsp;</strong>sở hữu nhiều cải tiến về công nghệ lẫn thiết kế, hứa hẹn sẽ gặt hái nhiều thành công. Bên cạnh đó, dòng cao cấp Biti's Hunter X tiếp xúc kế thừa những ưu điểm vượt trội về mặt công nghệ và thiết kế từ các phiên bản tiền nhiệm.</p><p>Bộ đế LiteFlex:</p><p>Chất liệu IP “nhẹ như bay”</p><p>Chiều cao đế đạt tới 5cm</p><p>Độ đàn hồi &gt; 40%</p><p>Phần quai: Mũ quai LiteKnit, được thiết kế với kiểu dáng tối giản, thoáng khí tối đa.</p><p>Phần đế: Cấu trúc đế Eva phun tăng độ bám dính, nhẹ, đàn hồi, thoải mái trong từng vận động.</p><p>Đế tiếp đất cao su cấu trúc chia rãnh và gồ ghề đảm bảo tính ma sát tốt nhất trên mọi địa hình.</p><p>Đệm TPU Film giúp định hình và trợ lực gót chân</p><p><strong>Hướng dẫn bảo quản:</strong></p><p>Vệ sinh giày định kì, khi giày bẩn nên dùng vải sạch thấm nước xà bông lau nhẹ nhàng.</p><p>Không dùng bàn chải để chà, không sử dụng thuốc tẩy để giặt.</p><p>Tránh để nước thấm vào giày, nếu bị thấm nước, nên nhét giấy báo vào trong và phơi giày nơi thoáng mát.</p><p>Khi sử dụng, tránh tiếp xúc đế giày với dầu khí và các loại chất dễ gây hư hỏng giày. Nếu giày bị dính, nên rửa ngay bằng nước sạch.</p><p>Trong thời gian dài không mang, nên vệ sinh giày sạch sẽ, lấy miếng lót giày ra, phơi nơi khô thoáng và gói giày lại bằng giấy.</p><p>Dây giày không nên thắt quá chặt.</p><p><br></p><p><strong>Bảng size tham khảo:</strong></p><img src=\"https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fbangsize.PNG?alt=media&amp;token=b41329cd-4517-4b0a-8919-7e0aa26d2774\" alt=\"undefined\" width=\"100%\"><p><strong><span class=\"ql-cursor\">﻿</span></strong></p>",
+  "moTaNganGon": [
+    "Kế thừa những ưu điểm vượt trội về mặt công nghệ và thiết kế từ các phiên bản tiền nhiệm",
+    "Phần quai: Được thiết kế với kiểu dáng tối giản, bằng lớp lưới thông thoáng",
+    "Phần đế: Cấu trúc đế Eva phun tăng độ bám dính, nhẹ, đàn hồi, thoải mái trong từng vận động",
+    "Đệm TPU Film giúp định hình và trợ lực gót chân"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 8,
+  "giaCuoiCung": 827080,
+  "soLuong": 100,
+  "soLuongDaBan": 0,
+  "thongTinBaoHanh": {
+    "baoHanh": true,
+    "loaiBaoHanh": 0,
+    "thoiGianBaoHanh": 1,
+    "donViBaoHanh": 1
+  },
+  "ngayTao": {
+    "$date": "2020-07-01T09:47:02.661Z"
+  },
+  "idBrand": "5ea3c472732b94643482550e",
+  "idCategory": [
+    "5ea3c3b2732b94643482550d"
+  ],
+  "idUser": [
+    "5e9ab673699ae60b147a2821",
+    "5e9ab836699ae60b147a2822"
+  ],
+  "idShop": "SHOP-ADDFFS",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": false,
+  "isDelete": false
+},{
+  "_id": {
+    "$oid": "5efc7ba2a42d8e6b0cbc173c"
+  },
+  "idShow": "PRODU-A0AD7A",
+  "ten": "Quần Short Ford Nữ GHP-GARMENT GHP0001 ssss",
+  "lowerTen": "quan short ford nu ghp-garment ghp0001 ssss",
+  "img": {
+    "chinh": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Ftop1.2.PNG?alt=media&token=b0b35ee0-034b-469e-8370-32c1c158e9f2",
+    "phu": []
+  },
+  "gia": 19900000,
+  "noiSanXuat": "Virgin Islands (British)",
+  "moTa": "<h1>Lol</h1>",
+  "moTaNganGon": [
+    "ssss                              dddd     ",
+    "    sss",
+    "aaa     8909      /",
+    "aaa",
+    "sadasdasd"
+  ],
+  "soSao": 0,
+  "giaTriGiamGia": 5,
+  "giaCuoiCung": 18905000,
+  "soLuong": 100,
+  "soLuongDaBan": 25,
+  "thongTinBaoHanh": {
+    "baoHanh": false,
+    "loaiBaoHanh": "",
+    "thoiGianBaoHanh": "",
+    "donViBaoHanh": ""
+  },
+  "ngayTao": {
+    "$date": "2020-07-01T12:01:22.024Z"
+  },
+  "idBrand": "5ea2a1742411d14cf89af072",
+  "idCategory": [
+    "5e981fe023f9944a9c8a5dbc",
+    "5e9854d923f9944a9c8a5dbe",
+    "5e98558923f9944a9c8a5dc0",
+    "5e9823e723f9944a9c8a5dbd",
+    "5e98553923f9944a9c8a5dbf",
+    "5ec8d97a3d8f9e78b0a868f7",
+    "5ea3c3b2732b94643482550d",
+    "5ea14e9ca77f3c29c4124648",
+    "5ec8d98c3d8f9e78b0a868f8",
+    "5ec8d9ac3d8f9e78b0a868f9",
+    "5ec8da233d8f9e78b0a868fa",
+    "5ec8da2a3d8f9e78b0a868fb",
+    "5ec8da853d8f9e78b0a868fd",
+    "5ec8da4a3d8f9e78b0a868fc",
+    "5eecdf87ffce8524909b244a",
+    "5ed7eb8769beb1888c0bb3cd",
+    "5ed7eb6e69beb1888c0bb3cb",
+    "5ed7eb6169beb1888c0bb3ca",
+    "5ed7eb5769beb1888c0bb3c9",
+    "5ed7eb7b69beb1888c0bb3cc",
+    "5eecdfa0ffce8524909b244b",
+    "5ec8db113d8f9e78b0a86901",
+    "5ec8dac43d8f9e78b0a86900",
+    "5ec8daa53d8f9e78b0a868ff",
+    "5ec8da8b3d8f9e78b0a868fe"
+  ],
+  "idUser": [
+    "5efc7a5ea42d8e6b0cbc1739"
+  ],
+  "idShop": "SHOP-BCC8DC",
+  "idEvent": "",
+  "isAccept": true,
+  "isLock": true,
   "isDelete": false
 }]

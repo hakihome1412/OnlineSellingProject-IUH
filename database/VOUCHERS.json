@@ -66,4 +66,158 @@
     "$date": "2020-06-15T05:36:37.250Z"
   },
   "isLock": false
+},{
+  "_id": {
+    "$oid": "5ef77c3e896b744f7025e652"
+  },
+  "idShow": "CHAONAM-2020",
+  "idLower": "chaonam-2020",
+  "ten": "Hello Nam",
+  "loaiGiamGia": 0,
+  "giaTriGiam": 150000,
+  "ngayBatDau": {
+    "$date": "2020-06-28T17:05:00.062Z"
+  },
+  "ngayKetThuc": {
+    "$date": "2020-07-28T17:05:00.864Z"
+  },
+  "ngayTao": {
+    "$date": "2020-06-27T17:05:02.973Z"
+  },
+  "isLock": false
+},{
+  "_id": {
+    "$oid": "5f0157b9ad9e4a7294bf1d03"
+  },
+  "idShow": "CHAONAM-1996",
+  "idLower": "chaonam-1996",
+  "ten": "Mừng Nam ra đời :))",
+  "loaiGiamGia": 0,
+  "giaTriGiam": 150000,
+  "ngayBatDau": "2020-07-15T04:31:50.240Z",
+  "ngayKetThuc": "2020-08-15T04:31:51.958Z",
+  "ngayTao": {
+    "$date": "2020-07-05T04:31:53.094Z"
+  },
+  "isLock": false
+},{
+  "_id": {
+    "$oid": "5f0157d8ad9e4a7294bf1d04"
+  },
+  "idShow": "HELLO-HUY",
+  "idLower": "hello-huy",
+  "ten": "Chào Huy",
+  "loaiGiamGia": 0,
+  "giaTriGiam": 100000000,
+  "ngayBatDau": "2020-07-07T04:32:22.391Z",
+  "ngayKetThuc": "2020-08-06T04:32:23.373Z",
+  "ngayTao": {
+    "$date": "2020-07-05T04:32:24.632Z"
+  },
+  "isLock": false
+},{
+  "_id": {
+    "$oid": "5f06b0b7cd76455080b60bc9"
+  },
+  "idShow": "sdasdasd",
+  "idLower": "sdasdasd",
+  "ten": "Magic",
+  "loaiGiamGia": 0,
+  "giaTriGiam": 123123123,
+  "ngayBatDau": "2020-07-15T05:52:53.935Z",
+  "ngayKetThuc": "2020-08-18T05:52:54.976Z",
+  "ngayTao": {
+    "$date": "2020-07-09T05:52:55.856Z"
+  },
+  "isLock": false
+},{
+  "_id": {
+    "$oid": "5f06b0d6cd76455080b60bca"
+  },
+  "idShow": "gfdgdfg",
+  "idLower": "gfdgdfg",
+  "ten": "Magic",
+  "loaiGiamGia": 0,
+  "giaTriGiam": 123,
+  "ngayBatDau": "2020-07-14T05:53:24.164Z",
+  "ngayKetThuc": "2020-08-13T05:53:25.027Z",
+  "ngayTao": {
+    "$date": "2020-07-09T05:53:26.887Z"
+  },
+  "isLock": false
+},{
+  "_id": {
+    "$oid": "5f06b10acd76455080b60bcb"
+  },
+  "idShow": ",,",
+  "idLower": ",,",
+  "ten": "..",
+  "loaiGiamGia": 1,
+  "giaTriGiam": 123,
+  "ngayBatDau": "2020-07-25T05:54:12.045Z",
+  "ngayKetThuc": "2020-08-04T05:54:12.445Z",
+  "ngayTao": {
+    "$date": "2020-07-09T05:54:18.339Z"
+  },
+  "isLock": false
+},{
+  "_id": {
+    "$oid": "5f06b2f8cd76455080b60bcc"
+  },
+  "idShow": "hgv",
+  "idLower": "hgv",
+  "ten": "ghvh",
+  "loaiGiamGia": 1,
+  "giaTriGiam": 99,
+  "ngayBatDau": "2020-08-01T06:02:30.201Z",
+  "ngayKetThuc": "2020-08-26T06:02:31.576Z",
+  "ngayTao": {
+    "$date": "2020-07-09T06:02:32.835Z"
+  },
+  "isLock": false
+},{
+  "_id": {
+    "$oid": "5f06b30ecd76455080b60bcd"
+  },
+  "idShow": "gjh",
+  "idLower": "gjh",
+  "ten": "jh",
+  "loaiGiamGia": 0,
+  "giaTriGiam": 456,
+  "ngayBatDau": "2020-08-11T06:02:45.874Z",
+  "ngayKetThuc": "2020-08-20T06:02:47.848Z",
+  "ngayTao": {
+    "$date": "2020-07-09T06:02:54.664Z"
+  },
+  "isLock": false
+},{
+  "_id": {
+    "$oid": "5f06b31dcd76455080b60bce"
+  },
+  "idShow": "jkl",
+  "idLower": "jkl",
+  "ten": "kjl",
+  "loaiGiamGia": 0,
+  "giaTriGiam": 456,
+  "ngayBatDau": "2020-07-18T06:03:07.288Z",
+  "ngayKetThuc": "2020-09-03T06:03:08.754Z",
+  "ngayTao": {
+    "$date": "2020-07-09T06:03:09.804Z"
+  },
+  "isLock": false
+},{
+  "_id": {
+    "$oid": "5f06b332cd76455080b60bcf"
+  },
+  "idShow": "jjko",
+  "idLower": "jjko",
+  "ten": "nlknlj",
+  "loaiGiamGia": 0,
+  "giaTriGiam": 123,
+  "ngayBatDau": "2020-07-16T06:03:27.951Z",
+  "ngayKetThuc": "2020-08-28T06:03:29.361Z",
+  "ngayTao": {
+    "$date": "2020-07-09T06:03:30.553Z"
+  },
+  "isLock": false
 }]

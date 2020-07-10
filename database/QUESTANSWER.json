@@ -108,4 +108,112 @@
   },
   "idProduct": "PRODU-7885F5",
   "isAccept": true
+},{
+  "_id": {
+    "$oid": "5eef1be5c93fbc4aa8dfa568"
+  },
+  "question": "Sản phẩm này có cho trả góp không ?",
+  "answer": "Không nha bạn",
+  "luotThich": 0,
+  "idUsersThich": [],
+  "ngayTao": {
+    "$date": "2020-06-21T08:35:49.638Z"
+  },
+  "ngayTraLoi": {
+    "$date": "2020-06-21T08:36:26.058Z"
+  },
+  "idProduct": "PRODU-09EAE9",
+  "isAccept": true
+},{
+  "_id": {
+    "$oid": "5efb89f6803c3d62e4972d5a"
+  },
+  "question": "Máy lạnh này có trả góp được không ạ ?",
+  "answer": "Chào bạn, sản phẩm này có chương trình trả góp bạn nhé",
+  "luotThich": 0,
+  "idUsersThich": [],
+  "ngayTao": {
+    "$date": "2020-06-30T18:52:38.479Z"
+  },
+  "ngayTraLoi": {
+    "$date": "2020-06-30T20:05:26.472Z"
+  },
+  "idProduct": "PRODU-639805",
+  "isAccept": true
+},{
+  "_id": {
+    "$oid": "5efb9b5bbd71165e302dbc93"
+  },
+  "question": "Sản phẩm này có diệt được virus corona không ạ ?",
+  "answer": "Chào bạn, sản phẩm này không diệt được virus corona nhé",
+  "luotThich": 0,
+  "idUsersThich": [],
+  "ngayTao": {
+    "$date": "2020-06-30T20:06:51.044Z"
+  },
+  "ngayTraLoi": {
+    "$date": "2020-06-30T20:07:31.338Z"
+  },
+  "idProduct": "PRODU-79EEEF",
+  "isAccept": true
+},{
+  "_id": {
+    "$oid": "5efc894fa42d8e6b0cbc1746"
+  },
+  "question": "cc",
+  "answer": "",
+  "luotThich": 0,
+  "idUsersThich": [],
+  "ngayTao": {
+    "$date": "2020-07-01T13:02:07.255Z"
+  },
+  "ngayTraLoi": {
+    "$date": "2020-07-09T04:47:56.733Z"
+  },
+  "idProduct": "PRODU-E9416F",
+  "isAccept": false
+},{
+  "_id": {
+    "$oid": "5f06a3894f09160aa4e530cc"
+  },
+  "question": "Sản phẩm có giữ được nhiệt lâu không ạ",
+  "answer": "bc",
+  "luotThich": 0,
+  "idUsersThich": [],
+  "ngayTao": {
+    "$date": "2020-07-09T04:56:41.748Z"
+  },
+  "ngayTraLoi": {
+    "$date": "2020-07-09T05:08:52.672Z"
+  },
+  "idProduct": "PRODU-E9416F",
+  "isAccept": true
+},{
+  "_id": {
+    "$oid": "5f0822571721475a5cd97ddd"
+  },
+  "question": "asdasd",
+  "answer": "",
+  "luotThich": 0,
+  "idUsersThich": [],
+  "ngayTao": {
+    "$date": "2020-07-10T08:09:59.008Z"
+  },
+  "ngayTraLoi": "",
+  "idProduct": "PRODU-840C1D",
+  "isAccept": false
+},{
+  "_id": {
+    "$oid": "5f08225a1721475a5cd97dde"
+  },
+  "question": "asdasddasdsad",
+  "answer": "",
+  "luotThich": 0,
+  "idUsersThich": [],
+  "ngayTao": {
+    "$date": "2020-07-10T08:10:02.500Z"
+  },
+  "ngayTraLoi": "",
+  "idProduct": "PRODU-840C1D",
+  "isAccept": false
 }]

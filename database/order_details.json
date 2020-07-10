@@ -113,14 +113,12 @@
     "$date": "2020-06-16T09:57:01.477Z"
   },
   "ngayHoanThanh": {
-    "$date": {
-      "$numberLong": "-2206336000000"
-    }
+    "$date": "2020-06-21T16:05:24.438Z"
   },
   "idShop": "SHOP-ADDFFS",
   "idUser": "5eddb2c8392cad4a88bc2e74",
   "idOrder": "ORDER-ED699F",
-  "trangThai": 1,
+  "trangThai": 4,
   "ghiChu": ""
 },{
   "_id": {
@@ -139,14 +137,12 @@
     "$date": "2020-06-16T09:57:01.477Z"
   },
   "ngayHoanThanh": {
-    "$date": {
-      "$numberLong": "-2206336000000"
-    }
+    "$date": "2020-06-21T16:05:31.722Z"
   },
   "idShop": "SHOP-ADDFFS",
   "idUser": "5eddb2c8392cad4a88bc2e74",
   "idOrder": "ORDER-ED699F",
-  "trangThai": 1,
+  "trangThai": 4,
   "ghiChu": ""
 },{
   "_id": {
@@ -172,6 +168,466 @@
   "idShop": "SHOP-ADDFFS",
   "idUser": "5e9ab836699ae60b147a2822",
   "idOrder": "ORDER-13BE59",
+  "trangThai": 1,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5eef749a1e9b50169017cd31"
+  },
+  "idShow": "ORDDE-BFDBCB",
+  "ten": "Quần Short Ford Nữ GHP-GARMENT GHP0001",
+  "giaCuoiCung": 135000,
+  "giamGia": 0,
+  "thanhTien": 405000,
+  "soLuong": 3,
+  "mauSac": "Đỏ",
+  "size": "M",
+  "img": "https://salt.tikicdn.com/cache/w780/ts/product/e8/0a/76/b239a51dfcbc7aaf915816d9b7477df2.jpg",
+  "ngayTao": {
+    "$date": "2020-06-21T14:54:01.553Z"
+  },
+  "ngayHoanThanh": {
+    "$date": {
+      "$numberLong": "-2206336000000"
+    }
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-5D25E5",
+  "trangThai": 1,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef23f1005989d58a47c4032"
+  },
+  "idShow": "ORDDE-B64B14",
+  "ten": "Điện Thoại Samsung Galaxy A51 (128GB/6GB) - Hàng Chính Hãng - Đã Kích Hoạt Bảo Hành Điện Tử",
+  "giaCuoiCung": 4500000,
+  "giamGia": 0,
+  "thanhTien": 9000000,
+  "soLuong": 2,
+  "mauSac": "",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungchinh.PNG?alt=media&token=56a5b50a-5bd2-4aad-9f30-11f276c7631f",
+  "ngayTao": {
+    "$date": "2020-06-23T17:42:35.479Z"
+  },
+  "ngayHoanThanh": {
+    "$date": {
+      "$numberLong": "-2206336000000"
+    }
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-CBED62",
+  "trangThai": 1,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef23f27dc95c04f4c5b0a8a"
+  },
+  "idShow": "ORDDE-032981",
+  "ten": "Điện Thoại Samsung Galaxy A51 (128GB/6GB) - Hàng Chính Hãng - Đã Kích Hoạt Bảo Hành Điện Tử",
+  "giaCuoiCung": 4500000,
+  "giamGia": 0,
+  "thanhTien": 9000000,
+  "soLuong": 2,
+  "mauSac": "",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungchinh.PNG?alt=media&token=56a5b50a-5bd2-4aad-9f30-11f276c7631f",
+  "ngayTao": {
+    "$date": "2020-06-23T17:42:35.479Z"
+  },
+  "ngayHoanThanh": {
+    "$date": {
+      "$numberLong": "-2206336000000"
+    }
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-CBED62",
+  "trangThai": 1,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef23fd5d7fcfd5d70116758"
+  },
+  "idShow": "ORDDE-EFEC65",
+  "ten": "Điện Thoại iPhone 11 Pro Max 64GB - Hàng Chính Hãng",
+  "giaCuoiCung": 28891500,
+  "giamGia": 0,
+  "thanhTien": 57783000,
+  "soLuong": 2,
+  "mauSac": "Xanh rêu",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone11chinh.PNG?alt=media&token=fa4c50ea-b5f9-4df1-9309-093b95809ac0",
+  "ngayTao": {
+    "$date": "2020-06-23T17:45:55.282Z"
+  },
+  "ngayHoanThanh": {
+    "$date": {
+      "$numberLong": "-2206336000000"
+    }
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-7035CF",
+  "trangThai": 1,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef23fd5d7fcfd5d7011675f"
+  },
+  "idShow": "ORDDE-F8BCEC",
+  "ten": "Điện Thoại Samsung Galaxy A51 (128GB/6GB) - Hàng Chính Hãng - Đã Kích Hoạt Bảo Hành Điện Tử",
+  "giaCuoiCung": 4500000,
+  "giamGia": 0,
+  "thanhTien": 4500000,
+  "soLuong": 1,
+  "mauSac": "",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungchinh.PNG?alt=media&token=56a5b50a-5bd2-4aad-9f30-11f276c7631f",
+  "ngayTao": {
+    "$date": "2020-06-23T17:45:55.282Z"
+  },
+  "ngayHoanThanh": {
+    "$date": {
+      "$numberLong": "-2206336000000"
+    }
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-7035CF",
   "trangThai": 0,
   "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef24073d7fcfd5d70116767"
+  },
+  "idShow": "ORDDE-FDDE26",
+  "ten": "Điện Thoại Samsung Galaxy A51 (128GB/6GB) - Hàng Chính Hãng - Đã Kích Hoạt Bảo Hành Điện Tử",
+  "giaCuoiCung": 4500000,
+  "giamGia": 0,
+  "thanhTien": 9000000,
+  "soLuong": 2,
+  "mauSac": "",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungchinh.PNG?alt=media&token=56a5b50a-5bd2-4aad-9f30-11f276c7631f",
+  "ngayTao": {
+    "$date": "2020-06-23T17:48:31.789Z"
+  },
+  "ngayHoanThanh": {
+    "$date": {
+      "$numberLong": "-2206336000000"
+    }
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-34432B",
+  "trangThai": 0,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef24073d7fcfd5d7011676e"
+  },
+  "idShow": "ORDDE-4F5041",
+  "ten": "Nồi Chiên Không Dầu Magic A-801 (6.0 Lít) - Hàng Chính Hãng",
+  "giaCuoiCung": 1346800,
+  "giamGia": 0,
+  "thanhTien": 2693600,
+  "soLuong": 2,
+  "mauSac": "Đen",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmagicanhchinh.PNG?alt=media&token=d3fa4302-d0ff-43e6-a927-5093baea570f",
+  "ngayTao": {
+    "$date": "2020-06-23T17:48:31.789Z"
+  },
+  "ngayHoanThanh": {
+    "$date": {
+      "$numberLong": "-2206336000000"
+    }
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-34432B",
+  "trangThai": 1,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef24073d7fcfd5d70116775"
+  },
+  "idShow": "ORDDE-368556",
+  "ten": "Nồi Chiên Không Dầu Magic A-801 (6.0 Lít) - Hàng Chính Hãng",
+  "giaCuoiCung": 1346800,
+  "giamGia": 0,
+  "thanhTien": 1346800,
+  "soLuong": 1,
+  "mauSac": "Đỏ",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fnoichienmagicanhchinh.PNG?alt=media&token=d3fa4302-d0ff-43e6-a927-5093baea570f",
+  "ngayTao": {
+    "$date": "2020-06-23T17:48:31.789Z"
+  },
+  "ngayHoanThanh": {
+    "$date": {
+      "$numberLong": "-2206336000000"
+    }
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-34432B",
+  "trangThai": 1,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef241497431d32a98a1756a"
+  },
+  "idShow": "ORDDE-8A8AE9",
+  "ten": "Điện Thoại Nokia 5.3 (64GB/3GB) - Hàng Chính Hãng",
+  "giaCuoiCung": 3271800,
+  "giamGia": 0,
+  "thanhTien": 6543600,
+  "soLuong": 2,
+  "mauSac": "Xanh",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanhchinh.PNG?alt=media&token=573880af-e4ce-4cdd-a995-cf24239b29dc",
+  "ngayTao": {
+    "$date": "2020-06-23T17:52:02.299Z"
+  },
+  "ngayHoanThanh": {
+    "$date": {
+      "$numberLong": "-2206336000000"
+    }
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-604D8D",
+  "trangThai": 0,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef241497431d32a98a17571"
+  },
+  "idShow": "ORDDE-EC886D",
+  "ten": "Điện Thoại iPhone 11 64GB - Hàng Chính Hãng",
+  "giaCuoiCung": 20010900,
+  "giamGia": 0,
+  "thanhTien": 40021800,
+  "soLuong": 2,
+  "mauSac": "Tím",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone112chinh.PNG?alt=media&token=d0e64b52-363d-438e-880e-89d3eb9c41ca",
+  "ngayTao": {
+    "$date": "2020-06-23T17:52:02.299Z"
+  },
+  "ngayHoanThanh": {
+    "$date": {
+      "$numberLong": "-2206336000000"
+    }
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-604D8D",
+  "trangThai": 0,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef244e499066c32d8faa9a2"
+  },
+  "idShow": "ORDDE-0FD123",
+  "ten": "Máy Xay Thịt Philips HR1393 (0.7L) - Hàng chính hãng",
+  "giaCuoiCung": 719200,
+  "giamGia": 0,
+  "thanhTien": 1438400,
+  "soLuong": 2,
+  "mauSac": "Đen",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fmayxaythitchinh.PNG?alt=media&token=97f9db71-dcd7-43d1-8d46-5fdd6110ee4e",
+  "ngayTao": {
+    "$date": "2020-06-23T18:07:30.475Z"
+  },
+  "ngayHoanThanh": {
+    "$date": {
+      "$numberLong": "-2206336000000"
+    }
+  },
+  "idShop": "SHOP-D156AB",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-842599",
+  "trangThai": 0,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef2466399066c32d8faa9aa"
+  },
+  "idShow": "ORDDE-5E34B6",
+  "ten": "Điện Thoại Samsung Galaxy A51 (128GB/6GB) - Hàng Chính Hãng - Đã Kích Hoạt Bảo Hành Điện Tử",
+  "giaCuoiCung": 4500000,
+  "giamGia": 0,
+  "thanhTien": 9000000,
+  "soLuong": 2,
+  "mauSac": "",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fsamsungchinh.PNG?alt=media&token=56a5b50a-5bd2-4aad-9f30-11f276c7631f",
+  "ngayTao": {
+    "$date": "2020-06-23T18:13:54.235Z"
+  },
+  "ngayHoanThanh": {
+    "$date": {
+      "$numberLong": "-2206336000000"
+    }
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-75D2DA",
+  "trangThai": 0,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef2fe57ce54cc5c1836a202"
+  },
+  "idShow": "ORDDE-4DC04E",
+  "ten": "Điện Thoại iPhone 11 Pro Max 64GB - Hàng Chính Hãng",
+  "giaCuoiCung": 28891500,
+  "giamGia": 0,
+  "thanhTien": 57783000,
+  "soLuong": 2,
+  "mauSac": "Vàng",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone11chinh.PNG?alt=media&token=fa4c50ea-b5f9-4df1-9309-093b95809ac0",
+  "ngayTao": {
+    "$date": "2020-06-24T07:18:13.077Z"
+  },
+  "ngayHoanThanh": {
+    "$date": {
+      "$numberLong": "-2206336000000"
+    }
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5ef2fde1ce54cc5c1836a1fa",
+  "idOrder": "ORDER-90D303",
+  "trangThai": 0,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef2fe57ce54cc5c1836a209"
+  },
+  "idShow": "ORDDE-BCBA5C",
+  "ten": "Điện Thoại Nokia 5.3 (64GB/3GB) - Hàng Chính Hãng",
+  "giaCuoiCung": 3271800,
+  "giamGia": 0,
+  "thanhTien": 6543600,
+  "soLuong": 2,
+  "mauSac": "Xanh",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanhchinh.PNG?alt=media&token=573880af-e4ce-4cdd-a995-cf24239b29dc",
+  "ngayTao": {
+    "$date": "2020-06-24T07:18:13.077Z"
+  },
+  "ngayHoanThanh": {
+    "$date": "2020-07-10T16:06:53.300Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5ef2fde1ce54cc5c1836a1fa",
+  "idOrder": "ORDER-90D303",
+  "trangThai": 4,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef7706a896b744f7025e649"
+  },
+  "idShow": "ORDDE-895C3B",
+  "ten": "Điện Thoại iPhone 11 64GB - Hàng Chính Hãng",
+  "giaCuoiCung": 20010900,
+  "giamGia": 0,
+  "thanhTien": 40021800,
+  "soLuong": 2,
+  "mauSac": "Tím",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fiphone112chinh.PNG?alt=media&token=d0e64b52-363d-438e-880e-89d3eb9c41ca",
+  "ngayTao": {
+    "$date": "2020-06-27T16:14:32.426Z"
+  },
+  "ngayHoanThanh": {
+    "$date": "2020-07-10T16:06:47.643Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5ef7703a896b744f7025e641",
+  "idOrder": "ORDER-F589EC",
+  "trangThai": 4,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5ef78b31b50f8e24707e3838"
+  },
+  "idShow": "ORDDE-5F23D1",
+  "ten": "Máy Lạnh Inverter Lg V10enw (1hp) - Hàng Chính Hãng",
+  "giaCuoiCung": 6786100,
+  "giamGia": 0,
+  "thanhTien": 13572200,
+  "soLuong": 2,
+  "mauSac": "",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fmaylanhchinh.PNG?alt=media&token=f6770d77-8ed6-4a9d-9be1-306ad72d4dec",
+  "ngayTao": {
+    "$date": "2020-06-27T18:08:42.617Z"
+  },
+  "ngayHoanThanh": {
+    "$date": "2020-07-10T16:06:42.487Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5ef7703a896b744f7025e641",
+  "idOrder": "ORDER-201A87",
+  "trangThai": 4,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5efc7c8da42d8e6b0cbc1744"
+  },
+  "idShow": "ORDDE-C2A469",
+  "ten": "Quần Short Ford Nữ GHP-GARMENT GHP0001 ssss",
+  "giaCuoiCung": 18905000,
+  "giamGia": 0,
+  "thanhTien": 472625000,
+  "soLuong": 25,
+  "mauSac": "",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Ftop1.2.PNG?alt=media&token=b0b35ee0-034b-469e-8370-32c1c158e9f2",
+  "ngayTao": {
+    "$date": "2020-07-01T12:07:34.716Z"
+  },
+  "ngayHoanThanh": {
+    "$date": {
+      "$numberLong": "-2206336000000"
+    }
+  },
+  "idShop": "SHOP-BCC8DC",
+  "idUser": "5efc7a5ea42d8e6b0cbc1739",
+  "idOrder": "ORDER-66347B",
+  "trangThai": 1,
+  "ghiChu": ""
+},{
+  "_id": {
+    "$oid": "5f0826b31721475a5cd97de7"
+  },
+  "idShow": "ORDDE-0B9C4B",
+  "ten": "Máy Lọc Không Khí Hafele CF-8116 - Hàng Chính Hãng",
+  "giaCuoiCung": 2793000,
+  "giamGia": 150000,
+  "thanhTien": 8229000,
+  "soLuong": 3,
+  "mauSac": "Trắng",
+  "size": "",
+  "img": "https://firebasestorage.googleapis.com/v0/b/onlineselling2-9e8dd.appspot.com/o/images%2Fanhsp.PNG?alt=media&token=070101fa-2e85-4e66-bd7e-43b317c6aca3",
+  "ngayTao": {
+    "$date": "2020-07-10T08:24:00.697Z"
+  },
+  "ngayHoanThanh": {
+    "$date": "2020-07-10T15:55:41.024Z"
+  },
+  "idShop": "SHOP-ADDFFS",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idOrder": "ORDER-245E3B",
+  "trangThai": 5,
+  "ghiChu": "hết hàng"
 }]

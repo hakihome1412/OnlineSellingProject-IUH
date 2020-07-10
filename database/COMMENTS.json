@@ -177,4 +177,87 @@
   },
   "ngayTraLoi": "",
   "isAccept": true
+},{
+  "_id": {
+    "$oid": "5eef1b33c93fbc4aa8dfa567"
+  },
+  "soSao": 5,
+  "tieuDe": "Sản phẩm rất được",
+  "noiDung": "Pin xài thoải mái , Chạy game rất mạnh",
+  "traLoi": "Cám ơn bạn về nhận xét này",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idProduct": "PRODU-09EAE9",
+  "ngayTao": {
+    "$date": "2020-06-21T08:32:51.210Z"
+  },
+  "ngayTraLoi": {
+    "$date": "2020-06-21T08:33:34.004Z"
+  },
+  "isAccept": true
+},{
+  "_id": {
+    "$oid": "5ef7711a896b744f7025e64a"
+  },
+  "soSao": 5,
+  "tieuDe": "Rất tuyệt vời",
+  "noiDung": "Sản phẩm này rất chất lượng. Ngưỡng mộ Iphone",
+  "traLoi": "Cám ơn bạn về nhận xét này nhé",
+  "idUser": "5ef7703a896b744f7025e641",
+  "idProduct": "PRODU-E9416F",
+  "ngayTao": {
+    "$date": "2020-06-27T16:17:30.975Z"
+  },
+  "ngayTraLoi": {
+    "$date": "2020-06-27T16:19:43.763Z"
+  },
+  "isAccept": true
+},{
+  "_id": {
+    "$oid": "5efc1abeddf589368c2431ec"
+  },
+  "soSao": 5,
+  "tieuDe": "Rất ok",
+  "noiDung": "Sản phẩm này xài rất tốt mà giá cả phải chăng, 5 sao",
+  "traLoi": "Cám ơn bạn về nhận xét này",
+  "idUser": "5ef7703a896b744f7025e641",
+  "idProduct": "PRODU-09EAE9",
+  "ngayTao": {
+    "$date": "2020-07-01T05:10:22.128Z"
+  },
+  "ngayTraLoi": {
+    "$date": "2020-07-01T05:14:49.598Z"
+  },
+  "isAccept": true
+},{
+  "_id": {
+    "$oid": "5efc89afa42d8e6b0cbc1747"
+  },
+  "soSao": 1,
+  "tieuDe": "kkk",
+  "noiDung": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+  "traLoi": "",
+  "idUser": "5efc7a5ea42d8e6b0cbc1739",
+  "idProduct": "PRODU-7885F5",
+  "ngayTao": {
+    "$date": "2020-07-01T13:03:43.402Z"
+  },
+  "ngayTraLoi": {
+    "$date": "2020-07-05T03:44:12.995Z"
+  },
+  "isAccept": true
+},{
+  "_id": {
+    "$oid": "5f08228c1721475a5cd97ddf"
+  },
+  "soSao": 5,
+  "tieuDe": "rất ok",
+  "noiDung": "giày mang rất êm. sẽ ủng hộ hàng việt nam dài dài",
+  "traLoi": "",
+  "idUser": "5e9ab836699ae60b147a2822",
+  "idProduct": "PRODU-840C1D",
+  "ngayTao": {
+    "$date": "2020-07-10T08:10:52.688Z"
+  },
+  "ngayTraLoi": "",
+  "isAccept": false
 }]
